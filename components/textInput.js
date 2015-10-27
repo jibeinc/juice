@@ -31,11 +31,10 @@ class TextInput extends BaseComponent {
       this.$wrapper = this.$el.find('.' + this.id + '_wrapper');
       this.$el.prepend(`<style> .${ this.id + '_wrapper' } { position: relative;} </style>`);
 
-      // the clearing icon itself
+      // the clearing icon itself (absolute positioned within wrapper to be on the right)
       this.$wrapper.append(`<span class='${ this.id + '_clear' }'>${ this.clearingIcon }</span>`);
       this.$clear = this.$el.find('.' + this.id + '_clear');
       this.$el.prepend(`<style> .${ this.id + '_clear' } { position: absolute;  top: 0; right: 0; cursor: pointer;} </style>`);
-
       this.$clear.click(() => { this.set(''); });
     }
 
