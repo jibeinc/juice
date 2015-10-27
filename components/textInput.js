@@ -1,3 +1,5 @@
+// # TextInput
+
 let BaseComponent = require('./BaseComponent');
 let PSHub         = require('./PubSubHub');
 let _             = require('lodash');
@@ -12,7 +14,7 @@ class TextInput extends BaseComponent {
   }
 
   render() {
-    this.$el.html('<input type="text" class="' + this.id + '" value="' + this.get() + '"/>');
+    this.$el.html(`<input type="text" class="${ this.id }" value="${ this.get() }"/>`);
     this.$input = this.$el.find('input');
     this.bind();
     return this;
@@ -29,7 +31,7 @@ class TextInput extends BaseComponent {
   }
 
   bind() {
-    this.$input.keyup(_.debounce(() => {
+    this.$input.keyup(_.debounce(() => { // debounce slightly for ux
       this.set(this.$input.val());
       PSHub.publish(this.id, this.get());
     }, this.wait));
