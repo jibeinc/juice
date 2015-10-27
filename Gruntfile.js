@@ -17,7 +17,7 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          "./dist/jibe.ui.components.js": ["./components/index.js"]
+          "./dist/jibe.ui.components.js": ["./src/components/index.js"]
         }
       }
     },
