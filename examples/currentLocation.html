@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Current Location Example</title>
+  <script src='../dist/jibe.ui.components.js'></script>
+</head>
+<body>
+
+  <div class='target'></div>
+
+  <script>
+    var c = new UI.CurrentLocation('.target', window.navigator.geolocation).render();
+
+    c.subscribe(function (msg) {
+      console.log(msg);
+    });
+  </script>
+
+</body>
+</html>

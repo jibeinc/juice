@@ -18,7 +18,7 @@ class TextInput extends BaseComponent {
 
   render() {
     // the base input
-    this.$el.html(`<input type='text' class='${ this.id }'' value='${ this.get() }'/>`);
+    this.$el.html(`<input type='text' class='${ this.id }' value='${ this.get() }'/>`);
     this.$input = this.$el.find('input');
     this.$el.prepend(`<style> .${ this.id } { width: 100% } </style>`);
 
