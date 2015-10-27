@@ -4,8 +4,8 @@ function TextInput(el) {
   this.$el = $(el);
 };
 
-TextInput.prototype.render = function() {
+TextInput.prototype.render = () => {
   $el.html('<input type="text" />');
 };
 
-module.export = TextInput;
+module.exports = TextInput;
