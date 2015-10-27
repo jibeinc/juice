@@ -2,6 +2,7 @@ let $ = require('jQuery');
 
 class BaseComponent {
   constructor(el) {
+    this.value = null;
     this.$el = $(el);
     return this;
   }
@@ -11,11 +12,14 @@ class BaseComponent {
   }
 
   get() {
-    throw new Error('BaseComponent::get must be defined by child');
+    return this.value;
+    return this;
   }
 
-  set() {
-    throw new Error('BaseComponent::set must be defined by child');
+  set(v) {
+    this.value = v;
+    this.render();
+    return this;
   }
 };
 
