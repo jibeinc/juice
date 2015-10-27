@@ -12,7 +12,9 @@
   },
   "author": "John Hatcher",
   "dependencies": {
-    "jquery": "2.1.4"
+    "jquery": "2.1.4",
+    "lodash": "^3.10.1",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "babelify": "^6.1.0",

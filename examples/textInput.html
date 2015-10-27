@@ -10,6 +10,10 @@
 
   <script>
     var c = new UI.TextInput('.target').set('Hello World!');
+
+    c.subscribe(function (msg) {
+      console.log(msg);
+    });
   </script>
 
 </body>

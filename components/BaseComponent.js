@@ -1,9 +1,12 @@
-let $ = require('jQuery');
+let $     = require('jQuery');
+let uuid  = require('uuid');
+let PSHub = require('./PubSubHub');
 
 class BaseComponent {
   constructor(el) {
     this.value = null;
     this.$el = $(el);
+    this.id = uuid.v4();
     return this;
   }
 
@@ -19,6 +22,11 @@ class BaseComponent {
   set(v) {
     this.value = v;
     this.render();
+    return this;
+  }
+
+  subscribe(listener) {
+    PSHub.subscribe(this.id, listener);
     return this;
   }
 };

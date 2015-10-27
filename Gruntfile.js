@@ -11,39 +11,29 @@ module.exports = function (grunt) {
             }]
           ],
           browserifyOptions: {
-            "standalone": "UI"
+            "standalone": "UI",
+            "debug": true
           }
         },
         files: {
-          // if the source file has an extension of es6 then
-          // we change the name of the source file accordingly.
-          // The result file's extension is always .js
           "./dist/jibe.ui.components.js": ["./components/index.js"]
-        }
-      },
-      watch: {
-        scripts: {
-          files: ["./modules/*.js"],
-          tasks: ["browserify"]
         }
       }
     },
     uglify: {
       my_target: {
         options: {
-          compress: true,
-          sourceMap: true,
-          sourceMapIncludeSources: true
+          compress: true
         },
         files: {
           'dist/jibe.ui.components.min.js': ['dist/jibe.ui.components.js'],
-        },
-      },
-    },
+        }
+      }
+    }
   });
 
   grunt.loadNpmTasks("grunt-browserify");
-   grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
 
   grunt.registerTask("default", ["build"]);
   grunt.registerTask("build", ["browserify", "uglify"]);
