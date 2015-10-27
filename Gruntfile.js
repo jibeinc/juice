@@ -27,11 +27,24 @@ module.exports = function (grunt) {
           tasks: ["browserify"]
         }
       }
-     }
+    },
+    uglify: {
+      my_target: {
+        options: {
+          compress: true,
+          sourceMap: true,
+          sourceMapIncludeSources: true
+        },
+        files: {
+          'dist/jibe.ui.components.min.js': ['dist/jibe.ui.components.js'],
+        },
+      },
+    },
   });
 
   grunt.loadNpmTasks("grunt-browserify");
+   grunt.loadNpmTasks("grunt-contrib-uglify");
 
   grunt.registerTask("default", ["build"]);
-  grunt.registerTask("build", ["browserify"]);
+  grunt.registerTask("build", ["browserify", "uglify"]);
 };

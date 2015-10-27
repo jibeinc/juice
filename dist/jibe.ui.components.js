@@ -9,6 +9,7 @@ var BaseComponent = (function () {
   function BaseComponent(el) {
     _classCallCheck(this, BaseComponent);
 
+    this.value = null;
     this.$el = $(el);
     return this;
   }
@@ -18,11 +19,14 @@ var BaseComponent = (function () {
   };
 
   BaseComponent.prototype.get = function get() {
-    throw new Error('BaseComponent::get must be defined by child');
+    return this.value;
+    return this;
   };
 
-  BaseComponent.prototype.set = function set() {
-    throw new Error('BaseComponent::set must be defined by child');
+  BaseComponent.prototype.set = function set(v) {
+    this.value = v;
+    this.render();
+    return this;
   };
 
   return BaseComponent;
@@ -48,22 +52,10 @@ var TextInput = (function (_BaseComponent) {
     _classCallCheck(this, TextInput);
 
     _BaseComponent.call(this, el);
-    this.value = null;
   }
 
   TextInput.prototype.render = function render() {
     this.$el.html('<input type="text" value="' + this.get() + '"/>');
-    return this;
-  };
-
-  TextInput.prototype.set = function set(v) {
-    this.value = v;
-    this.render();
-    return this;
-  };
-
-  TextInput.prototype.get = function get() {
-    return this.value;
     return this;
   };
 
