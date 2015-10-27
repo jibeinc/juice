@@ -5,15 +5,24 @@ let PSHub         = require('./PubSubHub');
 let $             = require('jquery');
 
 class CurrentLocation extends BaseComponent {
-  constructor(el, geolocationAPI) {
+  constructor(el, opts) {
     super(el);
-    this.geolocationAPI = geolocationAPI;
+    this.url = opts.url;
+    this.geolocationAPI = opts.geolocationAPI;
     return this;
   }
 
   render() {
-    this.$el.html(`<span>NEAR ME</span>`);
-    this.$el.find('span').on('click', () => {
+    this.$el.css({
+      display: 'block',
+      width: '100px',
+      height: '100px',
+      cursor: 'pointer',
+      'background-image': `url('${ this.url }')`,
+      'background-size':   "cover",
+      'background-repeat': "no-repeat"
+    });
+    this.$el.on('click', () => {
       this.getCurrentLocation();
     });
     return this;
@@ -23,6 +32,7 @@ class CurrentLocation extends BaseComponent {
     this.lng = lng;
     this.lat = lat;
     PSHub.publish(this.id, this.get());
+    return this;
   }
 
   get() {
@@ -36,6 +46,7 @@ class CurrentLocation extends BaseComponent {
     this.geolocationAPI.getCurrentPosition((position) => {
       this.set(position.coords.longitude, position.coords.latitude);
     });
+    return this;
   }
 };
 

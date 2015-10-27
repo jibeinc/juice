@@ -9,7 +9,12 @@
   <div class='target'></div>
 
   <script>
-    var c = new UI.CurrentLocation('.target', window.navigator.geolocation).render();
+    var c = new UI.CurrentLocation('.target', {
+      geolocationAPI: window.navigator.geolocation,
+      url: '../components/assets/location.png'
+    });
+
+    c.render();
 
     c.subscribe(function (msg) {
       console.log(msg);

@@ -1,5 +1,10 @@
 'use strict'
 
+// # Implements a simple 2 way stream of events
+//
+// Namespacing allows you to use this Hub for multiple components,
+// each component getting a single unique 2-way stream
+
 class PubSubHub {
   constructor() {
     this.listeners = {
