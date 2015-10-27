@@ -1,8 +1,10 @@
 'use strict'
 
 var JibeUIComponents = {
-  TextInput: require('./TextInput'),
-  CurrentLocation: require('./CurrentLocation')
+  BaseComponent:   require('./BaseComponent'),
+  CurrentLocation: require('./CurrentLocation'),
+  PubSubHub:       require('./PubSubHub'),
+  TextInput:       require('./TextInput')
 };
 
 module.exports = JibeUIComponents;
