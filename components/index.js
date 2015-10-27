@@ -1,5 +1,5 @@
 var JibeUIComponents = {
-  textInput: require('./textInput')
+  TextInput: require('./TextInput')
 };
 
 module.exports = JibeUIComponents;

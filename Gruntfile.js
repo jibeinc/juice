@@ -9,7 +9,10 @@ module.exports = function (grunt) {
             ["babelify", {
               loose: "all"
             }]
-          ]
+          ],
+          browserifyOptions: {
+            "standalone": "UI"
+          }
         },
         files: {
           // if the source file has an extension of es6 then

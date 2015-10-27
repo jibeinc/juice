@@ -1,28 +1,89 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.UI = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var $ = require('jQuery');
+
+var BaseComponent = (function () {
+  function BaseComponent(el) {
+    _classCallCheck(this, BaseComponent);
+
+    this.$el = $(el);
+    return this;
+  }
+
+  BaseComponent.prototype.render = function render() {
+    throw new Error('BaseComponent::render must be defined by child');
+  };
+
+  BaseComponent.prototype.get = function get() {
+    throw new Error('BaseComponent::get must be defined by child');
+  };
+
+  BaseComponent.prototype.set = function set() {
+    throw new Error('BaseComponent::set must be defined by child');
+  };
+
+  return BaseComponent;
+})();
+
+;
+
+module.exports = BaseComponent;
+
+},{"jQuery":4}],2:[function(require,module,exports){
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BaseComponent = require('./BaseComponent');
+
+var TextInput = (function (_BaseComponent) {
+  _inherits(TextInput, _BaseComponent);
+
+  function TextInput(el) {
+    _classCallCheck(this, TextInput);
+
+    _BaseComponent.call(this, el);
+    this.value = null;
+  }
+
+  TextInput.prototype.render = function render() {
+    this.$el.html('<input type="text" value="' + this.get() + '"/>');
+    return this;
+  };
+
+  TextInput.prototype.set = function set(v) {
+    this.value = v;
+    this.render();
+    return this;
+  };
+
+  TextInput.prototype.get = function get() {
+    return this.value;
+    return this;
+  };
+
+  return TextInput;
+})(BaseComponent);
+
+;
+
+module.exports = TextInput;
+
+},{"./BaseComponent":1}],3:[function(require,module,exports){
 'use strict';
 
 var JibeUIComponents = {
-  textInput: require('./textInput')
+  TextInput: require('./TextInput')
 };
 
 module.exports = JibeUIComponents;
 
-},{"./textInput":2}],2:[function(require,module,exports){
-'use strict';
-
-var $ = require('jQuery');
-
-function TextInput(el) {
-  this.$el = $(el);
-};
-
-TextInput.prototype.render = function () {
-  $el.html('<input type="text" />');
-};
-
-module.exports = TextInput;
-
-},{"jQuery":3}],3:[function(require,module,exports){
+},{"./TextInput":2}],4:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -9234,4 +9295,5 @@ return jQuery;
 
 }));
 
-},{}]},{},[1]);
+},{}]},{},[3])(3)
+});
