@@ -1,27 +1,22 @@
 'use strict'
 
-let BaseComponent = require('./BaseComponent');
-let PSHub         = require('./PubSubHub');
+require('./styles.css');
+
 let $             = require('jquery');
+let BaseComponent = require('../BaseComponent');
+let PSHub         = require('../PubSubHub');
+
+const iconURL     = require('./location.png');
 
 class CurrentLocation extends BaseComponent {
   constructor(el, opts) {
     super(el);
-    this.url = opts.url;
+    this.url = opts.url || iconURL;
     this.geolocationAPI = opts.geolocationAPI;
     return this;
   }
 
   render() {
-    this.$el.css({
-      display: 'block',
-      width: '100px',
-      height: '100px',
-      cursor: 'pointer',
-      'background-image': `url('${ this.url }')`,
-      'background-size':   "cover",
-      'background-repeat': "no-repeat"
-    });
     this.$el.on('click', () => {
       this.getCurrentLocation();
     });
