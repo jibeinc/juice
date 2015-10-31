@@ -11,7 +11,7 @@ const iconURL     = require('./location.png');
 class CurrentLocation extends BaseComponent {
   constructor(el, opts) {
     super(el);
-    this.url = opts.url || iconURL;
+    this.iconURL = opts.iconURL || iconURL;
     this.geolocationAPI = opts.geolocationAPI;
     return this;
   }
@@ -20,6 +20,7 @@ class CurrentLocation extends BaseComponent {
     this.$el.on('click', () => {
       this.getCurrentLocation();
     });
+    this.$el.css('background-url', this.iconURL);
     return this;
   }
 
