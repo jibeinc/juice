@@ -1,5 +1,5 @@
-.juc-currentlocation {
+.ui-current-location {
   cursor: pointer;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
 }

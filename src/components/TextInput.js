@@ -1,9 +1,11 @@
+'use strict';
+
 // # TextInput
 // publishes a nicely throttled text input event
 // adds a clearing x icon
 
-let BaseComponent = require('./BaseComponent');
-let PSHub         = require('./PubSubHub');
+let BaseComponent = require('./BaseComponent.js');
+let PSHub         = require('./PubSubHub.js');
 let _             = require('lodash');
 
 class TextInput extends BaseComponent {
@@ -46,7 +48,7 @@ class TextInput extends BaseComponent {
     if (this.$input) {
       this.$input.val(this.value); // user will lose focus if we do a full render
     } else {
-      this.render();
+      this.render(); // first time
     }
     PSHub.publish(this.id, this.get());
     return this;

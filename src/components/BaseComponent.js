@@ -2,7 +2,7 @@
 
 let $     = require('jQuery');
 let uuid  = require('uuid');
-let PSHub = require('./PubSubHub');
+let PSHub = require('./PubSubHub.js');
 
 class BaseComponent {
   constructor(el) {
@@ -30,6 +30,10 @@ class BaseComponent {
   subscribe(listener) {
     PSHub.subscribe(this.id, listener);
     return this;
+  }
+
+  publish(msg) {
+    PSHub.publish(this.id, msg);
   }
 };
 

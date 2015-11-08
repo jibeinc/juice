@@ -1,12 +1,14 @@
 'use strict'
 
+// CSS
 require('./styles.css');
 
-let $             = require('jquery');
-let BaseComponent = require('../BaseComponent');
-let PSHub         = require('../PubSubHub');
+// assets
+const iconURL = require('./location.png');
 
-const iconURL     = require('./location.png');
+// scripts
+let $             = require('jquery');
+let BaseComponent = require('../BaseComponent.js');
 
 class CurrentLocation extends BaseComponent {
   constructor(el, opts) {
@@ -20,27 +22,32 @@ class CurrentLocation extends BaseComponent {
     this.$el.on('click', () => {
       this.getCurrentLocation();
     });
-    this.$el.css('background-url', this.iconURL);
+    this.$el.css('background-image', `url(${ this.iconURL })` );
     return this;
   }
 
   set(lng, lat) {
     this.lng = lng;
     this.lat = lat;
-    PSHub.publish(this.id, this.get());
+    this.publish(this.get());
     return this;
   }
 
   get() {
     return {
       lng: this.lng,
-      lat: this.lat
+      lat: this.lat,
+      isLocation: true
     };
   }
 
   getCurrentLocation() {
+    this.publish('current-location-requested');
     this.geolocationAPI.getCurrentPosition((position) => {
       this.set(position.coords.longitude, position.coords.latitude);
+    }, (error) => {
+      console.error(error.message);
+      this.publish(this.id, error);
     });
     return this;
   }

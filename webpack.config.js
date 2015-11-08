@@ -3,7 +3,8 @@ module.exports = {
   output: {
     library: 'UI',
     path: __dirname + '/dist',
-    filename: 'jibe.ui.components.js',
+    filename: 'ui.components.js',
+    publicPath: '/dist/'
   },
   module: {
     loaders: [
@@ -14,6 +15,11 @@ module.exports = {
       {
         test: /\.png$/,
         loader: 'file'
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel-loader'
       }
     ]
   }

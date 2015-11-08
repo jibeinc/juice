@@ -2,21 +2,32 @@
 <html>
 <head>
   <title>Current Location Example</title>
-  <script src='../dist/jibe.ui.components.js'></script>
+  <script src='../dist/ui.components.js'></script>
 </head>
 <body>
 
-  <div class='target'></div>
+  <div class='ui-current-location'></div>
+
+  <style>
+    .ui-current-location {
+      width: 100px;
+      height: 200px;
+    }
+  </style>
 
   <script>
-    var c = new UI.CurrentLocation('.target', {
+    var c = new UI.CurrentLocation('.ui-current-location', {
       geolocationAPI: window.navigator.geolocation
     });
 
     c.render();
 
     c.subscribe(function (msg) {
-      console.log(msg);
+      if (msg.isLocation) {
+        console.log('Users current location is', msg);
+      } else {
+        console.log(msg);
+      }
     });
   </script>
 
