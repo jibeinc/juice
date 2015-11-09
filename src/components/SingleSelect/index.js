@@ -1,5 +1,9 @@
 'use strict';
 
+// # TODO
+//    - support separation of value from displayValue
+//    - style this nicely, probably with an overlay
+
 // css
 require('./styles.css');
 
@@ -23,14 +27,11 @@ class SingleSelect extends BaseComponent {
   }
 
   set(v) {
-    this.value = v;
     this.options = this.options.map((opt) => {
-      opt.selected = opt.value === this.value;
+      opt.selected = opt.value === v;
       return opt;
     });
-    this.render();
-    this.publish(this.get());
-    return this;
+    return super.set(v);
   }
 
   render() {
