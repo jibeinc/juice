@@ -2,7 +2,7 @@
 
 // # TODO
 //    - support separation of value from displayValue
-//    - style this nicely, probably with an overlay
+//    - styles
 
 // css
 require('./styles.css');

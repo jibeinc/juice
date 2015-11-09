@@ -1,0 +1,5 @@
+<ul>
+{{ it.results.forEach(function (result) { }}
+  <li>{{= result }}</li>
+{{ }); }}
+</ul>

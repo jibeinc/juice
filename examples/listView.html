@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List View Example</title>
+  <script src='../dist/ui.components.js'></script>
+</head>
+<body>
+
+  <div class='search-results'></div>
+
+  <script>
+    var results = new UI.ListView('.search-results', {
+      fetch: function (cb) {
+        cb([1, 2, 3, 4, 5]);
+      }
+    });
+
+    results.subscribe(function (results) {
+      console.log('refreshed', results);
+    });
+  </script>
+
+</body>
+</html>

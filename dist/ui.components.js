@@ -51,7 +51,8 @@ var UI =
 	  CurrentLocation: __webpack_require__(1),
 	  TextInput: __webpack_require__(12),
 	  Button: __webpack_require__(20),
-	  SingleSelect: __webpack_require__(24)
+	  SingleSelect: __webpack_require__(24),
+	  ListView: __webpack_require__(28)
 	};
 
 	module.exports = JibeUIComponents;
@@ -10299,7 +10300,7 @@ var UI =
 
 	// # TODO
 	//    - support separation of value from displayValue
-	//    - style this nicely, probably with an overlay
+	//    - styles
 
 	// css
 	;
@@ -10388,17 +10389,124 @@ var UI =
 /***/ function(module, exports) {
 
 	module.exports=function(scope){ return `<select>
-	  ${
-	    scope.options.map(function (option) {
-	      if (option.selected) {
-	        return '<option selected=true>' + option.value + '</option>';
-	      } else {
-	        return '<option>' + option.value + '</option>';
-	      }
-	    })
-	  }
+	${
+	  scope.options.map(function (option) {
+	    if (option.selected) {
+	      return '<option selected=true>' + option.value + '</option>';
+	    } else {
+	      return '<option>' + option.value + '</option>';
+	    }
+	  })
+	}
 	</select>
 	`};
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	// # TODO
+	//   -
+
+	// css
+	;
+	__webpack_require__(29);
+
+	// html
+	let listViewTmpl = __webpack_require__(31);
+
+	// scripts
+	let $ = __webpack_require__(7);
+	let BaseComponent = __webpack_require__(8);
+
+	class ListView extends BaseComponent {
+	  constructor(el, opts) {
+	    super(el);
+	    opts = opts || {};
+	    this.fetch = opts.fetch || $.noop;
+	    this.set();
+	  }
+
+	  render() {
+	    this.$el.html(listViewTmpl(this));
+	    return this;
+	  }
+
+	  get() {
+	    return this.results;
+	  }
+
+	  subscribe(cb) {
+	    super.subscribe(cb);
+	    this.publish(this.get());
+	  }
+
+	  set(results) {
+	    if (!results) {
+	      this.fetch(results => {
+	        this.set(results);
+	      });
+	    } else {
+	      console.log('aaa', results, this.id);
+	      this.results = results;
+	      this.render();
+	      this.publish(this.get());
+	    }
+	  }
+	};
+
+	module.exports = ListView;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(30);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(5)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(4)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "", ""]);
+
+	// exports
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	module.exports = function anonymous(it
+	/**/) {
+	var out='<ul>'; it.results.forEach(function (result) { out+=' <li>'+( result )+'</li>'; }); out+='</ul>';return out;
+	}
 
 /***/ }
 /******/ ]);

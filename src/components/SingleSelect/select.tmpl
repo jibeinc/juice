@@ -1,11 +1,11 @@
 <select>
-  ${
-    scope.options.map(function (option) {
-      if (option.selected) {
-        return '<option selected=true>' + option.value + '</option>';
-      } else {
-        return '<option>' + option.value + '</option>';
-      }
-    })
-  }
+${
+  scope.options.map(function (option) {
+    if (option.selected) {
+      return '<option selected=true>' + option.value + '</option>';
+    } else {
+      return '<option>' + option.value + '</option>';
+    }
+  })
+}
 </select>
