@@ -4,15 +4,15 @@
 // publishes a nicely throttled text input event
 // adds a clearing x icon
 
-// CSS
+// css
 require('./styles.css');
 
-// HTML
+// html
 let inputTmpl    = require('./input.tmpl');
 let clearTmpl    = require('./clear.tmpl');
 let clearWrapper = require('./clearWrapper.html');
 
-// JS
+// scripts
 let _             = require('lodash');
 let BaseComponent = require('../BaseComponent');
 
@@ -42,7 +42,9 @@ class TextInput extends BaseComponent {
       // the clearing icon itself (absolute positioned within wrapper to be on the right)
       this.$wrapper.append(clearTmpl(this));
       this.$clear = this.$el.find('.ui-text-input-clear');
-      this.$clear.click(() => { this.set(''); });
+      this.$clear.click(() => {
+        this.set('');
+      });
     }
 
     return this;

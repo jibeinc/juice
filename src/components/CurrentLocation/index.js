@@ -1,6 +1,6 @@
 'use strict'
 
-// CSS
+// css
 require('./styles.css');
 
 // assets
