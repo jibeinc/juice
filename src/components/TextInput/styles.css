@@ -1,0 +1,10 @@
+.ui-text-input-clear-wrapper {
+  position: absolute;
+}
+
+.ui-text-input-clear {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}

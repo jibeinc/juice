@@ -74,12 +74,14 @@ var UI =
 	class CurrentLocation extends BaseComponent {
 	  constructor(el, opts) {
 	    super(el);
+	    opts = opts || {};
 	    this.iconURL = opts.iconURL || iconURL;
 	    this.geolocationAPI = opts.geolocationAPI;
 	    return this;
 	  }
 
 	  render() {
+	    this.$el.addClass('.ui-current-location');
 	    this.$el.on('click', () => {
 	      this.getCurrentLocation();
 	    });
@@ -19231,26 +19233,28 @@ var UI =
 	// publishes a nicely throttled text input event
 	// adds a clearing x icon
 
+	// CSS
 	;
+	__webpack_require__(14);
+
+	// JS
+	let _ = __webpack_require__(16);
 	let BaseComponent = __webpack_require__(8);
-	let PSHub = __webpack_require__(12);
-	let _ = __webpack_require__(14);
 
 	class TextInput extends BaseComponent {
 	  constructor(el, opts) {
 	    super(el);
-	    this.opts = opts || {};
-	    this.id = 'TextInput_' + this.id;
-	    this.wait = this.opts.wait || 300;
-	    this.clearingIcon = this.opts.clearingIcon || 'X';
+	    opts = opts || {};
+	    this.wait = opts.wait || 300;
+	    this.clearingIcon = opts.clearingIcon || 'x';
 	    this.$input = null;
 	  }
 
 	  render() {
 	    // the base input
+	    this.$el.addClass('ui-text-input');
 	    this.$el.html(`<input type='text' class='${ this.id }' value='${ this.get() }'/>`);
 	    this.$input = this.$el.find('input');
-	    this.$el.prepend(`<style> .${ this.id } { width: 100% } </style>`);
 
 	    let onKeyup = _.debounce(() => {
 	      this.set(this.$input.val());
@@ -19259,14 +19263,12 @@ var UI =
 
 	    if (this.clearingIcon) {
 	      // the wrapper to place a clearing icon (X)
-	      this.$input.wrap(`<div class='${ this.id + '_wrapper' }'></div>`);
-	      this.$wrapper = this.$el.find('.' + this.id + '_wrapper');
-	      this.$el.prepend(`<style> .${ this.id + '_wrapper' } { position: relative;} </style>`);
+	      this.$input.wrap('<div class="ui-text-input-clear-wrapper"></div>');
+	      this.$wrapper = this.$el.find('.ui-text-input-clear-wrapper');
 
 	      // the clearing icon itself (absolute positioned within wrapper to be on the right)
-	      this.$wrapper.append(`<span class='${ this.id + '_clear' }'>${ this.clearingIcon }</span>`);
-	      this.$clear = this.$el.find('.' + this.id + '_clear');
-	      this.$el.prepend(`<style> .${ this.id + '_clear' } { position: absolute;  top: 0; right: 0; cursor: pointer;} </style>`);
+	      this.$wrapper.append(`<span class='ui-text-input-clear' }'>${ this.clearingIcon }</span>`);
+	      this.$clear = this.$el.find('.ui-text-input-clear');
 	      this.$clear.click(() => {
 	        this.set('');
 	      });
@@ -19282,7 +19284,7 @@ var UI =
 	    } else {
 	        this.render(); // first time
 	      }
-	    PSHub.publish(this.id, this.get());
+	    this.publish(this.get());
 	    return this;
 	  }
 	};
@@ -19291,6 +19293,46 @@ var UI =
 
 /***/ },
 /* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(15);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(5)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(4)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".ui-text-input-clear-wrapper {\n  position: absolute;\n}\n\n.ui-text-input-clear {\n  position: absolute;\n  top: 0;\n  right: 0;\n  cursor: pointer;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -31645,10 +31687,10 @@ var UI =
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)(module), (function() { return this; }())))
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {

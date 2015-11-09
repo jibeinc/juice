@@ -2,7 +2,7 @@
 
 let $     = require('jQuery');
 let uuid  = require('uuid');
-let PSHub = require('./PubSubHub.js');
+let PSHub = require('./PubSubHub');
 
 class BaseComponent {
   constructor(el) {

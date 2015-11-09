@@ -6,17 +6,17 @@
 </head>
 <body>
 
-  <div class='ui-current-location'></div>
+  <div class='my-location'></div>
 
   <style>
-    .ui-current-location {
+    .my-location {
       width: 100px;
       height: 200px;
     }
   </style>
 
   <script>
-    var c = new UI.CurrentLocation('.ui-current-location', {
+    var c = new UI.CurrentLocation('.my-location', {
       geolocationAPI: window.navigator.geolocation
     });
 

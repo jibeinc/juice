@@ -4,7 +4,8 @@
   "description": "General JavaScript classes for common UI components",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress --colors"
+    "build": "webpack --progress --colors",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",

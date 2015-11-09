@@ -2,14 +2,20 @@
 <html>
 <head>
   <title>Text Input Example</title>
-  <script src='../dist/jibe.ui.components.js'></script>
+  <script src='../dist/ui.components.js'></script>
 </head>
 <body>
 
-  <div class='target'></div>
+  <div class='ui-text-input'></div>
+
+  <style>
+    .ui-text-input {
+      width: 100%;
+    }
+  </style>
 
   <script>
-    var c = new UI.TextInput('.target').set('Hello World!');
+    var c = new UI.TextInput('.ui-text-input').set('Hello World!');
 
     c.subscribe(function (msg) {
       console.log(msg);

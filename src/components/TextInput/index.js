@@ -4,39 +4,39 @@
 // publishes a nicely throttled text input event
 // adds a clearing x icon
 
-let BaseComponent = require('./BaseComponent.js');
-let PSHub         = require('./PubSubHub.js');
+// CSS
+require('./styles.css');
+
+// JS
 let _             = require('lodash');
+let BaseComponent = require('../BaseComponent');
 
 class TextInput extends BaseComponent {
   constructor(el, opts) {
     super(el);
-    this.opts = opts || {};
-    this.id = 'TextInput_' + this.id;
-    this.wait = this.opts.wait || 300;
-    this.clearingIcon = this.opts.clearingIcon || 'X';
-    this.$input = null;
+    opts = opts || {};
+    this.wait = opts.wait || 300;
+    this.clearingIcon = opts.clearingIcon || 'x';
+    this.$input = null ;
   }
 
   render() {
     // the base input
+    this.$el.addClass('ui-text-input');
     this.$el.html(`<input type='text' class='${ this.id }' value='${ this.get() }'/>`);
     this.$input = this.$el.find('input');
-    this.$el.prepend(`<style> .${ this.id } { width: 100% } </style>`);
 
     let onKeyup = _.debounce(() => { this.set(this.$input.val()); }, this.wait);
     this.$input.keyup(onKeyup); // debounced slightly for ux
 
     if (this.clearingIcon) {
       // the wrapper to place a clearing icon (X)
-      this.$input.wrap(`<div class='${ this.id + '_wrapper' }'></div>`)
-      this.$wrapper = this.$el.find('.' + this.id + '_wrapper');
-      this.$el.prepend(`<style> .${ this.id + '_wrapper' } { position: relative;} </style>`);
+      this.$input.wrap('<div class="ui-text-input-clear-wrapper"></div>');
+      this.$wrapper = this.$el.find('.ui-text-input-clear-wrapper');
 
       // the clearing icon itself (absolute positioned within wrapper to be on the right)
-      this.$wrapper.append(`<span class='${ this.id + '_clear' }'>${ this.clearingIcon }</span>`);
-      this.$clear = this.$el.find('.' + this.id + '_clear');
-      this.$el.prepend(`<style> .${ this.id + '_clear' } { position: absolute;  top: 0; right: 0; cursor: pointer;} </style>`);
+      this.$wrapper.append(`<span class='ui-text-input-clear' }'>${ this.clearingIcon }</span>`);
+      this.$clear = this.$el.find('.ui-text-input-clear');
       this.$clear.click(() => { this.set(''); });
     }
 
@@ -50,7 +50,7 @@ class TextInput extends BaseComponent {
     } else {
       this.render(); // first time
     }
-    PSHub.publish(this.id, this.get());
+    this.publish(this.get());
     return this;
   }
 };

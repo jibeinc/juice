@@ -8,17 +8,19 @@ const iconURL = require('./location.png');
 
 // scripts
 let $             = require('jquery');
-let BaseComponent = require('../BaseComponent.js');
+let BaseComponent = require('../BaseComponent');
 
 class CurrentLocation extends BaseComponent {
   constructor(el, opts) {
     super(el);
+    opts = opts || {};
     this.iconURL = opts.iconURL || iconURL;
     this.geolocationAPI = opts.geolocationAPI;
     return this;
   }
 
   render() {
+    this.$el.addClass('.ui-current-location');
     this.$el.on('click', () => {
       this.getCurrentLocation();
     });
