@@ -18,7 +18,6 @@ class BaseComponent {
 
   get() {
     return this.value;
-    return this;
   }
 
   set(v) {

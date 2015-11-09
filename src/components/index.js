@@ -6,6 +6,7 @@ var UIComponents = {
   TextInput:       require('./TextInput'),
   Button:          require('./Button'),
   SingleSelect:    require('./SingleSelect'),
+  MultiSelect:     require('./MultiSelect'),
   ListView:        require('./ListView')
 };
 

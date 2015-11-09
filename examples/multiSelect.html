@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Multi Select Example</title>
+  <script src='../dist/ui.components.js'></script>
+</head>
+<body>
+
+  <div class='categories'></div>
+
+  <script>
+    var categories = new UI.MultiSelect('.categories', {
+      options: ['Marketing', 'Sales', 'Engineering']
+    });
+
+    categories.render();
+
+    categories.subscribe(function (choice) {
+      console.log('New Category kiiii!', choice);
+    });
+  </script>
+
+</body>
+</html>

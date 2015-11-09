@@ -1,0 +1,6 @@
+<div class='ui-multi-select'>
+{{ it.options.forEach(function (opt) { }}
+  <input type='checkbox' name='{{= it.id }}' value='{{= opt.value }}' {{? opt.checked }}checked=true{{?}}/>
+  <label for='{{= it.id }}'>{{= opt.value }}</label>
+{{ }); }}
+</div>
