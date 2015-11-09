@@ -1,6 +1,6 @@
 'use strict'
 
-let $     = require('jQuery');
+let $     = require('jquery');
 let uuid  = require('uuid');
 let PSHub = require('./PubSubHub');
 

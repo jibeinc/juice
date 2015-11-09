@@ -1,3 +1,5 @@
+var PolyfillServicePlugin = require('polyfill-service-webpack');
+
 module.exports = {
   entry: './src/components/index.js',
   output: {
@@ -21,6 +23,14 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader'
       }
-    ]
+    ],
+    postLoaders: [ {
+        test: __dirname + '/dist/ui.components.js',
+        exclude: /\/(node_modules|bower_components)\//,
+        loader: 'autopolyfiller',
+        query: {
+          browsers: [ 'last 2 versions', 'ie >= 9' ]
+        }
+    } ]
   }
 };

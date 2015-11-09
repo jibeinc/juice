@@ -4,7 +4,7 @@
   "description": "General JavaScript classes for common UI components",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress --colors",
+    "build": "webpack --progress --colors --display-chunks",
     "watch": "webpack --watch"
   },
   "repository": {
@@ -13,6 +13,7 @@
   },
   "author": "John Hatcher",
   "dependencies": {
+    "autopolyfiller-loader": "^0.3.3",
     "jquery": "2.1.4",
     "lodash": "^3.10.1",
     "uuid": "^2.0.1"
@@ -22,6 +23,7 @@
     "babel-loader": "^6.0.1",
     "css-loader": "^0.22.0",
     "file-loader": "^0.8.4",
+    "polyfill-service-webpack": "^0.1.0",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.3"
   }

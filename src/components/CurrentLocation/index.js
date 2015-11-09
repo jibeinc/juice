@@ -20,7 +20,7 @@ class CurrentLocation extends BaseComponent {
   }
 
   render() {
-    this.$el.addClass('.ui-current-location');
+    this.$el.addClass('ui-current-location');
     this.$el.on('click', () => {
       this.getCurrentLocation();
     });
