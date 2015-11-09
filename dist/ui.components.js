@@ -60,7 +60,7 @@ var UI =
 
 	'use strict';
 
-	// CSS
+	// css
 
 	__webpack_require__(2);
 
@@ -10017,16 +10017,16 @@ var UI =
 	// publishes a nicely throttled text input event
 	// adds a clearing x icon
 
-	// CSS
+	// css
 	;
 	__webpack_require__(13);
 
-	// HTML
+	// html
 	let inputTmpl = __webpack_require__(15);
 	let clearTmpl = __webpack_require__(16);
 	let clearWrapper = __webpack_require__(17);
 
-	// JS
+	// scripts
 	let _ = __webpack_require__(18);
 	let BaseComponent = __webpack_require__(8);
 
