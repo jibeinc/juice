@@ -1,6 +1,7 @@
 'use strict'
 
-var JibeUIComponents = {
+var UIComponents = {
+  $:               require('jquery'),
   CurrentLocation: require('./CurrentLocation'),
   TextInput:       require('./TextInput'),
   Button:          require('./Button'),
@@ -8,4 +9,4 @@ var JibeUIComponents = {
   ListView:        require('./ListView')
 };
 
-module.exports = JibeUIComponents;
+module.exports = UIComponents;
