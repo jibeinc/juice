@@ -13,8 +13,8 @@ let clearTmpl    = require('./clear.tmpl');
 let clearWrapper = require('./clearWrapper.html');
 
 // scripts
-let _             = require('lodash');
 let BaseComponent = require('../BaseComponent');
+let debounce      = require('debounce');
 
 class TextInput extends BaseComponent {
   constructor(el, opts) {
@@ -31,7 +31,7 @@ class TextInput extends BaseComponent {
     this.$el.html(inputTmpl(this));
     this.$input = this.$el.find('input');
 
-    let onKeyup = _.debounce(() => { this.set(this.$input.val()); }, this.wait);
+    let onKeyup = debounce(() => { this.set(this.$input.val()); }, this.wait);
     this.$input.keyup(onKeyup); // debounced slightly for ux
 
     if (this.clearingIcon) {
