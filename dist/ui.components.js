@@ -49,7 +49,8 @@ var UI =
 
 	var JibeUIComponents = {
 	  CurrentLocation: __webpack_require__(1),
-	  TextInput: __webpack_require__(12)
+	  TextInput: __webpack_require__(12),
+	  Button: __webpack_require__(20)
 	};
 
 	module.exports = JibeUIComponents;
@@ -10207,6 +10208,86 @@ var UI =
 	    return new Date().getTime()
 	}
 
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	// css
+	;
+	__webpack_require__(21);
+
+	// html
+	let buttonTmpl = __webpack_require__(23);
+
+	// scripts
+	let BaseComponent = __webpack_require__(8);
+
+	class Button extends BaseComponent {
+	  constructor(el, opts) {
+	    super(el);
+	    opts = opts || {};
+	    this.label = opts.label || 'ClickMe!';
+	  }
+
+	  render() {
+	    this.$el.html(buttonTmpl(this));
+	    this.$el.find('button').click(() => {
+	      this.publish('click');
+	    });
+	    return this;
+	  }
+	};
+
+	module.exports = Button;
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(22);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(5)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(4)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".ui-button {\n  cursor: pointer;\n}", ""]);
+
+	// exports
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	module.exports=function(scope){ return `<button type='button' class='ui-button'>${ scope.label }</button>`};
 
 /***/ }
 /******/ ]);
