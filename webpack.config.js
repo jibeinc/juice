@@ -19,6 +19,14 @@ module.exports = {
         loader: 'file'
       },
       {
+        test: /\.html$/,
+        loader: 'html'
+      },
+      {
+        test: /\.tmpl$/,
+        loader: 'template-string'
+      },
+      {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader'

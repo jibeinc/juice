@@ -7,6 +7,11 @@
 // CSS
 require('./styles.css');
 
+// HTML
+let inputTmpl    = require('./input.tmpl');
+let clearTmpl    = require('./clear.tmpl');
+let clearWrapper = require('./clearWrapper.html');
+
 // JS
 let _             = require('lodash');
 let BaseComponent = require('../BaseComponent');
@@ -23,7 +28,7 @@ class TextInput extends BaseComponent {
   render() {
     // the base input
     this.$el.addClass('ui-text-input');
-    this.$el.html(`<input type='text' class='${ this.id }' value='${ this.get() }'/>`);
+    this.$el.html(inputTmpl(this));
     this.$input = this.$el.find('input');
 
     let onKeyup = _.debounce(() => { this.set(this.$input.val()); }, this.wait);
@@ -31,11 +36,11 @@ class TextInput extends BaseComponent {
 
     if (this.clearingIcon) {
       // the wrapper to place a clearing icon (X)
-      this.$input.wrap('<div class="ui-text-input-clear-wrapper"></div>');
+      this.$input.wrap(clearWrapper);
       this.$wrapper = this.$el.find('.ui-text-input-clear-wrapper');
 
       // the clearing icon itself (absolute positioned within wrapper to be on the right)
-      this.$wrapper.append(`<span class='ui-text-input-clear' }'>${ this.clearingIcon }</span>`);
+      this.$wrapper.append(clearTmpl(this));
       this.$clear = this.$el.find('.ui-text-input-clear');
       this.$clear.click(() => { this.set(''); });
     }

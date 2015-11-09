@@ -49,7 +49,7 @@ class CurrentLocation extends BaseComponent {
       this.set(position.coords.longitude, position.coords.latitude);
     }, (error) => {
       console.error(error.message);
-      this.publish(this.id, error);
+      this.publish(error);
     });
     return this;
   }

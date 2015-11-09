@@ -110,7 +110,7 @@ var UI =
 	      this.set(position.coords.longitude, position.coords.latitude);
 	    }, error => {
 	      console.error(error.message);
-	      this.publish(this.id, error);
+	      this.publish(error);
 	    });
 	    return this;
 	  }
@@ -153,7 +153,7 @@ var UI =
 
 
 	// module
-	exports.push([module.id, ".ui-current-location {\n  cursor: pointer;\n  background-size: contain;\n  background-repeat: no-repeat;\n\n  -webkit-transform: none;\n\n      -ms-transform: none;\n\n          transform: none;\n}\n", ""]);
+	exports.push([module.id, ".ui-current-location {\n  cursor: pointer;\n  background-size: contain;\n  background-repeat: no-repeat;\n}\n", ""]);
 
 	// exports
 
@@ -10021,8 +10021,13 @@ var UI =
 	;
 	__webpack_require__(13);
 
+	// HTML
+	let inputTmpl = __webpack_require__(15);
+	let clearTmpl = __webpack_require__(16);
+	let clearWrapper = __webpack_require__(17);
+
 	// JS
-	let _ = __webpack_require__(15);
+	let _ = __webpack_require__(18);
 	let BaseComponent = __webpack_require__(8);
 
 	class TextInput extends BaseComponent {
@@ -10037,7 +10042,7 @@ var UI =
 	  render() {
 	    // the base input
 	    this.$el.addClass('ui-text-input');
-	    this.$el.html(`<input type='text' class='${ this.id }' value='${ this.get() }'/>`);
+	    this.$el.html(inputTmpl(this));
 	    this.$input = this.$el.find('input');
 
 	    let onKeyup = _.debounce(() => {
@@ -10047,11 +10052,11 @@ var UI =
 
 	    if (this.clearingIcon) {
 	      // the wrapper to place a clearing icon (X)
-	      this.$input.wrap('<div class="ui-text-input-clear-wrapper"></div>');
+	      this.$input.wrap(clearWrapper);
 	      this.$wrapper = this.$el.find('.ui-text-input-clear-wrapper');
 
 	      // the clearing icon itself (absolute positioned within wrapper to be on the right)
-	      this.$wrapper.append(`<span class='ui-text-input-clear' }'>${ this.clearingIcon }</span>`);
+	      this.$wrapper.append(clearTmpl(this));
 	      this.$clear = this.$el.find('.ui-text-input-clear');
 	      this.$clear.click(() => {
 	        this.set('');
@@ -10117,6 +10122,24 @@ var UI =
 
 /***/ },
 /* 15 */
+/***/ function(module, exports) {
+
+	module.exports=function(scope){ return `<input type='text' class='${ scope.id }' value='${ scope.get() }'/>`};
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports=function(scope){ return `<span class='ui-text-input-clear'>${ scope.clearingIcon }</span>`};
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class='ui-text-input-clear-wrapper'></div>";
+
+/***/ },
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -22471,10 +22494,10 @@ var UI =
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)(module), (function() { return this; }())))
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
