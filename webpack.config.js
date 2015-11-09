@@ -12,7 +12,7 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loader: 'style!css'
+        loader: 'style!css!autoprefixer?{browsers: ["last 2 versions", "ie >= 9"]}'
       },
       {
         test: /\.png$/,
