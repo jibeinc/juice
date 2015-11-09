@@ -50,7 +50,8 @@ var UI =
 	var JibeUIComponents = {
 	  CurrentLocation: __webpack_require__(1),
 	  TextInput: __webpack_require__(12),
-	  Button: __webpack_require__(20)
+	  Button: __webpack_require__(20),
+	  SingleSelect: __webpack_require__(24)
 	};
 
 	module.exports = JibeUIComponents;
@@ -9721,6 +9722,7 @@ var UI =
 	  set(v) {
 	    this.value = v;
 	    this.render();
+	    this.publish(this.get());
 	    return this;
 	  }
 
@@ -10288,6 +10290,114 @@ var UI =
 /***/ function(module, exports) {
 
 	module.exports=function(scope){ return `<button type='button' class='ui-button'>${ scope.label }</button>`};
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+
+	// css
+	;
+	__webpack_require__(25);
+
+	// html
+	let selectTmpl = __webpack_require__(27);
+
+	// scripts
+	let $ = __webpack_require__(7);
+	let BaseComponent = __webpack_require__(8);
+
+	class SingleSelect extends BaseComponent {
+	  constructor(el, opts) {
+	    super(el);
+	    opts = opts || {};
+	    this.options = (opts.options || []).map(opt => {
+	      return {
+	        value: opt,
+	        selected: opt === this.get()
+	      };
+	    });
+	  }
+
+	  set(v) {
+	    this.value = v;
+	    this.options = this.options.map(opt => {
+	      opt.selected = opt.value === this.value;
+	      return opt;
+	    });
+	    this.render();
+	    this.publish(this.get());
+	    return this;
+	  }
+
+	  render() {
+	    this.$el.html(selectTmpl(this));
+	    this.$el.find('select').change(evt => {
+	      this.set($(evt.target).val());
+	    });
+	    return this;
+	  }
+	};
+
+	module.exports = SingleSelect;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(26);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(5)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(4)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "", ""]);
+
+	// exports
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	module.exports=function(scope){ return `<select>
+	  ${
+	    scope.options.map(function (option) {
+	      if (option.selected) {
+	        return '<option selected=true>' + option.value + '</option>';
+	      } else {
+	        return '<option>' + option.value + '</option>';
+	      }
+	    })
+	  }
+	</select>
+	`};
 
 /***/ }
 /******/ ]);

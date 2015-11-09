@@ -24,6 +24,7 @@ class BaseComponent {
   set(v) {
     this.value = v;
     this.render();
+    this.publish(this.get());
     return this;
   }
 

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Single Select Example</title>
+  <script src='../dist/ui.components.js'></script>
+</head>
+<body>
+
+  <div class='month-picker'></div>
+
+  <script>
+    var month = new UI.SingleSelect('.month-picker', {
+      options: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    });
+
+    month.render();
+
+    month.subscribe(function (choice) {
+      console.log('Its a new month!', choice);
+    });
+  </script>
+
+</body>
+</html>
