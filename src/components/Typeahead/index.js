@@ -2,7 +2,6 @@
 
 // TODO:
 // - handle typeahead options as object
-// - make typeahead internal value be the users choice from dropdown (when required) - not current text input value
 
 // html
 let typeaheadTmpl = require('./typeahead.dot');
@@ -32,14 +31,14 @@ class TypeaheadComponent extends BaseComponent {
 
     // when an item is picked from the list view:
     this.resultsListView.subscribe((selection) => {
-      // update text input with this value
+      // update text input with this value, set typeahead internal value
       this.textInput.set(selection);
+      this.set(selection);
     });
 
     // when text input gets a new value:
     this.textInput.subscribe((term) => {
-      // update the typeaheads value to match, re render results list
-      this.set(term);
+      // re render results list
       this.resultsListView.refresh();
     });
   }
@@ -57,7 +56,13 @@ class TypeaheadComponent extends BaseComponent {
   }
 
   refreshResults(cb) {
-    this.fetch(this.get(), (results) => {
+    var term = this.textInput.get();
+
+    if (!term) {
+      return [];
+    }
+
+    this.fetch(term, (results) => {
       this.results = results;
       cb(results);
     });
