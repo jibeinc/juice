@@ -9,9 +9,13 @@
   <div class='search'></div>
 
   <script>
+    var db = [1, 2, 3, 112, 325, 9484749, 30, 98, 9043, 71, 40, 20001];
+
     var searchNumbers = new UI.Typeahead('.search', {
       fetch: function (term, cb) {
-        cb([1, 2, 3, 112, 325, 9484749, 30, 98, 9043, 71, 40, 20001]);
+        return cb(db.filter(function (item) {
+          return (item + '').indexOf(term) !== -1;
+        }));
       }
     });
 

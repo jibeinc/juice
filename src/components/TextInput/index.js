@@ -24,6 +24,7 @@ class TextInput extends BaseComponent {
     this.wait = opts.wait || 300;
     this.clearingIcon = opts.clearingIcon || 'x';
     this.$input = null;
+    return this;
   }
 
   render() {

@@ -36,16 +36,11 @@ class ListView extends BaseComponent {
     return r.toString();
   }
 
-  setResults(results) {
-    if (!results) {
-      this.fetch((results) => {
-        this.setResults(results);
-      });
-    } else {
+  refresh() {
+    this.fetch((results) => {
       this.results = results;
       this.render();
-      this.publish(this.get());
-    }
+    });
   }
 };
 

@@ -2,6 +2,7 @@
 
 // html
 let typeaheadTmpl = require('./typeahead.dot');
+let containerHTML = require('./container.html');
 
 // scripts
 let BaseComponent = require('../BaseComponent');
@@ -11,29 +12,49 @@ let assert        = require('../assert.js');
 
 class TypeaheadComponent extends BaseComponent {
   constructor(el, opts) {
-    super(el, opts); // sets up the input
-    this.results = opts.results || [];
+    super(el);
     this.fetch = opts.fetch;
     assert(typeof this.fetch === 'function');
+
+    this.$el.append(containerHTML);
+
+    this.textInput = new TextInput(this.$el.find('.input-container'));
+
+    this.resultsListView = new ListView(this.$el.find('.results-list-container'), {
+      fetch: (cb) => {
+        this.refreshResults(cb);
+      }
+    });
+
+    this.textInput.subscribe((term) => {
+      // update the typeaheads value to match, re render results list
+      this.set(term);
+      this.resultsListView.refresh();
+    });
+
+    this.resultsListView.subscribe((selection) => {
+      // update text input with this value, re render results list
+      this.textInput.set(selection);
+      this.resultsListView.refresh();
+    });
   }
 
-  render() {
-    this.textInput = new TextInput(this.$el, )
-
-    this.resultsListView = new ListView(this.$el, {
-      fetch: this.refreshResults
-    });
-
-    this.subscribe(() => {
-      this.refreshResults();
-    });
-
+  set(v) {
+    this.value = v;
+    this.publish(this.get());
     return this;
   }
 
-  refreshResults() {
-    this.fetch(this.get(), (results) => {
-      this.resultsListView.set(results);
+  render() {
+    this.textInput.render();
+    this.resultsListView.refresh();
+    return this;
+  }
+
+  refreshResults(cb) {
+    this.fetch(this.textInput.get(), (results) => {
+      this.results = results;
+      cb(results);
     });
   }
 }

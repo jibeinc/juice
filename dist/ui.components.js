@@ -54,10 +54,10 @@ var UI =
 	  Button: __webpack_require__(21),
 	  SingleSelect: __webpack_require__(25),
 	  MultiSelect: __webpack_require__(29),
-	  ListView: __webpack_require__(33)
+	  ListView: __webpack_require__(33),
+	  Typeahead: __webpack_require__(37)
 	};
 	
-	// Typeahead:       require('./Typeahead')
 	module.exports = UIComponents;
 
 /***/ },
@@ -10056,6 +10056,7 @@ var UI =
 	    this.wait = opts.wait || 300;
 	    this.clearingIcon = opts.clearingIcon || 'x';
 	    this.$input = null;
+	    return this;
 	  }
 	
 	  render() {
@@ -10567,16 +10568,11 @@ var UI =
 	    return r.toString();
 	  }
 	
-	  setResults(results) {
-	    if (!results) {
-	      this.fetch(results => {
-	        this.setResults(results);
-	      });
-	    } else {
+	  refresh() {
+	    this.fetch(results => {
 	      this.results = results;
 	      this.render();
-	      this.publish(this.get());
-	    }
+	    });
 	  }
 	};
 	
@@ -10630,6 +10626,89 @@ var UI =
 	/**/) {
 	var out='<ul>'; it.results.forEach(function (result) { out+=' <li id=\''+( it.id )+'-'+( result )+'\'>'+( it.renderItem(result) )+'</li>'; }); out+='</ul>';return out;
 	}
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	
+	// html
+	;
+	let typeaheadTmpl = __webpack_require__(38);
+	let containerHTML = __webpack_require__(39);
+	
+	// scripts
+	let BaseComponent = __webpack_require__(8);
+	let TextInput = __webpack_require__(13);
+	let ListView = __webpack_require__(33);
+	let assert = __webpack_require__(12);
+	
+	class TypeaheadComponent extends BaseComponent {
+	  constructor(el, opts) {
+	    super(el);
+	    this.fetch = opts.fetch;
+	    assert(typeof this.fetch === 'function');
+	
+	    this.$el.append(containerHTML);
+	
+	    this.textInput = new TextInput(this.$el.find('.input-container'));
+	
+	    this.resultsListView = new ListView(this.$el.find('.results-list-container'), {
+	      fetch: cb => {
+	        this.refreshResults(cb);
+	      }
+	    });
+	
+	    this.textInput.subscribe(term => {
+	      // update the typeaheads value to match, re render results list
+	      this.set(term);
+	      this.resultsListView.refresh();
+	    });
+	
+	    this.resultsListView.subscribe(selection => {
+	      // update text input with this value, re render results list
+	      this.textInput.set(selection);
+	      this.resultsListView.refresh();
+	    });
+	  }
+	
+	  set(v) {
+	    this.value = v;
+	    this.publish(this.get());
+	    return this;
+	  }
+	
+	  render() {
+	    this.textInput.render();
+	    this.resultsListView.refresh();
+	    return this;
+	  }
+	
+	  refreshResults(cb) {
+	    this.fetch(this.textInput.get(), results => {
+	      this.results = results;
+	      cb(results);
+	    });
+	  }
+	}
+	
+	module.exports = TypeaheadComponent;
+
+/***/ },
+/* 38 */
+/***/ function(module, exports) {
+
+	module.exports = function anonymous(it
+	/**/) {
+	var out='<div class=\'ui-typeahead\'> <input type=\'text\' name=\''+( it.id )+'\' value=\''+( it.get() )+'\' /> <ol> '; it.results.forEach(function (result) { out+=' <li>'+( result )+'</li> '; }); out+=' </ol></div>';return out;
+	}
+
+/***/ },
+/* 39 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class='input-container'></div>\n<div class='results-list-container'></div>\n";
 
 /***/ }
 /******/ ]);
