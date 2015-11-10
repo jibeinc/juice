@@ -15,8 +15,10 @@
       }
     });
 
-    results.subscribe(function (results) {
-      console.log('refreshed', results);
+    results.setResults();
+
+    results.subscribe(function (selection) {
+      console.log('list item selected', selection);
     });
   </script>
 

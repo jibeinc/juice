@@ -1,5 +1,3 @@
-var PolyfillServicePlugin = require('polyfill-service-webpack');
-
 module.exports = {
   entry: './src/components/index.js',
   output: {
@@ -8,6 +6,7 @@ module.exports = {
     filename: 'ui.components.js',
     publicPath: '/dist/'
   },
+  devtool: 'source-map',
   module: {
     loaders: [
       {

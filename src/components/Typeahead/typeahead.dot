@@ -1,0 +1,8 @@
+<div class='ui-typeahead'>
+  <input type='text' name='{{= it.id }}' value='{{= it.get() }}' />
+  <ol>
+  {{ it.results.forEach(function (result) { }}
+    <li>{{= result }}</li>
+  {{ }); }}
+  </ol>
+</div>

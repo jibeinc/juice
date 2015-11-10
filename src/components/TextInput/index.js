@@ -20,9 +20,10 @@ class TextInput extends BaseComponent {
   constructor(el, opts) {
     super(el);
     opts = opts || {};
+    this.value = opts.value || '';
     this.wait = opts.wait || 300;
     this.clearingIcon = opts.clearingIcon || 'x';
-    this.$input = null ;
+    this.$input = null;
   }
 
   render() {

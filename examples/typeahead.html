@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Typeahead Example</title>
+  <script src='../dist/ui.components.js'></script>
+</head>
+<body>
+
+  <div class='search'></div>
+
+  <script>
+    var searchNumbers = new UI.Typeahead('.search', {
+      fetch: function (term, cb) {
+        cb([1, 2, 3, 112, 325, 9484749, 30, 98, 9043, 71, 40, 20001]);
+      }
+    });
+
+    searchNumbers.render();
+
+    searchNumbers.subscribe(function (choice) {
+      console.log('new numba', choice);
+    });
+  </script>
+
+</body>
+</html>

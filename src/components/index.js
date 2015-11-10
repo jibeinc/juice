@@ -7,7 +7,8 @@ var UIComponents = {
   Button:          require('./Button'),
   SingleSelect:    require('./SingleSelect'),
   MultiSelect:     require('./MultiSelect'),
-  ListView:        require('./ListView')
+  ListView:        require('./ListView'),
+  // Typeahead:       require('./Typeahead')
 };
 
 module.exports = UIComponents;

@@ -1,5 +1,5 @@
 <ul>
 {{ it.results.forEach(function (result) { }}
-  <li>{{= result }}</li>
+  <li id='{{= it.id }}-{{= result }}'>{{= it.renderItem(result) }}</li>
 {{ }); }}
 </ul>

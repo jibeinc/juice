@@ -1,11 +1,13 @@
 'use strict'
 
-let $     = require('jquery');
-let uuid  = require('uuid');
-let PSHub = require('./PubSubHub');
+let $      = require('jquery');
+let uuid   = require('uuid');
+let PSHub  = require('./PubSubHub');
+let assert = require('./assert');
 
 class BaseComponent {
   constructor(el) {
+    assert(el);
     this.value = null;
     this.$el = $(el);
     this.id = uuid.v4();
