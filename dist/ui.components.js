@@ -10135,7 +10135,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-text-input-clear-wrapper {\n  position: absolute;\n}\n\n.ui-text-input-clear {\n  position: absolute;\n  top: 0;\n  right: 0;\n  cursor: pointer;\n}\n", ""]);
+	exports.push([module.id, ".ui-text-input {\n  width: 100%;\n}\n\n.ui-text-input-clear-wrapper {\n  position: relative;\n}\n\n.ui-text-input-clear {\n  position: absolute;\n  top: 0;\n  right: 0;\n  cursor: pointer;\n}\n", ""]);
 	
 	// exports
 
@@ -10144,7 +10144,7 @@ var UI =
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports=function(scope){ return `<input type='text' class='${ scope.id }' value='${ scope.get() }'/>`};
+	module.exports=function(scope){ return `<input type='text' id='${ scope.id }' class='ui-text-input' value='${ scope.get() }'/>`};
 
 /***/ },
 /* 17 */
@@ -10551,12 +10551,7 @@ var UI =
 	    super(el);
 	    opts = opts || {};
 	    this.fetch = opts.fetch;
-	    this.renderItem = item => {
-	      return item.toString();
-	    };
-	
 	    this.renderItem = opts.renderItem || this.renderItem;
-	
 	    assert(typeof this.fetch === 'function');
 	  }
 	
@@ -10566,6 +10561,10 @@ var UI =
 	      this.set($(evt.target).attr('id').replace(this.id + '-', '')); // TODO this is shitty
 	    });
 	    return this;
+	  }
+	
+	  renderItem(item) {
+	    return item.toString();
 	  }
 	
 	  refresh() {
@@ -10633,6 +10632,10 @@ var UI =
 
 	'use strict'
 	
+	// TODO:
+	// - handle typeahead options as object
+	// - make typeahead internal value be the users choice from dropdown (when required) - not current text input value
+	
 	// html
 	;
 	let typeaheadTmpl = __webpack_require__(38);
@@ -10660,15 +10663,16 @@ var UI =
 	      }
 	    });
 	
+	    // when an item is picked from the list view:
+	    this.resultsListView.subscribe(selection => {
+	      // update text input with this value
+	      this.textInput.set(selection);
+	    });
+	
+	    // when text input gets a new value:
 	    this.textInput.subscribe(term => {
 	      // update the typeaheads value to match, re render results list
 	      this.set(term);
-	      this.resultsListView.refresh();
-	    });
-	
-	    this.resultsListView.subscribe(selection => {
-	      // update text input with this value, re render results list
-	      this.textInput.set(selection);
 	      this.resultsListView.refresh();
 	    });
 	  }
@@ -10686,7 +10690,7 @@ var UI =
 	  }
 	
 	  refreshResults(cb) {
-	    this.fetch(this.textInput.get(), results => {
+	    this.fetch(this.get(), results => {
 	      this.results = results;
 	      cb(results);
 	    });

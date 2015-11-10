@@ -19,12 +19,7 @@ class ListView extends BaseComponent {
     super(el);
     opts = opts || {};
     this.fetch = opts.fetch;
-    this.renderItem = (item) => {
-      return item.toString();
-    };
-
     this.renderItem = opts.renderItem || this.renderItem;
-
     assert(typeof this.fetch === 'function');
   }
 
@@ -34,6 +29,10 @@ class ListView extends BaseComponent {
       this.set($(evt.target).attr('id').replace(this.id + '-', '')); // TODO this is shitty
     });
     return this;
+  }
+
+  renderItem(item) {
+    return item.toString();
   }
 
   refresh() {

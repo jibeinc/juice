@@ -1,5 +1,9 @@
+.ui-text-input {
+  width: 100%;
+}
+
 .ui-text-input-clear-wrapper {
-  position: absolute;
+  position: relative;
 }
 
 .ui-text-input-clear {

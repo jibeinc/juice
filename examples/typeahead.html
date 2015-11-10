@@ -13,9 +13,11 @@
 
     var searchNumbers = new UI.Typeahead('.search', {
       fetch: function (term, cb) {
-        return cb(db.filter(function (item) {
+        var matches = db.filter(function (item) {
           return (item + '').indexOf(term) !== -1;
-        }));
+        });
+
+        cb(matches);
       }
     });
 
