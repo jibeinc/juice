@@ -1,5 +1,7 @@
 <ul>
-{{ it.results.forEach(function (result) { }}
-  <li id='{{= it.id }}-{{= result }}'>{{= it.renderItem(result) }}</li>
-{{ }); }}
+{{var i=0;
+  it.results.forEach(function (result) { }}
+  <li id='{{= it.id }}' data-index='{{= i }}'>{{= it.renderItem(result) }}</li>
+{{  i++;
+  }); }}
 </ul>

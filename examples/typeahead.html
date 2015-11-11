@@ -10,12 +10,25 @@
   <div class='search'></div>
 
   <script>
-    var db = [1, 2, 3, 112, 325, 9484749, 30, 98, 9043, 71, 40, 20001];
+    var db = [
+      {displayName: 1},
+      {displayName: 2},
+      {displayName: 3},
+      {displayName: 112},
+      {displayName: 325},
+      {displayName: 9484749},
+      {displayName: 30},
+      {displayName: 98},
+      {displayName: 9043},
+      {displayName: 71},
+      {displayName: 40},
+      {displayName: 20001}
+    ];
 
     var searchNumbers = new UI.Typeahead('.search', {
       fetch: function (term, cb) {
         var matches = db.filter(function (item) {
-          return (item + '').indexOf(term) !== -1;
+          return (item.displayName + '').indexOf(term) !== -1;
         });
 
         cb(matches);

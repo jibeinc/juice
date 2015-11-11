@@ -38,8 +38,7 @@ class BaseTypeahead extends BaseComponent {
     // when an item is picked from the list view:
     this.resultsListView.subscribe((selection) => {
       // update text input with this value, set typeahead internal value
-      this.textInput.set(selection);
-      this.set(selection);
+      this.handleSelection(selection);
     });
 
     // when text input gets a new value:
@@ -47,6 +46,11 @@ class BaseTypeahead extends BaseComponent {
       // re render results list
       this.resultsListView.refresh();
     });
+  }
+
+  handleSelection(selection) {
+    this.textInput.set(selection);
+    this.set(selection);
   }
 
   set(v) {

@@ -10569,7 +10569,7 @@ var UI =
 	  render() {
 	    this.$el.html(listViewTmpl(this));
 	    this.$el.find('li').click(evt => {
-	      this.set($(evt.target).attr('id').replace(this.id + '-', '')); // TODO this is shitty
+	      this.set(this.results[$(evt.target).attr('data-index')]);
 	    });
 	    return this;
 	  }
@@ -10634,11 +10634,53 @@ var UI =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<ul>'; it.results.forEach(function (result) { out+=' <li id=\''+( it.id )+'-'+( result )+'\'>'+( it.renderItem(result) )+'</li>'; }); out+='</ul>';return out;
+	var out='<ul>';var i=0; it.results.forEach(function (result) { out+=' <li id=\''+( it.id )+'\' data-index=\''+( i )+'\'>'+( it.renderItem(result) )+'</li>';  i++; }); out+='</ul>';return out;
 	}
 
 /***/ },
 /* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	
+	// Extends PrettyTypeahead by adding:
+	//
+	// - support for results as objects instead of just simple values (selection value isn't just display string)
+	//      1. override renderItem to grab display value
+	//      2. on select .....is this just a list view update?
+	
+	// scripts
+	;
+	const $ = __webpack_require__(1);
+	const PrettyTypeahead = __webpack_require__(38);
+	
+	class Typeahead extends PrettyTypeahead {
+	  constructor(el, opts) {
+	    super(el, opts);
+	    this.displayProperty = opts.displayProperty || 'displayName';
+	  }
+	
+	  getDisplayValue(item) {
+	    if (typeof item === 'object') {
+	      item = item[this.displayProperty];
+	    }
+	    return item;
+	  }
+	
+	  renderItem(item) {
+	    return super.renderItem(this.getDisplayValue(item));
+	  }
+	
+	  handleSelection(selection) {
+	    this.textInput.set(this.getDisplayValue(selection));
+	    this.set(selection);
+	  }
+	}
+	
+	module.exports = Typeahead;
+
+/***/ },
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -10648,18 +10690,19 @@ var UI =
 	// - the concept of "active"
 	// - the use of arrow keys/enter to pick from the results list
 	// - blur/focus events to close/open the results list
-	
-	// TODO:
 	// - add highlights for partial matches
-	// - handle typeahead options as object
+	
+	// ============================================================== //
+	// its recommended using the child class `Typeahead` in your UI's //
+	// ============================================================== //
 	
 	// css
 	;
-	__webpack_require__(38);
+	__webpack_require__(39);
 	
 	// scripts
 	const $ = __webpack_require__(1);
-	const BaseTypeahead = __webpack_require__(40);
+	const BaseTypeahead = __webpack_require__(41);
 	
 	const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 	
@@ -10730,9 +10773,6 @@ var UI =
 	      const start = matchIndex;
 	      const end = matchIndex + this.textInput.get().length;
 	
-	      // my match
-	      // 012345678
-	      // 0  S    E
 	      item = originalText.substr(0, start);
 	      item += '<b>';
 	      item += originalText.substr(start, end - 1);
@@ -10807,13 +10847,13 @@ var UI =
 	module.exports = TypeaheadComponent;
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(39);
+	var content = __webpack_require__(40);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(6)(content, {});
@@ -10833,7 +10873,7 @@ var UI =
 	}
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(5)();
@@ -10847,7 +10887,7 @@ var UI =
 
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -10857,9 +10897,13 @@ var UI =
 	//   1. a text input
 	//   2. a list view of results based on current text
 	
+	// ============================================================== //
+	// its recommended using the child class `Typeahead` in your UI's //
+	// ============================================================== //
+	
 	// html
 	;
-	const containerHTML = __webpack_require__(41);
+	const containerHTML = __webpack_require__(42);
 	
 	// scripts
 	const BaseComponent = __webpack_require__(8);
@@ -10887,8 +10931,7 @@ var UI =
 	    // when an item is picked from the list view:
 	    this.resultsListView.subscribe(selection => {
 	      // update text input with this value, set typeahead internal value
-	      this.textInput.set(selection);
-	      this.set(selection);
+	      this.handleSelection(selection);
 	    });
 	
 	    // when text input gets a new value:
@@ -10896,6 +10939,11 @@ var UI =
 	      // re render results list
 	      this.resultsListView.refresh();
 	    });
+	  }
+	
+	  handleSelection(selection) {
+	    this.textInput.set(selection);
+	    this.set(selection);
 	  }
 	
 	  set(v) {
@@ -10921,7 +10969,7 @@ var UI =
 	module.exports = BaseTypeahead;
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class='ui-typeahead'>\n  <div class='input-container'></div>\n  <div class='results-list-container'></div>\n</div>\n\n";

@@ -26,7 +26,7 @@ class ListView extends BaseComponent {
   render() {
     this.$el.html(listViewTmpl(this));
     this.$el.find('li').click((evt) => {
-      this.set($(evt.target).attr('id').replace(this.id + '-', '')); // TODO this is shitty
+      this.set(this.results[$(evt.target).attr('data-index')]);
     });
     return this;
   }
