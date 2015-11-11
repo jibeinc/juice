@@ -3,10 +3,11 @@
 // Extends BaseTypeahead by adding:
 //
 // - the concept of "active"
-// - the use of arrow keys to pick from the results list
+// - the use of arrow keys/enter to pick from the results list
 // - blur/focus events to close/open the results list
 
 // TODO:
+// - add highlights for partial matches
 // - handle typeahead options as object
 
 // css
@@ -14,12 +15,16 @@ require('./styles.css');
 
 // scripts
 const $             = require('jquery');
-const BaseTypeahead = require('./BaseTypeahead');
+const BaseTypeahead = require('../BaseTypeahead');
 
 const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
 class TypeaheadComponent extends BaseTypeahead {
   constructor(el, opts) {
+    opts.renderItem = (item) => {
+      return this.renderItem(item);
+    };
+
     super(el, opts);
   }
 
@@ -65,6 +70,30 @@ class TypeaheadComponent extends BaseTypeahead {
     this.textInput.$el.find('input').on('blur', () => {
       this.active(false);
     });
+  }
+
+  renderItem(item) {
+    // bold the matching part
+    const originalText = String(item);
+    const searchTerm   = this.textInput.get();
+    let matchIndex   = -1;
+
+    if (searchTerm.length !== 0) {
+      matchIndex = originalText.indexOf(searchTerm);
+    }
+
+    if (matchIndex !== -1) {
+      const start = matchIndex;
+      const end   = matchIndex + this.textInput.get().length;
+
+      item = originalText.substr(0, start);
+      item += '<b>';
+      item += originalText.substr(start, end - 1);
+      item += '</b>';
+      item += originalText.substr(end);
+    }
+
+    return item;
   }
 
   attachKeyEvents() {

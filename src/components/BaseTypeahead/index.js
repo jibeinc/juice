@@ -1,7 +1,9 @@
 'use strict';
 
-// TODO:
-// - handle typeahead options as object
+// handle just the absolute core behavior of a typeahead
+//
+//   1. a text input
+//   2. a list view of results based on current text
 
 // html
 const containerHTML = require('./baseTypeahead.html');
@@ -25,7 +27,8 @@ class BaseTypeahead extends BaseComponent {
     this.resultsListView = new ListView(this.$el.find('.results-list-container'), {
       fetch: (cb) => {
         this.refreshResults(cb);
-      }
+      },
+      renderItem: opts.renderItem || null
     });
 
     // when an item is picked from the list view:

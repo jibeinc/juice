@@ -10646,10 +10646,11 @@ var UI =
 	// Extends BaseTypeahead by adding:
 	//
 	// - the concept of "active"
-	// - the use of arrow keys to pick from the results list
+	// - the use of arrow keys/enter to pick from the results list
 	// - blur/focus events to close/open the results list
 	
 	// TODO:
+	// - add highlights for partial matches
 	// - handle typeahead options as object
 	
 	// css
@@ -10664,6 +10665,10 @@ var UI =
 	
 	class TypeaheadComponent extends BaseTypeahead {
 	  constructor(el, opts) {
+	    opts.renderItem = item => {
+	      return this.renderItem(item);
+	    };
+	
 	    super(el, opts);
 	  }
 	
@@ -10709,6 +10714,33 @@ var UI =
 	    this.textInput.$el.find('input').on('blur', () => {
 	      this.active(false);
 	    });
+	  }
+	
+	  renderItem(item) {
+	    // bold the matching part
+	    const originalText = String(item);
+	    const searchTerm = this.textInput.get();
+	    let matchIndex = -1;
+	
+	    if (searchTerm.length !== 0) {
+	      matchIndex = originalText.indexOf(searchTerm);
+	    }
+	
+	    if (matchIndex !== -1) {
+	      const start = matchIndex;
+	      const end = matchIndex + this.textInput.get().length;
+	
+	      // my match
+	      // 012345678
+	      // 0  S    E
+	      item = originalText.substr(0, start);
+	      item += '<b>';
+	      item += originalText.substr(start, end - 1);
+	      item += '</b>';
+	      item += originalText.substr(end);
+	    }
+	
+	    return item;
 	  }
 	
 	  attachKeyEvents() {
@@ -10820,8 +10852,10 @@ var UI =
 
 	'use strict'
 	
-	// TODO:
-	// - handle typeahead options as object
+	// handle just the absolute core behavior of a typeahead
+	//
+	//   1. a text input
+	//   2. a list view of results based on current text
 	
 	// html
 	;
@@ -10846,7 +10880,8 @@ var UI =
 	    this.resultsListView = new ListView(this.$el.find('.results-list-container'), {
 	      fetch: cb => {
 	        this.refreshResults(cb);
-	      }
+	      },
+	      renderItem: opts.renderItem || null
 	    });
 	
 	    // when an item is picked from the list view:
