@@ -15,6 +15,7 @@
 
 .ui-typeahead .results-list-container li {
   padding: 10px;
+  border-bottom: solid #F3F3F3 1px;
 }
 
 .ui-typeahead .results-list-container li:hover {

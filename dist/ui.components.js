@@ -10916,7 +10916,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto,'Helvetica Neue',sans-serif;\n}\n\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n}\n\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n}\n\n.ui-typeahead .results-list-container li:hover {\n  background-color: #00516f;\n  color: white;\n  cursor: pointer;\n}\n\n.ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n\n", ""]);
+	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto,'Helvetica Neue',sans-serif;\n}\n\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n}\n\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n  border-bottom: solid #F3F3F3 1px;\n}\n\n.ui-typeahead .results-list-container li:hover {\n  background-color: #00516f;\n  color: white;\n  cursor: pointer;\n}\n\n.ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n\n", ""]);
 	
 	// exports
 
