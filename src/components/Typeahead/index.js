@@ -3,7 +3,7 @@
 // Extends PrettyTypeahead by adding:
 //
 // - support for results as objects instead of just simple values (selection value isn't just display string)
-// -
+// - TODO: option to force user to pick from dropdown or to let them type in freely also
 
 // scripts
 const $               = require('jquery');
