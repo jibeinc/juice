@@ -4,14 +4,14 @@
 // - handle typeahead options as object
 
 // html
-let typeaheadTmpl = require('./typeahead.dot');
-let containerHTML = require('./container.html');
+const typeaheadTmpl = require('./typeahead.dot');
+const containerHTML = require('./container.html');
 
 // scripts
-let BaseComponent = require('../BaseComponent');
-let TextInput     = require('../TextInput');
-let ListView      = require('../ListView');
-let assert        = require('../assert.js');
+const BaseComponent = require('../BaseComponent');
+const TextInput     = require('../TextInput');
+const ListView      = require('../ListView');
+const assert        = require('../assert.js');
 
 class BaseTypeahead extends BaseComponent {
   constructor(el, opts) {

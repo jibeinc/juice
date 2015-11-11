@@ -1,9 +1,9 @@
 'use strict'
 
-let $      = require('jquery');
-let uuid   = require('uuid');
-let PSHub  = require('./PubSubHub');
-let assert = require('./assert');
+const $      = require('jquery');
+const uuid   = require('uuid');
+const PSHub  = require('./PubSubHub');
+const assert = require('./assert');
 
 // for covenience
 const keyEvents = {

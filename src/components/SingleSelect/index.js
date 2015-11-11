@@ -8,11 +8,11 @@
 require('./styles.css');
 
 // html
-let selectTmpl = require('./select.tmpl');
+const selectTmpl = require('./select.tmpl');
 
 // scripts
-let $             = require('jquery');
-let BaseComponent = require('../BaseComponent');
+const $             = require('jquery');
+const BaseComponent = require('../BaseComponent');
 
 class SingleSelect extends BaseComponent {
   constructor(el, opts) {

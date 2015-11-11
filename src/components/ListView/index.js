@@ -7,12 +7,12 @@
 require('./styles.css');
 
 // html
-let listViewTmpl = require('./listView.dot');
+const listViewTmpl = require('./listView.dot');
 
 // scripts
-let $             = require('jquery');
-let BaseComponent = require('../BaseComponent');
-let assert        = require('../assert');
+const $             = require('jquery');
+const BaseComponent = require('../BaseComponent');
+const assert        = require('../assert');
 
 class ListView extends BaseComponent {
   constructor(el, opts) {
@@ -24,7 +24,6 @@ class ListView extends BaseComponent {
   }
 
   render() {
-    console.log('ListView::render');
     this.$el.html(listViewTmpl(this));
     this.$el.find('li').click((evt) => {
       this.set($(evt.target).attr('id').replace(this.id + '-', '')); // TODO this is shitty

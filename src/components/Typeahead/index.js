@@ -10,8 +10,8 @@
 require('./styles.css');
 
 // scripts
-let $             = require('jquery');
-let BaseTypeahead = require('./BaseTypeahead');
+const $             = require('jquery');
+const BaseTypeahead = require('./BaseTypeahead');
 
 class TypeaheadComponent extends BaseTypeahead {
   constructor(el, opts) {
@@ -19,7 +19,6 @@ class TypeaheadComponent extends BaseTypeahead {
   }
 
   render() {
-    console.log('Typeahead::render');
     super.render();
 
     // layer on our new behavior - hiding/showing results when user blurs/focuses
@@ -101,7 +100,6 @@ class TypeaheadComponent extends BaseTypeahead {
     this.resultsListView.$el.find('.typeahead-highlight').removeClass('typeahead-highlight');
 
     // add it to the right index
-    console.log(this.resultsListView.$el.find('li').eq(this.highlightIndex).size());
     this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass('typeahead-highlight');
   }
 }

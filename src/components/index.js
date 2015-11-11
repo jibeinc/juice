@@ -1,6 +1,6 @@
 'use strict'
 
-var UIComponents = {
+const UIComponents = {
   $:               require('jquery'),
   CurrentLocation: require('./CurrentLocation'),
   TextInput:       require('./TextInput'),

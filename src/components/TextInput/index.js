@@ -8,13 +8,13 @@
 require('./styles.css');
 
 // html
-let inputTmpl    = require('./input.tmpl');
-let clearTmpl    = require('./clear.tmpl');
-let clearWrapper = require('./clearWrapper.html');
+const inputTmpl    = require('./input.tmpl');
+const clearTmpl    = require('./clear.tmpl');
+const clearWrapper = require('./clearWrapper.html');
 
 // scripts
-let BaseComponent = require('../BaseComponent');
-let debounce      = require('debounce');
+const BaseComponent = require('../BaseComponent');
+const debounce      = require('debounce');
 
 class TextInput extends BaseComponent {
   constructor(el, opts) {
@@ -33,7 +33,7 @@ class TextInput extends BaseComponent {
     this.$el.html(inputTmpl(this));
     this.$input = this.$el.find('input');
 
-    let onKeyup = debounce(() => {
+    const onKeyup = debounce(() => {
       this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
     }, this.wait);
 

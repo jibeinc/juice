@@ -7,8 +7,8 @@ require('./styles.css');
 const iconURL = require('./location.png');
 
 // scripts
-let $             = require('jquery');
-let BaseComponent = require('../BaseComponent');
+const $             = require('jquery');
+const BaseComponent = require('../BaseComponent');
 
 class CurrentLocation extends BaseComponent {
   constructor(el, opts) {

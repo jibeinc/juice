@@ -4,10 +4,10 @@
 require('./styles.css');
 
 // html
-let buttonTmpl = require('./button.tmpl');
+const buttonTmpl = require('./button.tmpl');
 
 // scripts
-let BaseComponent = require('../BaseComponent');
+const BaseComponent = require('../BaseComponent');
 
 class Button extends BaseComponent {
   constructor(el, opts) {

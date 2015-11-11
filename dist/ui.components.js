@@ -10655,8 +10655,8 @@ var UI =
 	__webpack_require__(38);
 	
 	// scripts
-	let $ = __webpack_require__(1);
-	let BaseTypeahead = __webpack_require__(40);
+	const $ = __webpack_require__(1);
+	const BaseTypeahead = __webpack_require__(40);
 	
 	class TypeaheadComponent extends BaseTypeahead {
 	  constructor(el, opts) {
