@@ -90,15 +90,18 @@ class PrettyTypeahead extends BaseTypeahead {
       matchIndex = originalText.indexOf(searchTerm);
     }
 
-    if (matchIndex !== -1) {
+    if (matchIndex >= 0) {
       const start = matchIndex;
-      const end   = matchIndex + this.textInput.get().length;
+      const end   = start + searchTerm.length;
 
-      item = originalText.substr(0, start);
+      item = originalText.substring(0, start);
       item += '<b>';
-      item += originalText.substr(start, end);
+      item += originalText.substring(start, end);
       item += '</b>';
-      item += originalText.substr(end);
+
+      if (end < originalText.length) {
+        item += originalText.substring(end);
+      }
     }
 
     return item;

@@ -10543,8 +10543,10 @@ var UI =
 
 	'use strict'
 	
-	// # TODO
-	//   - publish event when a list item is clicked 'selected'
+	// # Render a list of results
+	//
+	//   - publishes an event when a list item is clicked 'selected'
+	//
 	
 	// css
 	;
@@ -10733,7 +10735,7 @@ var UI =
 	
 	const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 	
-	class TypeaheadComponent extends BaseTypeahead {
+	class PrettyTypeahead extends BaseTypeahead {
 	  constructor(el, opts) {
 	    opts.renderItem = item => {
 	      return this.renderItem(item);
@@ -10799,15 +10801,18 @@ var UI =
 	      matchIndex = originalText.indexOf(searchTerm);
 	    }
 	
-	    if (matchIndex !== -1) {
+	    if (matchIndex >= 0) {
 	      const start = matchIndex;
-	      const end = matchIndex + this.textInput.get().length;
+	      const end = start + searchTerm.length;
 	
-	      item = originalText.substr(0, start);
+	      item = originalText.substring(0, start);
 	      item += '<b>';
-	      item += originalText.substr(start, end);
+	      item += originalText.substring(start, end);
 	      item += '</b>';
-	      item += originalText.substr(end);
+	
+	      if (end < originalText.length) {
+	        item += originalText.substring(end);
+	      }
 	    }
 	
 	    return item;
@@ -10879,7 +10884,7 @@ var UI =
 	  }
 	}
 	
-	module.exports = TypeaheadComponent;
+	module.exports = PrettyTypeahead;
 
 /***/ },
 /* 39 */
