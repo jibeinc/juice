@@ -5,12 +5,22 @@ let uuid   = require('uuid');
 let PSHub  = require('./PubSubHub');
 let assert = require('./assert');
 
+// for covenience
+const keyEvents = {
+  ENTER: 13,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40
+};
+
 class BaseComponent {
   constructor(el) {
     assert(el);
     this.value = null;
     this.$el = $(el);
     this.id = uuid.v4();
+    this.keyEvents = keyEvents;
     return this;
   }
 

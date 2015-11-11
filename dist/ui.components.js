@@ -9707,12 +9707,22 @@ var UI =
 	let PSHub = __webpack_require__(11);
 	let assert = __webpack_require__(12);
 	
+	// for covenience
+	const keyEvents = {
+	  ENTER: 13,
+	  LEFT: 37,
+	  UP: 38,
+	  RIGHT: 39,
+	  DOWN: 40
+	};
+	
 	class BaseComponent {
 	  constructor(el) {
 	    assert(el);
 	    this.value = null;
 	    this.$el = $(el);
 	    this.id = uuid.v4();
+	    this.keyEvents = keyEvents;
 	    return this;
 	  }
 	
@@ -10066,8 +10076,9 @@ var UI =
 	    this.$input = this.$el.find('input');
 	
 	    let onKeyup = debounce(() => {
-	      this.set(this.$input.val());
+	      this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
 	    }, this.wait);
+	
 	    this.$input.keyup(onKeyup); // debounced slightly for ux
 	
 	    if (this.clearingIcon) {
@@ -10556,6 +10567,7 @@ var UI =
 	  }
 	
 	  render() {
+	    console.log('ListView::render');
 	    this.$el.html(listViewTmpl(this));
 	    this.$el.find('li').click(evt => {
 	      this.set($(evt.target).attr('id').replace(this.id + '-', '')); // TODO this is shitty
@@ -10633,13 +10645,167 @@ var UI =
 	'use strict'
 	
 	// TODO:
+	// - add concept of "active"
 	// - handle typeahead options as object
-	// - make typeahead internal value be the users choice from dropdown (when required) - not current text input value
+	// - use arrow keys to pick from list
+	// - right now listview shows always, add blur/focus events to close/open it
+	
+	// css
+	;
+	__webpack_require__(38);
+	
+	// scripts
+	let $ = __webpack_require__(1);
+	let BaseTypeahead = __webpack_require__(40);
+	
+	class TypeaheadComponent extends BaseTypeahead {
+	  constructor(el, opts) {
+	    super(el, opts);
+	  }
+	
+	  render() {
+	    console.log('Typeahead::render');
+	    super.render();
+	
+	    // layer on our new behavior - hiding/showing results when user blurs/focuses
+	    this.resultsListView.$el.hide();
+	    this.attachFocusEvents();
+	
+	    // we also want to let you pick results from just the keyboard
+	    this.attachKeyEvents();
+	  }
+	
+	  active(v) {
+	    if (typeof v === 'boolean') {
+	      this.isActive = v;
+	
+	      if (this.isActive) {
+	        this.onActive();
+	      } else {
+	        this.onInactive();
+	      }
+	    }
+	
+	    return this.isActive;
+	  }
+	
+	  onActive() {
+	    this.resultsListView.$el.show();
+	  }
+	
+	  onInactive() {
+	    this.resultsListView.$el.hide();
+	  }
+	
+	  attachFocusEvents() {
+	    this.textInput.$el.find('input').on('focus', () => {
+	      this.active(true);
+	    });
+	
+	    this.textInput.$el.find('input').on('blur', () => {
+	      this.active(false);
+	    });
+	  }
+	
+	  attachKeyEvents() {
+	    this.highlightIndex;
+	
+	    $(document).on('keydown', evt => {
+	      switch (evt.which) {
+	        case this.keyEvents.UP:
+	          this.decrementHighlight();
+	          evt.preventDefault();
+	          break;
+	        case this.keyEvents.DOWN:
+	          this.incrementHighlight();
+	          evt.preventDefault();
+	        default:
+	          break;
+	      }
+	    });
+	  }
+	
+	  incrementHighlight() {
+	    this.highlightIndex = typeof this.highlightIndex === 'undefined' ? 0 : this.highlightIndex + 1;
+	    this.normalizeHighlightIndex();
+	    this.renderHighlight();
+	  }
+	
+	  decrementHighlight() {
+	    this.highlightIndex = typeof this.highlightIndex === 'undefined' ? this.results.length - 1 : this.highlightIndex - 1;
+	    this.normalizeHighlightIndex();
+	    this.renderHighlight();
+	  }
+	
+	  normalizeHighlightIndex() {
+	    this.highlightIndex = (this.highlightIndex + this.results.length) % this.results.length;
+	  }
+	
+	  renderHighlight() {
+	    // remove the highlight
+	    this.resultsListView.$el.find('.typeahead-highlight').removeClass('typeahead-highlight');
+	
+	    // add it to the right index
+	    console.log(this.resultsListView.$el.find('li').eq(this.highlightIndex).size());
+	    this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass('typeahead-highlight');
+	  }
+	}
+	
+	module.exports = TypeaheadComponent;
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(39);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(6)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(5)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".typeahead-highlight {\n  background-color: yellow;\n}", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	
+	// TODO:
+	// - handle typeahead options as object
 	
 	// html
 	;
-	let typeaheadTmpl = __webpack_require__(38);
-	let containerHTML = __webpack_require__(39);
+	let typeaheadTmpl = __webpack_require__(41);
+	let containerHTML = __webpack_require__(42);
 	
 	// scripts
 	let BaseComponent = __webpack_require__(8);
@@ -10647,7 +10813,7 @@ var UI =
 	let ListView = __webpack_require__(33);
 	let assert = __webpack_require__(12);
 	
-	class TypeaheadComponent extends BaseComponent {
+	class BaseTypeahead extends BaseComponent {
 	  constructor(el, opts) {
 	    super(el);
 	    this.fetch = opts.fetch;
@@ -10690,23 +10856,17 @@ var UI =
 	  }
 	
 	  refreshResults(cb) {
-	    var term = this.textInput.get();
-	
-	    if (!term) {
-	      return [];
-	    }
-	
-	    this.fetch(term, results => {
+	    this.fetch(this.textInput.get(), results => {
 	      this.results = results;
 	      cb(results);
 	    });
 	  }
 	}
 	
-	module.exports = TypeaheadComponent;
+	module.exports = BaseTypeahead;
 
 /***/ },
-/* 38 */
+/* 41 */
 /***/ function(module, exports) {
 
 	module.exports = function anonymous(it
@@ -10715,7 +10875,7 @@ var UI =
 	}
 
 /***/ },
-/* 39 */
+/* 42 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class='input-container'></div>\n<div class='results-list-container'></div>\n";

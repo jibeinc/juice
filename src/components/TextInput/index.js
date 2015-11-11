@@ -33,7 +33,10 @@ class TextInput extends BaseComponent {
     this.$el.html(inputTmpl(this));
     this.$input = this.$el.find('input');
 
-    let onKeyup = debounce(() => { this.set(this.$input.val()); }, this.wait);
+    let onKeyup = debounce(() => {
+      this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
+    }, this.wait);
+
     this.$input.keyup(onKeyup); // debounced slightly for ux
 
     if (this.clearingIcon) {
