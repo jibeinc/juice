@@ -21,13 +21,12 @@ const assert        = require('../assert.js');
 class BaseTypeahead extends BaseComponent {
   constructor(el, opts) {
     super(el);
+    this.results = [];
     this.fetch = opts.fetch;
     assert(typeof this.fetch === 'function');
 
     this.$el.append(containerHTML);
-
-    this.textInput = new TextInput(this.$el.find('.input-container'));
-
+    this.textInput       = new TextInput(this.$el.find('.input-container'));
     this.resultsListView = new ListView(this.$el.find('.results-list-container'), {
       fetch: (cb) => {
         this.refreshResults(cb);

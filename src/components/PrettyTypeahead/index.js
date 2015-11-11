@@ -6,6 +6,7 @@
 // - the use of arrow keys/enter to pick from the results list
 // - blur/focus events to close/open the results list
 // - add highlights for partial matches
+// - TODO: point to click from results list and hover highlight
 // - TODO: configurable placeholder text (should prob go in `TextInput`)
 // - TODO: i18n
 
@@ -142,13 +143,14 @@ class TypeaheadComponent extends BaseTypeahead {
   }
 
   decrementHighlight() {
-    this.highlightIndex = typeof this.highlightIndex === 'undefined'? this.results.length - 1 : this.highlightIndex - 1;
+    this.highlightIndex = typeof this.highlightIndex === 'undefined'? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
     this.normalizeHighlightIndex();
     this.renderHighlight();
   }
 
   normalizeHighlightIndex() {
-    this.highlightIndex = (this.highlightIndex + this.results.length) % this.results.length;
+    const length = this.resultsListView.$el.find('li').size();
+    this.highlightIndex = (this.highlightIndex + length) % length;
   }
 
   renderHighlight() {

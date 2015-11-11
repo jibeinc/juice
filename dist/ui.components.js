@@ -10646,7 +10646,7 @@ var UI =
 	// Extends PrettyTypeahead by adding:
 	//
 	// - support for results as objects instead of just simple values (selection value isn't just display string)
-	// - TODO: option to force user to pick from dropdown or to let them type in freely also
+	// - option to force user to pick from dropdown or to let them type in freely also
 	// - TODO: support for fixed result items
 	
 	// scripts
@@ -10657,8 +10657,17 @@ var UI =
 	class Typeahead extends PrettyTypeahead {
 	  constructor(el, opts) {
 	    super(el, opts);
+	    this.fixedResults = opts.fixedResults || [];
+	    this.results = this.results.concat(this.fixedResults);
 	    this.allowFreeForm = opts.allowFreeForm || false;
 	    this.displayProperty = opts.displayProperty || 'displayName';
+	    return this;
+	  }
+	
+	  refreshResults(cb) {
+	    return super.refreshResults(results => {
+	      return cb(results.concat(this.fixedResults));
+	    });
 	  }
 	
 	  getDisplayValue(item) {
@@ -10704,6 +10713,7 @@ var UI =
 	// - the use of arrow keys/enter to pick from the results list
 	// - blur/focus events to close/open the results list
 	// - add highlights for partial matches
+	// - TODO: point to click from results list and hover highlight
 	// - TODO: configurable placeholder text (should prob go in `TextInput`)
 	// - TODO: i18n
 	
@@ -10841,13 +10851,14 @@ var UI =
 	  }
 	
 	  decrementHighlight() {
-	    this.highlightIndex = typeof this.highlightIndex === 'undefined' ? this.results.length - 1 : this.highlightIndex - 1;
+	    this.highlightIndex = typeof this.highlightIndex === 'undefined' ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
 	    this.normalizeHighlightIndex();
 	    this.renderHighlight();
 	  }
 	
 	  normalizeHighlightIndex() {
-	    this.highlightIndex = (this.highlightIndex + this.results.length) % this.results.length;
+	    const length = this.resultsListView.$el.find('li').size();
+	    this.highlightIndex = (this.highlightIndex + length) % length;
 	  }
 	
 	  renderHighlight() {
@@ -10929,13 +10940,12 @@ var UI =
 	class BaseTypeahead extends BaseComponent {
 	  constructor(el, opts) {
 	    super(el);
+	    this.results = [];
 	    this.fetch = opts.fetch;
 	    assert(typeof this.fetch === 'function');
 	
 	    this.$el.append(containerHTML);
-	
 	    this.textInput = new TextInput(this.$el.find('.input-container'));
-	
 	    this.resultsListView = new ListView(this.$el.find('.results-list-container'), {
 	      fetch: cb => {
 	        this.refreshResults(cb);
