@@ -10646,8 +10646,8 @@ var UI =
 	// Extends PrettyTypeahead by adding:
 	//
 	// - support for results as objects instead of just simple values (selection value isn't just display string)
-	//      1. override renderItem to grab display value
-	//      2. on select .....is this just a list view update?
+	// - TODO: option to force user to pick from dropdown or to let them type in freely also
+	// - TODO: support for fixed result items
 	
 	// scripts
 	;
@@ -10657,6 +10657,7 @@ var UI =
 	class Typeahead extends PrettyTypeahead {
 	  constructor(el, opts) {
 	    super(el, opts);
+	    this.allowFreeForm = opts.allowFreeForm || false;
 	    this.displayProperty = opts.displayProperty || 'displayName';
 	  }
 	
@@ -10675,6 +10676,18 @@ var UI =
 	    this.textInput.set(this.getDisplayValue(selection));
 	    this.set(selection);
 	  }
+	
+	  selectByIndex() {
+	    if (!this.active()) {
+	      return;
+	    }
+	
+	    super.selectByIndex();
+	
+	    if (this.allowFreeForm && this.resultsListView.results.length === 0) {
+	      this.handleSelection(this.textInput.get());
+	    }
+	  }
 	}
 	
 	module.exports = Typeahead;
@@ -10691,10 +10704,12 @@ var UI =
 	// - the use of arrow keys/enter to pick from the results list
 	// - blur/focus events to close/open the results list
 	// - add highlights for partial matches
+	// - TODO: configurable placeholder text (should prob go in `TextInput`)
+	// - TODO: i18n
 	
-	// ============================================================== //
-	// its recommended using the child class `Typeahead` in your UI's //
-	// ============================================================== //
+	// ==================================================== //
+	// use the child class `Typeahead` in your actual UI's! //
+	// ==================================================== //
 	
 	// css
 	;
@@ -10775,7 +10790,7 @@ var UI =
 	
 	      item = originalText.substr(0, start);
 	      item += '<b>';
-	      item += originalText.substr(start, end - 1);
+	      item += originalText.substr(start, end);
 	      item += '</b>';
 	      item += originalText.substr(end);
 	    }

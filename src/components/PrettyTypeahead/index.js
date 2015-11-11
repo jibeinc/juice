@@ -6,10 +6,12 @@
 // - the use of arrow keys/enter to pick from the results list
 // - blur/focus events to close/open the results list
 // - add highlights for partial matches
+// - TODO: configurable placeholder text (should prob go in `TextInput`)
+// - TODO: i18n
 
-// ============================================================== //
-// its recommended using the child class `Typeahead` in your UI's //
-// ============================================================== //
+// ==================================================== //
+// use the child class `Typeahead` in your actual UI's! //
+// ==================================================== //
 
 // css
 require('./styles.css');
@@ -89,7 +91,7 @@ class TypeaheadComponent extends BaseTypeahead {
 
       item = originalText.substr(0, start);
       item += '<b>';
-      item += originalText.substr(start, end - 1);
+      item += originalText.substr(start, end);
       item += '</b>';
       item += originalText.substr(end);
     }
