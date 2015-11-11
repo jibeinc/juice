@@ -5,6 +5,10 @@
 //   1. a text input
 //   2. a list view of results based on current text
 
+// ============================================================== //
+// its recommended using the child class `Typeahead` in your UI's //
+// ============================================================== //
+
 // html
 const containerHTML = require('./baseTypeahead.html');
 

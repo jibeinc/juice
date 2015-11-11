@@ -5,9 +5,9 @@
 // - the concept of "active"
 // - the use of arrow keys/enter to pick from the results list
 // - blur/focus events to close/open the results list
+// - add highlights for partial matches
 
 // TODO:
-// - add highlights for partial matches
 // - handle typeahead options as object
 
 // css
