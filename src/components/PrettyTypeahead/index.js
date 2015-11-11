@@ -6,7 +6,8 @@
 // - the use of arrow keys/enter to pick from the results list
 // - blur/focus events to close/open the results list
 // - add highlights for partial matches
-// - TODO: point to click from results list and hover highlight
+// - ESC key forces blur
+// - point to click from results list and hover highlight
 // - TODO: configurable placeholder text (should prob go in `TextInput`)
 // - TODO: i18n
 
@@ -71,8 +72,11 @@ class TypeaheadComponent extends BaseTypeahead {
       this.active(true);
     });
 
-    this.textInput.$el.find('input').on('blur', () => {
-      this.active(false);
+    $(document).click((evt) => {
+      if (this.$el.find($(evt.target)).size() === 0 && $(evt.target)[0].tagName !== 'input') {
+        this.active(false);
+        this.textInput.$el.find('input').blur();
+      }
     });
   }
 
@@ -122,6 +126,10 @@ class TypeaheadComponent extends BaseTypeahead {
         case this.keyEvents.ENTER:
           this.selectByIndex();
           evt.preventDefault();
+
+        case this.keyEvents.ESC:
+          this.active(false);
+          break;
 
         default:
           break;

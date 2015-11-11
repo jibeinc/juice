@@ -8,6 +8,7 @@ const assert = require('./assert');
 // for covenience
 const keyEvents = {
   ENTER: 13,
+  ESC: 27,
   LEFT: 37,
   UP: 38,
   RIGHT: 39,

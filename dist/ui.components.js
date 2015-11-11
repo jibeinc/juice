@@ -9710,6 +9710,7 @@ var UI =
 	// for covenience
 	const keyEvents = {
 	  ENTER: 13,
+	  ESC: 27,
 	  LEFT: 37,
 	  UP: 38,
 	  RIGHT: 39,
@@ -10647,7 +10648,7 @@ var UI =
 	//
 	// - support for results as objects instead of just simple values (selection value isn't just display string)
 	// - option to force user to pick from dropdown or to let them type in freely also
-	// - TODO: support for fixed result items
+	// - support for fixed result items
 	
 	// scripts
 	;
@@ -10713,7 +10714,8 @@ var UI =
 	// - the use of arrow keys/enter to pick from the results list
 	// - blur/focus events to close/open the results list
 	// - add highlights for partial matches
-	// - TODO: point to click from results list and hover highlight
+	// - ESC key forces blur
+	// - point to click from results list and hover highlight
 	// - TODO: configurable placeholder text (should prob go in `TextInput`)
 	// - TODO: i18n
 	
@@ -10779,8 +10781,11 @@ var UI =
 	      this.active(true);
 	    });
 	
-	    this.textInput.$el.find('input').on('blur', () => {
-	      this.active(false);
+	    $(document).click(evt => {
+	      if (this.$el.find($(evt.target)).size() === 0 && $(evt.target)[0].tagName !== 'input') {
+	        this.active(false);
+	        this.textInput.$el.find('input').blur();
+	      }
 	    });
 	  }
 	
@@ -10830,6 +10835,10 @@ var UI =
 	        case this.keyEvents.ENTER:
 	          this.selectByIndex();
 	          evt.preventDefault();
+	
+	        case this.keyEvents.ESC:
+	          this.active(false);
+	          break;
 	
 	        default:
 	          break;
@@ -10907,7 +10916,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto,'Helvetica Neue',sans-serif;\n}\n\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n}\n\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n}\n\n.ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n\n", ""]);
+	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto,'Helvetica Neue',sans-serif;\n}\n\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n}\n\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n}\n\n.ui-typeahead .results-list-container li:hover {\n  background-color: #00516f;\n  color: white;\n  cursor: pointer;\n}\n\n.ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n\n", ""]);
 	
 	// exports
 
@@ -10955,8 +10964,10 @@ var UI =
 	
 	    // when an item is picked from the list view:
 	    this.resultsListView.subscribe(selection => {
+	      console.log(selection);
 	      // update text input with this value, set typeahead internal value
 	      this.handleSelection(selection);
+	      this.textInput.$el.find('input').focus();
 	    });
 	
 	    // when text input gets a new value:

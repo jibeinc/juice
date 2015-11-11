@@ -17,6 +17,12 @@
   padding: 10px;
 }
 
+.ui-typeahead .results-list-container li:hover {
+  background-color: #00516f;
+  color: white;
+  cursor: pointer;
+}
+
 .ui-typeahead-highlight {
   background-color: #00516f;
   color: white;
