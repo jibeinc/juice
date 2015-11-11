@@ -47,7 +47,7 @@ var UI =
 
 	'use strict';
 	
-	var UIComponents = {
+	const UIComponents = {
 	  $: __webpack_require__(1),
 	  CurrentLocation: __webpack_require__(2),
 	  TextInput: __webpack_require__(13),
@@ -9290,8 +9290,8 @@ var UI =
 	const iconURL = __webpack_require__(7);
 	
 	// scripts
-	let $ = __webpack_require__(1);
-	let BaseComponent = __webpack_require__(8);
+	const $ = __webpack_require__(1);
+	const BaseComponent = __webpack_require__(8);
 	
 	class CurrentLocation extends BaseComponent {
 	  constructor(el, opts) {
@@ -9702,10 +9702,10 @@ var UI =
 
 	'use strict';
 	
-	let $ = __webpack_require__(1);
-	let uuid = __webpack_require__(9);
-	let PSHub = __webpack_require__(11);
-	let assert = __webpack_require__(12);
+	const $ = __webpack_require__(1);
+	const uuid = __webpack_require__(9);
+	const PSHub = __webpack_require__(11);
+	const assert = __webpack_require__(12);
 	
 	// for covenience
 	const keyEvents = {
@@ -10050,13 +10050,13 @@ var UI =
 	__webpack_require__(14);
 	
 	// html
-	let inputTmpl = __webpack_require__(16);
-	let clearTmpl = __webpack_require__(17);
-	let clearWrapper = __webpack_require__(18);
+	const inputTmpl = __webpack_require__(16);
+	const clearTmpl = __webpack_require__(17);
+	const clearWrapper = __webpack_require__(18);
 	
 	// scripts
-	let BaseComponent = __webpack_require__(8);
-	let debounce = __webpack_require__(19);
+	const BaseComponent = __webpack_require__(8);
+	const debounce = __webpack_require__(19);
 	
 	class TextInput extends BaseComponent {
 	  constructor(el, opts) {
@@ -10075,7 +10075,7 @@ var UI =
 	    this.$el.html(inputTmpl(this));
 	    this.$input = this.$el.find('input');
 	
-	    let onKeyup = debounce(() => {
+	    const onKeyup = debounce(() => {
 	      this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
 	    }, this.wait);
 	
@@ -10250,10 +10250,10 @@ var UI =
 	__webpack_require__(22);
 	
 	// html
-	let buttonTmpl = __webpack_require__(24);
+	const buttonTmpl = __webpack_require__(24);
 	
 	// scripts
-	let BaseComponent = __webpack_require__(8);
+	const BaseComponent = __webpack_require__(8);
 	
 	class Button extends BaseComponent {
 	  constructor(el, opts) {
@@ -10334,11 +10334,11 @@ var UI =
 	__webpack_require__(26);
 	
 	// html
-	let selectTmpl = __webpack_require__(28);
+	const selectTmpl = __webpack_require__(28);
 	
 	// scripts
-	let $ = __webpack_require__(1);
-	let BaseComponent = __webpack_require__(8);
+	const $ = __webpack_require__(1);
+	const BaseComponent = __webpack_require__(8);
 	
 	class SingleSelect extends BaseComponent {
 	  constructor(el, opts) {
@@ -10443,11 +10443,11 @@ var UI =
 	__webpack_require__(30);
 	
 	// html
-	let multiSelectTmpl = __webpack_require__(32);
+	const multiSelectTmpl = __webpack_require__(32);
 	
 	// scripts
-	let $ = __webpack_require__(1);
-	let BaseComponent = __webpack_require__(8);
+	const $ = __webpack_require__(1);
+	const BaseComponent = __webpack_require__(8);
 	
 	class MultiSelect extends BaseComponent {
 	  constructor(el, opts) {
@@ -10550,12 +10550,12 @@ var UI =
 	__webpack_require__(34);
 	
 	// html
-	let listViewTmpl = __webpack_require__(36);
+	const listViewTmpl = __webpack_require__(36);
 	
 	// scripts
-	let $ = __webpack_require__(1);
-	let BaseComponent = __webpack_require__(8);
-	let assert = __webpack_require__(12);
+	const $ = __webpack_require__(1);
+	const BaseComponent = __webpack_require__(8);
+	const assert = __webpack_require__(12);
 	
 	class ListView extends BaseComponent {
 	  constructor(el, opts) {
@@ -10567,7 +10567,6 @@ var UI =
 	  }
 	
 	  render() {
-	    console.log('ListView::render');
 	    this.$el.html(listViewTmpl(this));
 	    this.$el.find('li').click(evt => {
 	      this.set($(evt.target).attr('id').replace(this.id + '-', '')); // TODO this is shitty
@@ -10664,7 +10663,6 @@ var UI =
 	  }
 	
 	  render() {
-	    console.log('Typeahead::render');
 	    super.render();
 	
 	    // layer on our new behavior - hiding/showing results when user blurs/focuses
@@ -10746,7 +10744,6 @@ var UI =
 	    this.resultsListView.$el.find('.typeahead-highlight').removeClass('typeahead-highlight');
 	
 	    // add it to the right index
-	    console.log(this.resultsListView.$el.find('li').eq(this.highlightIndex).size());
 	    this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass('typeahead-highlight');
 	  }
 	}
@@ -10804,14 +10801,14 @@ var UI =
 	
 	// html
 	;
-	let typeaheadTmpl = __webpack_require__(41);
-	let containerHTML = __webpack_require__(42);
+	const typeaheadTmpl = __webpack_require__(41);
+	const containerHTML = __webpack_require__(42);
 	
 	// scripts
-	let BaseComponent = __webpack_require__(8);
-	let TextInput = __webpack_require__(13);
-	let ListView = __webpack_require__(33);
-	let assert = __webpack_require__(12);
+	const BaseComponent = __webpack_require__(8);
+	const TextInput = __webpack_require__(13);
+	const ListView = __webpack_require__(33);
+	const assert = __webpack_require__(12);
 	
 	class BaseTypeahead extends BaseComponent {
 	  constructor(el, opts) {
