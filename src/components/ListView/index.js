@@ -1,7 +1,9 @@
 'use strict';
 
-// # TODO
-//   - publish event when a list item is clicked 'selected'
+// # Render a list of results
+//
+//   - publishes an event when a list item is clicked 'selected'
+//
 
 // css
 require('./styles.css');
