@@ -1,10 +1,13 @@
 'use strict';
 
+// Extends BaseTypeahead by adding:
+//
+// - the concept of "active"
+// - the use of arrow keys to pick from the results list
+// - blur/focus events to close/open the results list
+
 // TODO:
-// - add concept of "active"
 // - handle typeahead options as object
-// - use arrow keys to pick from list
-// - right now listview shows always, add blur/focus events to close/open it
 
 // css
 require('./styles.css');
@@ -12,6 +15,8 @@ require('./styles.css');
 // scripts
 const $             = require('jquery');
 const BaseTypeahead = require('./BaseTypeahead');
+
+const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
 class TypeaheadComponent extends BaseTypeahead {
   constructor(el, opts) {
@@ -49,6 +54,7 @@ class TypeaheadComponent extends BaseTypeahead {
 
   onInactive() {
     this.resultsListView.$el.hide();
+    delete this.highlightIndex;
   }
 
   attachFocusEvents() {
@@ -65,18 +71,36 @@ class TypeaheadComponent extends BaseTypeahead {
     this.highlightIndex;
 
     $(document).on('keydown', (evt) => {
+      if (!this.active()) {
+        return;
+      }
+
       switch (evt.which) {
         case this.keyEvents.UP:
           this.decrementHighlight();
           evt.preventDefault();
           break;
+
         case this.keyEvents.DOWN:
           this.incrementHighlight();
           evt.preventDefault();
+          break;
+
+        case this.keyEvents.ENTER:
+          this.selectByIndex();
+          evt.preventDefault();
+
         default:
           break;
       }
     });
+  }
+
+  selectByIndex() {
+    if (this.active()) {
+      this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).click();
+      this.textInput.$el.find('input').blur();
+    }
   }
 
   incrementHighlight() {
@@ -97,10 +121,10 @@ class TypeaheadComponent extends BaseTypeahead {
 
   renderHighlight() {
     // remove the highlight
-    this.resultsListView.$el.find('.typeahead-highlight').removeClass('typeahead-highlight');
+    this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).removeClass(HIGHLIGHT_CLASS);
 
     // add it to the right index
-    this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass('typeahead-highlight');
+    this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass(HIGHLIGHT_CLASS);
   }
 }
 

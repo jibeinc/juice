@@ -10146,7 +10146,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-text-input {\n  width: 100%;\n}\n\n.ui-text-input-clear-wrapper {\n  position: relative;\n}\n\n.ui-text-input-clear {\n  position: absolute;\n  top: 0;\n  right: 0;\n  cursor: pointer;\n}\n", ""]);
+	exports.push([module.id, ".ui-text-input {\n  width: 100%;\n}\n\n.ui-text-input-clear-wrapper {\n  position: relative;\n}\n\n.ui-text-input-clear {\n  font-size: 16px;\n  position: absolute;\n  top: 5px;\n  right: 15px;\n  cursor: pointer;\n}\n", ""]);
 	
 	// exports
 
@@ -10155,7 +10155,7 @@ var UI =
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports=function(scope){ return `<input type='text' id='${ scope.id }' class='ui-text-input' value='${ scope.get() }'/>`};
+	module.exports=function(scope){ return `<input type='text' id='${ scope.id }' class='ui-text-input form-control' value='${ scope.get() }'/>`};
 
 /***/ },
 /* 17 */
@@ -10643,11 +10643,14 @@ var UI =
 
 	'use strict'
 	
+	// Extends BaseTypeahead by adding:
+	//
+	// - the concept of "active"
+	// - the use of arrow keys to pick from the results list
+	// - blur/focus events to close/open the results list
+	
 	// TODO:
-	// - add concept of "active"
 	// - handle typeahead options as object
-	// - use arrow keys to pick from list
-	// - right now listview shows always, add blur/focus events to close/open it
 	
 	// css
 	;
@@ -10656,6 +10659,8 @@ var UI =
 	// scripts
 	const $ = __webpack_require__(1);
 	const BaseTypeahead = __webpack_require__(40);
+	
+	const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 	
 	class TypeaheadComponent extends BaseTypeahead {
 	  constructor(el, opts) {
@@ -10693,6 +10698,7 @@ var UI =
 	
 	  onInactive() {
 	    this.resultsListView.$el.hide();
+	    delete this.highlightIndex;
 	  }
 	
 	  attachFocusEvents() {
@@ -10709,18 +10715,36 @@ var UI =
 	    this.highlightIndex;
 	
 	    $(document).on('keydown', evt => {
+	      if (!this.active()) {
+	        return;
+	      }
+	
 	      switch (evt.which) {
 	        case this.keyEvents.UP:
 	          this.decrementHighlight();
 	          evt.preventDefault();
 	          break;
+	
 	        case this.keyEvents.DOWN:
 	          this.incrementHighlight();
 	          evt.preventDefault();
+	          break;
+	
+	        case this.keyEvents.ENTER:
+	          this.selectByIndex();
+	          evt.preventDefault();
+	
 	        default:
 	          break;
 	      }
 	    });
+	  }
+	
+	  selectByIndex() {
+	    if (this.active()) {
+	      this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).click();
+	      this.textInput.$el.find('input').blur();
+	    }
 	  }
 	
 	  incrementHighlight() {
@@ -10741,10 +10765,10 @@ var UI =
 	
 	  renderHighlight() {
 	    // remove the highlight
-	    this.resultsListView.$el.find('.typeahead-highlight').removeClass('typeahead-highlight');
+	    this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).removeClass(HIGHLIGHT_CLASS);
 	
 	    // add it to the right index
-	    this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass('typeahead-highlight');
+	    this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass(HIGHLIGHT_CLASS);
 	  }
 	}
 	
@@ -10785,7 +10809,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".typeahead-highlight {\n  background-color: yellow;\n}", ""]);
+	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto,'Helvetica Neue',sans-serif;\n}\n\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n}\n\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n}\n\n.ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n\n", ""]);
 	
 	// exports
 
@@ -10801,8 +10825,7 @@ var UI =
 	
 	// html
 	;
-	const typeaheadTmpl = __webpack_require__(41);
-	const containerHTML = __webpack_require__(42);
+	const containerHTML = __webpack_require__(41);
 	
 	// scripts
 	const BaseComponent = __webpack_require__(8);
@@ -10866,16 +10889,7 @@ var UI =
 /* 41 */
 /***/ function(module, exports) {
 
-	module.exports = function anonymous(it
-	/**/) {
-	var out='<div class=\'ui-typeahead\'> <input type=\'text\' name=\''+( it.id )+'\' value=\''+( it.get() )+'\' /> <ol> '; it.results.forEach(function (result) { out+=' <li>'+( result )+'</li> '; }); out+=' </ol></div>';return out;
-	}
-
-/***/ },
-/* 42 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class='input-container'></div>\n<div class='results-list-container'></div>\n";
+	module.exports = "<div class='ui-typeahead'>\n  <div class='input-container'></div>\n  <div class='results-list-container'></div>\n</div>\n\n";
 
 /***/ }
 /******/ ]);

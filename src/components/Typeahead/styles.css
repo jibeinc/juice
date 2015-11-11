@@ -1,3 +1,24 @@
-.typeahead-highlight {
-  background-color: yellow;
+.ui-typeahead {
+  font-family: Roboto,'Helvetica Neue',sans-serif;
 }
+
+.ui-typeahead .results-list-container {
+  z-index: 1000;
+  box-shadow: gray 1px 1px 5px;
+  background-color: white;
+}
+
+.ui-typeahead .results-list-container ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.ui-typeahead .results-list-container li {
+  padding: 10px;
+}
+
+.ui-typeahead-highlight {
+  background-color: #00516f;
+  color: white;
+}
+

@@ -4,8 +4,7 @@
 // - handle typeahead options as object
 
 // html
-const typeaheadTmpl = require('./typeahead.dot');
-const containerHTML = require('./container.html');
+const containerHTML = require('./baseTypeahead.html');
 
 // scripts
 const BaseComponent = require('../BaseComponent');
