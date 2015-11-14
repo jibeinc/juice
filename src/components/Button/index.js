@@ -10,9 +10,8 @@ const buttonTmpl = require('./button.tmpl');
 const BaseComponent = require('../BaseComponent');
 
 class Button extends BaseComponent {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     super(el);
-    opts = opts || {};
     this.label = opts.label || 'ClickMe!';
   }
 

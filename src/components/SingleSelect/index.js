@@ -15,9 +15,8 @@ const $             = require('jquery');
 const BaseComponent = require('../BaseComponent');
 
 class SingleSelect extends BaseComponent {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     super(el);
-    opts = opts || {};
     this.options = (opts.options || []).map((opt) => {
       return {
         value: opt,

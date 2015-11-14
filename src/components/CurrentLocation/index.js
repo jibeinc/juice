@@ -11,9 +11,8 @@ const $             = require('jquery');
 const BaseComponent = require('../BaseComponent');
 
 class CurrentLocation extends BaseComponent {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     super(el);
-    opts = opts || {};
     this.iconURL = opts.iconURL || iconURL;
     this.geolocationAPI = opts.geolocationAPI;
     return this;

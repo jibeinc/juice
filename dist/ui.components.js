@@ -9294,9 +9294,8 @@ var UI =
 	const BaseComponent = __webpack_require__(8);
 	
 	class CurrentLocation extends BaseComponent {
-	  constructor(el, opts) {
+	  constructor(el, opts = {}) {
 	    super(el);
-	    opts = opts || {};
 	    this.iconURL = opts.iconURL || iconURL;
 	    this.geolocationAPI = opts.geolocationAPI;
 	    return this;
@@ -10060,9 +10059,8 @@ var UI =
 	const debounce = __webpack_require__(19);
 	
 	class TextInput extends BaseComponent {
-	  constructor(el, opts) {
+	  constructor(el, opts = {}) {
 	    super(el);
-	    opts = opts || {};
 	    this.value = opts.value || '';
 	    this.wait = opts.wait || 300;
 	    this.clearingIcon = opts.clearingIcon || 'x';
@@ -10257,9 +10255,8 @@ var UI =
 	const BaseComponent = __webpack_require__(8);
 	
 	class Button extends BaseComponent {
-	  constructor(el, opts) {
+	  constructor(el, opts = {}) {
 	    super(el);
-	    opts = opts || {};
 	    this.label = opts.label || 'ClickMe!';
 	  }
 	
@@ -10342,9 +10339,8 @@ var UI =
 	const BaseComponent = __webpack_require__(8);
 	
 	class SingleSelect extends BaseComponent {
-	  constructor(el, opts) {
+	  constructor(el, opts = {}) {
 	    super(el);
-	    opts = opts || {};
 	    this.options = (opts.options || []).map(opt => {
 	      return {
 	        value: opt,
@@ -10437,7 +10433,7 @@ var UI =
 	
 	// # TODO
 	//    - support separation of value from displayValue
-	//    - styles
+	//    - styles (like jnj staging mobile in particular)
 	
 	// css
 	;
@@ -10451,9 +10447,8 @@ var UI =
 	const BaseComponent = __webpack_require__(8);
 	
 	class MultiSelect extends BaseComponent {
-	  constructor(el, opts) {
+	  constructor(el, opts = {}) {
 	    super(el);
-	    opts = opts || {};
 	    this.options = (opts.options || []).map(opt => {
 	      return {
 	        value: opt
@@ -10561,9 +10556,8 @@ var UI =
 	const assert = __webpack_require__(12);
 	
 	class ListView extends BaseComponent {
-	  constructor(el, opts) {
+	  constructor(el, opts = {}) {
 	    super(el);
-	    opts = opts || {};
 	    this.fetch = opts.fetch;
 	    this.renderItem = opts.renderItem || this.renderItem;
 	    assert(typeof this.fetch === 'function');
@@ -10658,7 +10652,7 @@ var UI =
 	const PrettyTypeahead = __webpack_require__(38);
 	
 	class Typeahead extends PrettyTypeahead {
-	  constructor(el, opts) {
+	  constructor(el, opts = {}) {
 	    super(el, opts);
 	    this.fixedResults = opts.fixedResults || [];
 	    this.results = this.results.concat(this.fixedResults);
@@ -10736,7 +10730,7 @@ var UI =
 	const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 	
 	class PrettyTypeahead extends BaseTypeahead {
-	  constructor(el, opts) {
+	  constructor(el, opts = {}) {
 	    opts.renderItem = item => {
 	      return this.renderItem(item);
 	    };

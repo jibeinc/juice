@@ -17,9 +17,8 @@ const BaseComponent = require('../BaseComponent');
 const debounce      = require('debounce');
 
 class TextInput extends BaseComponent {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     super(el);
-    opts = opts || {};
     this.value = opts.value || '';
     this.wait = opts.wait || 300;
     this.clearingIcon = opts.clearingIcon || 'x';

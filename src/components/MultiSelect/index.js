@@ -2,7 +2,7 @@
 
 // # TODO
 //    - support separation of value from displayValue
-//    - styles
+//    - styles (like jnj staging mobile in particular)
 
 // css
 require('./styles.css');
@@ -15,9 +15,8 @@ const $             = require('jquery');
 const BaseComponent = require('../BaseComponent');
 
 class MultiSelect extends BaseComponent {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     super(el);
-    opts = opts || {};
     this.options = (opts.options || []).map((opt) => {
       return {
         value: opt

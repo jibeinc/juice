@@ -17,9 +17,8 @@ const BaseComponent = require('../BaseComponent');
 const assert        = require('../assert');
 
 class ListView extends BaseComponent {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     super(el);
-    opts = opts || {};
     this.fetch = opts.fetch;
     this.renderItem = opts.renderItem || this.renderItem;
     assert(typeof this.fetch === 'function');

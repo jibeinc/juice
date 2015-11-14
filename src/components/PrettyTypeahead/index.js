@@ -25,7 +25,7 @@ const BaseTypeahead = require('../BaseTypeahead');
 const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
 class PrettyTypeahead extends BaseTypeahead {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     opts.renderItem = (item) => {
       return this.renderItem(item);
     };
