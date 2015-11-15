@@ -8,7 +8,7 @@
 
 // scripts
 const $               = require('jquery');
-const PrettyTypeahead = require('../PrettyTypeahead');
+const PrettyTypeahead = require('./PrettyTypeahead');
 
 class Typeahead extends PrettyTypeahead {
   constructor(el, opts={}) {

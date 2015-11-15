@@ -20,7 +20,7 @@ require('./styles.less');
 
 // scripts
 const $             = require('jquery');
-const BaseTypeahead = require('../BaseTypeahead');
+const BaseTypeahead = require('./BaseTypeahead');
 
 const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
