@@ -2,8 +2,8 @@
 
 const $      = require('jquery');
 const uuid   = require('uuid');
-const PSHub  = require('./PubSubHub');
-const assert = require('./assert');
+const PSHub  = require('./PubSubHub.js');
+const assert = require('./assert.js');
 
 // for covenience
 const keyEvents = {
@@ -18,8 +18,8 @@ const keyEvents = {
 class BaseComponent {
   constructor(el) {
     assert(el);
-    this.value = null;
     this.$el = $(el);
+    this.value = null;
     this.id = uuid.v4();
     this.keyEvents = keyEvents;
     return this;

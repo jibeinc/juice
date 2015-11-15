@@ -4,7 +4,8 @@
   "description": "General JavaScript classes for common UI components",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress --colors --display-chunks",
+    "build": "webpack --progress --colors --display-chunks --production",
+    "build-dev": "webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
     "watch": "webpack --watch"
   },
   "repository": {
@@ -19,14 +20,33 @@
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.1.0",
-    "babel-core": "^6.1.2",
-    "babel-loader": "^6.0.1",
+    "babel-core": "^6.1.21",
+    "babel-loader": "^6.1.0",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.1.18",
+    "babel-plugin-transform-es2015-block-scoped-functions": "^6.1.18",
+    "babel-plugin-transform-es2015-block-scoping": "^6.1.18",
+    "babel-plugin-transform-es2015-classes": "^6.1.21",
+    "babel-plugin-transform-es2015-computed-properties": "^6.1.18",
+    "babel-plugin-transform-es2015-constants": "^6.1.4",
+    "babel-plugin-transform-es2015-destructuring": "^6.1.18",
+    "babel-plugin-transform-es2015-for-of": "^6.1.18",
+    "babel-plugin-transform-es2015-function-name": "^6.1.18",
+    "babel-plugin-transform-es2015-literals": "^6.1.18",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.1.20",
+    "babel-plugin-transform-es2015-object-super": "^6.1.18",
+    "babel-plugin-transform-es2015-parameters": "^6.1.18",
+    "babel-plugin-transform-es2015-shorthand-properties": "^6.1.18",
+    "babel-plugin-transform-es2015-spread": "^6.1.18",
+    "babel-plugin-transform-es2015-sticky-regex": "^6.1.18",
+    "babel-plugin-transform-es2015-template-literals": "^6.1.18",
+    "babel-plugin-transform-es2015-typeof-symbol": "^6.1.18",
+    "babel-plugin-transform-es2015-unicode-regex": "^6.1.18",
     "css-loader": "^0.22.0",
     "dot-loader": "^0.1.1",
     "file-loader": "^0.8.4",
     "html-loader": "^0.3.0",
     "style-loader": "^0.13.0",
     "template-string-loader": "0.0.3",
-    "webpack": "^1.12.3"
+    "webpack": "^1.12.6"
   }
 }

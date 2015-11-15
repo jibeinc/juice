@@ -7,7 +7,7 @@ require('./styles.css');
 const buttonTmpl = require('./button.tmpl');
 
 // scripts
-const BaseComponent = require('../BaseComponent');
+const BaseComponent = require('../BaseComponent.js');
 
 class Button extends BaseComponent {
   constructor(el, opts={}) {
@@ -18,7 +18,7 @@ class Button extends BaseComponent {
   render() {
     this.$el.html(buttonTmpl(this));
     this.$el.find('button').click(() => {
-      this.publish('click');
+      this.publish('click', this.id);
     });
     return this;
   }
