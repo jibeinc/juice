@@ -12,15 +12,21 @@
   <script>
     var results = new UI.ListView('.search-results', {
       fetch: function (cb) {
-        cb([1, 2, 3, 4, 5]);
-      }
-    });
+        var results = [];
 
-    results.refresh();
+        // TODO: go do some stuff to get new results...
+
+        cb(results);
+      },
+
+      results: [1, 2, 3, 4, 5] // initial results to show
+    });
 
     results.subscribe(function (selection) {
       console.log('list item selected', selection);
     });
+
+    results.render();
   </script>
 
 </body>

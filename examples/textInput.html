@@ -17,11 +17,13 @@
   </style>
 
   <script>
-    var c = new UI.TextInput('.ui-text-input').set('Hello World!');
+    var c = new UI.TextInput('.ui-text-input');
 
     c.subscribe(function (msg) {
       console.log(msg);
     });
+
+    c.set('Hello World!');
   </script>
 
 </body>

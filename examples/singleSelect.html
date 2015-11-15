@@ -14,11 +14,11 @@
       options: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     });
 
-    month.render();
-
     month.subscribe(function (choice) {
       console.log('Its a new month!', choice);
     });
+
+    month.render();
   </script>
 
 </body>

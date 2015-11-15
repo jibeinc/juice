@@ -21,8 +21,6 @@
       geolocationAPI: window.navigator.geolocation
     });
 
-    c.render();
-
     c.subscribe(function (msg) {
       if (msg.isLocation) {
         console.log('Users current location is', msg);
@@ -30,6 +28,8 @@
         console.log(msg);
       }
     });
+
+    c.render();
   </script>
 
 </body>
