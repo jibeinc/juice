@@ -4,7 +4,7 @@
   "description": "General JavaScript classes for common UI components",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress --colors --display-chunks --production",
+    "build": "webpack --progress --colors --display-chunks -p",
     "build-dev": "webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
     "watch": "webpack --watch"
   },
