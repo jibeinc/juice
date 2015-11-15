@@ -51,7 +51,7 @@ class TextInput extends BaseComponent {
       });
     }
 
-    return this;
+    return this.$el.html();
   }
 
   set(v) {

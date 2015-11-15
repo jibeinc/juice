@@ -42,6 +42,8 @@ class PrettyTypeahead extends BaseTypeahead {
 
     // we also want to let you pick results from just the keyboard
     this.attachKeyEvents();
+
+    return this.$el.html();
   }
 
   active(v) {

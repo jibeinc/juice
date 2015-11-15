@@ -24,7 +24,7 @@ class CurrentLocation extends BaseComponent {
       this.getCurrentLocation();
     });
     this.$el.css('background-image', `url(${ this.iconURL })` );
-    return this;
+    return this.$el.html();
   }
 
   set(lng, lat) {

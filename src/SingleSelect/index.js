@@ -38,7 +38,7 @@ class SingleSelect extends BaseComponent {
     this.$el.find('select').change((evt) => {
       this.set($(evt.target).val());
     });
-    return this;
+    return this.$el.html();
   }
 };
 

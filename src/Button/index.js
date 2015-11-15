@@ -20,7 +20,7 @@ class Button extends BaseComponent {
     this.$el.find('button').click(() => {
       this.publish('click', this.id);
     });
-    return this;
+    return this.$el.html();
   }
 };
 

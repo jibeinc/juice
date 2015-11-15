@@ -45,7 +45,7 @@ class MultiSelect extends BaseComponent {
     this.$el.find('input').click((evt) => {
       this.set($(evt.target).val());
     });
-    return this;
+    return this.$el.html();
   }
 };
 

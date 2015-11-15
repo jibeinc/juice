@@ -63,7 +63,7 @@ class BaseTypeahead extends BaseComponent {
   render() {
     this.textInput.render();
     this.resultsListView.refresh();
-    return this;
+    return this.$el.html();
   }
 
   refreshResults(cb) {
