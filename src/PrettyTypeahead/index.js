@@ -15,8 +15,8 @@
 // use the child class `Typeahead` in your actual UI's! //
 // ==================================================== //
 
-// css
-require('./styles.css');
+// less
+require('./styles.less');
 
 // scripts
 const $             = require('jquery');

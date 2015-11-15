@@ -4,9 +4,10 @@
   "description": "General JavaScript classes for common UI components",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --progress --colors --display-chunks -p",
-    "build-dev": "webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
-    "watch": "webpack --watch"
+    "build": "npm run clean && webpack --progress --colors --display-chunks -p",
+    "build-dev": "npm run clean && webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
+    "watch": "webpack --watch",
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",
@@ -46,6 +47,7 @@
     "file-loader": "^0.8.4",
     "html-loader": "^0.3.0",
     "img-loader": "^1.2.0",
+    "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "style-loader": "^0.13.0",
     "template-string-loader": "0.0.3",

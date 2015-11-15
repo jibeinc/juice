@@ -6,7 +6,6 @@ module.exports = {
     filename: 'ui.js',
     publicPath: '/dist/'
   },
-  devtool: 'source-map',
   cssnext: {
     browsers: ['last 2 versions', 'ie >= 9'],
   },
@@ -20,7 +19,7 @@ module.exports = {
       {
         // automatically load less into the DOM
         test: /\.less$/,
-        loader: 'style!css!cssnext?compress!less'
+        loader: 'style!css!less'
       },
       {
         // compress and load images as embedded data-uri's
