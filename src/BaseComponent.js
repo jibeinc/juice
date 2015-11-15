@@ -19,6 +19,9 @@ class BaseComponent {
   constructor(el) {
     assert(el);
     this.$el = $(el);
+    if (this.$el.size() === 0) {
+      this.$el = $('<div></div>'); // to support server-side rendering, when DOM aint there
+    }
     this.value = null;
     this.id = uuid.v4();
     this.keyEvents = keyEvents;
