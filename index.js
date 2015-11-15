@@ -6,5 +6,5 @@ var html = '<html><body><h1>Hello World!</h1><p class="hello">Heya Big World!</b
 env(html, function (errors, window) {
   console.error(errors);
   var $ = require('jquery')(window);
-  module.exports = require('./src/index.js');
+  module.exports = require('./dist/ui.js');
 });
