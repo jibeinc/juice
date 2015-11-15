@@ -2,8 +2,8 @@
 
 const $      = require('jquery');
 const uuid   = require('uuid');
-const PSHub  = require('./PubSubHub.js');
-const assert = require('./assert.js');
+const PSHub  = require('./PubSubHub');
+const assert = require('./assert');
 
 // for covenience
 const keyEvents = {

@@ -63,13 +63,13 @@ var UI =
 	
 	var UIComponents = {
 	  $: __webpack_require__(/*! jquery */ 2),
-	  CurrentLocation: __webpack_require__(/*! ./CurrentLocation/index.js */ 4),
-	  TextInput: __webpack_require__(/*! ./TextInput/index.js */ 15),
-	  Button: __webpack_require__(/*! ./Button/index.js */ 23),
-	  SingleSelect: __webpack_require__(/*! ./SingleSelect/index.js */ 27),
-	  MultiSelect: __webpack_require__(/*! ./MultiSelect/index.js */ 31),
-	  ListView: __webpack_require__(/*! ./ListView/index.js */ 35),
-	  Typeahead: __webpack_require__(/*! ./Typeahead/index.js */ 39)
+	  CurrentLocation: __webpack_require__(/*! ./CurrentLocation */ 4),
+	  TextInput: __webpack_require__(/*! ./TextInput */ 15),
+	  Button: __webpack_require__(/*! ./Button */ 23),
+	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 27),
+	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 31),
+	  ListView: __webpack_require__(/*! ./ListView */ 35),
+	  Typeahead: __webpack_require__(/*! ./Typeahead */ 39)
 	};
 	
 	module.exports = UIComponents;
@@ -2028,8 +2028,8 @@ var UI =
 	
 	var $ = __webpack_require__(/*! jquery */ 2);
 	var uuid = __webpack_require__(/*! uuid */ 11);
-	var PSHub = __webpack_require__(/*! ./PubSubHub.js */ 13);
-	var assert = __webpack_require__(/*! ./assert.js */ 14);
+	var PSHub = __webpack_require__(/*! ./PubSubHub */ 13);
+	var assert = __webpack_require__(/*! ./assert */ 14);
 	
 	// for covenience
 	var keyEvents = {
@@ -2656,7 +2656,7 @@ var UI =
 	var buttonTmpl = __webpack_require__(/*! ./button.tmpl */ 26);
 	
 	// scripts
-	var BaseComponent = __webpack_require__(/*! ../BaseComponent.js */ 10);
+	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 10);
 	
 	var Button = (function (_BaseComponent) {
 	  _inherits(Button, _BaseComponent);
@@ -2730,7 +2730,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-button {\n  cursor: pointer;\n\n}\n\n", ""]);
+	exports.push([module.id, ".ui-button {\n  cursor: pointer;\n}\n", ""]);
 	
 	// exports
 

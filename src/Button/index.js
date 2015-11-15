@@ -7,7 +7,7 @@ require('./styles.css');
 const buttonTmpl = require('./button.tmpl');
 
 // scripts
-const BaseComponent = require('../BaseComponent.js');
+const BaseComponent = require('../BaseComponent');
 
 class Button extends BaseComponent {
   constructor(el, opts={}) {
