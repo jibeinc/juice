@@ -17,9 +17,9 @@ const BaseComponent = require('../BaseComponent');
 const assert        = require('../assert');
 
 class ListView extends BaseComponent {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     super(el);
-    opts = opts || {};
+    this.results = opts.results || [];
     this.fetch = opts.fetch;
     this.renderItem = opts.renderItem || this.renderItem;
     assert(typeof this.fetch === 'function');
@@ -30,7 +30,7 @@ class ListView extends BaseComponent {
     this.$el.find('li').click((evt) => {
       this.set(this.results[$(evt.target).attr('data-index')]);
     });
-    return this;
+    return this.$el.html();
   }
 
   renderItem(item) {

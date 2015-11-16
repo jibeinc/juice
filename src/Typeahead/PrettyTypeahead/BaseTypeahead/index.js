@@ -13,10 +13,10 @@
 const containerHTML = require('./baseTypeahead.html');
 
 // scripts
-const BaseComponent = require('../BaseComponent');
-const TextInput     = require('../TextInput');
-const ListView      = require('../ListView');
-const assert        = require('../assert.js');
+const BaseComponent = require('../../../BaseComponent');
+const TextInput     = require('../../../TextInput');
+const ListView      = require('../../../ListView');
+const assert        = require('../../../assert.js');
 
 class BaseTypeahead extends BaseComponent {
   constructor(el, opts) {
@@ -36,7 +36,6 @@ class BaseTypeahead extends BaseComponent {
 
     // when an item is picked from the list view:
     this.resultsListView.subscribe((selection) => {
-      console.log(selection);
       // update text input with this value, set typeahead internal value
       this.handleSelection(selection);
       this.textInput.$el.find('input').focus();
@@ -63,7 +62,7 @@ class BaseTypeahead extends BaseComponent {
   render() {
     this.textInput.render();
     this.resultsListView.refresh();
-    return this;
+    return this.$el.html();
   }
 
   refreshResults(cb) {

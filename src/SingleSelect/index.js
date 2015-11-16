@@ -15,9 +15,8 @@ const $             = require('jquery');
 const BaseComponent = require('../BaseComponent');
 
 class SingleSelect extends BaseComponent {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     super(el);
-    opts = opts || {};
     this.options = (opts.options || []).map((opt) => {
       return {
         value: opt,
@@ -39,7 +38,7 @@ class SingleSelect extends BaseComponent {
     this.$el.find('select').change((evt) => {
       this.set($(evt.target).val());
     });
-    return this;
+    return this.$el.html();
   }
 };
 

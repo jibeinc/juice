@@ -2,24 +2,32 @@
 <html>
 <head>
   <title>List View Example</title>
-  <script src='../dist/ui.components.js'></script>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>window.exports = {};</script>
+  <script src='../dist/ui.js'></script>
 </head>
 <body>
 
   <div class='search-results'></div>
 
   <script>
-    var results = new UI.ListView('.search-results', {
+    var results = new exports.UI.ListView('.search-results', {
       fetch: function (cb) {
-        cb([1, 2, 3, 4, 5]);
-      }
-    });
+        var results = [];
 
-    results.setResults();
+        // TODO: go do some stuff to get new results...
+
+        cb(results);
+      },
+
+      results: [1, 2, 3, 4, 5] // initial results to show
+    });
 
     results.subscribe(function (selection) {
       console.log('list item selected', selection);
     });
+
+    results.render();
   </script>
 
 </body>

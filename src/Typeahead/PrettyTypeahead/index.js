@@ -15,17 +15,17 @@
 // use the child class `Typeahead` in your actual UI's! //
 // ==================================================== //
 
-// css
-require('./styles.css');
+// less
+require('./styles.less');
 
 // scripts
 const $             = require('jquery');
-const BaseTypeahead = require('../BaseTypeahead');
+const BaseTypeahead = require('./BaseTypeahead');
 
 const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
 class PrettyTypeahead extends BaseTypeahead {
-  constructor(el, opts) {
+  constructor(el, opts={}) {
     opts.renderItem = (item) => {
       return this.renderItem(item);
     };
@@ -42,6 +42,8 @@ class PrettyTypeahead extends BaseTypeahead {
 
     // we also want to let you pick results from just the keyboard
     this.attachKeyEvents();
+
+    return this.$el.html();
   }
 
   active(v) {

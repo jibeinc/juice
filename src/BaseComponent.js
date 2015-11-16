@@ -18,10 +18,18 @@ const keyEvents = {
 class BaseComponent {
   constructor(el) {
     assert(el);
-    this.value = null;
     this.$el = $(el);
-    this.id = uuid.v4();
+    this.$el.html('');
+
+    // to support server-side rendering, when DOM aint there
+    if (this.$el.size() === 0) {
+      this.$el = $('<div></div>');
+    }
+
+    this.value     = null;
+    this.id        = uuid.v4();
     this.keyEvents = keyEvents;
+
     return this;
   }
 
@@ -35,9 +43,8 @@ class BaseComponent {
 
   set(v) {
     this.value = v;
-    this.render();
     this.publish(this.get());
-    return this;
+    return this.render();
   }
 
   subscribe(listener) {

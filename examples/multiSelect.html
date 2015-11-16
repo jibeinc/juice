@@ -2,22 +2,24 @@
 <html>
 <head>
   <title>Multi Select Example</title>
-  <script src='../dist/ui.components.js'></script>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>window.exports = {};</script>
+  <script src='../dist/ui.js'></script>
 </head>
 <body>
 
   <div class='categories'></div>
 
   <script>
-    var categories = new UI.MultiSelect('.categories', {
+    var categories = new exports.UI.MultiSelect('.categories', {
       options: ['Marketing', 'Sales', 'Engineering']
     });
-
-    categories.render();
 
     categories.subscribe(function (choice) {
       console.log('New Category kiiii!', choice);
     });
+
+    categories.render();
   </script>
 
 </body>
