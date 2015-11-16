@@ -8,6 +8,7 @@ const UIComponents = {
   ExpandCollapseToggle: require('./ExpandCollapse/ExpandCollapseToggle'),
   ListView: require('./ListView'),
   MultiSelect: require('./MultiSelect'),
+  Pagination: require('./Pagination'),
   SingleSelect: require('./SingleSelect'),
   TextInput: require('./TextInput'),
   Typeahead: require('./Typeahead')
