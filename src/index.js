@@ -5,6 +5,7 @@ const UIComponents = {
   Button: require('./Button'),
   CurrentLocation: require('./CurrentLocation'),
   ExpandCollapseContainer: require('./ExpandCollapse/ExpandCollapseContainer'),
+  ExpandCollapseToggle: require('./ExpandCollapse/ExpandCollapseToggle'),
   ListView: require('./ListView'),
   MultiSelect: require('./MultiSelect'),
   SingleSelect: require('./SingleSelect'),

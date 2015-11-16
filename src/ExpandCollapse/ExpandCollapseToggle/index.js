@@ -4,7 +4,9 @@ const BaseComponent = require('../../BaseComponent');
 
 class ExpandCollapseToggle extends BaseComponent {
   constructor(el) {
-    super(el);
+    super(el, {
+      preserveChildElements: true
+    });
     Object.assign(this, {
       value: null
     });
@@ -15,7 +17,7 @@ class ExpandCollapseToggle extends BaseComponent {
   }
 
   render() {
-    return this;
+    return this.$el.html();
   }
 }
 
