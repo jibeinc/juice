@@ -49,13 +49,14 @@ var UI =
 	
 	const UIComponents = {
 	  $: __webpack_require__(1),
-	  CurrentLocation: __webpack_require__(2),
-	  TextInput: __webpack_require__(13),
-	  Button: __webpack_require__(21),
-	  SingleSelect: __webpack_require__(25),
-	  MultiSelect: __webpack_require__(29),
-	  ListView: __webpack_require__(33),
-	  Typeahead: __webpack_require__(37)
+	  Button: __webpack_require__(2),
+	  CurrentLocation: __webpack_require__(13),
+	  ExpandCollapseContainer: __webpack_require__(17),
+	  ListView: __webpack_require__(19),
+	  MultiSelect: __webpack_require__(23),
+	  SingleSelect: __webpack_require__(27),
+	  TextInput: __webpack_require__(31),
+	  Typeahead: __webpack_require__(39)
 	};
 	
 	module.exports = UIComponents;
@@ -9280,65 +9281,35 @@ var UI =
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	'use strict'
 	
 	// css
-	
+	;
 	__webpack_require__(3);
 	
-	// assets
-	const iconURL = __webpack_require__(7);
+	// html
+	const buttonTmpl = __webpack_require__(7);
 	
 	// scripts
-	const $ = __webpack_require__(1);
 	const BaseComponent = __webpack_require__(8);
 	
-	class CurrentLocation extends BaseComponent {
+	class Button extends BaseComponent {
 	  constructor(el, opts) {
 	    super(el);
 	    opts = opts || {};
-	    this.iconURL = opts.iconURL || iconURL;
-	    this.geolocationAPI = opts.geolocationAPI;
-	    return this;
+	    this.label = opts.label || 'ClickMe!';
 	  }
 	
 	  render() {
-	    this.$el.addClass('ui-current-location');
-	    this.$el.on('click', () => {
-	      this.getCurrentLocation();
-	    });
-	    this.$el.css('background-image', `url(${ this.iconURL })`);
-	    return this;
-	  }
-	
-	  set(lng, lat) {
-	    this.lng = lng;
-	    this.lat = lat;
-	    this.publish(this.get());
-	    return this;
-	  }
-	
-	  get() {
-	    return {
-	      lng: this.lng,
-	      lat: this.lat,
-	      isLocation: true
-	    };
-	  }
-	
-	  getCurrentLocation() {
-	    this.publish('current-location-requested');
-	    this.geolocationAPI.getCurrentPosition(position => {
-	      this.set(position.coords.longitude, position.coords.latitude);
-	    }, error => {
-	      console.error(error.message);
-	      this.publish(error);
+	    this.$el.html(buttonTmpl(this));
+	    this.$el.find('button').click(() => {
+	      this.publish('click');
 	    });
 	    return this;
 	  }
 	};
 	
-	module.exports = CurrentLocation;
+	module.exports = Button;
 
 /***/ },
 /* 3 */
@@ -9375,7 +9346,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-current-location {\n  cursor: pointer;\n  background-size: contain;\n  background-repeat: no-repeat;\n}\n", ""]);
+	exports.push([module.id, ".ui-button {\n  cursor: pointer;\n}", ""]);
 	
 	// exports
 
@@ -9692,9 +9663,9 @@ var UI =
 
 /***/ },
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = __webpack_require__.p + "af1e5341f139dc0c31c9847dd080597a.png"
+	module.exports=function(scope){ return `<button type='button' class='ui-button'>${ scope.label }</button>`};
 
 /***/ },
 /* 8 */
@@ -10040,6 +10011,494 @@ var UI =
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	// css
+	
+	__webpack_require__(14);
+	
+	// assets
+	const iconURL = __webpack_require__(16);
+	
+	// scripts
+	const $ = __webpack_require__(1);
+	const BaseComponent = __webpack_require__(8);
+	
+	class CurrentLocation extends BaseComponent {
+	  constructor(el, opts) {
+	    super(el);
+	    opts = opts || {};
+	    this.iconURL = opts.iconURL || iconURL;
+	    this.geolocationAPI = opts.geolocationAPI;
+	    return this;
+	  }
+	
+	  render() {
+	    this.$el.addClass('ui-current-location');
+	    this.$el.on('click', () => {
+	      this.getCurrentLocation();
+	    });
+	    this.$el.css('background-image', `url(${ this.iconURL })`);
+	    return this;
+	  }
+	
+	  set(lng, lat) {
+	    this.lng = lng;
+	    this.lat = lat;
+	    this.publish(this.get());
+	    return this;
+	  }
+	
+	  get() {
+	    return {
+	      lng: this.lng,
+	      lat: this.lat,
+	      isLocation: true
+	    };
+	  }
+	
+	  getCurrentLocation() {
+	    this.publish('current-location-requested');
+	    this.geolocationAPI.getCurrentPosition(position => {
+	      this.set(position.coords.longitude, position.coords.latitude);
+	    }, error => {
+	      console.error(error.message);
+	      this.publish(error);
+	    });
+	    return this;
+	  }
+	};
+	
+	module.exports = CurrentLocation;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(15);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(6)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(5)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".ui-current-location {\n  cursor: pointer;\n  background-size: contain;\n  background-repeat: no-repeat;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "af1e5341f139dc0c31c9847dd080597a.png"
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	const BaseComponent = __webpack_require__(8);
+	const ExpandCollapseToggle = __webpack_require__(18);
+	
+	class ExpandCollapseContainer extends BaseComponent {
+	  constructor(el, opts) {
+	    super(el);
+	    const toggle = new ExpandCollapseToggle(opts.toggleSelector);
+	    toggle.subscribe(isToggled => {
+	      this.expandCollapse(isToggled);
+	    });
+	    return this;
+	  }
+	
+	  expandCollapse(isToggled) {
+	    console.log(isToggled);
+	    debugger;
+	  }
+	
+	  render() {
+	    return this;
+	  }
+	}
+	
+	module.exports = ExpandCollapseContainer;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	const BaseComponent = __webpack_require__(8);
+	
+	class ExpandCollapseToggle extends BaseComponent {
+	  constructor(el) {
+	    super(el);
+	    Object.assign(this, {
+	      value: null
+	    });
+	    this.$el.click(() => {
+	      this.set(!this.value);
+	    });
+	    return this;
+	  }
+	
+	  render() {
+	    return this;
+	  }
+	}
+	
+	module.exports = ExpandCollapseToggle;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	
+	// # Render a list of results
+	//
+	//   - publishes an event when a list item is clicked 'selected'
+	//
+	
+	// css
+	;
+	__webpack_require__(20);
+	
+	// html
+	const listViewTmpl = __webpack_require__(22);
+	
+	// scripts
+	const $ = __webpack_require__(1);
+	const BaseComponent = __webpack_require__(8);
+	const assert = __webpack_require__(12);
+	
+	class ListView extends BaseComponent {
+	  constructor(el, opts) {
+	    super(el);
+	    opts = opts || {};
+	    this.fetch = opts.fetch;
+	    this.renderItem = opts.renderItem || this.renderItem;
+	    assert(typeof this.fetch === 'function');
+	  }
+	
+	  render() {
+	    this.$el.html(listViewTmpl(this));
+	    this.$el.find('li').click(evt => {
+	      this.set(this.results[$(evt.target).attr('data-index')]);
+	    });
+	    return this;
+	  }
+	
+	  renderItem(item) {
+	    return item.toString();
+	  }
+	
+	  refresh() {
+	    this.fetch(results => {
+	      this.results = results;
+	      this.render();
+	    });
+	  }
+	};
+	
+	module.exports = ListView;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(21);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(6)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(5)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	module.exports = function anonymous(it
+	/**/) {
+	var out='<ul>';var i=0; it.results.forEach(function (result) { out+=' <li id=\''+( it.id )+'\' data-index=\''+( i )+'\'>'+( it.renderItem(result) )+'</li>';  i++; }); out+='</ul>';return out;
+	}
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	
+	// # TODO
+	//    - support separation of value from displayValue
+	//    - styles
+	
+	// css
+	;
+	__webpack_require__(24);
+	
+	// html
+	const multiSelectTmpl = __webpack_require__(26);
+	
+	// scripts
+	const $ = __webpack_require__(1);
+	const BaseComponent = __webpack_require__(8);
+	
+	class MultiSelect extends BaseComponent {
+	  constructor(el, opts) {
+	    super(el);
+	    opts = opts || {};
+	    this.options = (opts.options || []).map(opt => {
+	      return {
+	        value: opt
+	      };
+	    });
+	  }
+	
+	  get() {
+	    return this.options.filter(opt => {
+	      return opt.checked;
+	    });
+	  }
+	
+	  set(v) {
+	    this.options = this.options.map(opt => {
+	      opt.checked = opt.value === v ? !opt.checked : opt.checked;
+	      return opt;
+	    });
+	    this.render();
+	    this.publish(this.get());
+	    return this;
+	  }
+	
+	  render() {
+	    this.$el.html(multiSelectTmpl(this));
+	    this.$el.find('input').click(evt => {
+	      this.set($(evt.target).val());
+	    });
+	    return this;
+	  }
+	};
+	
+	module.exports = MultiSelect;
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(25);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(6)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(5)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	module.exports = function anonymous(it
+	/**/) {
+	var out='<div class=\'ui-multi-select\'>'; it.options.forEach(function (opt) { out+=' <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <label for=\''+( it.id )+'\'>'+( opt.value )+'</label>'; }); out+='</div>';return out;
+	}
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	
+	// # TODO
+	//    - support separation of value from displayValue
+	//    - styles
+	
+	// css
+	;
+	__webpack_require__(28);
+	
+	// html
+	const selectTmpl = __webpack_require__(30);
+	
+	// scripts
+	const $ = __webpack_require__(1);
+	const BaseComponent = __webpack_require__(8);
+	
+	class SingleSelect extends BaseComponent {
+	  constructor(el, opts) {
+	    super(el);
+	    opts = opts || {};
+	    this.options = (opts.options || []).map(opt => {
+	      return {
+	        value: opt,
+	        selected: opt === this.get()
+	      };
+	    });
+	  }
+	
+	  set(v) {
+	    this.options = this.options.map(opt => {
+	      opt.selected = opt.value === v;
+	      return opt;
+	    });
+	    return super.set(v);
+	  }
+	
+	  render() {
+	    this.$el.html(selectTmpl(this));
+	    this.$el.find('select').change(evt => {
+	      this.set($(evt.target).val());
+	    });
+	    return this;
+	  }
+	};
+	
+	module.exports = SingleSelect;
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(29);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(6)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(5)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	module.exports=function(scope){ return `<select>
+	${
+	  scope.options.map(function (option) {
+	    if (option.selected) {
+	      return '<option selected=true>' + option.value + '</option>';
+	    } else {
+	      return '<option>' + option.value + '</option>';
+	    }
+	  })
+	}
+	</select>
+	`};
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict'
 	
 	// # TextInput
@@ -10048,16 +10507,16 @@ var UI =
 	
 	// css
 	;
-	__webpack_require__(14);
+	__webpack_require__(32);
 	
 	// html
-	const inputTmpl = __webpack_require__(16);
-	const clearTmpl = __webpack_require__(17);
-	const clearWrapper = __webpack_require__(18);
+	const inputTmpl = __webpack_require__(34);
+	const clearTmpl = __webpack_require__(35);
+	const clearWrapper = __webpack_require__(36);
 	
 	// scripts
 	const BaseComponent = __webpack_require__(8);
-	const debounce = __webpack_require__(19);
+	const debounce = __webpack_require__(37);
 	
 	class TextInput extends BaseComponent {
 	  constructor(el, opts) {
@@ -10113,13 +10572,13 @@ var UI =
 	module.exports = TextInput;
 
 /***/ },
-/* 14 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(15);
+	var content = __webpack_require__(33);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(6)(content, {});
@@ -10139,7 +10598,7 @@ var UI =
 	}
 
 /***/ },
-/* 15 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(5)();
@@ -10153,25 +10612,25 @@ var UI =
 
 
 /***/ },
-/* 16 */
+/* 34 */
 /***/ function(module, exports) {
 
 	module.exports=function(scope){ return `<input type='text' id='${ scope.id }' class='ui-text-input form-control' value='${ scope.get() }'/>`};
 
 /***/ },
-/* 17 */
+/* 35 */
 /***/ function(module, exports) {
 
 	module.exports=function(scope){ return `<span class='ui-text-input-clear'>${ scope.clearingIcon }</span>`};
 
 /***/ },
-/* 18 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class='ui-text-input-clear-wrapper'></div>";
 
 /***/ },
-/* 19 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -10179,7 +10638,7 @@ var UI =
 	 * Module dependencies.
 	 */
 	
-	var now = __webpack_require__(20);
+	var now = __webpack_require__(38);
 	
 	/**
 	 * Returns a function, that, as long as it continues to be invoked, will not
@@ -10230,7 +10689,7 @@ var UI =
 
 
 /***/ },
-/* 20 */
+/* 38 */
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -10241,407 +10700,7 @@ var UI =
 
 
 /***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	
-	// css
-	;
-	__webpack_require__(22);
-	
-	// html
-	const buttonTmpl = __webpack_require__(24);
-	
-	// scripts
-	const BaseComponent = __webpack_require__(8);
-	
-	class Button extends BaseComponent {
-	  constructor(el, opts) {
-	    super(el);
-	    opts = opts || {};
-	    this.label = opts.label || 'ClickMe!';
-	  }
-	
-	  render() {
-	    this.$el.html(buttonTmpl(this));
-	    this.$el.find('button').click(() => {
-	      this.publish('click');
-	    });
-	    return this;
-	  }
-	};
-	
-	module.exports = Button;
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(23);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(5)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".ui-button {\n  cursor: pointer;\n}", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 24 */
-/***/ function(module, exports) {
-
-	module.exports=function(scope){ return `<button type='button' class='ui-button'>${ scope.label }</button>`};
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	
-	// # TODO
-	//    - support separation of value from displayValue
-	//    - styles
-	
-	// css
-	;
-	__webpack_require__(26);
-	
-	// html
-	const selectTmpl = __webpack_require__(28);
-	
-	// scripts
-	const $ = __webpack_require__(1);
-	const BaseComponent = __webpack_require__(8);
-	
-	class SingleSelect extends BaseComponent {
-	  constructor(el, opts) {
-	    super(el);
-	    opts = opts || {};
-	    this.options = (opts.options || []).map(opt => {
-	      return {
-	        value: opt,
-	        selected: opt === this.get()
-	      };
-	    });
-	  }
-	
-	  set(v) {
-	    this.options = this.options.map(opt => {
-	      opt.selected = opt.value === v;
-	      return opt;
-	    });
-	    return super.set(v);
-	  }
-	
-	  render() {
-	    this.$el.html(selectTmpl(this));
-	    this.$el.find('select').change(evt => {
-	      this.set($(evt.target).val());
-	    });
-	    return this;
-	  }
-	};
-	
-	module.exports = SingleSelect;
-
-/***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(27);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(5)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	module.exports=function(scope){ return `<select>
-	${
-	  scope.options.map(function (option) {
-	    if (option.selected) {
-	      return '<option selected=true>' + option.value + '</option>';
-	    } else {
-	      return '<option>' + option.value + '</option>';
-	    }
-	  })
-	}
-	</select>
-	`};
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	
-	// # TODO
-	//    - support separation of value from displayValue
-	//    - styles
-	
-	// css
-	;
-	__webpack_require__(30);
-	
-	// html
-	const multiSelectTmpl = __webpack_require__(32);
-	
-	// scripts
-	const $ = __webpack_require__(1);
-	const BaseComponent = __webpack_require__(8);
-	
-	class MultiSelect extends BaseComponent {
-	  constructor(el, opts) {
-	    super(el);
-	    opts = opts || {};
-	    this.options = (opts.options || []).map(opt => {
-	      return {
-	        value: opt
-	      };
-	    });
-	  }
-	
-	  get() {
-	    return this.options.filter(opt => {
-	      return opt.checked;
-	    });
-	  }
-	
-	  set(v) {
-	    this.options = this.options.map(opt => {
-	      opt.checked = opt.value === v ? !opt.checked : opt.checked;
-	      return opt;
-	    });
-	    this.render();
-	    this.publish(this.get());
-	    return this;
-	  }
-	
-	  render() {
-	    this.$el.html(multiSelectTmpl(this));
-	    this.$el.find('input').click(evt => {
-	      this.set($(evt.target).val());
-	    });
-	    return this;
-	  }
-	};
-	
-	module.exports = MultiSelect;
-
-/***/ },
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(31);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(5)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 32 */
-/***/ function(module, exports) {
-
-	module.exports = function anonymous(it
-	/**/) {
-	var out='<div class=\'ui-multi-select\'>'; it.options.forEach(function (opt) { out+=' <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <label for=\''+( it.id )+'\'>'+( opt.value )+'</label>'; }); out+='</div>';return out;
-	}
-
-/***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	
-	// # Render a list of results
-	//
-	//   - publishes an event when a list item is clicked 'selected'
-	//
-	
-	// css
-	;
-	__webpack_require__(34);
-	
-	// html
-	const listViewTmpl = __webpack_require__(36);
-	
-	// scripts
-	const $ = __webpack_require__(1);
-	const BaseComponent = __webpack_require__(8);
-	const assert = __webpack_require__(12);
-	
-	class ListView extends BaseComponent {
-	  constructor(el, opts) {
-	    super(el);
-	    opts = opts || {};
-	    this.fetch = opts.fetch;
-	    this.renderItem = opts.renderItem || this.renderItem;
-	    assert(typeof this.fetch === 'function');
-	  }
-	
-	  render() {
-	    this.$el.html(listViewTmpl(this));
-	    this.$el.find('li').click(evt => {
-	      this.set(this.results[$(evt.target).attr('data-index')]);
-	    });
-	    return this;
-	  }
-	
-	  renderItem(item) {
-	    return item.toString();
-	  }
-	
-	  refresh() {
-	    this.fetch(results => {
-	      this.results = results;
-	      this.render();
-	    });
-	  }
-	};
-	
-	module.exports = ListView;
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(35);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(6)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/autoprefixer-loader/index.js?{browsers: [\"last 2 versions\", \"ie >= 9\"]}!./styles.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(5)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	module.exports = function anonymous(it
-	/**/) {
-	var out='<ul>';var i=0; it.results.forEach(function (result) { out+=' <li id=\''+( it.id )+'\' data-index=\''+( i )+'\'>'+( it.renderItem(result) )+'</li>';  i++; }); out+='</ul>';return out;
-	}
-
-/***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -10655,7 +10714,7 @@ var UI =
 	// scripts
 	;
 	const $ = __webpack_require__(1);
-	const PrettyTypeahead = __webpack_require__(38);
+	const PrettyTypeahead = __webpack_require__(40);
 	
 	class Typeahead extends PrettyTypeahead {
 	  constructor(el, opts) {
@@ -10705,7 +10764,7 @@ var UI =
 	module.exports = Typeahead;
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -10727,11 +10786,11 @@ var UI =
 	
 	// css
 	;
-	__webpack_require__(39);
+	__webpack_require__(41);
 	
 	// scripts
 	const $ = __webpack_require__(1);
-	const BaseTypeahead = __webpack_require__(41);
+	const BaseTypeahead = __webpack_require__(43);
 	
 	const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 	
@@ -10887,13 +10946,13 @@ var UI =
 	module.exports = PrettyTypeahead;
 
 /***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(40);
+	var content = __webpack_require__(42);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(6)(content, {});
@@ -10913,7 +10972,7 @@ var UI =
 	}
 
 /***/ },
-/* 40 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(5)();
@@ -10927,7 +10986,7 @@ var UI =
 
 
 /***/ },
-/* 41 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -10943,12 +11002,12 @@ var UI =
 	
 	// html
 	;
-	const containerHTML = __webpack_require__(42);
+	const containerHTML = __webpack_require__(44);
 	
 	// scripts
 	const BaseComponent = __webpack_require__(8);
-	const TextInput = __webpack_require__(13);
-	const ListView = __webpack_require__(33);
+	const TextInput = __webpack_require__(31);
+	const ListView = __webpack_require__(19);
 	const assert = __webpack_require__(12);
 	
 	class BaseTypeahead extends BaseComponent {
@@ -11010,7 +11069,7 @@ var UI =
 	module.exports = BaseTypeahead;
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class='ui-typeahead'>\n  <div class='input-container'></div>\n  <div class='results-list-container'></div>\n</div>\n\n";

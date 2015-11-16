@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expand/Collapse Example</title>
+    <script src='../dist/ui.components.js'></script>
+</head>
+<body>
+
+<span class='toggle'>Toggle</span>
+<div class="expand-collapse-content"></div>
+
+<script>
+    var container = new UI.ExpandCollapseContainer('.expand-collapse-content', {
+        toggleSelector: '.toggle'
+    });
+</script>
+
+</body>
+</html>
