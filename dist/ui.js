@@ -58,9 +58,10 @@ exports["UI"] =
 	  ExpandCollapseToggle: __webpack_require__(/*! ./ExpandCollapse/ExpandCollapseToggle */ 21),
 	  ListView: __webpack_require__(/*! ./ListView */ 23),
 	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 27),
-	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 31),
-	  TextInput: __webpack_require__(/*! ./TextInput */ 35),
-	  Typeahead: __webpack_require__(/*! ./Typeahead */ 43)
+	  Pagination: __webpack_require__(/*! ./Pagination */ 31),
+	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 42),
+	  TextInput: __webpack_require__(/*! ./TextInput */ 46),
+	  Typeahead: __webpack_require__(/*! ./Typeahead */ 54)
 	};
 	
 	module.exports = UIComponents;
@@ -2532,7 +2533,6 @@ exports["UI"] =
 	    toggle.subscribe(function (isToggled) {
 	      _this.expandCollapse(isToggled);
 	    });
-	    _this.innerContent = _this.$el.html();
 	    return _possibleConstructorReturn(_this, _this);
 	  }
 	
@@ -2937,6 +2937,1272 @@ exports["UI"] =
 
 /***/ },
 /* 31 */
+/*!*********************************!*\
+  !*** ./src/Pagination/index.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 9);
+	var pagination = __webpack_require__(/*! pagination */ 32);
+	
+	var Pagination = (function (_BaseComponent) {
+	  _inherits(Pagination, _BaseComponent);
+	
+	  function Pagination(el) {
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	    _classCallCheck(this, Pagination);
+	
+	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
+	
+	    _this.boostrapPaginator = new pagination.TemplatePaginator({
+	      current: opts.current,
+	      prelink: opts.prelink,
+	      rowsPerPage: opts.rowsPerPage,
+	      slashSeparator: opts.slashSeparator,
+	      totalResult: opts.totalResult,
+	      template: function template(result) {
+	        var i, len, prelink;
+	        var html = '<div><ul class="pagination">';
+	        if (result.pageCount < 2) {
+	          html += '</ul></div>';
+	          return html;
+	        }
+	        prelink = this.preparePreLink(result.prelink);
+	        if (result.previous) {
+	          html += '<li><a href="' + prelink + result.previous + '">' + this.options.translator('PREVIOUS') + '</a></li>';
+	        }
+	        if (result.range.length) {
+	          for (i = 0, len = result.range.length; i < len; i++) {
+	            if (result.range[i] === result.current) {
+	              html += '<li class="active"><a href="' + prelink + result.range[i] + '">' + result.range[i] + '</a></li>';
+	            } else {
+	              html += '<li><a href="' + prelink + result.range[i] + '">' + result.range[i] + '</a></li>';
+	            }
+	          }
+	        }
+	        if (result.next) {
+	          html += '<li><a href="' + prelink + result.next + '" class="paginator-next">' + this.options.translator('NEXT') + '</a></li>';
+	        }
+	        html += '</ul></div>';
+	        return html;
+	      }
+	    });
+	    return _this;
+	  }
+	
+	  Pagination.prototype.render = function render() {
+	    this.$el.html(this.boostrapPaginator.render());
+	    return this.$el.html();
+	  };
+	
+	  return Pagination;
+	})(BaseComponent);
+	
+	module.exports = Pagination;
+
+/***/ },
+/* 32 */
+/*!*******************************!*\
+  !*** ./~/pagination/index.js ***!
+  \*******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var util = __webpack_require__(/*! util */ 33);
+	var pagination = __webpack_require__(/*! ./lib/pagination */ 37);
+	__webpack_require__(/*! ./lib/item_paginator */ 38).module(pagination, util);
+	__webpack_require__(/*! ./lib/search_paginator */ 39).module(pagination, util);
+	__webpack_require__(/*! ./lib/template_paginator */ 40).module(pagination, util);
+	__webpack_require__(/*! ./lib/template */ 41).module(pagination, util);
+	
+	module.exports = pagination;
+
+/***/ },
+/* 33 */
+/*!************************!*\
+  !*** ./~/util/util.js ***!
+  \************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global, process) {'use strict';
+	
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	var formatRegExp = /%[sdj%]/g;
+	exports.format = function (f) {
+	  if (!isString(f)) {
+	    var objects = [];
+	    for (var i = 0; i < arguments.length; i++) {
+	      objects.push(inspect(arguments[i]));
+	    }
+	    return objects.join(' ');
+	  }
+	
+	  var i = 1;
+	  var args = arguments;
+	  var len = args.length;
+	  var str = String(f).replace(formatRegExp, function (x) {
+	    if (x === '%%') return '%';
+	    if (i >= len) return x;
+	    switch (x) {
+	      case '%s':
+	        return String(args[i++]);
+	      case '%d':
+	        return Number(args[i++]);
+	      case '%j':
+	        try {
+	          return JSON.stringify(args[i++]);
+	        } catch (_) {
+	          return '[Circular]';
+	        }
+	      default:
+	        return x;
+	    }
+	  });
+	  for (var x = args[i]; i < len; x = args[++i]) {
+	    if (isNull(x) || !isObject(x)) {
+	      str += ' ' + x;
+	    } else {
+	      str += ' ' + inspect(x);
+	    }
+	  }
+	  return str;
+	};
+	
+	// Mark that a method should not be used.
+	// Returns a modified function which warns once by default.
+	// If --no-deprecation is set, then it is a no-op.
+	exports.deprecate = function (fn, msg) {
+	  // Allow for deprecating things in the process of starting up.
+	  if (isUndefined(global.process)) {
+	    return function () {
+	      return exports.deprecate(fn, msg).apply(this, arguments);
+	    };
+	  }
+	
+	  if (process.noDeprecation === true) {
+	    return fn;
+	  }
+	
+	  var warned = false;
+	  function deprecated() {
+	    if (!warned) {
+	      if (process.throwDeprecation) {
+	        throw new Error(msg);
+	      } else if (process.traceDeprecation) {
+	        console.trace(msg);
+	      } else {
+	        console.error(msg);
+	      }
+	      warned = true;
+	    }
+	    return fn.apply(this, arguments);
+	  }
+	
+	  return deprecated;
+	};
+	
+	var debugs = {};
+	var debugEnviron;
+	exports.debuglog = function (set) {
+	  if (isUndefined(debugEnviron)) debugEnviron = process.env.NODE_DEBUG || '';
+	  set = set.toUpperCase();
+	  if (!debugs[set]) {
+	    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+	      var pid = process.pid;
+	      debugs[set] = function () {
+	        var msg = exports.format.apply(exports, arguments);
+	        console.error('%s %d: %s', set, pid, msg);
+	      };
+	    } else {
+	      debugs[set] = function () {};
+	    }
+	  }
+	  return debugs[set];
+	};
+	
+	/**
+	 * Echos the value of a value. Trys to print the value out
+	 * in the best way possible given the different types.
+	 *
+	 * @param {Object} obj The object to print out.
+	 * @param {Object} opts Optional options object that alters the output.
+	 */
+	/* legacy: obj, showHidden, depth, colors*/
+	function inspect(obj, opts) {
+	  // default options
+	  var ctx = {
+	    seen: [],
+	    stylize: stylizeNoColor
+	  };
+	  // legacy...
+	  if (arguments.length >= 3) ctx.depth = arguments[2];
+	  if (arguments.length >= 4) ctx.colors = arguments[3];
+	  if (isBoolean(opts)) {
+	    // legacy...
+	    ctx.showHidden = opts;
+	  } else if (opts) {
+	    // got an "options" object
+	    exports._extend(ctx, opts);
+	  }
+	  // set default options
+	  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+	  if (isUndefined(ctx.depth)) ctx.depth = 2;
+	  if (isUndefined(ctx.colors)) ctx.colors = false;
+	  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+	  if (ctx.colors) ctx.stylize = stylizeWithColor;
+	  return formatValue(ctx, obj, ctx.depth);
+	}
+	exports.inspect = inspect;
+	
+	// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+	inspect.colors = {
+	  'bold': [1, 22],
+	  'italic': [3, 23],
+	  'underline': [4, 24],
+	  'inverse': [7, 27],
+	  'white': [37, 39],
+	  'grey': [90, 39],
+	  'black': [30, 39],
+	  'blue': [34, 39],
+	  'cyan': [36, 39],
+	  'green': [32, 39],
+	  'magenta': [35, 39],
+	  'red': [31, 39],
+	  'yellow': [33, 39]
+	};
+	
+	// Don't use 'blue' not visible on cmd.exe
+	inspect.styles = {
+	  'special': 'cyan',
+	  'number': 'yellow',
+	  'boolean': 'yellow',
+	  'undefined': 'grey',
+	  'null': 'bold',
+	  'string': 'green',
+	  'date': 'magenta',
+	  // "name": intentionally not styling
+	  'regexp': 'red'
+	};
+	
+	function stylizeWithColor(str, styleType) {
+	  var style = inspect.styles[styleType];
+	
+	  if (style) {
+	    return '\u001b[' + inspect.colors[style][0] + 'm' + str + '\u001b[' + inspect.colors[style][1] + 'm';
+	  } else {
+	    return str;
+	  }
+	}
+	
+	function stylizeNoColor(str, styleType) {
+	  return str;
+	}
+	
+	function arrayToHash(array) {
+	  var hash = {};
+	
+	  array.forEach(function (val, idx) {
+	    hash[val] = true;
+	  });
+	
+	  return hash;
+	}
+	
+	function formatValue(ctx, value, recurseTimes) {
+	  // Provide a hook for user-specified inspect functions.
+	  // Check that value is an object with an inspect function on it
+	  if (ctx.customInspect && value && isFunction(value.inspect) &&
+	  // Filter out the util module, it's inspect function is special
+	  value.inspect !== exports.inspect &&
+	  // Also filter out any prototype objects using the circular check.
+	  !(value.constructor && value.constructor.prototype === value)) {
+	    var ret = value.inspect(recurseTimes, ctx);
+	    if (!isString(ret)) {
+	      ret = formatValue(ctx, ret, recurseTimes);
+	    }
+	    return ret;
+	  }
+	
+	  // Primitive types cannot have properties
+	  var primitive = formatPrimitive(ctx, value);
+	  if (primitive) {
+	    return primitive;
+	  }
+	
+	  // Look up the keys of the object.
+	  var keys = Object.keys(value);
+	  var visibleKeys = arrayToHash(keys);
+	
+	  if (ctx.showHidden) {
+	    keys = Object.getOwnPropertyNames(value);
+	  }
+	
+	  // IE doesn't make error fields non-enumerable
+	  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+	  if (isError(value) && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+	    return formatError(value);
+	  }
+	
+	  // Some type of object without properties can be shortcutted.
+	  if (keys.length === 0) {
+	    if (isFunction(value)) {
+	      var name = value.name ? ': ' + value.name : '';
+	      return ctx.stylize('[Function' + name + ']', 'special');
+	    }
+	    if (isRegExp(value)) {
+	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+	    }
+	    if (isDate(value)) {
+	      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+	    }
+	    if (isError(value)) {
+	      return formatError(value);
+	    }
+	  }
+	
+	  var base = '',
+	      array = false,
+	      braces = ['{', '}'];
+	
+	  // Make Array say that they are Array
+	  if (isArray(value)) {
+	    array = true;
+	    braces = ['[', ']'];
+	  }
+	
+	  // Make functions say that they are functions
+	  if (isFunction(value)) {
+	    var n = value.name ? ': ' + value.name : '';
+	    base = ' [Function' + n + ']';
+	  }
+	
+	  // Make RegExps say that they are RegExps
+	  if (isRegExp(value)) {
+	    base = ' ' + RegExp.prototype.toString.call(value);
+	  }
+	
+	  // Make dates with properties first say the date
+	  if (isDate(value)) {
+	    base = ' ' + Date.prototype.toUTCString.call(value);
+	  }
+	
+	  // Make error with message first say the error
+	  if (isError(value)) {
+	    base = ' ' + formatError(value);
+	  }
+	
+	  if (keys.length === 0 && (!array || value.length == 0)) {
+	    return braces[0] + base + braces[1];
+	  }
+	
+	  if (recurseTimes < 0) {
+	    if (isRegExp(value)) {
+	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+	    } else {
+	      return ctx.stylize('[Object]', 'special');
+	    }
+	  }
+	
+	  ctx.seen.push(value);
+	
+	  var output;
+	  if (array) {
+	    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+	  } else {
+	    output = keys.map(function (key) {
+	      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+	    });
+	  }
+	
+	  ctx.seen.pop();
+	
+	  return reduceToSingleString(output, base, braces);
+	}
+	
+	function formatPrimitive(ctx, value) {
+	  if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');
+	  if (isString(value)) {
+	    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '').replace(/'/g, "\\'").replace(/\\"/g, '"') + '\'';
+	    return ctx.stylize(simple, 'string');
+	  }
+	  if (isNumber(value)) return ctx.stylize('' + value, 'number');
+	  if (isBoolean(value)) return ctx.stylize('' + value, 'boolean');
+	  // For some reason typeof null is "object", so special case here.
+	  if (isNull(value)) return ctx.stylize('null', 'null');
+	}
+	
+	function formatError(value) {
+	  return '[' + Error.prototype.toString.call(value) + ']';
+	}
+	
+	function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+	  var output = [];
+	  for (var i = 0, l = value.length; i < l; ++i) {
+	    if (hasOwnProperty(value, String(i))) {
+	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, String(i), true));
+	    } else {
+	      output.push('');
+	    }
+	  }
+	  keys.forEach(function (key) {
+	    if (!key.match(/^\d+$/)) {
+	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, true));
+	    }
+	  });
+	  return output;
+	}
+	
+	function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+	  var name, str, desc;
+	  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+	  if (desc.get) {
+	    if (desc.set) {
+	      str = ctx.stylize('[Getter/Setter]', 'special');
+	    } else {
+	      str = ctx.stylize('[Getter]', 'special');
+	    }
+	  } else {
+	    if (desc.set) {
+	      str = ctx.stylize('[Setter]', 'special');
+	    }
+	  }
+	  if (!hasOwnProperty(visibleKeys, key)) {
+	    name = '[' + key + ']';
+	  }
+	  if (!str) {
+	    if (ctx.seen.indexOf(desc.value) < 0) {
+	      if (isNull(recurseTimes)) {
+	        str = formatValue(ctx, desc.value, null);
+	      } else {
+	        str = formatValue(ctx, desc.value, recurseTimes - 1);
+	      }
+	      if (str.indexOf('\n') > -1) {
+	        if (array) {
+	          str = str.split('\n').map(function (line) {
+	            return '  ' + line;
+	          }).join('\n').substr(2);
+	        } else {
+	          str = '\n' + str.split('\n').map(function (line) {
+	            return '   ' + line;
+	          }).join('\n');
+	        }
+	      }
+	    } else {
+	      str = ctx.stylize('[Circular]', 'special');
+	    }
+	  }
+	  if (isUndefined(name)) {
+	    if (array && key.match(/^\d+$/)) {
+	      return str;
+	    }
+	    name = JSON.stringify('' + key);
+	    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+	      name = name.substr(1, name.length - 2);
+	      name = ctx.stylize(name, 'name');
+	    } else {
+	      name = name.replace(/'/g, "\\'").replace(/\\"/g, '"').replace(/(^"|"$)/g, "'");
+	      name = ctx.stylize(name, 'string');
+	    }
+	  }
+	
+	  return name + ': ' + str;
+	}
+	
+	function reduceToSingleString(output, base, braces) {
+	  var numLinesEst = 0;
+	  var length = output.reduce(function (prev, cur) {
+	    numLinesEst++;
+	    if (cur.indexOf('\n') >= 0) numLinesEst++;
+	    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+	  }, 0);
+	
+	  if (length > 60) {
+	    return braces[0] + (base === '' ? '' : base + '\n ') + ' ' + output.join(',\n  ') + ' ' + braces[1];
+	  }
+	
+	  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+	}
+	
+	// NOTE: These type checking functions intentionally don't use `instanceof`
+	// because it is fragile and can be easily faked with `Object.create()`.
+	function isArray(ar) {
+	  return Array.isArray(ar);
+	}
+	exports.isArray = isArray;
+	
+	function isBoolean(arg) {
+	  return typeof arg === 'boolean';
+	}
+	exports.isBoolean = isBoolean;
+	
+	function isNull(arg) {
+	  return arg === null;
+	}
+	exports.isNull = isNull;
+	
+	function isNullOrUndefined(arg) {
+	  return arg == null;
+	}
+	exports.isNullOrUndefined = isNullOrUndefined;
+	
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+	exports.isNumber = isNumber;
+	
+	function isString(arg) {
+	  return typeof arg === 'string';
+	}
+	exports.isString = isString;
+	
+	function isSymbol(arg) {
+	  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol';
+	}
+	exports.isSymbol = isSymbol;
+	
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+	exports.isUndefined = isUndefined;
+	
+	function isRegExp(re) {
+	  return isObject(re) && objectToString(re) === '[object RegExp]';
+	}
+	exports.isRegExp = isRegExp;
+	
+	function isObject(arg) {
+	  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && arg !== null;
+	}
+	exports.isObject = isObject;
+	
+	function isDate(d) {
+	  return isObject(d) && objectToString(d) === '[object Date]';
+	}
+	exports.isDate = isDate;
+	
+	function isError(e) {
+	  return isObject(e) && (objectToString(e) === '[object Error]' || e instanceof Error);
+	}
+	exports.isError = isError;
+	
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+	exports.isFunction = isFunction;
+	
+	function isPrimitive(arg) {
+	  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol' || // ES6 symbol
+	  typeof arg === 'undefined';
+	}
+	exports.isPrimitive = isPrimitive;
+	
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 35);
+	
+	function objectToString(o) {
+	  return Object.prototype.toString.call(o);
+	}
+	
+	function pad(n) {
+	  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+	}
+	
+	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+	
+	// 26 Feb 16:19:34
+	function timestamp() {
+	  var d = new Date();
+	  var time = [pad(d.getHours()), pad(d.getMinutes()), pad(d.getSeconds())].join(':');
+	  return [d.getDate(), months[d.getMonth()], time].join(' ');
+	}
+	
+	// log is just a thin wrapper to console.log that prepends a timestamp
+	exports.log = function () {
+	  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+	};
+	
+	/**
+	 * Inherit the prototype methods from one constructor into another.
+	 *
+	 * The Function.prototype.inherits from lang.js rewritten as a standalone
+	 * function (not on Function.prototype). NOTE: If this file is to be loaded
+	 * during bootstrapping this function needs to be rewritten using some native
+	 * functions as prototype setup using normal JavaScript does not work as
+	 * expected during bootstrapping (see mirror.js in r114903).
+	 *
+	 * @param {function} ctor Constructor function which needs to inherit the
+	 *     prototype.
+	 * @param {function} superCtor Constructor function to inherit prototype from.
+	 */
+	exports.inherits = __webpack_require__(/*! inherits */ 36);
+	
+	exports._extend = function (origin, add) {
+	  // Don't do anything if add isn't an object
+	  if (!add || !isObject(add)) return origin;
+	
+	  var keys = Object.keys(add);
+	  var i = keys.length;
+	  while (i--) {
+	    origin[keys[i]] = add[keys[i]];
+	  }
+	  return origin;
+	};
+	
+	function hasOwnProperty(obj, prop) {
+	  return Object.prototype.hasOwnProperty.call(obj, prop);
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./~/process/browser.js */ 34)))
+
+/***/ },
+/* 34 */
+/*!******************************!*\
+  !*** ./~/process/browser.js ***!
+  \******************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	// shim for using process in browser
+	
+	var process = module.exports = {};
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+	
+	function cleanUpNextTick() {
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+	
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = setTimeout(cleanUpNextTick);
+	    draining = true;
+	
+	    var len = queue.length;
+	    while (len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    clearTimeout(timeout);
+	}
+	
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        setTimeout(drainQueue, 0);
+	    }
+	};
+	
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	process.cwd = function () {
+	    return '/';
+	};
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function () {
+	    return 0;
+	};
+
+/***/ },
+/* 35 */
+/*!*******************************************!*\
+  !*** ./~/util/support/isBufferBrowser.js ***!
+  \*******************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	
+	module.exports = function isBuffer(arg) {
+	  return arg && (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && typeof arg.copy === 'function' && typeof arg.fill === 'function' && typeof arg.readUInt8 === 'function';
+	};
+
+/***/ },
+/* 36 */
+/*!****************************************!*\
+  !*** ./~/inherits/inherits_browser.js ***!
+  \****************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	if (typeof Object.create === 'function') {
+	  // implementation from standard node.js 'util' module
+	  module.exports = function inherits(ctor, superCtor) {
+	    ctor.super_ = superCtor;
+	    ctor.prototype = Object.create(superCtor.prototype, {
+	      constructor: {
+	        value: ctor,
+	        enumerable: false,
+	        writable: true,
+	        configurable: true
+	      }
+	    });
+	  };
+	} else {
+	  // old school shim for old browsers
+	  module.exports = function inherits(ctor, superCtor) {
+	    ctor.super_ = superCtor;
+	    var TempCtor = function TempCtor() {};
+	    TempCtor.prototype = superCtor.prototype;
+	    ctor.prototype = new TempCtor();
+	    ctor.prototype.constructor = ctor;
+	  };
+	}
+
+/***/ },
+/* 37 */
+/*!****************************************!*\
+  !*** ./~/pagination/lib/pagination.js ***!
+  \****************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	(function (exports) {
+		"use strict";
+	
+		var factories = {};
+	
+		var translations = {
+			'NEXT': 'Next',
+			'PREVIOUS': 'Previous',
+			'FIRST': 'First',
+			'LAST': 'Last',
+			'CURRENT_PAGE_REPORT': 'Results {FromResult} - {ToResult} of {TotalResult}'
+		};
+	
+		var translationKeys = exports.translationKeys = Object.keys(translations);
+	
+		var translationCache = {
+			CURRENT_PAGE_REPORT: {}
+		};
+	
+		var translator = function translator(str) {
+			return translations[str];
+		};
+		var Paginator = function Paginator(options) {
+			var keys, i, len;
+			/* validate in this.set if needed */
+			this.options = {
+				totalResult: 0,
+				prelink: '',
+				rowsPerPage: 10,
+				pageLinks: 5,
+				current: 1,
+				translator: translator,
+				translationCache: false,
+				translationCacheKey: 'en',
+				pageParamName: 'page',
+				slashSeparator: false
+			};
+			for (keys = Object.keys(options), i = 0, len = keys.length; i < len; i++) {
+				this.set(keys[i], options[keys[i]]);
+			}
+			this._result = null;
+		};
+	
+		exports.Paginator = Paginator;
+	
+		Paginator.prototype = {
+			getPaginationData: function getPaginationData() {
+				if (!this._result) {
+					this._result = this.calc();
+				}
+				return this._result;
+			},
+			calc: function calc() {
+				var totalResult = this.options.totalResult;
+				var pageLinks = this.options.pageLinks;
+				var rowsPerPage = this.options.rowsPerPage;
+				var current = this.options.current;
+				var startPage, endPage, pageCount;
+				var oldPageLinks = pageLinks % 2 === 0 ? 1 : 0,
+				    i,
+				    half;
+				var result = {
+					prelink: this.options.prelink,
+					current: current,
+					previous: null,
+					next: null,
+					first: null,
+					last: null,
+					range: [],
+					fromResult: null,
+					toResult: null,
+					totalResult: totalResult,
+					pageCount: null
+				};
+				/* zero division; negative */
+				if (rowsPerPage <= 0) {
+					return result;
+				}
+				pageCount = Math.ceil(totalResult / rowsPerPage);
+				result.pageCount = pageCount;
+				if (pageCount < 2) {
+					result.fromResult = 1;
+					result.toResult = totalResult;
+					return result;
+				}
+	
+				if (current > pageCount) {
+					current = pageCount;
+					result.current = current;
+				}
+				half = Math.floor(pageLinks / 2);
+				startPage = current - half;
+				endPage = current + half - oldPageLinks;
+	
+				if (startPage < 1) {
+					startPage = 1;
+					endPage = startPage + pageLinks - 1;
+					if (endPage > pageCount) {
+						endPage = pageCount;
+					}
+				}
+	
+				if (endPage > pageCount) {
+					endPage = pageCount;
+					startPage = endPage - pageLinks + 1;
+					if (startPage < 1) {
+						startPage = 1;
+					}
+				}
+	
+				for (i = startPage; i <= endPage; i++) {
+					result.range.push(i);
+				}
+	
+				if (current > 1) {
+					result.first = 1;
+					result.previous = current - 1;
+				}
+	
+				if (current < pageCount) {
+					result.last = pageCount;
+					result.next = current + 1;
+				}
+	
+				result.fromResult = (current - 1) * rowsPerPage + 1;
+				if (current === pageCount) {
+					result.toResult = totalResult;
+				} else {
+					result.toResult = result.fromResult + rowsPerPage - 1;
+				}
+	
+				return result;
+			},
+			set: function set(option, value) {
+				if (this.options.hasOwnProperty(option)) {
+					switch (option) {
+						case 'current':
+						case 'totalResult':
+						case 'pageLinks':
+						case 'rowsPerPage':
+							value = parseInt(value, 10);
+							if (isNaN(value)) {
+								throw new Error('Invalid value for "' + option + '", expected an integer');
+							}
+							break;
+						case 'translator':
+							if (!(value && value.constructor && value.call && value.apply)) {
+								throw new Error('Translator must be a function');
+							}
+							break;
+						case 'translationCacheKey':
+						case 'pageParamName':
+						case 'prelink':
+							value = String(value);
+							break;
+					}
+					this.options[option] = value;
+					if (this._result) {
+						this._result = null;
+					}
+				}
+			},
+			preparePreLink: function preparePreLink(prelink) {
+				if (this.options.slashSeparator) {
+					if (prelink[prelink.length - 1] !== '/') {
+						prelink += '/';
+					}
+					return prelink + this.options.pageParamName + '/';
+				}
+				if (prelink.indexOf('?') !== -1) {
+					if (prelink[prelink.length - 1] !== '?' && prelink[prelink.length - 1] !== '&') {
+						prelink += '&';
+					}
+				} else {
+					prelink += '?';
+				}
+	
+				return prelink + this.options.pageParamName + '=';
+			},
+			render: function render() {
+				throw new Error('Implement');
+			}
+		};
+		exports.registerFactory = function (type, factory) {
+			if (factories.hasOwnProperty(type)) {
+				throw new Error(type + ' already exists');
+			}
+			factories[type] = factory;
+		};
+		exports.create = function (type, options) {
+			if (factories.hasOwnProperty(type)) {
+				return new factories[type](options);
+			} else {
+				throw new Error('Paginator type' + type + ' not found in register');
+			}
+		};
+	})(exports);
+
+/***/ },
+/* 38 */
+/*!********************************************!*\
+  !*** ./~/pagination/lib/item_paginator.js ***!
+  \********************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.module = function (pagination, util) {
+		"use strict";
+	
+		var translationCache = {
+			CURRENT_PAGE_REPORT: {}
+		};
+		var ItemPaginator = pagination.ItemPaginator = function (options) {
+			pagination.Paginator.call(this, options);
+			this.set('pageLinks', 1);
+		};
+		util.inherits(ItemPaginator, pagination.Paginator);
+		ItemPaginator.prototype.renderCurrentPageReport = function (fromResult, toResult, totalResult) {
+			var template;
+			if (!this.options.translationCache) {
+				return this.options.translator('CURRENT_PAGE_REPORT').replace('{FromResult}', fromResult).replace('{ToResult}', toResult).replace('{TotalResult}', totalResult);
+			}
+			if (!translationCache.CURRENT_PAGE_REPORT.hasOwnProperty(this.options.translationCacheKey)) {
+				template = "return '" + this.options.translator('CURRENT_PAGE_REPORT').replace("'", "\'").replace('{FromResult}', "' + fromResult + '").replace('{ToResult}', "' + toResult + '").replace('{TotalResult}', "' + totalResult + '") + "';";
+				translationCache.CURRENT_PAGE_REPORT[this.options.translationCacheKey] = new Function('fromResult, toResult, totalResult', template);
+			}
+			return translationCache.CURRENT_PAGE_REPORT[this.options.translationCacheKey](fromResult, toResult, totalResult);
+		};
+		ItemPaginator.prototype.render = function () {
+			var result = this.getPaginationData();
+			var prelink = this.preparePreLink(result.prelink);
+			var html = '<div class="paginator">';
+			html += '<span class="paginator-current-report">';
+			html += this.renderCurrentPageReport(result.fromResult, result.toResult, result.totalResult);
+			html += '</span>';
+	
+			if (result.first) {
+				html += '<a href="' + prelink + result.first + '" class="paginator-first">' + this.options.translator('FIRST') + '</a>';
+			} else {
+				html += '<span class="paginator-first">' + this.options.translator('FIRST') + '</span>';
+			}
+	
+			if (result.previous) {
+				html += '<a href="' + prelink + result.previous + '" class="paginator-previous">' + this.options.translator('PREVIOUS') + '</a>';
+			} else {
+				html += '<span class="paginator-previous">' + this.options.translator('PREVIOUS') + '</span>';
+			}
+	
+			if (result.next) {
+				html += '<a href="' + prelink + result.next + '" class="paginator-next">' + this.options.translator('NEXT') + '</a>';
+			} else {
+				html += '<span class="paginator-next">' + this.options.translator('NEXT') + '</span>';
+			}
+	
+			if (result.last) {
+				html += '<a href="' + prelink + result.last + '" class="paginator-last">' + this.options.translator('LAST') + '</a>';
+			} else {
+				html += '<span class="paginator-last">' + this.options.translator('LAST') + '</span>';
+			}
+			html += '</div>';
+			return html;
+		};
+		pagination.registerFactory('item', ItemPaginator);
+	};
+
+/***/ },
+/* 39 */
+/*!**********************************************!*\
+  !*** ./~/pagination/lib/search_paginator.js ***!
+  \**********************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.module = function (pagination, util) {
+		"use strict";
+	
+		var SearchPaginator = function SearchPaginator(options) {
+			pagination.Paginator.call(this, options);
+		};
+	
+		pagination.SearchPaginator = SearchPaginator;
+	
+		util.inherits(SearchPaginator, pagination.Paginator);
+	
+		SearchPaginator.prototype.render = function () {
+			var i, len, className, prelink;
+			var result = this.getPaginationData();
+			var html = '<div class="paginator">';
+	
+			if (result.pageCount < 2) {
+				html += '</div>';
+				return html;
+			}
+	
+			prelink = this.preparePreLink(result.prelink);
+	
+			if (result.previous) {
+				html += '<a href="' + prelink + result.previous + '" class="paginator-previous">' + this.options.translator('PREVIOUS') + '</a>';
+			}
+	
+			if (result.range.length) {
+				for (i = 0, len = result.range.length; i < len; i++) {
+					className = 'paginator-page';
+	
+					if (result.range[i] === result.current) {
+						className = 'paginator-current';
+					}
+					if (i === 0) {
+						className += ' paginator-page-first';
+					} else if (i === len - 1) {
+						className += ' paginator-page-last';
+					}
+					html += '<a href="' + prelink + result.range[i] + '" class="' + className + '">' + result.range[i] + '</a>';
+				}
+			}
+			if (result.next) {
+				html += '<a href="' + prelink + result.next + '" class="paginator-next">' + this.options.translator('NEXT') + '</a>';
+			}
+			html += '</div>';
+			return html;
+		};
+		pagination.registerFactory('search', SearchPaginator);
+	};
+
+/***/ },
+/* 40 */
+/*!************************************************!*\
+  !*** ./~/pagination/lib/template_paginator.js ***!
+  \************************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.module = function (pagination, util) {
+		"use strict";
+	
+		var TemplatePaginator = pagination.TemplatePaginator = function (options) {
+			var template = options.template;
+			if (!template) {
+				throw new Error('Template compile to function needed');
+			}
+	
+			if (!(template.constructor && template.call && template.apply)) {
+				template = pagination.TemplateEngine.compile(String(template), options);
+			}
+			pagination.Paginator.call(this, options);
+			this.renderer = template;
+		};
+		util.inherits(TemplatePaginator, pagination.Paginator);
+		TemplatePaginator.prototype.render = function () {
+			var i,
+			    len,
+			    data = this.getPaginationData();
+			data.preparedPreLink = this.preparePreLink(data.prelink);
+			data.translations = {};
+			for (i = 0, len = pagination.translationKeys.length; i < len; i++) {
+				data.translations[pagination.translationKeys[i]] = this.options.translator(pagination.translationKeys[i]);
+			}
+			return this.renderer(data);
+		};
+		pagination.registerFactory('template', TemplatePaginator);
+	};
+
+/***/ },
+/* 41 */
+/*!**************************************!*\
+  !*** ./~/pagination/lib/template.js ***!
+  \**************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.module = function (pagination, util) {
+		"use strict";
+	
+		var cache = {};
+		var parse = function parse(str, options) {
+			var options = options || {},
+			    open = options.open || '<%',
+			    close = options.close || '%>';
+			var prefix, postfix, i, end, len, js, start, n;
+			var buf = ["var buf = [];", "\nwith (paginationData) {", "\n  buf.push('"];
+			for (i = 0, len = str.length; i < len; ++i) {
+				if (str.slice(i, open.length + i) === open) {
+					i += open.length;
+					switch (str.substr(i, 1)) {
+						case '=':
+							prefix = "', escape(";
+							postfix = "), '";
+							++i;
+							break;
+						case '-':
+							prefix = "', (";
+							postfix = "), '";
+							++i;
+							break;
+						default:
+							prefix = "');";
+							postfix = "; buf.push('";
+					}
+					end = str.indexOf(close, i);
+					js = str.substring(i, end);
+					start = i;n = 0;
+					while (~(n = js.indexOf("\n", n))) {
+						n++;
+					}buf.push(prefix, js, postfix);
+					i += end - start + close.length - 1;
+				} else if (str.substr(i, 1) === "\\") {
+					buf.push("\\\\");
+				} else if (str.substr(i, 1) === "'") {
+					buf.push("\\'");
+				} else if (str.substr(i, 1) === "\r") {
+					buf.push(" ");
+				} else if (str.substr(i, 1) === "\n") {
+					buf.push("\\n");
+				} else {
+					buf.push(str.substr(i, 1));
+				}
+			}
+			buf.push("');\n}\nreturn buf.join('');");
+			return buf.join('');
+		};
+		var _escape = function _escape(text) {
+			return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+		};
+		var _compile = function _compile(str, options) {
+			var fn = new Function('paginationData, escape', parse(str, options));
+			return function (paginationData) {
+				return fn.call(this, paginationData, _escape);
+			};
+		};
+	
+		var compile = function compile(str, options) {
+			var fn,
+			    options = options || {};
+			if (options.cache) {
+				if (options.id) {
+					fn = cache[options.id] || (cache[options.id] = _compile(str, options));
+				} else {
+					throw new Error('"cache" option requires "id"');
+				}
+			} else {
+				fn = _compile(str, options);
+			}
+			return fn;
+		};
+	
+		pagination.TemplateEngine = {
+			parse: parse,
+			compile: compile
+		};
+	};
+
+/***/ },
+/* 42 */
 /*!***********************************!*\
   !*** ./src/SingleSelect/index.js ***!
   \***********************************/
@@ -2957,10 +4223,10 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 32);
+	__webpack_require__(/*! ./styles.css */ 43);
 	
 	// html
-	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 34);
+	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 45);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 1);
@@ -3011,7 +4277,7 @@ exports["UI"] =
 	module.exports = SingleSelect;
 
 /***/ },
-/* 32 */
+/* 43 */
 /*!*************************************!*\
   !*** ./src/SingleSelect/styles.css ***!
   \*************************************/
@@ -3020,7 +4286,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 33);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 44);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 7)(content, {});
@@ -3040,7 +4306,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 33 */
+/* 44 */
 /*!********************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SingleSelect/styles.css ***!
   \********************************************************************************/
@@ -3057,7 +4323,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 34 */
+/* 45 */
 /*!**************************************!*\
   !*** ./src/SingleSelect/select.tmpl ***!
   \**************************************/
@@ -3074,7 +4340,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 35 */
+/* 46 */
 /*!********************************!*\
   !*** ./src/TextInput/index.js ***!
   \********************************/
@@ -3095,16 +4361,16 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 36);
+	__webpack_require__(/*! ./styles.css */ 47);
 	
 	// html
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 38);
-	var clearTmpl = __webpack_require__(/*! ./clear.tmpl */ 39);
-	var clearWrapper = __webpack_require__(/*! ./clearWrapper.html */ 40);
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 49);
+	var clearTmpl = __webpack_require__(/*! ./clear.tmpl */ 50);
+	var clearWrapper = __webpack_require__(/*! ./clearWrapper.html */ 51);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 9);
-	var debounce = __webpack_require__(/*! debounce */ 41);
+	var debounce = __webpack_require__(/*! debounce */ 52);
 	
 	var TextInput = (function (_BaseComponent) {
 	  _inherits(TextInput, _BaseComponent);
@@ -3172,7 +4438,7 @@ exports["UI"] =
 	module.exports = TextInput;
 
 /***/ },
-/* 36 */
+/* 47 */
 /*!**********************************!*\
   !*** ./src/TextInput/styles.css ***!
   \**********************************/
@@ -3181,7 +4447,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 37);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 48);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 7)(content, {});
@@ -3201,7 +4467,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 37 */
+/* 48 */
 /*!*****************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/TextInput/styles.css ***!
   \*****************************************************************************/
@@ -3218,7 +4484,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 38 */
+/* 49 */
 /*!**********************************!*\
   !*** ./src/TextInput/input.tmpl ***!
   \**********************************/
@@ -3229,7 +4495,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 39 */
+/* 50 */
 /*!**********************************!*\
   !*** ./src/TextInput/clear.tmpl ***!
   \**********************************/
@@ -3240,7 +4506,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 40 */
+/* 51 */
 /*!*****************************************!*\
   !*** ./src/TextInput/clearWrapper.html ***!
   \*****************************************/
@@ -3249,7 +4515,7 @@ exports["UI"] =
 	module.exports = "<div class='ui-text-input-clear-wrapper'></div>";
 
 /***/ },
-/* 41 */
+/* 52 */
 /*!*****************************!*\
   !*** ./~/debounce/index.js ***!
   \*****************************/
@@ -3261,7 +4527,7 @@ exports["UI"] =
 	 * Module dependencies.
 	 */
 	
-	var now = __webpack_require__(/*! date-now */ 42);
+	var now = __webpack_require__(/*! date-now */ 53);
 	
 	/**
 	 * Returns a function, that, as long as it continues to be invoked, will not
@@ -3311,7 +4577,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 42 */
+/* 53 */
 /*!*****************************!*\
   !*** ./~/date-now/index.js ***!
   \*****************************/
@@ -3326,7 +4592,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 43 */
+/* 54 */
 /*!********************************!*\
   !*** ./src/Typeahead/index.js ***!
   \********************************/
@@ -3352,7 +4618,7 @@ exports["UI"] =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var $ = __webpack_require__(/*! jquery */ 1);
-	var PrettyTypeahead = __webpack_require__(/*! ./PrettyTypeahead */ 44);
+	var PrettyTypeahead = __webpack_require__(/*! ./PrettyTypeahead */ 55);
 	
 	var Typeahead = (function (_PrettyTypeahead) {
 	  _inherits(Typeahead, _PrettyTypeahead);
@@ -3413,7 +4679,7 @@ exports["UI"] =
 	module.exports = Typeahead;
 
 /***/ },
-/* 44 */
+/* 55 */
 /*!************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/index.js ***!
   \************************************************/
@@ -3445,11 +4711,11 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.less */ 45);
+	__webpack_require__(/*! ./styles.less */ 56);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 1);
-	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 47);
+	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 58);
 	
 	var HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 	
@@ -3621,7 +4887,7 @@ exports["UI"] =
 	module.exports = PrettyTypeahead;
 
 /***/ },
-/* 45 */
+/* 56 */
 /*!***************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/styles.less ***!
   \***************************************************/
@@ -3630,7 +4896,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../../~/css-loader!./../../../~/less-loader!./styles.less */ 46);
+	var content = __webpack_require__(/*! !./../../../~/css-loader!./../../../~/less-loader!./styles.less */ 57);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../../~/style-loader/addStyles.js */ 7)(content, {});
@@ -3650,7 +4916,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 46 */
+/* 57 */
 /*!**********************************************************************************!*\
   !*** ./~/css-loader!./~/less-loader!./src/Typeahead/PrettyTypeahead/styles.less ***!
   \**********************************************************************************/
@@ -3667,7 +4933,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 47 */
+/* 58 */
 /*!**************************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/index.js ***!
   \**************************************************************/
@@ -3693,11 +4959,11 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 48);
+	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 59);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 9);
-	var TextInput = __webpack_require__(/*! ../../../TextInput */ 35);
+	var TextInput = __webpack_require__(/*! ../../../TextInput */ 46);
 	var ListView = __webpack_require__(/*! ../../../ListView */ 23);
 	var assert = __webpack_require__(/*! ../../../assert.js */ 13);
 	
@@ -3769,7 +5035,7 @@ exports["UI"] =
 	module.exports = BaseTypeahead;
 
 /***/ },
-/* 48 */
+/* 59 */
 /*!************************************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/baseTypeahead.html ***!
   \************************************************************************/
