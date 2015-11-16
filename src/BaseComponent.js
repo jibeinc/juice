@@ -16,10 +16,12 @@ const keyEvents = {
 };
 
 class BaseComponent {
-  constructor(el) {
+  constructor(el, opts = {}) {
     assert(el);
     this.$el = $(el);
-    this.$el.html('');
+    if(!opts.preserveChildElements) {
+      this.$el.html('');
+    }
 
     // to support server-side rendering, when DOM aint there
     if (this.$el.size() === 0) {
