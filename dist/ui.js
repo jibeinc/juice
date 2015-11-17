@@ -59,9 +59,9 @@ exports["UI"] =
 	  ListView: __webpack_require__(/*! ./ListView */ 23),
 	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 27),
 	  Pagination: __webpack_require__(/*! ./Pagination */ 31),
-	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 42),
-	  TextInput: __webpack_require__(/*! ./TextInput */ 46),
-	  Typeahead: __webpack_require__(/*! ./Typeahead */ 54)
+	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 43),
+	  TextInput: __webpack_require__(/*! ./TextInput */ 47),
+	  Typeahead: __webpack_require__(/*! ./Typeahead */ 55)
 	};
 	
 	module.exports = UIComponents;
@@ -2952,6 +2952,7 @@ exports["UI"] =
 	
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 9);
 	var pagination = __webpack_require__(/*! pagination */ 32);
+	var paginationTmpl = __webpack_require__(/*! ./pagination.dot */ 42);
 	
 	var Pagination = (function (_BaseComponent) {
 	  _inherits(Pagination, _BaseComponent);
@@ -2970,30 +2971,8 @@ exports["UI"] =
 	      slashSeparator: opts.slashSeparator,
 	      totalResult: opts.totalResult,
 	      template: function template(result) {
-	        var i, len, prelink;
-	        var html = '<div><ul class="pagination">';
-	        if (result.pageCount < 2) {
-	          html += '</ul></div>';
-	          return html;
-	        }
-	        prelink = this.preparePreLink(result.prelink);
-	        if (result.previous) {
-	          html += '<li><a href="' + prelink + result.previous + '">' + this.options.translator('PREVIOUS') + '</a></li>';
-	        }
-	        if (result.range.length) {
-	          for (i = 0, len = result.range.length; i < len; i++) {
-	            if (result.range[i] === result.current) {
-	              html += '<li class="active"><a href="' + prelink + result.range[i] + '">' + result.range[i] + '</a></li>';
-	            } else {
-	              html += '<li><a href="' + prelink + result.range[i] + '">' + result.range[i] + '</a></li>';
-	            }
-	          }
-	        }
-	        if (result.next) {
-	          html += '<li><a href="' + prelink + result.next + '" class="paginator-next">' + this.options.translator('NEXT') + '</a></li>';
-	        }
-	        html += '</ul></div>';
-	        return html;
+	        this.result = result;
+	        return paginationTmpl(this);
 	      }
 	    });
 	    return _this;
@@ -4203,6 +4182,18 @@ exports["UI"] =
 
 /***/ },
 /* 42 */
+/*!***************************************!*\
+  !*** ./src/Pagination/pagination.dot ***!
+  \***************************************/
+/***/ function(module, exports) {
+
+	module.exports = function anonymous(it
+	/**/) {
+	var out='<div> <ul class="pagination"> ';if(it.result.pageCount > 2){out+=' ';var prelink = it.preparePreLink(it.result.prelink);out+=' ';if(it.result.previous){out+=' <li> <a href="'+(prelink + it.result.previous)+'">'+(it.options.translator('PREVIOUS'))+'</a> </li> ';}out+=' ';if(it.result.range.length){out+=' ';var arr1=it.result.range;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+=' ';if(value === it.result.current){out+=' <li class="active"> <a href="'+(prelink + value)+'">'+(value)+'</a> </li> ';}else{out+=' <li> <a href="'+(prelink + value)+'">'+(value)+'</a> </li> ';}out+=' ';} } out+=' ';}out+=' ';if(it.result.next){out+=' <li> <a href="'+(prelink + it.result.next)+'" class="paginator-next">'+(it.options.translator('NEXT'))+'</a> </li> ';}out+=' ';}out+=' </ul></div>';return out;
+	}
+
+/***/ },
+/* 43 */
 /*!***********************************!*\
   !*** ./src/SingleSelect/index.js ***!
   \***********************************/
@@ -4223,10 +4214,10 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 43);
+	__webpack_require__(/*! ./styles.css */ 44);
 	
 	// html
-	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 45);
+	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 46);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 1);
@@ -4277,7 +4268,7 @@ exports["UI"] =
 	module.exports = SingleSelect;
 
 /***/ },
-/* 43 */
+/* 44 */
 /*!*************************************!*\
   !*** ./src/SingleSelect/styles.css ***!
   \*************************************/
@@ -4286,7 +4277,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 44);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 45);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 7)(content, {});
@@ -4306,7 +4297,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 44 */
+/* 45 */
 /*!********************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SingleSelect/styles.css ***!
   \********************************************************************************/
@@ -4323,7 +4314,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 45 */
+/* 46 */
 /*!**************************************!*\
   !*** ./src/SingleSelect/select.tmpl ***!
   \**************************************/
@@ -4340,7 +4331,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 46 */
+/* 47 */
 /*!********************************!*\
   !*** ./src/TextInput/index.js ***!
   \********************************/
@@ -4361,16 +4352,16 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 47);
+	__webpack_require__(/*! ./styles.css */ 48);
 	
 	// html
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 49);
-	var clearTmpl = __webpack_require__(/*! ./clear.tmpl */ 50);
-	var clearWrapper = __webpack_require__(/*! ./clearWrapper.html */ 51);
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 50);
+	var clearTmpl = __webpack_require__(/*! ./clear.tmpl */ 51);
+	var clearWrapper = __webpack_require__(/*! ./clearWrapper.html */ 52);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 9);
-	var debounce = __webpack_require__(/*! debounce */ 52);
+	var debounce = __webpack_require__(/*! debounce */ 53);
 	
 	var TextInput = (function (_BaseComponent) {
 	  _inherits(TextInput, _BaseComponent);
@@ -4438,7 +4429,7 @@ exports["UI"] =
 	module.exports = TextInput;
 
 /***/ },
-/* 47 */
+/* 48 */
 /*!**********************************!*\
   !*** ./src/TextInput/styles.css ***!
   \**********************************/
@@ -4447,7 +4438,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 48);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 49);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 7)(content, {});
@@ -4467,7 +4458,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 48 */
+/* 49 */
 /*!*****************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/TextInput/styles.css ***!
   \*****************************************************************************/
@@ -4484,7 +4475,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 49 */
+/* 50 */
 /*!**********************************!*\
   !*** ./src/TextInput/input.tmpl ***!
   \**********************************/
@@ -4495,7 +4486,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 50 */
+/* 51 */
 /*!**********************************!*\
   !*** ./src/TextInput/clear.tmpl ***!
   \**********************************/
@@ -4506,7 +4497,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 51 */
+/* 52 */
 /*!*****************************************!*\
   !*** ./src/TextInput/clearWrapper.html ***!
   \*****************************************/
@@ -4515,7 +4506,7 @@ exports["UI"] =
 	module.exports = "<div class='ui-text-input-clear-wrapper'></div>";
 
 /***/ },
-/* 52 */
+/* 53 */
 /*!*****************************!*\
   !*** ./~/debounce/index.js ***!
   \*****************************/
@@ -4527,7 +4518,7 @@ exports["UI"] =
 	 * Module dependencies.
 	 */
 	
-	var now = __webpack_require__(/*! date-now */ 53);
+	var now = __webpack_require__(/*! date-now */ 54);
 	
 	/**
 	 * Returns a function, that, as long as it continues to be invoked, will not
@@ -4577,7 +4568,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 53 */
+/* 54 */
 /*!*****************************!*\
   !*** ./~/date-now/index.js ***!
   \*****************************/
@@ -4592,7 +4583,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 54 */
+/* 55 */
 /*!********************************!*\
   !*** ./src/Typeahead/index.js ***!
   \********************************/
@@ -4618,7 +4609,7 @@ exports["UI"] =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var $ = __webpack_require__(/*! jquery */ 1);
-	var PrettyTypeahead = __webpack_require__(/*! ./PrettyTypeahead */ 55);
+	var PrettyTypeahead = __webpack_require__(/*! ./PrettyTypeahead */ 56);
 	
 	var Typeahead = (function (_PrettyTypeahead) {
 	  _inherits(Typeahead, _PrettyTypeahead);
@@ -4679,7 +4670,7 @@ exports["UI"] =
 	module.exports = Typeahead;
 
 /***/ },
-/* 55 */
+/* 56 */
 /*!************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/index.js ***!
   \************************************************/
@@ -4711,11 +4702,11 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.less */ 56);
+	__webpack_require__(/*! ./styles.less */ 57);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 1);
-	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 58);
+	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 59);
 	
 	var HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 	
@@ -4887,7 +4878,7 @@ exports["UI"] =
 	module.exports = PrettyTypeahead;
 
 /***/ },
-/* 56 */
+/* 57 */
 /*!***************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/styles.less ***!
   \***************************************************/
@@ -4896,7 +4887,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../../~/css-loader!./../../../~/less-loader!./styles.less */ 57);
+	var content = __webpack_require__(/*! !./../../../~/css-loader!./../../../~/less-loader!./styles.less */ 58);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../../~/style-loader/addStyles.js */ 7)(content, {});
@@ -4916,7 +4907,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 57 */
+/* 58 */
 /*!**********************************************************************************!*\
   !*** ./~/css-loader!./~/less-loader!./src/Typeahead/PrettyTypeahead/styles.less ***!
   \**********************************************************************************/
@@ -4933,7 +4924,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 58 */
+/* 59 */
 /*!**************************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/index.js ***!
   \**************************************************************/
@@ -4959,11 +4950,11 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 59);
+	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 60);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 9);
-	var TextInput = __webpack_require__(/*! ../../../TextInput */ 46);
+	var TextInput = __webpack_require__(/*! ../../../TextInput */ 47);
 	var ListView = __webpack_require__(/*! ../../../ListView */ 23);
 	var assert = __webpack_require__(/*! ../../../assert.js */ 13);
 	
@@ -5035,7 +5026,7 @@ exports["UI"] =
 	module.exports = BaseTypeahead;
 
 /***/ },
-/* 59 */
+/* 60 */
 /*!************************************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/baseTypeahead.html ***!
   \************************************************************************/
