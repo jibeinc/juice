@@ -10,6 +10,9 @@ module.exports = {
   cssnext: {
     browsers: ['last 2 versions', 'ie >= 9'],
   },
+  resolve: {
+    modulesDirectories: ['node_modules', 'bower_components'],
+  },
   module: {
     loaders: [
       {
@@ -46,6 +49,7 @@ module.exports = {
         // transpile all javascript from ES6 to ES5
         test: /\.js$/,
         loader: 'babel',
+        exclude: /node_modules/,
         query: {
           // list each plugin instead of using preset=es2015 as we need
           // to enable loose mode for classes to support IE9+

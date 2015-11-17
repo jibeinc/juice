@@ -2,6 +2,9 @@
 
 const UIComponents = {
   $: require('jquery'),
+  State: require('./State'),
+  PubSubHub: require('./PubSubHub'),
+  URL: require('./URL'),
   Button: require('./Button'),
   CurrentLocation: require('./CurrentLocation'),
   ExpandCollapseContainer: require('./ExpandCollapse/ExpandCollapseContainer'),
