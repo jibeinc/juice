@@ -16558,19 +16558,21 @@ exports["UI"] =
 	    } else {
 	      _this.list = opts.list;
 	    }
-	    if (opts.windowScroll) {
-	      $(window).scroll(function () {
-	        var wintop = $(window).scrollTop();
-	        var docheight = $(document).height();
-	        var winheight = $(window).height();
-	        var scrollTrigger = opts.scrollTrigger || 0.95;
 	
-	        if (wintop / (docheight - winheight) > scrollTrigger) {
-	          console.log('scroll bottom');
-	          _this.list.refresh();
-	        }
-	      });
-	    } else {}
+	    var $scrollTarget = opts.windowScroll ? $(window) : _this.$el;
+	
+	    $scrollTarget.scroll(function () {
+	      var scrollTop = $scrollTarget.scrollTop();
+	      var elementHeight = $scrollTarget.height();
+	      var elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
+	      var scrollTrigger = opts.scrollTrigger || 0.95;
+	
+	      if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
+	        console.log('scroll bottom');
+	        _this.list.refresh();
+	      }
+	    });
+	
 	    return _possibleConstructorReturn(_this, _this);
 	  }
 	

@@ -15,22 +15,20 @@ class InfiniteScroll extends BaseComponent {
     else {
       this.list = opts.list;
     }
-    if (opts.windowScroll) {
-      $(window).scroll(() => {
-        const wintop = $(window).scrollTop();
-        const docheight = $(document).height();
-        const winheight = $(window).height();
-        const scrollTrigger = opts.scrollTrigger || 0.95;
 
-        if ((wintop / (docheight - winheight)) > scrollTrigger) {
-          console.log('scroll bottom');
-          this.list.refresh();
-        }
-      });
-    }
-    else {
+    const $scrollTarget = opts.windowScroll ? $(window) : this.$el;
 
-    }
+    $scrollTarget.scroll(() => {
+      const scrollTop = $scrollTarget.scrollTop();
+      const elementHeight = $scrollTarget.height();
+      const elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
+      const scrollTrigger = opts.scrollTrigger || 0.95;
+
+      if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
+        this.list.refresh();
+      }
+    });
+
     return this;
   }
 

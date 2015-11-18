@@ -9,6 +9,8 @@
 </head>
 <body>
 
+<!-- Uncomment to test infinite scrolling on a div, instead of relative to the whole page -->
+<!--div class="infinite-scroll-test" style="height:500px;overflow:scroll;"-->
 <div class="infinite-scroll-test">
     <div class="container">
         <div class="row">
@@ -71,6 +73,7 @@
 
     var infiniteScroll = new exports.UI.InfiniteScroll('.infinite-scroll-test', {
         list: list,
+        scrollTrigger: 0.98,
         windowScroll: true
     });
 
