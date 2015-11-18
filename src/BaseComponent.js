@@ -18,14 +18,18 @@ const keyEvents = {
 class BaseComponent {
   constructor(el, opts = {}) {
     assert(el);
-    this.$el = $(el);
-    if(!opts.preserveChildElements) {
-      this.$el.html('');
-    }
 
-    // to support server-side rendering, when DOM aint there
+    // find element in the client DOM, or...
+    this.$el = $(el);
+
+    // ...when DOM aint there,
+    // just do it in memory, to support server-side rendering
     if (this.$el.size() === 0) {
       this.$el = $('<div></div>');
+    }
+
+    if (!opts.preserveChildElements) {
+      this.$el.html('');
     }
 
     this.value     = null;
