@@ -13,6 +13,7 @@ class Button extends BaseComponent {
   constructor(el, opts={}) {
     super(el);
     this.label = opts.label || 'ClickMe!';
+    this.submit = opts.submit || false;
   }
 
   render() {
