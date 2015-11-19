@@ -12878,7 +12878,6 @@ exports["UI"] =
 	
 	var history = __webpack_require__(/*! html5-history-api */ 13);
 	var url = __webpack_require__(/*! url */ 16);
-	var $ = __webpack_require__(/*! jquery */ 1);
 	
 	var URL = (function () {
 	  function URL(locationAPI) {
@@ -12888,7 +12887,9 @@ exports["UI"] =
 	  }
 	
 	  URL.prototype.updateQueryParams = function updateQueryParams(queryObj) {
-	    history.pushState(null, null, '?' + $.param(queryObj));
+	    var currentURL = url.parse(window.location.href);
+	    currentURL.query = queryObj;
+	    history.pushState(null, null, url.format(currentURL));
 	  };
 	
 	  URL.prototype.getQueryParams = function getQueryParams() {
