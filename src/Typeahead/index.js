@@ -33,13 +33,13 @@ class Typeahead extends PrettyTypeahead {
     return item;
   }
 
-  renderItem(item) {
-    return super.renderItem(this.getDisplayValue(item));
-  }
-
   handleSelection(selection) {
     this.textInput.set(this.getDisplayValue(selection));
     this.set(selection);
+  }
+
+  renderItem(item) {
+    return super.renderItem(this.getDisplayValue(item));
   }
 
   selectByIndex() {

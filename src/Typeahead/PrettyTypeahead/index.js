@@ -8,8 +8,6 @@
 // - add highlights for partial matches
 // - ESC key forces blur
 // - point to click from results list and hover highlight
-// - TODO: configurable placeholder text (should prob go in `TextInput`)
-// - TODO: i18n
 
 // ==================================================== //
 // use the child class `Typeahead` in your actual UI's! //
