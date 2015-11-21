@@ -4,6 +4,8 @@
 //    - support separation of value from displayValue
 //    - styles (like jnj staging mobile in particular)
 
+// # BUG: when you call setOptions we blow away 'checked' state, need to merge that state into new values
+
 // css
 require('./styles.css');
 
