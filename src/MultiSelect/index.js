@@ -17,11 +17,7 @@ const BaseComponent = require('../BaseComponent');
 class MultiSelect extends BaseComponent {
   constructor(el, opts={}) {
     super(el);
-    this.options = (opts.options || []).map((opt) => {
-      return {
-        value: opt
-      };
-    });
+    this.setOptions(opts.options || []);
   }
 
   get() {
@@ -38,6 +34,14 @@ class MultiSelect extends BaseComponent {
     this.render();
     this.publish(this.get());
     return this;
+  }
+
+  setOptions(options) {
+    this.options = options.map((opt) => {
+      return {
+        value: opt
+      };
+    });
   }
 
   render() {
