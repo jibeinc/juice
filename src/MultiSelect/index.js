@@ -23,6 +23,7 @@ class MultiSelect extends BaseComponent {
   }
 
   get() {
+    this.options = this.options || [];
     return this.options.filter((opt) => {
       return opt.checked
     });
@@ -39,9 +40,12 @@ class MultiSelect extends BaseComponent {
   }
 
   setOptions(options) {
+    const selections = this.get().map(s => s.value);
+
     this.options = options.map((opt) => {
       return {
-        value: opt
+        value: opt,
+        checked: selections.indexOf(opt) !== -1
       };
     });
   }

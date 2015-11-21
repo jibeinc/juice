@@ -17,9 +17,12 @@
 
     categories.subscribe(function (choice) {
       console.log('New Category kiiii!', choice);
+      categories.setOptions(['Marketing', 'Sales', 'Engineering', 'New!']);
+      categories.render();
     });
 
     categories.render();
+
   </script>
 
 </body>
