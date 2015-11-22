@@ -1,40 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Expand/Collapse Example</title>
-    <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-    <script>window.exports = {};</script>
-    <script src='../dist/ui.js'></script>
+  <title>Expand/Collapse Example</title>
+  <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>
+    window.exports = {};
+  </script>
+  <script src='../dist/ui.js'></script>
 </head>
+
 <body>
 
-<span class="toggle">Toggle</span>
+  <span class="toggle">Toggle</span>
 
-<div class="expand-collapse-test-container">
+  <div class="expand-collapse-test-container">
     <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut porttitor eros. In nec nulla quam. Nullam at
-        vulputate ipsum. Curabitur elementum lectus sit amet orci placerat ultrices. Phasellus ipsum tellus, facilisis
-        rhoncus maximus sit amet, sollicitudin quis felis. Morbi a ipsum congue neque hendrerit mollis a ac turpis.
-        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed auctor metus
-        sed
-        nulla aliquet, in sagittis tellus sodales. Etiam nec neque eu enim consectetur vehicula.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut porttitor eros. In nec nulla quam. Nullam at vulputate
+      ipsum. Curabitur elementum lectus sit amet orci placerat ultrices. Phasellus ipsum tellus, facilisis rhoncus maximus
+      sit amet, sollicitudin quis felis. Morbi a ipsum congue neque hendrerit mollis a ac turpis. Pellentesque habitant morbi
+      tristique senectus et netus et malesuada fames ac turpis egestas. Sed auctor metus sed nulla aliquet, in sagittis tellus
+      sodales. Etiam nec neque eu enim consectetur vehicula.
     </p>
 
     <p>
-        Nulla volutpat ante ut odio posuere dapibus. Nunc justo lacus, accumsan a lobortis eget, commodo sit amet ante.
-        Donec mattis mauris eget eros luctus iaculis. Aenean vel aliquam nisi. Morbi fringilla imperdiet ultrices. Cras
-        eget
-        sem eleifend, blandit enim tempor, convallis augue. Phasellus id sagittis purus, a accumsan velit.
+      Nulla volutpat ante ut odio posuere dapibus. Nunc justo lacus, accumsan a lobortis eget, commodo sit amet ante. Donec mattis
+      mauris eget eros luctus iaculis. Aenean vel aliquam nisi. Morbi fringilla imperdiet ultrices. Cras eget sem eleifend,
+      blandit enim tempor, convallis augue. Phasellus id sagittis purus, a accumsan velit.
     </p>
-</div>
+  </div>
 
-<script>
+  <script>
     var container = new exports.UI.ExpandCollapseContainer('.expand-collapse-test-container', {
-        toggleSelector: '.toggle'
+      toggledClass: 'i-am-toggled',
+      toggleSelector: '.toggle',
+      untoggledClass: 'i-am-NOT-toggled'
     });
     container.render();
-</script>
+  </script>
 
 </body>
+
 </html>
