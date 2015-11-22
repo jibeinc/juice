@@ -2,6 +2,7 @@
 
 const UIComponents = {
   $: require('jquery'),
+  Dot: require('./Dot'),
   State: require('./State'),
   PubSubHub: require('./PubSubHub'),
   URL: require('./URL'),
