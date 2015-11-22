@@ -44,6 +44,10 @@ class DotService {
     var renderIntoDOMWith = this.compile(template, dotConfigOverrides);
     return $(cssSelector).html(renderIntoDOMWith(viewModel));
   }
+
+  compile(template, data) {
+    return this.compile(template, dotConfigOverrides)(data);
+  }
 }
 
 module.exports = new DotService(window.doT);

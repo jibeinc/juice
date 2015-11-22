@@ -9348,6 +9348,10 @@ exports["UI"] =
 	    return $(cssSelector).html(renderIntoDOMWith(viewModel));
 	  };
 	
+	  DotService.prototype.compile = function compile(template, data) {
+	    return this.compile(template, dotConfigOverrides)(data);
+	  };
+	
 	  return DotService;
 	})();
 	
