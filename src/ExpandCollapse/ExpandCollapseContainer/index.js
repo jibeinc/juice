@@ -11,7 +11,7 @@ class ExpandCollapseContainer extends BaseComponent {
     super(el, {
       preserveChildElements: true
     });
-    const toggle = new ExpandCollapseToggle(opts.toggleSelector);
+    const toggle = new ExpandCollapseToggle(opts.toggleSelector, opts);
     toggle.render();
     toggle.subscribe((isToggled) => {
       this.expandCollapse(isToggled);
@@ -23,14 +23,14 @@ class ExpandCollapseContainer extends BaseComponent {
     if (isToggled) {
       const wrapperHeight = this.$el.find('.measuringWrapper')[0].clientHeight;
       this.$el.find('.grow').css('height', wrapperHeight + 'px');
-    }
-    else {
+    } else {
       this.$el.find('.grow').css('height', '0');
     }
   }
 
   render() {
-    this.$el.html(collapseTmpl(this));
+    const innerContent = this.$el.html();
+    this.$el.html(collapseTmpl(innerContent));
     return this.$el.html();
   }
 }
