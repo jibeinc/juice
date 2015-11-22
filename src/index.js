@@ -9,6 +9,7 @@ const UIComponents = {
   CurrentLocation: require('./CurrentLocation'),
   ExpandCollapseContainer: require('./ExpandCollapse/ExpandCollapseContainer'),
   ExpandCollapseToggle: require('./ExpandCollapse/ExpandCollapseToggle'),
+  InfiniteScroll: require('./InfiniteScroll'),
   ListView: require('./ListView'),
   MultiSelect: require('./MultiSelect'),
   Pagination: require('./Pagination'),
