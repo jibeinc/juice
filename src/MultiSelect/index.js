@@ -1,11 +1,5 @@
 'use strict';
 
-// # TODO
-//    - support separation of value from displayValue
-//    - styles (like jnj staging mobile in particular)
-
-// # BUG: when you call setOptions we blow away 'checked' state, need to merge that state into new values
-
 // css
 require('./styles.css');
 
@@ -19,7 +13,27 @@ const BaseComponent = require('../BaseComponent');
 class MultiSelect extends BaseComponent {
   constructor(el, opts={}) {
     super(el);
+    this.displayNameKey = opts.displayNameKey || 'displayName';
+    this.renderItem = opts.renderItem || this.renderItem;
     this.setOptions(opts.options || []);
+  }
+
+  renderItem(item) {
+    return JSON.stringify(item[this.displayNameKey]);
+  }
+
+  setOptions(options) {
+    const selections = this.get().map(s => s.value);
+
+    this.options = options.map((opt) => {
+      if (typeof opt !== 'object') {
+        opt = {
+          value: opt
+        };
+      }
+      opt.checked = selections.indexOf(opt.value) !== -1;
+      return opt;
+    });
   }
 
   get() {
@@ -27,6 +41,14 @@ class MultiSelect extends BaseComponent {
     return this.options.filter((opt) => {
       return opt.checked
     });
+  }
+
+  render() {
+    this.$el.html(multiSelectTmpl(this));
+    this.$el.find('input').click((evt) => {
+      this.set($(evt.target).val());
+    });
+    return this.$el.html();
   }
 
   set(v) {
@@ -37,25 +59,6 @@ class MultiSelect extends BaseComponent {
     this.render();
     this.publish(this.get());
     return this;
-  }
-
-  setOptions(options) {
-    const selections = this.get().map(s => s.value);
-
-    this.options = options.map((opt) => {
-      return {
-        value: opt,
-        checked: selections.indexOf(opt) !== -1
-      };
-    });
-  }
-
-  render() {
-    this.$el.html(multiSelectTmpl(this));
-    this.$el.find('input').click((evt) => {
-      this.set($(evt.target).val());
-    });
-    return this.$el.html();
   }
 };
 

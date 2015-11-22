@@ -2,7 +2,7 @@
 {{ it.options.forEach(function (opt) { }}
   <div>
     <input type='checkbox' name='{{= it.id }}' value='{{= opt.value }}' {{? opt.checked }}checked=true{{?}}/>
-    <label for='{{= it.id }}'>{{= opt.value }}</label>
+    <label for='{{= it.id }}'>{{= it.renderItem(opt) }}</label>
   </div>
 {{ }); }}
 </div>

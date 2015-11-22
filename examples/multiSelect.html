@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Multi Select Example</title>
+
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
   <script>window.exports = {};</script>
   <script src='../dist/ui.js'></script>
@@ -12,12 +13,30 @@
 
   <script>
     var categories = new exports.UI.MultiSelect('.categories', {
-      options: ['Marketing', 'Sales', 'Engineering']
+      options: [
+        {
+          displayName: 'Marketing',
+          value: 'mrkt01',
+          count: 5
+        },
+        {
+          displayName: 'Sales',
+          value: 'sales',
+          count: 9
+        },
+        {
+          displayName: 'Engineering',
+          value: 'eng-2015',
+          count: 43
+        }
+      ],
+      renderItem: function (item) {
+        return item.displayName + ' (' + item.count + ')';
+      }
     });
 
     categories.subscribe(function (choice) {
       console.log('New Category kiiii!', choice);
-      categories.setOptions(['Marketing', 'Sales', 'Engineering', 'New!']);
       categories.render();
     });
 
