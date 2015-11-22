@@ -35,9 +35,13 @@ class BaseTypeahead extends BaseComponent {
     });
 
     // when an item is picked from the list view:
-    this.resultsListView.subscribe((selection) => {
+    this.resultsListView.subscribe((evt) => {
+      if (evt === 'refresh') {
+        return;
+      }
+
       // update text input with this value, set typeahead internal value
-      this.handleSelection(selection);
+      this.handleSelection(evt);
       this.textInput.$el.find('input').focus();
     });
 

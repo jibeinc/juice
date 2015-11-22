@@ -1,9 +1,5 @@
 'use strict';
 
-// # TODO
-//    - support separation of value from displayValue
-//    - styles (like jnj staging mobile in particular)
-
 // css
 require('./styles.css');
 
@@ -17,17 +13,42 @@ const BaseComponent = require('../BaseComponent');
 class MultiSelect extends BaseComponent {
   constructor(el, opts={}) {
     super(el);
-    this.options = (opts.options || []).map((opt) => {
-      return {
-        value: opt
-      };
+    this.displayNameKey = opts.displayNameKey || 'displayName';
+    this.renderItem = opts.renderItem || this.renderItem;
+    this.setOptions(opts.options || []);
+  }
+
+  renderItem(item) {
+    return JSON.stringify(item[this.displayNameKey]);
+  }
+
+  setOptions(options) {
+    const selections = this.get().map(s => s.value);
+
+    this.options = options.map((opt) => {
+      if (typeof opt !== 'object') {
+        opt = {
+          value: opt
+        };
+      }
+      opt.checked = selections.indexOf(opt.value) !== -1;
+      return opt;
     });
   }
 
   get() {
+    this.options = this.options || [];
     return this.options.filter((opt) => {
       return opt.checked
     });
+  }
+
+  render() {
+    this.$el.html(multiSelectTmpl(this));
+    this.$el.find('input').click((evt) => {
+      this.set($(evt.target).val());
+    });
+    return this.$el.html();
   }
 
   set(v) {
@@ -38,14 +59,6 @@ class MultiSelect extends BaseComponent {
     this.render();
     this.publish(this.get());
     return this;
-  }
-
-  render() {
-    this.$el.html(multiSelectTmpl(this));
-    this.$el.find('input').click((evt) => {
-      this.set($(evt.target).val());
-    });
-    return this.$el.html();
   }
 };
 

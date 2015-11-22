@@ -2,7 +2,6 @@
 
 var history = require('html5-history-api');
 var url     = require('url');
-var $       = require('jquery');
 
 class URL {
   constructor(locationAPI) {
@@ -10,7 +9,9 @@ class URL {
   }
 
   updateQueryParams(queryObj) {
-    history.pushState(null, null, '?' + $.param(queryObj));
+    var currentURL = url.parse(window.location.href);
+    currentURL.query = queryObj;
+    history.pushState(null, null, url.format(currentURL));
   }
 
   getQueryParams() {

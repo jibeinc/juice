@@ -13,11 +13,13 @@ class Button extends BaseComponent {
   constructor(el, opts={}) {
     super(el);
     this.label = opts.label || 'ClickMe!';
+    this.submit = opts.submit || false;
   }
 
   render() {
     this.$el.html(buttonTmpl(this));
-    this.$el.find('button').click(() => {
+    this.$el.find('button').click((evt) => {
+      evt.preventDefault();
       this.publish('click', this.id);
     });
     return this.$el.html();

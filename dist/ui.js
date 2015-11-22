@@ -9305,7 +9305,9 @@ exports["UI"] =
 	// centralized state
 	
 	var State = (function () {
-	  function State(initialState) {
+	  function State() {
+	    var initialState = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	
 	    _classCallCheck(this, State);
 	
 	    this.state = new Baobab(initialState);
@@ -12879,7 +12881,6 @@ exports["UI"] =
 	
 	var history = __webpack_require__(/*! html5-history-api */ 13);
 	var url = __webpack_require__(/*! url */ 16);
-	var $ = __webpack_require__(/*! jquery */ 1);
 	
 	var URL = (function () {
 	  function URL(locationAPI) {
@@ -12889,7 +12890,9 @@ exports["UI"] =
 	  }
 	
 	  URL.prototype.updateQueryParams = function updateQueryParams(queryObj) {
-	    history.pushState(null, null, '?' + $.param(queryObj));
+	    var currentURL = url.parse(window.location.href);
+	    currentURL.query = queryObj;
+	    history.pushState(null, null, url.format(currentURL));
 	  };
 	
 	  URL.prototype.getQueryParams = function getQueryParams() {
@@ -15500,6 +15503,7 @@ exports["UI"] =
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
 	    _this.label = opts.label || 'ClickMe!';
+	    _this.submit = opts.submit || false;
 	    return _this;
 	  }
 	
@@ -15507,7 +15511,8 @@ exports["UI"] =
 	    var _this2 = this;
 	
 	    this.$el.html(buttonTmpl(this));
-	    this.$el.find('button').click(function () {
+	    this.$el.find('button').click(function (evt) {
+	      evt.preventDefault();
 	      _this2.publish('click', _this2.id);
 	    });
 	    return this.$el.html();
@@ -15890,7 +15895,7 @@ exports["UI"] =
 /***/ function(module, exports) {
 
 	module.exports = function (scope) {
-	  return "<button type='button' class='ui-button'>" + scope.label + "</button>";
+	  return "<button type='" + (scope.submit ? "submit" : "button") + "' class='ui-button'>" + scope.label + "</button>";
 	};
 
 /***/ },
@@ -15926,14 +15931,18 @@ exports["UI"] =
 	    _classCallCheck(this, BaseComponent);
 	
 	    assert(el);
-	    this.$el = $(el);
-	    if (!opts.preserveChildElements) {
-	      this.$el.html('');
-	    }
 	
-	    // to support server-side rendering, when DOM aint there
+	    // find element in the client DOM, or...
+	    this.$el = $(el);
+	
+	    // ...when DOM aint there,
+	    // just do it in memory, to support server-side rendering
 	    if (this.$el.size() === 0) {
 	      this.$el = $('<div></div>');
+	    }
+	
+	    if (!opts.preserveChildElements) {
+	      this.$el.html('');
 	    }
 	
 	    this.value = null;
@@ -16652,6 +16661,7 @@ exports["UI"] =
 	  ListView.prototype.refresh = function refresh() {
 	    var _this3 = this;
 	
+	    this.publish('refresh');
 	    this.fetch(function (results) {
 	      _this3.results = results;
 	      _this3.render();
@@ -16732,12 +16742,10 @@ exports["UI"] =
 
 	'use strict'
 	
-	// # TODO
-	//    - support separation of value from displayValue
-	//    - styles (like jnj staging mobile in particular)
-	
 	// css
 	;
+	
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -16764,28 +16772,37 @@ exports["UI"] =
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
-	    _this.options = (opts.options || []).map(function (opt) {
-	      return {
-	        value: opt
-	      };
-	    });
+	    _this.displayNameKey = opts.displayNameKey || 'displayName';
+	    _this.renderItem = opts.renderItem || _this.renderItem;
+	    _this.setOptions(opts.options || []);
 	    return _this;
 	  }
 	
-	  MultiSelect.prototype.get = function get() {
-	    return this.options.filter(function (opt) {
-	      return opt.checked;
+	  MultiSelect.prototype.renderItem = function renderItem(item) {
+	    return JSON.stringify(item[this.displayNameKey]);
+	  };
+	
+	  MultiSelect.prototype.setOptions = function setOptions(options) {
+	    var selections = this.get().map(function (s) {
+	      return s.value;
+	    });
+	
+	    this.options = options.map(function (opt) {
+	      if ((typeof opt === 'undefined' ? 'undefined' : _typeof(opt)) !== 'object') {
+	        opt = {
+	          value: opt
+	        };
+	      }
+	      opt.checked = selections.indexOf(opt.value) !== -1;
+	      return opt;
 	    });
 	  };
 	
-	  MultiSelect.prototype.set = function set(v) {
-	    this.options = this.options.map(function (opt) {
-	      opt.checked = opt.value === v ? !opt.checked : opt.checked;
-	      return opt;
+	  MultiSelect.prototype.get = function get() {
+	    this.options = this.options || [];
+	    return this.options.filter(function (opt) {
+	      return opt.checked;
 	    });
-	    this.render();
-	    this.publish(this.get());
-	    return this;
 	  };
 	
 	  MultiSelect.prototype.render = function render() {
@@ -16796,6 +16813,16 @@ exports["UI"] =
 	      _this2.set($(evt.target).val());
 	    });
 	    return this.$el.html();
+	  };
+	
+	  MultiSelect.prototype.set = function set(v) {
+	    this.options = this.options.map(function (opt) {
+	      opt.checked = opt.value === v ? !opt.checked : opt.checked;
+	      return opt;
+	    });
+	    this.render();
+	    this.publish(this.get());
+	    return this;
 	  };
 	
 	  return MultiSelect;
@@ -16860,7 +16887,7 @@ exports["UI"] =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<div class=\'ui-multi-select\'>'; it.options.forEach(function (opt) { out+=' <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <label for=\''+( it.id )+'\'>'+( opt.value )+'</label>'; }); out+='</div>';return out;
+	var out='<div class=\'ui-multi-select\'>'; it.options.forEach(function (opt) { out+=' <div> <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <label for=\''+( it.id )+'\'>'+( it.renderItem(opt) )+'</label> </div>'; }); out+='</div>';return out;
 	}
 
 /***/ },
@@ -18593,13 +18620,13 @@ exports["UI"] =
 	    return item;
 	  };
 	
-	  Typeahead.prototype.renderItem = function renderItem(item) {
-	    return _PrettyTypeahead.prototype.renderItem.call(this, this.getDisplayValue(item));
-	  };
-	
 	  Typeahead.prototype.handleSelection = function handleSelection(selection) {
 	    this.textInput.set(this.getDisplayValue(selection));
 	    this.set(selection);
+	  };
+	
+	  Typeahead.prototype.renderItem = function renderItem(item) {
+	    return _PrettyTypeahead.prototype.renderItem.call(this, this.getDisplayValue(item));
 	  };
 	
 	  Typeahead.prototype.selectByIndex = function selectByIndex() {
@@ -18636,8 +18663,6 @@ exports["UI"] =
 	// - add highlights for partial matches
 	// - ESC key forces blur
 	// - point to click from results list and hover highlight
-	// - TODO: configurable placeholder text (should prob go in `TextInput`)
-	// - TODO: i18n
 	
 	// ==================================================== //
 	// use the child class `Typeahead` in your actual UI's! //
@@ -18930,9 +18955,13 @@ exports["UI"] =
 	    });
 	
 	    // when an item is picked from the list view:
-	    _this.resultsListView.subscribe(function (selection) {
+	    _this.resultsListView.subscribe(function (evt) {
+	      if (evt === 'refresh') {
+	        return;
+	      }
+	
 	      // update text input with this value, set typeahead internal value
-	      _this.handleSelection(selection);
+	      _this.handleSelection(evt);
 	      _this.textInput.$el.find('input').focus();
 	    });
 	
