@@ -1,7 +1,7 @@
 <ul>
-{{var i=0;
-  it.results.forEach(function (result) { }}
-    <li id='{{= it.id }}' data-index='{{= i }}'>{{= it.renderItem(result, i) }}</li>
-{{  i++;
-  }); }}
+  {{~it.results :value:index}}
+    <li id='{{=value.id}}' class='{{=value.class}}' data-index='{{=index}}'>
+      {{=it.renderItem(value, index)}}
+    </li>
+  {{~}}
 </ul>

@@ -11005,7 +11005,7 @@ exports["UI"] =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<ul>';var i=0; it.results.forEach(function (result) { out+=' <li id=\''+( it.id )+'\' data-index=\''+( i )+'\'>'+( it.renderItem(result, i) )+'</li>';  i++; }); out+='</ul>';return out;
+	var out='<ul> ';var arr1=it.results;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+=' <li id=\''+(value.id)+'\' class=\''+(value.class)+'\' data-index=\''+(index)+'\'> '+(it.renderItem(value, index))+' </li> ';} } out+='</ul>';return out;
 	}
 
 /***/ },
