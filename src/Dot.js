@@ -21,7 +21,7 @@ class DotService {
 
   constructor(doT) {
     this.doT = doT;
-    this.compile = this.doT.template;
+    this._compile = this.doT.template;
   }
 
   /**
@@ -41,12 +41,12 @@ class DotService {
       throw new Error('You must specify a jquery-friendly css selector to render template into.');
     }
 
-    var renderIntoDOMWith = this.compile(template, dotConfigOverrides);
+    var renderIntoDOMWith = this._compile(template, dotConfigOverrides);
     return $(cssSelector).html(renderIntoDOMWith(viewModel));
   }
 
   compile(template, data) {
-    return this.compile(template, dotConfigOverrides)(data);
+    return this._compile(template, dotConfigOverrides)(data);
   }
 }
 

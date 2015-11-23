@@ -15,6 +15,12 @@
     exports.UI.Dot.renderIntoDOM('<h1>[[= model.greeting ]]</h1>', '.dot-target', {
       greeting: 'Hello World of Dots!'
     });
+
+    var str = exports.UI.Dot.compile('<h1>[[= model.greeting ]]</h1>', {
+      greeting: 'me compile!'
+    });
+
+    alert(str);
   </script>
 
 </body>
