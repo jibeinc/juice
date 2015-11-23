@@ -11,11 +11,7 @@ class ListItem extends BaseComponent {
     this.listItemProps = opts.listItemProps;
   }
 
-  render(content, index) {
-    if (index) {
-      content.index = index;
-    }
-
+  render(content) {
     for (let key of Object.keys(this.listItemProps)) {
       this.$el.attr(key, this.listItemProps[key]);
     }

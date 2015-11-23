@@ -10904,11 +10904,7 @@ exports["UI"] =
 	    return _this;
 	  }
 	
-	  ListItem.prototype.render = function render(content, index) {
-	    if (index) {
-	      content.index = index;
-	    }
-	
+	  ListItem.prototype.render = function render(content) {
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
@@ -11017,12 +11013,14 @@ exports["UI"] =
 	    var listItem = new ListItem(listItemEl, {
 	      listItemProps: this.listItemProps
 	    });
-	
+	    if (index) {
+	      content.index = index;
+	    }
 	    if (this.listItemTmpl) {
 	      content = this.listItemTmpl(content);
 	    }
 	
-	    return listItem.render(content, index);
+	    return listItem.render(content);
 	  };
 	
 	  ListView.prototype.refresh = function refresh() {
