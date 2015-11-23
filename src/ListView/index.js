@@ -12,16 +12,20 @@ require('./styles.css');
 const listViewTmpl = require('./listView.dot');
 
 // scripts
-const $             = require('jquery');
+const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
-const assert        = require('../assert');
+const assert = require('../assert');
+const ListItem = require('./ListItem');
 
 class ListView extends BaseComponent {
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
     super(el);
-    this.results = opts.results || [];
-    this.fetch = opts.fetch;
-    this.renderItem = opts.renderItem || this.renderItem;
+    Object.assign(this, {
+      fetch: opts.fetch,
+      listItemProps: opts.listItemProps || {},
+      renderItem: opts.renderItem || this.renderItem,
+      results: opts.results || []
+    });
     assert(typeof this.fetch === 'function');
   }
 
@@ -33,9 +37,13 @@ class ListView extends BaseComponent {
     return this.$el.html();
   }
 
-  renderItem(item, index) {
-    console.log(index);
-    return item.toString();
+  renderItem(index, item) {
+    const listItemEl = $('<li>');
+    const listItem = new ListItem(listItemEl, {
+      listItemContent: item,
+      listItemProps: this.listItemProps
+    });
+    return listItem.render();
   }
 
   refresh() {
