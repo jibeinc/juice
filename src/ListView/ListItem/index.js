@@ -8,10 +8,14 @@ class ListItem extends BaseComponent {
   constructor(el, opts = {}) {
     super(el);
 
-    Object.assign(this, opts);
+    this.listItemProps = opts.listItemProps;
   }
 
-  render(content) {
+  render(content, index) {
+    if (index) {
+      content.index = index;
+    }
+
     for (let key of Object.keys(this.listItemProps)) {
       this.$el.attr(key, this.listItemProps[key]);
     }

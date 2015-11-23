@@ -10900,11 +10900,15 @@ exports["UI"] =
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
-	    Object.assign(_this, opts);
+	    _this.listItemProps = opts.listItemProps;
 	    return _this;
 	  }
 	
-	  ListItem.prototype.render = function render(content) {
+	  ListItem.prototype.render = function render(content, index) {
+	    if (index) {
+	      content.index = index;
+	    }
+	
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
@@ -11001,6 +11005,7 @@ exports["UI"] =
 	    var _this2 = this;
 	
 	    this.$el.html(listViewTmpl(this));
+	    //TODO: Instead of hooking into the li directly, we should set up publish on ListItem
 	    this.$el.find('li').click(function (evt) {
 	      _this2.set(_this2.results[$(evt.target).attr('data-index')]);
 	    });
@@ -11010,13 +11015,13 @@ exports["UI"] =
 	  ListView.prototype.renderItem = function renderItem(content, index) {
 	    var listItemEl = $('<li>');
 	    var listItem = new ListItem(listItemEl, {
-	      listItemIndex: index,
 	      listItemProps: this.listItemProps
 	    });
 	
 	    if (this.listItemTmpl) {
 	      content = this.listItemTmpl(content);
 	    }
+	
 	    return listItem.render(content);
 	  };
 	

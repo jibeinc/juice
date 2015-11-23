@@ -32,6 +32,7 @@ class ListView extends BaseComponent {
 
   render() {
     this.$el.html(listViewTmpl(this));
+    //TODO: Instead of hooking into the li directly, we should set up publish on ListItem
     this.$el.find('li').click((evt) => {
       this.set(this.results[$(evt.target).attr('data-index')]);
     });
@@ -41,13 +42,13 @@ class ListView extends BaseComponent {
   renderItem(content, index) {
     const listItemEl = $('<li>');
     const listItem = new ListItem(listItemEl, {
-      listItemIndex: index,
       listItemProps: this.listItemProps
     });
 
     if (this.listItemTmpl) {
       content = this.listItemTmpl(content);
     }
+
     return listItem.render(content);
   }
 
