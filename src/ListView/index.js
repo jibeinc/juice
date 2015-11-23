@@ -44,9 +44,9 @@ class ListView extends BaseComponent {
     const listItem = new ListItem(listItemEl, {
       listItemProps: this.listItemProps
     });
-    if (index) {
-      content.index = index;
-    }
+
+    content.index = index;
+
     if (this.listItemTmpl) {
       content = this.listItemTmpl(content);
     }
