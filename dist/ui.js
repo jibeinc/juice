@@ -16740,7 +16740,7 @@ exports["UI"] =
 	    return this.$el.html();
 	  };
 	
-	  ListView.prototype.renderItem = function renderItem(item) {
+	  ListView.prototype.renderItem = function renderItem(item, index) {
 	    return item.toString();
 	  };
 	
@@ -16816,7 +16816,7 @@ exports["UI"] =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<ul>';var i=0; it.results.forEach(function (result) { out+=' <li id=\''+( it.id )+'\' data-index=\''+( i )+'\'>'+( it.renderItem(result) )+'</li>';  i++; }); out+='</ul>';return out;
+	var out='<ul>';var i=0; it.results.forEach(function (result) { out+=' <li id=\''+( it.id )+'\' data-index=\''+( i )+'\'>'+( it.renderItem(result, i) )+'</li>';  i++; }); out+='</ul>';return out;
 	}
 
 /***/ },

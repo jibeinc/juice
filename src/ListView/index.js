@@ -33,7 +33,7 @@ class ListView extends BaseComponent {
     return this.$el.html();
   }
 
-  renderItem(item) {
+  renderItem(item, index) {
     return item.toString();
   }
 
