@@ -49,7 +49,7 @@ class ListView extends BaseComponent {
       content = this.listItemTmpl(content);
     }
 
-    return listItem.render(content);
+    return listItem.render(content, index);
   }
 
   refresh() {

@@ -11022,7 +11022,7 @@ exports["UI"] =
 	      content = this.listItemTmpl(content);
 	    }
 	
-	    return listItem.render(content);
+	    return listItem.render(content, index);
 	  };
 	
 	  ListView.prototype.refresh = function refresh() {
