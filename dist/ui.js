@@ -10989,6 +10989,7 @@ exports["UI"] =
 	    Object.assign(_this, {
 	      fetch: opts.fetch,
 	      listItemProps: opts.listItemProps || {},
+	      listItemTmpl: opts.listItemTmpl,
 	      renderItem: opts.renderItem || _this.renderItem,
 	      results: opts.results || []
 	    });
@@ -11013,6 +11014,9 @@ exports["UI"] =
 	      listItemProps: this.listItemProps
 	    });
 	
+	    if (this.listItemTmpl) {
+	      content = this.listItemTmpl(content);
+	    }
 	    return listItem.render(content);
 	  };
 	

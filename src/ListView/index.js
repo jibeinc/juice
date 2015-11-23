@@ -23,6 +23,7 @@ class ListView extends BaseComponent {
     Object.assign(this, {
       fetch: opts.fetch,
       listItemProps: opts.listItemProps || {},
+      listItemTmpl: opts.listItemTmpl,
       renderItem: opts.renderItem || this.renderItem,
       results: opts.results || []
     });
@@ -44,6 +45,9 @@ class ListView extends BaseComponent {
       listItemProps: this.listItemProps
     });
 
+    if (this.listItemTmpl) {
+      content = this.listItemTmpl(content);
+    }
     return listItem.render(content);
   }
 
