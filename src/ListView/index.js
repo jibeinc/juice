@@ -34,6 +34,7 @@ class ListView extends BaseComponent {
   }
 
   renderItem(item, index) {
+    console.log(index);
     return item.toString();
   }
 

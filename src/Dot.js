@@ -1,6 +1,7 @@
 'use strict';
 
-const $   = require('jquery');
+const $ = require('jquery');
+const doT = require('dot');
 
 // Note: this just mimics apply current setup
 const dotConfigOverrides = {
@@ -21,7 +22,6 @@ class DotService {
 
   constructor(doT) {
     this.doT = doT;
-    this._compile = this.doT.template;
   }
 
   /**
@@ -41,12 +41,12 @@ class DotService {
       throw new Error('You must specify a jquery-friendly css selector to render template into.');
     }
 
-    var renderIntoDOMWith = this._compile(template, dotConfigOverrides);
+    const renderIntoDOMWith = this.doT.template(template, dotConfigOverrides);
     return $(cssSelector).html(renderIntoDOMWith(viewModel));
   }
 
   compile(template, data) {
-    return this._compile(template, dotConfigOverrides)(data);
+    return this.doT.template(template, dotConfigOverrides)(data);
   }
 }
 
