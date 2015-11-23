@@ -1,5 +1,5 @@
 <ul>
   {{~it.results :value:index}}
-    {{=it.renderItem(index, value)}}
+    {{=it.renderItem(value, index)}}
   {{~}}
 </ul>

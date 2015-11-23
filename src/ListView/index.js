@@ -37,13 +37,14 @@ class ListView extends BaseComponent {
     return this.$el.html();
   }
 
-  renderItem(index, item) {
+  renderItem(content, index) {
     const listItemEl = $('<li>');
     const listItem = new ListItem(listItemEl, {
-      listItemContent: item,
+      listItemIndex: index,
       listItemProps: this.listItemProps
     });
-    return listItem.render();
+
+    return listItem.render(content);
   }
 
   refresh() {

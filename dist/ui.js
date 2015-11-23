@@ -10900,12 +10900,11 @@ exports["UI"] =
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
-	    _this.listItemContent = opts.listItemContent;
-	    _this.listItemProps = opts.listItemProps;
+	    Object.assign(_this, opts);
 	    return _this;
 	  }
 	
-	  ListItem.prototype.render = function render() {
+	  ListItem.prototype.render = function render(content) {
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
@@ -10931,7 +10930,8 @@ exports["UI"] =
 	      }
 	    }
 	
-	    this.$el.html(this.listItemContent);
+	    this.$el.html(content);
+	
 	    return this.$el[0].outerHTML;
 	  };
 	
@@ -11006,13 +11006,14 @@ exports["UI"] =
 	    return this.$el.html();
 	  };
 	
-	  ListView.prototype.renderItem = function renderItem(index, item) {
+	  ListView.prototype.renderItem = function renderItem(content, index) {
 	    var listItemEl = $('<li>');
 	    var listItem = new ListItem(listItemEl, {
-	      listItemContent: item,
+	      listItemIndex: index,
 	      listItemProps: this.listItemProps
 	    });
-	    return listItem.render();
+	
+	    return listItem.render(content);
 	  };
 	
 	  ListView.prototype.refresh = function refresh() {
@@ -11087,7 +11088,7 @@ exports["UI"] =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<ul> ';var arr1=it.results;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+=' '+(it.renderItem(index, value))+' ';} } out+='</ul>';return out;
+	var out='<ul> ';var arr1=it.results;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+=' '+(it.renderItem(value, index))+' ';} } out+='</ul>';return out;
 	}
 
 /***/ },
