@@ -10893,27 +10893,35 @@ exports["UI"] =
 	var ListItem = (function (_BaseComponent) {
 	  _inherits(ListItem, _BaseComponent);
 	
-	  function ListItem(el) {
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  function ListItem(el, value, index) {
+	    var opts = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 	
 	    _classCallCheck(this, ListItem);
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
-	    _this.listItemProps = opts.listItemProps;
+	    Object.assign(_this, {
+	      attrs: opts.attrs,
+	      template: opts.template
+	    });
+	
+	    _this.set({
+	      index: index,
+	      value: value
+	    });
 	    return _this;
 	  }
 	
-	  ListItem.prototype.render = function render(content) {
+	  ListItem.prototype.render = function render() {
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
 	
 	    try {
-	      for (var _iterator = Object.keys(this.listItemProps)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	      for (var _iterator = Object.keys(this.attrs)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	        var key = _step.value;
 	
-	        this.$el.attr(key, this.listItemProps[key]);
+	        this.$el.attr(key, this.attrs[key]);
 	      }
 	    } catch (err) {
 	      _didIteratorError = true;
@@ -10929,6 +10937,17 @@ exports["UI"] =
 	        }
 	      }
 	    }
+	
+	    var content = this.get();
+	
+	    //If we have a template, apply it now
+	    if (this.template) {
+	      content = this.template(content);
+	    }
+	    //Otherwise we only want the value, not the {index, value} object
+	    else {
+	        content = content.value;
+	      }
 	
 	    this.$el.html(content);
 	
@@ -10988,8 +11007,7 @@ exports["UI"] =
 	
 	    Object.assign(_this, {
 	      fetch: opts.fetch,
-	      listItemProps: opts.listItemProps || {},
-	      listItemTmpl: opts.listItemTmpl,
+	      listItemOpts: opts.listItemOpts || {},
 	      renderItem: opts.renderItem || _this.renderItem,
 	      results: opts.results || []
 	    });
@@ -11008,19 +11026,12 @@ exports["UI"] =
 	    return this.$el.html();
 	  };
 	
-	  ListView.prototype.renderItem = function renderItem(content, index) {
+	  ListView.prototype.renderItem = function renderItem(value, index) {
 	    var listItemEl = $('<li>');
-	    var listItem = new ListItem(listItemEl, {
-	      listItemProps: this.listItemProps
-	    });
 	
-	    content.index = index;
+	    var listItem = new ListItem(listItemEl, value, index, this.listItemOpts);
 	
-	    if (this.listItemTmpl) {
-	      content = this.listItemTmpl(content);
-	    }
-	
-	    return listItem.render(content);
+	    return listItem.render();
 	  };
 	
 	  ListView.prototype.refresh = function refresh() {

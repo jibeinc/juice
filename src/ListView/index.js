@@ -22,8 +22,7 @@ class ListView extends BaseComponent {
     super(el);
     Object.assign(this, {
       fetch: opts.fetch,
-      listItemProps: opts.listItemProps || {},
-      listItemTmpl: opts.listItemTmpl,
+      listItemOpts: opts.listItemOpts || {},
       renderItem: opts.renderItem || this.renderItem,
       results: opts.results || []
     });
@@ -39,19 +38,12 @@ class ListView extends BaseComponent {
     return this.$el.html();
   }
 
-  renderItem(content, index) {
+  renderItem(value, index) {
     const listItemEl = $('<li>');
-    const listItem = new ListItem(listItemEl, {
-      listItemProps: this.listItemProps
-    });
 
-    content.index = index;
+    const listItem = new ListItem(listItemEl, value, index, this.listItemOpts);
 
-    if (this.listItemTmpl) {
-      content = this.listItemTmpl(content);
-    }
-
-    return listItem.render(content);
+    return listItem.render();
   }
 
   refresh() {
