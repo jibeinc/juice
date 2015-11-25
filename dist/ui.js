@@ -10667,6 +10667,7 @@ exports["UI"] =
 	
 	    var toggle = new ExpandCollapseToggle(opts.toggleSelector, opts);
 	    toggle.render();
+	
 	    toggle.subscribe(function (isToggled) {
 	      _this.expandCollapse(isToggled);
 	    });

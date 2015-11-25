@@ -6,6 +6,7 @@
   <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dot/1.0.3/doT.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
   <script>
     window.exports = {};
   </script>
@@ -41,7 +42,7 @@
         template: doT.template(
           '<div class="index-{{=it.index}}">' +
           '<h3>{{=it.value}}</h3>' +
-          '<a class="btn btn-primary expand-collapse-toggle">Show details</a>' +
+          '<span class="btn btn-primary expand-collapse-toggle">Show details</span>' +
           '<div class="expand-collapse-container">' +
           '<p>' +
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut porttitor eros. In nec nulla quam. Nullam at vulputate' +
@@ -59,7 +60,7 @@
           '</div>')
       },
 
-      results: ['John Smith', 'Bob Barker', 'George Lucas', 'Dave Hester', 'Jerry Seinfeld'] // initial results to show
+      results: ['John Smith']//, 'Bob Barker', 'George Lucas', 'Dave Hester', 'Jerry Seinfeld'] // initial results to show
     });
 
     results.subscribe(function(selection) {

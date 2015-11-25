@@ -14,6 +14,7 @@ class ExpandCollapseContainer extends BaseComponent {
     });
     const toggle = new ExpandCollapseToggle(opts.toggleSelector, opts);
     toggle.render();
+
     toggle.subscribe((isToggled) => {
       this.expandCollapse(isToggled);
     });
