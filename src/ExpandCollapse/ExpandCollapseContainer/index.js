@@ -9,6 +9,7 @@ const collapseTmpl = require('./expandCollapseContent.tmpl');
 class ExpandCollapseContainer extends BaseComponent {
   constructor(el, opts) {
     super(el, {
+      parentElement: opts.parentElement,
       preserveChildElements: true
     });
     const toggle = new ExpandCollapseToggle(opts.toggleSelector, opts);
@@ -31,7 +32,7 @@ class ExpandCollapseContainer extends BaseComponent {
   render() {
     const innerContent = this.$el.html();
     this.$el.html(collapseTmpl(innerContent));
-    return this.$el.html();
+    return this.$el[0].outerHTML;
   }
 }
 

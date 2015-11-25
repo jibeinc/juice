@@ -1,8 +1,8 @@
 'use strict'
 
-const $      = require('jquery');
-const uuid   = require('uuid');
-const PSHub  = require('./PubSubHub');
+const $ = require('jquery');
+const uuid = require('uuid');
+const PSHub = require('./PubSubHub');
 const assert = require('./assert');
 
 // for covenience
@@ -20,7 +20,11 @@ class BaseComponent {
     assert(el);
 
     // find element in the client DOM, or...
-    this.$el = $(el);
+    if (!opts.parentElement) {
+      this.$el = $(el);
+    } else {
+      this.$el = opts.parentElement.find(el);
+    }
 
     // ...when DOM aint there,
     // just do it in memory, to support server-side rendering
@@ -32,8 +36,8 @@ class BaseComponent {
       this.$el.html('');
     }
 
-    this.value     = null;
-    this.id        = uuid.v4();
+    this.value = null;
+    this.id = uuid.v4();
     this.keyEvents = keyEvents;
 
     return this;

@@ -9758,7 +9758,11 @@ exports["UI"] =
 	    assert(el);
 	
 	    // find element in the client DOM, or...
-	    this.$el = $(el);
+	    if (!opts.parentElement) {
+	      this.$el = $(el);
+	    } else {
+	      this.$el = opts.parentElement.find(el);
+	    }
 	
 	    // ...when DOM aint there,
 	    // just do it in memory, to support server-side rendering
@@ -10657,6 +10661,7 @@ exports["UI"] =
 	    _classCallCheck(this, ExpandCollapseContainer);
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, {
+	      parentElement: opts.parentElement,
 	      preserveChildElements: true
 	    }));
 	
@@ -10680,7 +10685,7 @@ exports["UI"] =
 	  ExpandCollapseContainer.prototype.render = function render() {
 	    var innerContent = this.$el.html();
 	    this.$el.html(collapseTmpl(innerContent));
-	    return this.$el.html();
+	    return this.$el[0].outerHTML;
 	  };
 	
 	  return ExpandCollapseContainer;
@@ -10760,6 +10765,7 @@ exports["UI"] =
 	    _classCallCheck(this, ExpandCollapseToggle);
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, {
+	      parentElement: opts.parentElement,
 	      preserveChildElements: true
 	    }));
 	
@@ -10770,6 +10776,7 @@ exports["UI"] =
 	      _this.$el.addClass(opts.untoggledClass);
 	    }
 	    _this.$el.addClass(opts.untoggledClass);
+	
 	    _this.$el.click(function () {
 	      //If it is already toggled, we need to apply untoggled classes
 	      if (opts.untoggledClass && _this.value) {
@@ -10785,6 +10792,7 @@ exports["UI"] =
 	      }
 	      _this.set(!_this.value);
 	    });
+	
 	    return _possibleConstructorReturn(_this, _this);
 	  }
 	
@@ -10889,6 +10897,7 @@ exports["UI"] =
 	
 	var $ = __webpack_require__(/*! jquery */ 1);
 	var BaseComponent = __webpack_require__(/*! ../../BaseComponent */ 8);
+	var ExpandCollapseContainer = __webpack_require__(/*! ../../ExpandCollapse/ExpandCollapseContainer */ 21);
 	
 	var ListItem = (function (_BaseComponent) {
 	  _inherits(ListItem, _BaseComponent);
@@ -10902,6 +10911,7 @@ exports["UI"] =
 	
 	    Object.assign(_this, {
 	      attrs: opts.attrs,
+	      expandCollapse: opts.expandCollapse || {},
 	      template: opts.template
 	    });
 	
@@ -10951,7 +10961,23 @@ exports["UI"] =
 	
 	    this.$el.html(content);
 	
+	    this.setupExpandCollapse(this.expandCollapse);
+	
 	    return this.$el[0].outerHTML;
+	  };
+	
+	  ListItem.prototype.setupExpandCollapse = function setupExpandCollapse(expandCollapse) {
+	    //Setup expand/collapse
+	    if (expandCollapse.toggleSelector && expandCollapse.containerSelector) {
+	      var container = new ExpandCollapseContainer(expandCollapse.containerSelector, {
+	        parentElement: this.$el,
+	        toggledClass: expandCollapse.toggledClass,
+	        toggleSelector: expandCollapse.toggleSelector,
+	        untoggledClass: expandCollapse.untoggledClass
+	      });
+	      return container.render();
+	    }
+	    return null;
 	  };
 	
 	  return ListItem;
@@ -11016,13 +11042,12 @@ exports["UI"] =
 	  }
 	
 	  ListView.prototype.render = function render() {
-	    var _this2 = this;
-	
 	    this.$el.html(listViewTmpl(this));
 	    //TODO: Instead of hooking into the li directly, we should set up publish on ListItem
-	    this.$el.find('li').click(function (evt) {
-	      _this2.set(_this2.results[$(evt.target).attr('data-index')]);
-	    });
+	    //TODO: Also maybe get rid of this completely?
+	    /*this.$el.find('li').click((evt) => {
+	      this.set(this.results[$(evt.target).attr('data-index')]);
+	    });*/
 	    return this.$el.html();
 	  };
 	
@@ -11035,12 +11060,12 @@ exports["UI"] =
 	  };
 	
 	  ListView.prototype.refresh = function refresh() {
-	    var _this3 = this;
+	    var _this2 = this;
 	
 	    this.publish('refresh');
 	    this.fetch(function (results) {
-	      _this3.results = results;
-	      _this3.render();
+	      _this2.results = results;
+	      _this2.render();
 	    });
 	  };
 	

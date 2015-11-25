@@ -3,6 +3,7 @@
 // scripts
 const $ = require('jquery');
 const BaseComponent = require('../../BaseComponent');
+const ExpandCollapseContainer = require('../../ExpandCollapse/ExpandCollapseContainer');
 
 class ListItem extends BaseComponent {
   constructor(el, value, index, opts = {}) {
@@ -10,6 +11,7 @@ class ListItem extends BaseComponent {
 
     Object.assign(this, {
       attrs: opts.attrs,
+      expandCollapse: opts.expandCollapse || {},
       template: opts.template
     });
 
@@ -37,7 +39,23 @@ class ListItem extends BaseComponent {
 
     this.$el.html(content);
 
+    this.setupExpandCollapse(this.expandCollapse);
+
     return this.$el[0].outerHTML;
+  }
+
+  setupExpandCollapse(expandCollapse) {
+    //Setup expand/collapse
+    if (expandCollapse.toggleSelector && expandCollapse.containerSelector) {
+      const container = new ExpandCollapseContainer(expandCollapse.containerSelector, {
+        parentElement: this.$el,
+        toggledClass: expandCollapse.toggledClass,
+        toggleSelector: expandCollapse.toggleSelector,
+        untoggledClass: expandCollapse.untoggledClass
+      });
+      return container.render();
+    }
+    return null;
   }
 };
 
