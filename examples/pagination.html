@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Expand/Collapse Example</title>
-    <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-    <script>window.exports = {};</script>
-    <script src='../dist/ui.js'></script>
+  <title>Expand/Collapse Example</title>
+  <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>
+    window.exports = {};
+  </script>
+  <script src='../dist/ui.js'></script>
 </head>
+
 <body>
 
-<div class="pagination-test"></div>
+  <ul class="pagination-test"></ul>
 
 
-<script>
+  <script>
     var pagination = new exports.UI.Pagination('.pagination-test', {
-        prelink:'/',
-        current: 3,
-        rowsPerPage: 200,
-        totalResult: 10020,
-        slashSeparator: false
+      cssStyle: 'pagination',
+      edges: 0,
+      hrefTextPrefix: '#?page=',
+      itemsOnPage: 10
     });
     pagination.render();
-</script>
+  </script>
 
 </body>
+
 </html>
