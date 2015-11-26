@@ -10671,6 +10671,7 @@ exports["UI"] =
 	    toggle.subscribe(function (isToggled) {
 	      _this.expandCollapse(isToggled);
 	    });
+	
 	    return _possibleConstructorReturn(_this, _this);
 	  }
 	
@@ -10924,6 +10925,8 @@ exports["UI"] =
 	  }
 	
 	  ListItem.prototype.render = function render() {
+	    var _this2 = this;
+	
 	    var _iteratorNormalCompletion = true;
 	    var _didIteratorError = false;
 	    var _iteratorError = undefined;
@@ -10962,7 +10965,9 @@ exports["UI"] =
 	
 	    this.$el.html(content);
 	
-	    this.setupExpandCollapse(this.expandCollapse);
+	    $(document).ready(function () {
+	      _this2.setupExpandCollapse(_this2.expandCollapse);
+	    });
 	
 	    return this.$el[0].outerHTML;
 	  };

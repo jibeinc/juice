@@ -34,16 +34,16 @@
           class: 'testClass'
         },
         expandCollapse: {
-          containerSelector: '.expand-collapse-container',
+          containerSelector: '.expand-collapse-test-container',
           toggledClass: 'i-am-toggled',
-          toggleSelector: '.expand-collapse-toggle',
+          toggleSelector: '.toggle',
           untoggledClass: 'i-am-NOT-toggled'
         },
         template: doT.template(
           '<div class="index-{{=it.index}}">' +
           '<h3>{{=it.value}}</h3>' +
-          '<span class="btn btn-primary expand-collapse-toggle">Show details</span>' +
-          '<div class="expand-collapse-container">' +
+          '<span class="toggle">Show details</span>' +
+          '<div class="expand-collapse-test-container">' +
           '<p>' +
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut porttitor eros. In nec nulla quam. Nullam at vulputate' +
           'ipsum. Curabitur elementum lectus sit amet orci placerat ultrices. Phasellus ipsum tellus, facilisis rhoncus maximus' +
