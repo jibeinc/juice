@@ -11323,17 +11323,26 @@ exports["UI"] =
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
-	    _this.$el.pagination({
+	    Object.assign(_this, {
 	      cssStyle: opts.cssStyle || 'pagination',
 	      edges: opts.edges || 0,
 	      hrefTextPrefix: opts.hrefTextPrefix || '#page-',
-	      items: 100,
-	      itemsOnPage: opts.itemsOnPage || 10
+	      items: opts.items || 100,
+	      itemsOnPage: opts.itemsOnPage || 10,
+	      value: opts.currentPage || 1
 	    });
 	    return _this;
 	  }
 	
 	  Pagination.prototype.render = function render() {
+	    this.$el.pagination({
+	      currentPage: this.get(),
+	      cssStyle: this.cssStyle,
+	      edges: this.edges,
+	      hrefTextPrefix: this.hrefTextPrefix,
+	      items: this.items,
+	      itemsOnPage: this.itemsOnPage
+	    });
 	    return this.$el.html();
 	  };
 	

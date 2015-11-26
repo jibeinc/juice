@@ -9,16 +9,25 @@ class Pagination extends BaseComponent {
   constructor(el, opts = {}) {
     super(el);
 
-    this.$el.pagination({
+    Object.assign(this, {
       cssStyle: opts.cssStyle || 'pagination',
       edges: opts.edges || 0,
       hrefTextPrefix: opts.hrefTextPrefix || '#page-',
-      items: 100,
-      itemsOnPage: opts.itemsOnPage || 10
+      items: opts.items || 100,
+      itemsOnPage: opts.itemsOnPage || 10,
+      value: opts.currentPage || 1
     });
   }
 
   render() {
+    this.$el.pagination({
+      currentPage: this.get(),
+      cssStyle: this.cssStyle,
+      edges: this.edges,
+      hrefTextPrefix: this.hrefTextPrefix,
+      items: this.items,
+      itemsOnPage: this.itemsOnPage
+    });
     return this.$el.html();
   }
 }
