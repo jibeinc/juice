@@ -6,7 +6,7 @@ require('babel-polyfill');
 module.exports = function (done) {
   var env = require('jsdom').env;
   var html = '<html><body><h1>Hello World!</h1><p class="hello">Heya Big World!</body></html>';
-  env(html, function (errors, window) {
+  env(html, ['https://cdnjs.cloudflare.com/ajax/libs/dot/1.0.3/doT.min.js'], function (errors, window) {
     console.error(errors);
     global.window = window;
     global.document = window.document;
