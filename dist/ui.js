@@ -11002,7 +11002,7 @@ exports["UI"] =
 	    var _this2 = this;
 	
 	    this.$el.html(listViewTmpl(this));
-	    this.$el.find('li').attr(this.listItemOpts.attrs);
+	    this.$el.find('li').attr(this.listItemOpts.attrs || {});
 	    this.$el.find('li').click(function (evt) {
 	      _this2.set(_this2.results[$(evt.target).attr('data-index')]);
 	    });
