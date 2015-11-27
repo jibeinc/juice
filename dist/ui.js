@@ -10781,8 +10781,11 @@ exports["UI"] =
 	    }
 	    _this.$el.addClass(opts.untoggledClass);
 	
-	    _this.$el.click(function () {
-	      //If it is already toggled, we need to apply untoggled classes
+	    _this.$el.click(function (evt) {
+	      evt.stopPropagation();
+	      evt.preventDefault();
+	
+	      // if it is already toggled, we need to apply untoggled classes
 	      if (opts.untoggledClass && _this.value) {
 	        if (opts.toggledClass) {
 	          _this.$el.removeClass(opts.toggledClass);

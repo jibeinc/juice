@@ -16,8 +16,11 @@ class ExpandCollapseToggle extends BaseComponent {
     }
     this.$el.addClass(opts.untoggledClass);
 
-    this.$el.click(() => {
-      //If it is already toggled, we need to apply untoggled classes
+    this.$el.click((evt) => {
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      // if it is already toggled, we need to apply untoggled classes
       if (opts.untoggledClass && this.value) {
         if (opts.toggledClass) {
           this.$el.removeClass(opts.toggledClass);
