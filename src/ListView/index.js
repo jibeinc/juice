@@ -29,6 +29,7 @@ class ListView extends BaseComponent {
 
   render() {
     this.$el.html(listViewTmpl(this));
+    this.$el.find('li').attr(this.listItemOpts.attrs)
     this.$el.find('li').click((evt) => {
       this.set(this.results[$(evt.target).attr('data-index')]);
     });
