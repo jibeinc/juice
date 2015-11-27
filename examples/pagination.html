@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Expand/Collapse Example</title>
+  <title>Pagination Example</title>
   <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
   <script>
@@ -21,7 +21,12 @@
       cssStyle: 'pagination',
       edges: 0,
       hrefTextPrefix: '#?page=',
-      itemsOnPage: 10
+      itemsOnPage: 10,
+      nextText: '<span class="icon icon-arrow_forward icon-arrow"></span>',
+      onPageClick(pageNumber, event){
+        alert('Page number: ' + pageNumber);
+      },
+      prevText: '<span class="icon icon-arrow_back icon-arrow"></span>'
     });
     pagination.render();
   </script>

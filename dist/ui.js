@@ -11329,10 +11329,20 @@ exports["UI"] =
 	      hrefTextPrefix: opts.hrefTextPrefix || '#page-',
 	      items: opts.items || 100,
 	      itemsOnPage: opts.itemsOnPage || 10,
+	      nextText: opts.nextText || 'Next',
+	      onPageClick: opts.onPageClick,
+	      prevText: opts.prevText || 'Prev',
 	      value: opts.currentPage || 1
 	    });
 	    return _this;
 	  }
+	
+	  Pagination.prototype.pageChange = function pageChange(pageNumber, event) {
+	    this.set(pageNumber);
+	    if (this.onPageClick) {
+	      this.onPageClick(pageNumber, event);
+	    }
+	  };
 	
 	  Pagination.prototype.render = function render() {
 	    this.$el.pagination({
@@ -11340,6 +11350,9 @@ exports["UI"] =
 	      cssStyle: this.cssStyle,
 	      edges: this.edges,
 	      hrefTextPrefix: this.hrefTextPrefix,
+	      nextText: this.nextText,
+	      onPageClick: this.pageChange.bind(this),
+	      prevText: this.prevText,
 	      items: this.items,
 	      itemsOnPage: this.itemsOnPage
 	    });
