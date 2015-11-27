@@ -1,5 +1,5 @@
 <ul>
   {{~it.results :value:index}}
-    {{=it.renderItem(value, index)}}
+    <li id='{{= it.id }}' data-index='{{= index }}'>{{= it.renderItem(value, index) }}</li>
   {{~}}
 </ul>

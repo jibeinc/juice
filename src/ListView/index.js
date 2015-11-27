@@ -12,39 +12,32 @@ require('./styles.css');
 const listViewTmpl = require('./listView.dot');
 
 // scripts
-const $ = require('jquery');
+const $             = require('jquery');
 const BaseComponent = require('../BaseComponent');
-const assert = require('../assert');
-const ListItem = require('./ListItem');
 
 class ListView extends BaseComponent {
   constructor(el, opts = {}) {
     super(el);
+
     Object.assign(this, {
       fetch: opts.fetch,
       listItemOpts: opts.listItemOpts || {},
       renderItem: opts.renderItem || this.renderItem,
       results: opts.results || []
     });
-    assert(typeof this.fetch === 'function');
   }
 
   render() {
     this.$el.html(listViewTmpl(this));
-    //TODO: Instead of hooking into the li directly, we should set up publish on ListItem
-    //TODO: Also maybe get rid of this completely?
-    /*this.$el.find('li').click((evt) => {
+    this.$el.find('li').click((evt) => {
       this.set(this.results[$(evt.target).attr('data-index')]);
-    });*/
-    return this.$el.html();
+    });
+    return this;
   }
 
-  renderItem(value, index) {
-    const listItemEl = $('<li>');
-
-    const listItem = new ListItem(listItemEl, value, index, this.listItemOpts);
-
-    return listItem.render();
+  // expected to be overriden
+  renderItem(item) {
+    return item.toString();
   }
 
   refresh() {
