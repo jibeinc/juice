@@ -10,7 +10,7 @@ class ListItem extends BaseComponent {
     super(el);
 
     Object.assign(this, {
-      attrs: opts.attrs,
+      attrs: opts.attrs || {},
       expandCollapse: opts.expandCollapse || {},
       template: opts.template
     });
