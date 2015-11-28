@@ -18,17 +18,17 @@
   <script>
     var itemTemplate = '<h1>[[= model.item.name ]]</h1><div class="item-button-[[= model.index ]]"></div>';
 
-    var resultsItem = new exports.UI.ListViewItemFactory({
-      render: function (viewModel) {
-        return exports.UI.Dot.compile(itemTemplate, viewModel);
+    var resultsItem = new exports.UI.BaseFragmentFactory({
+      render: function (data) {
+        return exports.UI.Dot.compile(itemTemplate, data);
       },
-      controller: function (item, index) {
-        var itemButton = new exports.UI.Button('.item-button-' + index, {
+      controller: function (data) {
+        var itemButton = new exports.UI.Button('.item-button-' + data.index, {
           preventPropagation: true
         });
 
         itemButton.subscribe(function () {
-          console.log('item button clicked', item);
+          console.log('item button clicked', data.item);
         });
 
         itemButton.render();
@@ -49,7 +49,10 @@
       ],
 
       renderItem: function (item, index) {
-        return resultsItem.make(item, index);
+        return resultsItem.make({
+          item: item,
+          index:index
+        });
       }
     });
 
