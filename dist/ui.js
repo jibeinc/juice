@@ -16130,6 +16130,7 @@ exports["UI"] =
 	  URL.prototype.updateQueryParams = function updateQueryParams(queryObj) {
 	    var currentURL = url.parse(window.location.href);
 	    currentURL.query = queryObj;
+	    currentURL.search = null;
 	    history.pushState(null, null, url.format(currentURL));
 	  };
 	
