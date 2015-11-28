@@ -63,11 +63,11 @@ exports["UI"] =
 	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 32),
 	  Pagination: __webpack_require__(/*! ./Pagination */ 36),
 	  PubSubHub: __webpack_require__(/*! ./PubSubHub */ 11),
-	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 48),
-	  State: __webpack_require__(/*! ./State */ 52),
-	  TextInput: __webpack_require__(/*! ./TextInput */ 61),
-	  Typeahead: __webpack_require__(/*! ./Typeahead */ 69),
-	  URL: __webpack_require__(/*! ./URL */ 75)
+	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 39),
+	  State: __webpack_require__(/*! ./State */ 43),
+	  TextInput: __webpack_require__(/*! ./TextInput */ 52),
+	  Typeahead: __webpack_require__(/*! ./Typeahead */ 60),
+	  URL: __webpack_require__(/*! ./URL */ 66)
 	};
 	
 	module.exports = UIComponents;
@@ -11266,8 +11266,9 @@ exports["UI"] =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 8);
-	var pagination = __webpack_require__(/*! pagination */ 37);
-	var paginationTmpl = __webpack_require__(/*! ./pagination.dot */ 47);
+	var $ = __webpack_require__(/*! jquery */ 1);
+	var simplePagination = __webpack_require__(/*! imports?jQuery=jquery!../../~/simplePagination.js/jquery.simplePagination.js */ 37);
+	var paginationTmpl = __webpack_require__(/*! ./pagination.dot */ 38);
 	
 	var Pagination = (function (_BaseComponent) {
 	  _inherits(Pagination, _BaseComponent);
@@ -11279,22 +11280,39 @@ exports["UI"] =
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
-	    _this.boostrapPaginator = new pagination.TemplatePaginator({
-	      current: opts.current,
-	      prelink: opts.prelink,
-	      rowsPerPage: opts.rowsPerPage,
-	      slashSeparator: opts.slashSeparator,
-	      totalResult: opts.totalResult,
-	      template: function template(result) {
-	        this.result = result;
-	        return paginationTmpl(this);
-	      }
+	    Object.assign(_this, {
+	      cssStyle: opts.cssStyle || 'pagination',
+	      edges: opts.edges || 0,
+	      hrefTextPrefix: opts.hrefTextPrefix || '#page-',
+	      items: opts.items || 100,
+	      itemsOnPage: opts.itemsOnPage || 10,
+	      nextText: opts.nextText || 'Next',
+	      onPageClick: opts.onPageClick,
+	      prevText: opts.prevText || 'Prev',
+	      value: opts.currentPage || 1
 	    });
 	    return _this;
 	  }
 	
+	  Pagination.prototype.pageChange = function pageChange(pageNumber, event) {
+	    this.set(pageNumber);
+	    if (this.onPageClick) {
+	      this.onPageClick(pageNumber, event);
+	    }
+	  };
+	
 	  Pagination.prototype.render = function render() {
-	    this.$el.html(this.boostrapPaginator.render());
+	    this.$el.pagination({
+	      currentPage: this.get(),
+	      cssStyle: this.cssStyle,
+	      edges: this.edges,
+	      hrefTextPrefix: this.hrefTextPrefix,
+	      nextText: this.nextText,
+	      onPageClick: this.pageChange.bind(this),
+	      prevText: this.prevText,
+	      items: this.items,
+	      itemsOnPage: this.itemsOnPage
+	    });
 	    return this.$el.html();
 	  };
 	
@@ -11305,1221 +11323,411 @@ exports["UI"] =
 
 /***/ },
 /* 37 */
-/*!*******************************!*\
-  !*** ./~/pagination/index.js ***!
-  \*******************************/
+/*!*******************************************************************************************!*\
+  !*** ./~/imports-loader?jQuery=jquery!./~/simplePagination.js/jquery.simplePagination.js ***!
+  \*******************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var util = __webpack_require__(/*! util */ 38);
-	var pagination = __webpack_require__(/*! ./lib/pagination */ 42);
-	__webpack_require__(/*! ./lib/item_paginator */ 43).module(pagination, util);
-	__webpack_require__(/*! ./lib/search_paginator */ 44).module(pagination, util);
-	__webpack_require__(/*! ./lib/template_paginator */ 45).module(pagination, util);
-	__webpack_require__(/*! ./lib/template */ 46).module(pagination, util);
+	/*** IMPORTS FROM imports-loader ***/
+	var jQuery = __webpack_require__(/*! jquery */ 1);
 	
-	module.exports = pagination;
+	/**
+	* simplePagination.js v1.6
+	* A simple jQuery pagination plugin.
+	* http://flaviusmatis.github.com/simplePagination.js/
+	*
+	* Copyright 2012, Flavius Matis
+	* Released under the MIT license.
+	* http://flaviusmatis.github.com/license.html
+	*/
+	
+	(function($){
+	
+		var methods = {
+			init: function(options) {
+				var o = $.extend({
+					items: 1,
+					itemsOnPage: 1,
+					pages: 0,
+					displayedPages: 5,
+					edges: 2,
+					currentPage: 0,
+					hrefTextPrefix: '#page-',
+					hrefTextSuffix: '',
+					prevText: 'Prev',
+					nextText: 'Next',
+					ellipseText: '&hellip;',
+					ellipsePageSet: true,
+					cssStyle: 'light-theme',
+					listStyle: '',
+					labelMap: [],
+					selectOnClick: true,
+					nextAtFront: false,
+					invertPageOrder: false,
+					useStartEdge : true,
+					useEndEdge : true,
+					onPageClick: function(pageNumber, event) {
+						// Callback triggered when a page is clicked
+						// Page number is given as an optional parameter
+					},
+					onInit: function() {
+						// Callback triggered immediately after initialization
+					}
+				}, options || {});
+	
+				var self = this;
+	
+				o.pages = o.pages ? o.pages : Math.ceil(o.items / o.itemsOnPage) ? Math.ceil(o.items / o.itemsOnPage) : 1;
+				if (o.currentPage)
+					o.currentPage = o.currentPage - 1;
+				else
+					o.currentPage = !o.invertPageOrder ? 0 : o.pages - 1;
+				o.halfDisplayed = o.displayedPages / 2;
+	
+				this.each(function() {
+					self.addClass(o.cssStyle + ' simple-pagination').data('pagination', o);
+					methods._draw.call(self);
+				});
+	
+				o.onInit();
+	
+				return this;
+			},
+	
+			selectPage: function(page) {
+				methods._selectPage.call(this, page - 1);
+				return this;
+			},
+	
+			prevPage: function() {
+				var o = this.data('pagination');
+				if (!o.invertPageOrder) {
+					if (o.currentPage > 0) {
+						methods._selectPage.call(this, o.currentPage - 1);
+					}
+				} else {
+					if (o.currentPage < o.pages - 1) {
+						methods._selectPage.call(this, o.currentPage + 1);
+					}
+				}
+				return this;
+			},
+	
+			nextPage: function() {
+				var o = this.data('pagination');
+				if (!o.invertPageOrder) {
+					if (o.currentPage < o.pages - 1) {
+						methods._selectPage.call(this, o.currentPage + 1);
+					}
+				} else {
+					if (o.currentPage > 0) {
+						methods._selectPage.call(this, o.currentPage - 1);
+					}
+				}
+				return this;
+			},
+	
+			getPagesCount: function() {
+				return this.data('pagination').pages;
+			},
+	
+			setPagesCount: function(count) {
+				this.data('pagination').pages = count;
+			},
+	
+			getCurrentPage: function () {
+				return this.data('pagination').currentPage + 1;
+			},
+	
+			destroy: function(){
+				this.empty();
+				return this;
+			},
+	
+			drawPage: function (page) {
+				var o = this.data('pagination');
+				o.currentPage = page - 1;
+				this.data('pagination', o);
+				methods._draw.call(this);
+				return this;
+			},
+	
+			redraw: function(){
+				methods._draw.call(this);
+				return this;
+			},
+	
+			disable: function(){
+				var o = this.data('pagination');
+				o.disabled = true;
+				this.data('pagination', o);
+				methods._draw.call(this);
+				return this;
+			},
+	
+			enable: function(){
+				var o = this.data('pagination');
+				o.disabled = false;
+				this.data('pagination', o);
+				methods._draw.call(this);
+				return this;
+			},
+	
+			updateItems: function (newItems) {
+				var o = this.data('pagination');
+				o.items = newItems;
+				o.pages = methods._getPages(o);
+				this.data('pagination', o);
+				methods._draw.call(this);
+			},
+	
+			updateItemsOnPage: function (itemsOnPage) {
+				var o = this.data('pagination');
+				o.itemsOnPage = itemsOnPage;
+				o.pages = methods._getPages(o);
+				this.data('pagination', o);
+				methods._selectPage.call(this, 0);
+				return this;
+			},
+	
+			getItemsOnPage: function() {
+				return this.data('pagination').itemsOnPage;
+			},
+	
+			_draw: function() {
+				var	o = this.data('pagination'),
+					interval = methods._getInterval(o),
+					i,
+					tagName;
+	
+				methods.destroy.call(this);
+	
+				tagName = (typeof this.prop === 'function') ? this.prop('tagName') : this.attr('tagName');
+	
+				var $panel = tagName === 'UL' ? this : $('<ul' + (o.listStyle ? ' class="' + o.listStyle + '"' : '') + '></ul>').appendTo(this);
+	
+				// Generate Prev link
+				if (o.prevText) {
+					methods._appendItem.call(this, !o.invertPageOrder ? o.currentPage - 1 : o.currentPage + 1, {text: o.prevText, classes: 'prev'});
+				}
+	
+				// Generate Next link (if option set for at front)
+				if (o.nextText && o.nextAtFront) {
+					methods._appendItem.call(this, !o.invertPageOrder ? o.currentPage + 1 : o.currentPage - 1, {text: o.nextText, classes: 'next'});
+				}
+	
+				// Generate start edges
+				if (!o.invertPageOrder) {
+					if (interval.start > 0 && o.edges > 0) {
+						if(o.useStartEdge) {
+							var end = Math.min(o.edges, interval.start);
+							for (i = 0; i < end; i++) {
+								methods._appendItem.call(this, i);
+							}
+						}
+						if (o.edges < interval.start && (interval.start - o.edges != 1)) {
+							$panel.append('<li class="disabled"><span class="ellipse">' + o.ellipseText + '</span></li>');
+						} else if (interval.start - o.edges == 1) {
+							methods._appendItem.call(this, o.edges);
+						}
+					}
+				} else {
+					if (interval.end < o.pages && o.edges > 0) {
+						if(o.useStartEdge) {
+							var begin = Math.max(o.pages - o.edges, interval.end);
+							for (i = o.pages - 1; i >= begin; i--) {
+								methods._appendItem.call(this, i);
+							}
+						}
+	
+						if (o.pages - o.edges > interval.end && (o.pages - o.edges - interval.end != 1)) {
+							$panel.append('<li class="disabled"><span class="ellipse">' + o.ellipseText + '</span></li>');
+						} else if (o.pages - o.edges - interval.end == 1) {
+							methods._appendItem.call(this, interval.end);
+						}
+					}
+				}
+	
+				// Generate interval links
+				if (!o.invertPageOrder) {
+					for (i = interval.start; i < interval.end; i++) {
+						methods._appendItem.call(this, i);
+					}
+				} else {
+					for (i = interval.end - 1; i >= interval.start; i--) {
+						methods._appendItem.call(this, i);
+					}
+				}
+	
+				// Generate end edges
+				if (!o.invertPageOrder) {
+					if (interval.end < o.pages && o.edges > 0) {
+						if (o.pages - o.edges > interval.end && (o.pages - o.edges - interval.end != 1)) {
+							$panel.append('<li class="disabled"><span class="ellipse">' + o.ellipseText + '</span></li>');
+						} else if (o.pages - o.edges - interval.end == 1) {
+							methods._appendItem.call(this, interval.end);
+						}
+						if(o.useEndEdge) {
+							var begin = Math.max(o.pages - o.edges, interval.end);
+							for (i = begin; i < o.pages; i++) {
+								methods._appendItem.call(this, i);
+							}
+						}
+					}
+				} else {
+					if (interval.start > 0 && o.edges > 0) {
+						if (o.edges < interval.start && (interval.start - o.edges != 1)) {
+							$panel.append('<li class="disabled"><span class="ellipse">' + o.ellipseText + '</span></li>');
+						} else if (interval.start - o.edges == 1) {
+							methods._appendItem.call(this, o.edges);
+						}
+	
+						if(o.useEndEdge) {
+							var end = Math.min(o.edges, interval.start);
+							for (i = end - 1; i >= 0; i--) {
+								methods._appendItem.call(this, i);
+							}
+						}
+					}
+				}
+	
+				// Generate Next link (unless option is set for at front)
+				if (o.nextText && !o.nextAtFront) {
+					methods._appendItem.call(this, !o.invertPageOrder ? o.currentPage + 1 : o.currentPage - 1, {text: o.nextText, classes: 'next'});
+				}
+	
+				if (o.ellipsePageSet && !o.disabled) {
+					methods._ellipseClick.call(this, $panel);
+				}
+	
+			},
+	
+			_getPages: function(o) {
+				var pages = Math.ceil(o.items / o.itemsOnPage);
+				return pages || 1;
+			},
+	
+			_getInterval: function(o) {
+				return {
+					start: Math.ceil(o.currentPage > o.halfDisplayed ? Math.max(Math.min(o.currentPage - o.halfDisplayed, (o.pages - o.displayedPages)), 0) : 0),
+					end: Math.ceil(o.currentPage > o.halfDisplayed ? Math.min(o.currentPage + o.halfDisplayed, o.pages) : Math.min(o.displayedPages, o.pages))
+				};
+			},
+	
+			_appendItem: function(pageIndex, opts) {
+				var self = this, options, $link, o = self.data('pagination'), $linkWrapper = $('<li></li>'), $ul = self.find('ul');
+	
+				pageIndex = pageIndex < 0 ? 0 : (pageIndex < o.pages ? pageIndex : o.pages - 1);
+	
+				options = {
+					text: pageIndex + 1,
+					classes: ''
+				};
+	
+				if (o.labelMap.length && o.labelMap[pageIndex]) {
+					options.text = o.labelMap[pageIndex];
+				}
+	
+				options = $.extend(options, opts || {});
+	
+				if (pageIndex == o.currentPage || o.disabled) {
+					if (o.disabled || options.classes === 'prev' || options.classes === 'next') {
+						$linkWrapper.addClass('disabled');
+					} else {
+						$linkWrapper.addClass('active');
+					}
+					$link = $('<span class="current">' + (options.text) + '</span>');
+				} else {
+					$link = $('<a href="' + o.hrefTextPrefix + (pageIndex + 1) + o.hrefTextSuffix + '" class="page-link">' + (options.text) + '</a>');
+					$link.click(function(event){
+						return methods._selectPage.call(self, pageIndex, event);
+					});
+				}
+	
+				if (options.classes) {
+					$link.addClass(options.classes);
+				}
+	
+				$linkWrapper.append($link);
+	
+				if ($ul.length) {
+					$ul.append($linkWrapper);
+				} else {
+					self.append($linkWrapper);
+				}
+			},
+	
+			_selectPage: function(pageIndex, event) {
+				var o = this.data('pagination');
+				o.currentPage = pageIndex;
+				if (o.selectOnClick) {
+					methods._draw.call(this);
+				}
+				return o.onPageClick(pageIndex + 1, event);
+			},
+	
+	
+			_ellipseClick: function($panel) {
+				var self = this,
+					o = this.data('pagination'),
+					$ellip = $panel.find('.ellipse');
+				$ellip.addClass('clickable').parent().removeClass('disabled');
+				$ellip.click(function(event) {
+					if (!o.disable) {
+						var $this = $(this),
+							val = (parseInt($this.parent().prev().text(), 10) || 0) + 1;
+						$this
+							.html('<input type="number" min="1" max="' + o.pages + '" step="1" value="' + val + '">')
+							.find('input')
+							.focus()
+							.click(function(event) {
+								// prevent input number arrows from bubbling a click event on $ellip
+								event.stopPropagation();
+							})
+							.keyup(function(event) {
+								var val = $(this).val();
+								if (event.which === 13 && val !== '') {
+									// enter to accept
+									methods._selectPage.call(self, val - 1);
+								} else if (event.which === 27) {
+									// escape to cancel
+									$ellip.empty().html(o.ellipseText);
+								}
+							})
+							.bind('blur', function(event) {
+								var val = $(this).val();
+								if (val !== '') {
+									methods._selectPage.call(self, val - 1);
+								}
+								$ellip.empty().html(o.ellipseText);
+								return false;
+							});
+					}
+					return false;
+				});
+			}
+	
+		};
+	
+		$.fn.pagination = function(method) {
+	
+			// Method calling logic
+			if (methods[method] && method.charAt(0) != '_') {
+				return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+			} else if (typeof method === 'object' || !method) {
+				return methods.init.apply(this, arguments);
+			} else {
+				$.error('Method ' +  method + ' does not exist on jQuery.pagination');
+			}
+	
+		};
+	
+	})(jQuery);
+	
 
 
 /***/ },
 /* 38 */
-/*!************************!*\
-  !*** ./~/util/util.js ***!
-  \************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	var formatRegExp = /%[sdj%]/g;
-	exports.format = function(f) {
-	  if (!isString(f)) {
-	    var objects = [];
-	    for (var i = 0; i < arguments.length; i++) {
-	      objects.push(inspect(arguments[i]));
-	    }
-	    return objects.join(' ');
-	  }
-	
-	  var i = 1;
-	  var args = arguments;
-	  var len = args.length;
-	  var str = String(f).replace(formatRegExp, function(x) {
-	    if (x === '%%') return '%';
-	    if (i >= len) return x;
-	    switch (x) {
-	      case '%s': return String(args[i++]);
-	      case '%d': return Number(args[i++]);
-	      case '%j':
-	        try {
-	          return JSON.stringify(args[i++]);
-	        } catch (_) {
-	          return '[Circular]';
-	        }
-	      default:
-	        return x;
-	    }
-	  });
-	  for (var x = args[i]; i < len; x = args[++i]) {
-	    if (isNull(x) || !isObject(x)) {
-	      str += ' ' + x;
-	    } else {
-	      str += ' ' + inspect(x);
-	    }
-	  }
-	  return str;
-	};
-	
-	
-	// Mark that a method should not be used.
-	// Returns a modified function which warns once by default.
-	// If --no-deprecation is set, then it is a no-op.
-	exports.deprecate = function(fn, msg) {
-	  // Allow for deprecating things in the process of starting up.
-	  if (isUndefined(global.process)) {
-	    return function() {
-	      return exports.deprecate(fn, msg).apply(this, arguments);
-	    };
-	  }
-	
-	  if (process.noDeprecation === true) {
-	    return fn;
-	  }
-	
-	  var warned = false;
-	  function deprecated() {
-	    if (!warned) {
-	      if (process.throwDeprecation) {
-	        throw new Error(msg);
-	      } else if (process.traceDeprecation) {
-	        console.trace(msg);
-	      } else {
-	        console.error(msg);
-	      }
-	      warned = true;
-	    }
-	    return fn.apply(this, arguments);
-	  }
-	
-	  return deprecated;
-	};
-	
-	
-	var debugs = {};
-	var debugEnviron;
-	exports.debuglog = function(set) {
-	  if (isUndefined(debugEnviron))
-	    debugEnviron = process.env.NODE_DEBUG || '';
-	  set = set.toUpperCase();
-	  if (!debugs[set]) {
-	    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-	      var pid = process.pid;
-	      debugs[set] = function() {
-	        var msg = exports.format.apply(exports, arguments);
-	        console.error('%s %d: %s', set, pid, msg);
-	      };
-	    } else {
-	      debugs[set] = function() {};
-	    }
-	  }
-	  return debugs[set];
-	};
-	
-	
-	/**
-	 * Echos the value of a value. Trys to print the value out
-	 * in the best way possible given the different types.
-	 *
-	 * @param {Object} obj The object to print out.
-	 * @param {Object} opts Optional options object that alters the output.
-	 */
-	/* legacy: obj, showHidden, depth, colors*/
-	function inspect(obj, opts) {
-	  // default options
-	  var ctx = {
-	    seen: [],
-	    stylize: stylizeNoColor
-	  };
-	  // legacy...
-	  if (arguments.length >= 3) ctx.depth = arguments[2];
-	  if (arguments.length >= 4) ctx.colors = arguments[3];
-	  if (isBoolean(opts)) {
-	    // legacy...
-	    ctx.showHidden = opts;
-	  } else if (opts) {
-	    // got an "options" object
-	    exports._extend(ctx, opts);
-	  }
-	  // set default options
-	  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-	  if (isUndefined(ctx.depth)) ctx.depth = 2;
-	  if (isUndefined(ctx.colors)) ctx.colors = false;
-	  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-	  if (ctx.colors) ctx.stylize = stylizeWithColor;
-	  return formatValue(ctx, obj, ctx.depth);
-	}
-	exports.inspect = inspect;
-	
-	
-	// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-	inspect.colors = {
-	  'bold' : [1, 22],
-	  'italic' : [3, 23],
-	  'underline' : [4, 24],
-	  'inverse' : [7, 27],
-	  'white' : [37, 39],
-	  'grey' : [90, 39],
-	  'black' : [30, 39],
-	  'blue' : [34, 39],
-	  'cyan' : [36, 39],
-	  'green' : [32, 39],
-	  'magenta' : [35, 39],
-	  'red' : [31, 39],
-	  'yellow' : [33, 39]
-	};
-	
-	// Don't use 'blue' not visible on cmd.exe
-	inspect.styles = {
-	  'special': 'cyan',
-	  'number': 'yellow',
-	  'boolean': 'yellow',
-	  'undefined': 'grey',
-	  'null': 'bold',
-	  'string': 'green',
-	  'date': 'magenta',
-	  // "name": intentionally not styling
-	  'regexp': 'red'
-	};
-	
-	
-	function stylizeWithColor(str, styleType) {
-	  var style = inspect.styles[styleType];
-	
-	  if (style) {
-	    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
-	           '\u001b[' + inspect.colors[style][1] + 'm';
-	  } else {
-	    return str;
-	  }
-	}
-	
-	
-	function stylizeNoColor(str, styleType) {
-	  return str;
-	}
-	
-	
-	function arrayToHash(array) {
-	  var hash = {};
-	
-	  array.forEach(function(val, idx) {
-	    hash[val] = true;
-	  });
-	
-	  return hash;
-	}
-	
-	
-	function formatValue(ctx, value, recurseTimes) {
-	  // Provide a hook for user-specified inspect functions.
-	  // Check that value is an object with an inspect function on it
-	  if (ctx.customInspect &&
-	      value &&
-	      isFunction(value.inspect) &&
-	      // Filter out the util module, it's inspect function is special
-	      value.inspect !== exports.inspect &&
-	      // Also filter out any prototype objects using the circular check.
-	      !(value.constructor && value.constructor.prototype === value)) {
-	    var ret = value.inspect(recurseTimes, ctx);
-	    if (!isString(ret)) {
-	      ret = formatValue(ctx, ret, recurseTimes);
-	    }
-	    return ret;
-	  }
-	
-	  // Primitive types cannot have properties
-	  var primitive = formatPrimitive(ctx, value);
-	  if (primitive) {
-	    return primitive;
-	  }
-	
-	  // Look up the keys of the object.
-	  var keys = Object.keys(value);
-	  var visibleKeys = arrayToHash(keys);
-	
-	  if (ctx.showHidden) {
-	    keys = Object.getOwnPropertyNames(value);
-	  }
-	
-	  // IE doesn't make error fields non-enumerable
-	  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-	  if (isError(value)
-	      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-	    return formatError(value);
-	  }
-	
-	  // Some type of object without properties can be shortcutted.
-	  if (keys.length === 0) {
-	    if (isFunction(value)) {
-	      var name = value.name ? ': ' + value.name : '';
-	      return ctx.stylize('[Function' + name + ']', 'special');
-	    }
-	    if (isRegExp(value)) {
-	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-	    }
-	    if (isDate(value)) {
-	      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-	    }
-	    if (isError(value)) {
-	      return formatError(value);
-	    }
-	  }
-	
-	  var base = '', array = false, braces = ['{', '}'];
-	
-	  // Make Array say that they are Array
-	  if (isArray(value)) {
-	    array = true;
-	    braces = ['[', ']'];
-	  }
-	
-	  // Make functions say that they are functions
-	  if (isFunction(value)) {
-	    var n = value.name ? ': ' + value.name : '';
-	    base = ' [Function' + n + ']';
-	  }
-	
-	  // Make RegExps say that they are RegExps
-	  if (isRegExp(value)) {
-	    base = ' ' + RegExp.prototype.toString.call(value);
-	  }
-	
-	  // Make dates with properties first say the date
-	  if (isDate(value)) {
-	    base = ' ' + Date.prototype.toUTCString.call(value);
-	  }
-	
-	  // Make error with message first say the error
-	  if (isError(value)) {
-	    base = ' ' + formatError(value);
-	  }
-	
-	  if (keys.length === 0 && (!array || value.length == 0)) {
-	    return braces[0] + base + braces[1];
-	  }
-	
-	  if (recurseTimes < 0) {
-	    if (isRegExp(value)) {
-	      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-	    } else {
-	      return ctx.stylize('[Object]', 'special');
-	    }
-	  }
-	
-	  ctx.seen.push(value);
-	
-	  var output;
-	  if (array) {
-	    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-	  } else {
-	    output = keys.map(function(key) {
-	      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-	    });
-	  }
-	
-	  ctx.seen.pop();
-	
-	  return reduceToSingleString(output, base, braces);
-	}
-	
-	
-	function formatPrimitive(ctx, value) {
-	  if (isUndefined(value))
-	    return ctx.stylize('undefined', 'undefined');
-	  if (isString(value)) {
-	    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-	                                             .replace(/'/g, "\\'")
-	                                             .replace(/\\"/g, '"') + '\'';
-	    return ctx.stylize(simple, 'string');
-	  }
-	  if (isNumber(value))
-	    return ctx.stylize('' + value, 'number');
-	  if (isBoolean(value))
-	    return ctx.stylize('' + value, 'boolean');
-	  // For some reason typeof null is "object", so special case here.
-	  if (isNull(value))
-	    return ctx.stylize('null', 'null');
-	}
-	
-	
-	function formatError(value) {
-	  return '[' + Error.prototype.toString.call(value) + ']';
-	}
-	
-	
-	function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-	  var output = [];
-	  for (var i = 0, l = value.length; i < l; ++i) {
-	    if (hasOwnProperty(value, String(i))) {
-	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-	          String(i), true));
-	    } else {
-	      output.push('');
-	    }
-	  }
-	  keys.forEach(function(key) {
-	    if (!key.match(/^\d+$/)) {
-	      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-	          key, true));
-	    }
-	  });
-	  return output;
-	}
-	
-	
-	function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-	  var name, str, desc;
-	  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-	  if (desc.get) {
-	    if (desc.set) {
-	      str = ctx.stylize('[Getter/Setter]', 'special');
-	    } else {
-	      str = ctx.stylize('[Getter]', 'special');
-	    }
-	  } else {
-	    if (desc.set) {
-	      str = ctx.stylize('[Setter]', 'special');
-	    }
-	  }
-	  if (!hasOwnProperty(visibleKeys, key)) {
-	    name = '[' + key + ']';
-	  }
-	  if (!str) {
-	    if (ctx.seen.indexOf(desc.value) < 0) {
-	      if (isNull(recurseTimes)) {
-	        str = formatValue(ctx, desc.value, null);
-	      } else {
-	        str = formatValue(ctx, desc.value, recurseTimes - 1);
-	      }
-	      if (str.indexOf('\n') > -1) {
-	        if (array) {
-	          str = str.split('\n').map(function(line) {
-	            return '  ' + line;
-	          }).join('\n').substr(2);
-	        } else {
-	          str = '\n' + str.split('\n').map(function(line) {
-	            return '   ' + line;
-	          }).join('\n');
-	        }
-	      }
-	    } else {
-	      str = ctx.stylize('[Circular]', 'special');
-	    }
-	  }
-	  if (isUndefined(name)) {
-	    if (array && key.match(/^\d+$/)) {
-	      return str;
-	    }
-	    name = JSON.stringify('' + key);
-	    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-	      name = name.substr(1, name.length - 2);
-	      name = ctx.stylize(name, 'name');
-	    } else {
-	      name = name.replace(/'/g, "\\'")
-	                 .replace(/\\"/g, '"')
-	                 .replace(/(^"|"$)/g, "'");
-	      name = ctx.stylize(name, 'string');
-	    }
-	  }
-	
-	  return name + ': ' + str;
-	}
-	
-	
-	function reduceToSingleString(output, base, braces) {
-	  var numLinesEst = 0;
-	  var length = output.reduce(function(prev, cur) {
-	    numLinesEst++;
-	    if (cur.indexOf('\n') >= 0) numLinesEst++;
-	    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-	  }, 0);
-	
-	  if (length > 60) {
-	    return braces[0] +
-	           (base === '' ? '' : base + '\n ') +
-	           ' ' +
-	           output.join(',\n  ') +
-	           ' ' +
-	           braces[1];
-	  }
-	
-	  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-	}
-	
-	
-	// NOTE: These type checking functions intentionally don't use `instanceof`
-	// because it is fragile and can be easily faked with `Object.create()`.
-	function isArray(ar) {
-	  return Array.isArray(ar);
-	}
-	exports.isArray = isArray;
-	
-	function isBoolean(arg) {
-	  return typeof arg === 'boolean';
-	}
-	exports.isBoolean = isBoolean;
-	
-	function isNull(arg) {
-	  return arg === null;
-	}
-	exports.isNull = isNull;
-	
-	function isNullOrUndefined(arg) {
-	  return arg == null;
-	}
-	exports.isNullOrUndefined = isNullOrUndefined;
-	
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-	exports.isNumber = isNumber;
-	
-	function isString(arg) {
-	  return typeof arg === 'string';
-	}
-	exports.isString = isString;
-	
-	function isSymbol(arg) {
-	  return typeof arg === 'symbol';
-	}
-	exports.isSymbol = isSymbol;
-	
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-	exports.isUndefined = isUndefined;
-	
-	function isRegExp(re) {
-	  return isObject(re) && objectToString(re) === '[object RegExp]';
-	}
-	exports.isRegExp = isRegExp;
-	
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-	exports.isObject = isObject;
-	
-	function isDate(d) {
-	  return isObject(d) && objectToString(d) === '[object Date]';
-	}
-	exports.isDate = isDate;
-	
-	function isError(e) {
-	  return isObject(e) &&
-	      (objectToString(e) === '[object Error]' || e instanceof Error);
-	}
-	exports.isError = isError;
-	
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-	exports.isFunction = isFunction;
-	
-	function isPrimitive(arg) {
-	  return arg === null ||
-	         typeof arg === 'boolean' ||
-	         typeof arg === 'number' ||
-	         typeof arg === 'string' ||
-	         typeof arg === 'symbol' ||  // ES6 symbol
-	         typeof arg === 'undefined';
-	}
-	exports.isPrimitive = isPrimitive;
-	
-	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 40);
-	
-	function objectToString(o) {
-	  return Object.prototype.toString.call(o);
-	}
-	
-	
-	function pad(n) {
-	  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-	}
-	
-	
-	var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-	              'Oct', 'Nov', 'Dec'];
-	
-	// 26 Feb 16:19:34
-	function timestamp() {
-	  var d = new Date();
-	  var time = [pad(d.getHours()),
-	              pad(d.getMinutes()),
-	              pad(d.getSeconds())].join(':');
-	  return [d.getDate(), months[d.getMonth()], time].join(' ');
-	}
-	
-	
-	// log is just a thin wrapper to console.log that prepends a timestamp
-	exports.log = function() {
-	  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-	};
-	
-	
-	/**
-	 * Inherit the prototype methods from one constructor into another.
-	 *
-	 * The Function.prototype.inherits from lang.js rewritten as a standalone
-	 * function (not on Function.prototype). NOTE: If this file is to be loaded
-	 * during bootstrapping this function needs to be rewritten using some native
-	 * functions as prototype setup using normal JavaScript does not work as
-	 * expected during bootstrapping (see mirror.js in r114903).
-	 *
-	 * @param {function} ctor Constructor function which needs to inherit the
-	 *     prototype.
-	 * @param {function} superCtor Constructor function to inherit prototype from.
-	 */
-	exports.inherits = __webpack_require__(/*! inherits */ 41);
-	
-	exports._extend = function(origin, add) {
-	  // Don't do anything if add isn't an object
-	  if (!add || !isObject(add)) return origin;
-	
-	  var keys = Object.keys(add);
-	  var i = keys.length;
-	  while (i--) {
-	    origin[keys[i]] = add[keys[i]];
-	  }
-	  return origin;
-	};
-	
-	function hasOwnProperty(obj, prop) {
-	  return Object.prototype.hasOwnProperty.call(obj, prop);
-	}
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./~/process/browser.js */ 39)))
-
-/***/ },
-/* 39 */
-/*!******************************!*\
-  !*** ./~/process/browser.js ***!
-  \******************************/
-/***/ function(module, exports) {
-
-	// shim for using process in browser
-	
-	var process = module.exports = {};
-	var queue = [];
-	var draining = false;
-	var currentQueue;
-	var queueIndex = -1;
-	
-	function cleanUpNextTick() {
-	    draining = false;
-	    if (currentQueue.length) {
-	        queue = currentQueue.concat(queue);
-	    } else {
-	        queueIndex = -1;
-	    }
-	    if (queue.length) {
-	        drainQueue();
-	    }
-	}
-	
-	function drainQueue() {
-	    if (draining) {
-	        return;
-	    }
-	    var timeout = setTimeout(cleanUpNextTick);
-	    draining = true;
-	
-	    var len = queue.length;
-	    while(len) {
-	        currentQueue = queue;
-	        queue = [];
-	        while (++queueIndex < len) {
-	            if (currentQueue) {
-	                currentQueue[queueIndex].run();
-	            }
-	        }
-	        queueIndex = -1;
-	        len = queue.length;
-	    }
-	    currentQueue = null;
-	    draining = false;
-	    clearTimeout(timeout);
-	}
-	
-	process.nextTick = function (fun) {
-	    var args = new Array(arguments.length - 1);
-	    if (arguments.length > 1) {
-	        for (var i = 1; i < arguments.length; i++) {
-	            args[i - 1] = arguments[i];
-	        }
-	    }
-	    queue.push(new Item(fun, args));
-	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
-	    }
-	};
-	
-	// v8 likes predictible objects
-	function Item(fun, array) {
-	    this.fun = fun;
-	    this.array = array;
-	}
-	Item.prototype.run = function () {
-	    this.fun.apply(null, this.array);
-	};
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	process.version = ''; // empty string to avoid regexp issues
-	process.versions = {};
-	
-	function noop() {}
-	
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-	
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-	
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-	process.umask = function() { return 0; };
-
-
-/***/ },
-/* 40 */
-/*!*******************************************!*\
-  !*** ./~/util/support/isBufferBrowser.js ***!
-  \*******************************************/
-/***/ function(module, exports) {
-
-	module.exports = function isBuffer(arg) {
-	  return arg && typeof arg === 'object'
-	    && typeof arg.copy === 'function'
-	    && typeof arg.fill === 'function'
-	    && typeof arg.readUInt8 === 'function';
-	}
-
-/***/ },
-/* 41 */
-/*!****************************************!*\
-  !*** ./~/inherits/inherits_browser.js ***!
-  \****************************************/
-/***/ function(module, exports) {
-
-	if (typeof Object.create === 'function') {
-	  // implementation from standard node.js 'util' module
-	  module.exports = function inherits(ctor, superCtor) {
-	    ctor.super_ = superCtor
-	    ctor.prototype = Object.create(superCtor.prototype, {
-	      constructor: {
-	        value: ctor,
-	        enumerable: false,
-	        writable: true,
-	        configurable: true
-	      }
-	    });
-	  };
-	} else {
-	  // old school shim for old browsers
-	  module.exports = function inherits(ctor, superCtor) {
-	    ctor.super_ = superCtor
-	    var TempCtor = function () {}
-	    TempCtor.prototype = superCtor.prototype
-	    ctor.prototype = new TempCtor()
-	    ctor.prototype.constructor = ctor
-	  }
-	}
-
-
-/***/ },
-/* 42 */
-/*!****************************************!*\
-  !*** ./~/pagination/lib/pagination.js ***!
-  \****************************************/
-/***/ function(module, exports) {
-
-	(function(exports) {
-		"use strict";
-		var factories = {};
-		
-		var translations = {
-			'NEXT' : 'Next',
-			'PREVIOUS' : 'Previous',
-			'FIRST' : 'First',
-			'LAST' : 'Last',
-			'CURRENT_PAGE_REPORT' : 'Results {FromResult} - {ToResult} of {TotalResult}'
-		};
-		
-		var translationKeys = exports.translationKeys = Object.keys(translations);
-		
-		var translationCache = {
-			CURRENT_PAGE_REPORT : {}
-		};
-	
-		var translator = function(str) {
-			return translations[str];
-		};
-		var Paginator = function(options) {
-			var keys, i, len;
-			/* validate in this.set if needed */
-			this.options = {
-				totalResult : 0,
-				prelink : '',
-				rowsPerPage : 10,
-				pageLinks : 5,
-				current : 1,
-				translator : translator,
-				translationCache : false,
-				translationCacheKey : 'en',
-				pageParamName : 'page',
-				slashSeparator : false
-			};
-			for( keys = Object.keys(options), i = 0, len = keys.length; i < len; i++) {
-				this.set(keys[i], options[keys[i]]);
-			}
-			this._result = null;
-		};
-	
-		exports.Paginator = Paginator;
-	
-		Paginator.prototype = {
-			getPaginationData : function() {
-				if(!this._result) {
-					this._result = this.calc();
-				}
-				return this._result;
-			},
-			calc : function() {
-				var totalResult = this.options.totalResult;
-				var pageLinks = this.options.pageLinks;
-				var rowsPerPage = this.options.rowsPerPage;
-				var current = this.options.current;
-				var startPage, endPage, pageCount;
-				var oldPageLinks = (pageLinks % 2 === 0) ? 1 : 0, i, half;
-				var result = {
-					prelink : this.options.prelink,
-					current : current,
-					previous : null,
-					next : null,
-					first : null,
-					last : null,
-					range : [],
-					fromResult : null,
-					toResult : null,
-					totalResult : totalResult,
-					pageCount : null
-				};
-				/* zero division; negative */
-				if(rowsPerPage <= 0) {
-					return result;
-				}
-				pageCount = Math.ceil(totalResult / rowsPerPage);
-				result.pageCount = pageCount;
-				if(pageCount < 2) {
-					result.fromResult = 1;
-					result.toResult = totalResult;
-					return result;
-				}
-	
-				if(current > pageCount) {
-					current = pageCount;
-					result.current = current;
-				}
-				half = Math.floor(pageLinks / 2);
-				startPage = current - half;
-				endPage = current + half - oldPageLinks;
-	
-				if(startPage < 1) {
-					startPage = 1;
-					endPage = startPage + pageLinks -1;
-					if(endPage > pageCount) {
-						endPage = pageCount;
-					}
-				}
-	
-				if(endPage > pageCount) {
-					endPage = pageCount;
-					startPage = endPage - pageLinks + 1;
-					if(startPage < 1) {
-						startPage = 1;
-					}
-				}
-	
-				for( i = startPage; i <= endPage; i++) {
-					result.range.push(i);
-				}
-	
-				if(current > 1) {
-					result.first = 1;
-					result.previous = current - 1;
-				}
-	
-				if(current < pageCount) {
-					result.last = pageCount;
-					result.next = current + 1;
-				}
-	
-				result.fromResult = (current - 1) * rowsPerPage + 1;
-				if(current === pageCount) {
-					result.toResult = totalResult;
-				} else {
-					result.toResult = result.fromResult + rowsPerPage - 1;
-				}
-	
-				return result;
-			},
-			set : function(option, value) {
-				if(this.options.hasOwnProperty(option)) {
-					switch(option) {
-						case 'current':
-						case 'totalResult':
-						case 'pageLinks':
-						case 'rowsPerPage':
-							value = parseInt(value, 10);
-							if (isNaN(value)) {
-								throw new Error('Invalid value for "' + option + '", expected an integer');
-							}
-							break;
-						case 'translator':
-							if (!(value && value.constructor && value.call && value.apply)) {
-								throw new Error('Translator must be a function');
-							}
-							break;
-						case 'translationCacheKey':
-						case 'pageParamName':
-						case 'prelink':
-							value = String(value);
-							break;
-					}
-					this.options[option] = value;
-					if (this._result) {
-						this._result = null;
-					}
-				}
-			},
-			preparePreLink : function(prelink) {
-				if (this.options.slashSeparator) {
-					if (prelink[prelink.length - 1] !== '/') {
-						prelink += '/';
-					}
-					return prelink + this.options.pageParamName + '/';
-				}
-				if(prelink.indexOf('?') !== -1) {
-					if(prelink[prelink.length - 1] !== '?' && prelink[prelink.length - 1] !== '&') {
-						prelink += '&';
-					}
-				} else {
-					prelink += '?';
-				}
-				
-				return prelink + this.options.pageParamName + '=';
-			},
-			render : function() {
-				throw new Error('Implement');
-			}
-		};
-		exports.registerFactory = function(type, factory) {
-			if (factories.hasOwnProperty(type)) {
-				throw new Error(type + ' already exists');
-			}
-			factories[type] = factory;
-		};
-		exports.create = function(type, options) {
-			if (factories.hasOwnProperty(type)) {
-				return new factories[type](options);
-			} else {
-				throw new Error('Paginator type'+type+' not found in register');
-			}
-		};
-	})(exports);
-
-
-/***/ },
-/* 43 */
-/*!********************************************!*\
-  !*** ./~/pagination/lib/item_paginator.js ***!
-  \********************************************/
-/***/ function(module, exports) {
-
-	exports.module = function(pagination, util) {
-		"use strict";
-		var translationCache = {
-			CURRENT_PAGE_REPORT : {}
-		};
-		var ItemPaginator = pagination.ItemPaginator = function(options) {
-			pagination.Paginator.call(this, options);
-			this.set('pageLinks', 1);
-		};
-		util.inherits(ItemPaginator, pagination.Paginator);
-		ItemPaginator.prototype.renderCurrentPageReport = function(fromResult, toResult, totalResult) {
-			var template;
-			if(!this.options.translationCache) {
-				return this.options.translator('CURRENT_PAGE_REPORT').replace('{FromResult}', fromResult).replace('{ToResult}', toResult).replace('{TotalResult}', totalResult);
-			}
-			if(!translationCache.CURRENT_PAGE_REPORT.hasOwnProperty(this.options.translationCacheKey)) {
-				template = "return '" + (this.options.translator('CURRENT_PAGE_REPORT').replace("'", "\'").replace('{FromResult}', "' + fromResult + '").replace('{ToResult}', "' + toResult + '").replace('{TotalResult}', "' + totalResult + '")) + "';";
-				translationCache.CURRENT_PAGE_REPORT[this.options.translationCacheKey] = new Function('fromResult, toResult, totalResult', template);
-			}
-			return translationCache.CURRENT_PAGE_REPORT[this.options.translationCacheKey](fromResult, toResult, totalResult);
-		};
-		ItemPaginator.prototype.render = function() {
-			var result = this.getPaginationData();
-			var prelink = this.preparePreLink(result.prelink);
-			var html = '<div class="paginator">';
-			html += '<span class="paginator-current-report">';
-			html += this.renderCurrentPageReport(result.fromResult, result.toResult, result.totalResult);
-			html += '</span>';
-	
-			if(result.first) {
-				html += '<a href="' + prelink + result.first + '" class="paginator-first">' + this.options.translator('FIRST') + '</a>';
-			} else {
-				html += '<span class="paginator-first">' + this.options.translator('FIRST') + '</span>';
-			}
-	
-			if(result.previous) {
-				html += '<a href="' + prelink + result.previous + '" class="paginator-previous">' + this.options.translator('PREVIOUS') + '</a>';
-			} else {
-				html += '<span class="paginator-previous">' + this.options.translator('PREVIOUS') + '</span>';
-			}
-	
-			if(result.next) {
-				html += '<a href="' + prelink + result.next + '" class="paginator-next">' + this.options.translator('NEXT') + '</a>';
-			} else {
-				html += '<span class="paginator-next">' + this.options.translator('NEXT') + '</span>';
-			}
-	
-			if(result.last) {
-				html += '<a href="' + prelink + result.last + '" class="paginator-last">' + this.options.translator('LAST') + '</a>';
-			} else {
-				html += '<span class="paginator-last">' + this.options.translator('LAST') + '</span>';
-			}
-			html += '</div>';
-			return html;
-		};
-		pagination.registerFactory('item', ItemPaginator);
-	};
-
-
-/***/ },
-/* 44 */
-/*!**********************************************!*\
-  !*** ./~/pagination/lib/search_paginator.js ***!
-  \**********************************************/
-/***/ function(module, exports) {
-
-	exports.module = function(pagination, util) {
-		"use strict";
-		var SearchPaginator = function(options) {
-			pagination.Paginator.call(this, options);
-		};
-	
-		pagination.SearchPaginator = SearchPaginator;
-	
-		util.inherits(SearchPaginator, pagination.Paginator);
-	
-		SearchPaginator.prototype.render = function() {
-			var i, len, className, prelink;
-			var result = this.getPaginationData();
-			var html = '<div class="paginator">';
-	
-			if(result.pageCount < 2) {
-				html += '</div>';
-				return html;
-			}
-			
-			prelink = this.preparePreLink(result.prelink);
-			
-			if(result.previous) {
-				html += '<a href="' + prelink + result.previous + '" class="paginator-previous">' + this.options.translator('PREVIOUS') + '</a>';
-			}
-	
-			if(result.range.length) {
-				for( i = 0, len = result.range.length; i < len; i++) {
-					className = 'paginator-page';
-	
-					if(result.range[i] === result.current) {
-						className = 'paginator-current';
-					}
-					if(i === 0) {
-						className += ' paginator-page-first';
-					} else if(i === len - 1) {
-						className += ' paginator-page-last';
-					}
-					html += '<a href="' + prelink + result.range[i] + '" class="' + className + '">' + result.range[i] + '</a>';
-				}
-			}
-			if(result.next) {
-				html += '<a href="' + prelink + result.next + '" class="paginator-next">' + this.options.translator('NEXT') + '</a>';
-			}
-			html += '</div>';
-			return html;
-		};
-		pagination.registerFactory('search', SearchPaginator);
-	};
-
-
-/***/ },
-/* 45 */
-/*!************************************************!*\
-  !*** ./~/pagination/lib/template_paginator.js ***!
-  \************************************************/
-/***/ function(module, exports) {
-
-	exports.module = function(pagination, util) {
-		"use strict";
-		
-		var TemplatePaginator = pagination.TemplatePaginator = function(options) {
-			var template = options.template;
-			if (!template) {
-				throw new Error('Template compile to function needed');
-			}
-			
-			if (!(template.constructor && template.call && template.apply)) {
-				template = pagination.TemplateEngine.compile(String(template), options);
-			}
-			pagination.Paginator.call(this, options);
-			this.renderer = template;
-		};
-		util.inherits(TemplatePaginator, pagination.Paginator);
-		TemplatePaginator.prototype.render = function() {
-			var i, len, data = this.getPaginationData();
-			data.preparedPreLink = this.preparePreLink(data.prelink);
-			data.translations = {};
-			for (i = 0, len = pagination.translationKeys.length; i < len; i++) {
-				data.translations[pagination.translationKeys[i]] = this.options.translator(pagination.translationKeys[i]);
-			}
-			return this.renderer(data);
-		};
-		pagination.registerFactory('template', TemplatePaginator);
-	};
-
-
-/***/ },
-/* 46 */
-/*!**************************************!*\
-  !*** ./~/pagination/lib/template.js ***!
-  \**************************************/
-/***/ function(module, exports) {
-
-	exports.module = function(pagination, util) {
-		"use strict";
-		var cache = {};
-		var parse = function(str, options) {
-			var options = options || {}
-			,open = options.open || '<%'
-			,close = options.close || '%>';
-			var prefix, postfix, i, end, len, js, start, n;
-			var buf = ["var buf = [];",
-			           "\nwith (paginationData) {",
-			           "\n  buf.push('"];
-			for (i = 0, len = str.length; i < len; ++i) {
-				if (str.slice(i, open.length + i) === open) {
-					i += open.length;
-					switch (str.substr(i, 1)) {
-						case '=':
-							prefix = "', escape(";
-							postfix = "), '";
-							++i;
-							break;
-						case '-':
-							prefix = "', (" ;
-							postfix = "), '";
-							++i;
-							break;
-						default:
-							prefix = "');";
-							postfix = "; buf.push('";
-					}
-					end = str.indexOf(close, i);
-					js = str.substring(i, end);
-					start = i; n = 0;
-					while (~(n = js.indexOf("\n", n))) n++;
-					buf.push(prefix, js, postfix);
-					i += end - start + close.length - 1;
-				} else if (str.substr(i, 1) === "\\") {
-					buf.push("\\\\");
-				} else if (str.substr(i, 1) === "'") {
-					buf.push("\\'");
-				} else if (str.substr(i, 1) === "\r") {
-					buf.push(" ");
-				} else if (str.substr(i, 1) === "\n") {
-					buf.push("\\n");
-				} else {
-					buf.push(str.substr(i, 1));
-				}
-			}
-			buf.push("');\n}\nreturn buf.join('');");
-			return buf.join('');
-		};
-		var _escape = function(text) {
-			return String(text)
-					.replace(/&/g, '&amp;')
-					.replace(/</g, '&lt;')
-					.replace(/>/g, '&gt;')
-					.replace(/"/g, '&quot;')
-					.replace(/'/g, '&#39;');
-		};
-		var _compile = function(str, options) {
-			var fn = new Function('paginationData, escape', parse(str, options));
-			return function(paginationData){
-				return fn.call(this, paginationData, _escape);
-			};
-		};
-		
-		var compile = function(str, options){
-			var fn, options = options || {};
-			if (options.cache) {
-				if (options.id) {
-					fn = cache[options.id] || (cache[options.id] = _compile(str, options));
-				} else {
-					throw new Error('"cache" option requires "id"');
-				}
-			} else {
-				fn = _compile(str, options);
-			}
-			return fn;
-		};
-		
-		pagination.TemplateEngine = {
-			parse : parse,
-			compile : compile
-		};
-	};
-
-
-/***/ },
-/* 47 */
 /*!***************************************!*\
   !*** ./src/Pagination/pagination.dot ***!
   \***************************************/
@@ -12531,7 +11739,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 48 */
+/* 39 */
 /*!***********************************!*\
   !*** ./src/SingleSelect/index.js ***!
   \***********************************/
@@ -12552,10 +11760,10 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 49);
+	__webpack_require__(/*! ./styles.css */ 40);
 	
 	// html
-	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 51);
+	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 42);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 1);
@@ -12606,7 +11814,7 @@ exports["UI"] =
 	module.exports = SingleSelect;
 
 /***/ },
-/* 49 */
+/* 40 */
 /*!*************************************!*\
   !*** ./src/SingleSelect/styles.css ***!
   \*************************************/
@@ -12615,7 +11823,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 50);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 41);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 6)(content, {});
@@ -12635,7 +11843,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 50 */
+/* 41 */
 /*!********************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SingleSelect/styles.css ***!
   \********************************************************************************/
@@ -12652,7 +11860,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 51 */
+/* 42 */
 /*!**************************************!*\
   !*** ./src/SingleSelect/select.tmpl ***!
   \**************************************/
@@ -12669,7 +11877,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 52 */
+/* 43 */
 /*!**********************!*\
   !*** ./src/State.js ***!
   \**********************/
@@ -12679,7 +11887,7 @@ exports["UI"] =
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var Baobab = __webpack_require__(/*! baobab */ 53);
+	var Baobab = __webpack_require__(/*! baobab */ 44);
 	
 	// centralized state
 	
@@ -12713,7 +11921,7 @@ exports["UI"] =
 	module.exports = State;
 
 /***/ },
-/* 53 */
+/* 44 */
 /*!*********************************!*\
   !*** ./~/baobab/dist/baobab.js ***!
   \*********************************/
@@ -12745,29 +11953,29 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var _emmett = __webpack_require__(/*! emmett */ 54);
+	var _emmett = __webpack_require__(/*! emmett */ 45);
 	
 	var _emmett2 = _interopRequireDefault(_emmett);
 	
-	var _cursor = __webpack_require__(/*! ./cursor */ 55);
+	var _cursor = __webpack_require__(/*! ./cursor */ 46);
 	
 	var _cursor2 = _interopRequireDefault(_cursor);
 	
-	var _monkey = __webpack_require__(/*! ./monkey */ 56);
+	var _monkey = __webpack_require__(/*! ./monkey */ 47);
 	
-	var _watcher = __webpack_require__(/*! ./watcher */ 60);
+	var _watcher = __webpack_require__(/*! ./watcher */ 51);
 	
 	var _watcher2 = _interopRequireDefault(_watcher);
 	
-	var _type = __webpack_require__(/*! ./type */ 57);
+	var _type = __webpack_require__(/*! ./type */ 48);
 	
 	var _type2 = _interopRequireDefault(_type);
 	
-	var _update2 = __webpack_require__(/*! ./update */ 58);
+	var _update2 = __webpack_require__(/*! ./update */ 49);
 	
 	var _update3 = _interopRequireDefault(_update2);
 	
-	var _helpers = __webpack_require__(/*! ./helpers */ 59);
+	var _helpers = __webpack_require__(/*! ./helpers */ 50);
 	
 	var helpers = _interopRequireWildcard(_helpers);
 	
@@ -12777,6 +11985,7 @@ exports["UI"] =
 	var getIn = helpers.getIn;
 	var makeError = helpers.makeError;
 	var deepMerge = helpers.deepMerge;
+	var pathObject = helpers.pathObject;
 	var shallowClone = helpers.shallowClone;
 	var shallowMerge = helpers.shallowMerge;
 	var uniqid = helpers.uniqid;
@@ -12819,11 +12028,9 @@ exports["UI"] =
 	 * @return {string} string - The resultant hash.
 	 */
 	function hashPath(path) {
-	  return 'λ' + path.map(function (step) {
-	    if (_type2['default']['function'](step) || _type2['default'].object(step)) return '#' + uniqid() + '#';
-	
-	    return step;
-	  }).join('λ');
+	  return '/' + path.map(function (step) {
+	    if (_type2['default']['function'](step) || _type2['default'].object(step)) return '#' + uniqid() + '#';else return step;
+	  }).join('/');
 	}
 	
 	/**
@@ -12878,7 +12085,7 @@ exports["UI"] =
 	    this._data = initialData;
 	
 	    // Properties
-	    this.root = new _cursor2['default'](this, [], 'λ');
+	    this.root = new _cursor2['default'](this, [], '/');
 	    delete this.root.release;
 	
 	    // Does the user want an immutable tree?
@@ -13188,7 +12395,7 @@ exports["UI"] =
 	      if (this._future) this._future = clearTimeout(this._future);
 	
 	      var affectedPaths = Object.keys(this._affectedPathsIndex).map(function (h) {
-	        return h !== 'λ' ? h.split('λ').slice(1) : [];
+	        return h !== '/' ? h.split('/').slice(1) : [];
 	      });
 	
 	      // Is the tree still valid?
@@ -13288,9 +12495,7 @@ exports["UI"] =
 	
 	  if (!args.length) throw new Error('Baobab.monkey: missing definition.');
 	
-	  if (args.length === 1) return new _monkey.MonkeyDefinition(args[0]);
-	
-	  return new _monkey.MonkeyDefinition(args);
+	  if (args.length === 1) return new _monkey.MonkeyDefinition(args[0]);else return new _monkey.MonkeyDefinition(args);
 	};
 	Baobab.dynamicNode = Baobab.monkey;
 	
@@ -13307,7 +12512,7 @@ exports["UI"] =
 	 * Version
 	 */
 	Object.defineProperty(Baobab, 'version', {
-	  value: '2.1.2'
+	  value: '2.1.1'
 	});
 	
 	/**
@@ -13317,7 +12522,7 @@ exports["UI"] =
 	module.exports = exports['default'];
 
 /***/ },
-/* 54 */
+/* 45 */
 /*!****************************!*\
   !*** ./~/emmett/emmett.js ***!
   \****************************/
@@ -13879,7 +13084,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 55 */
+/* 46 */
 /*!*********************************!*\
   !*** ./~/baobab/dist/cursor.js ***!
   \*********************************/
@@ -13907,17 +13112,17 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var _emmett = __webpack_require__(/*! emmett */ 54);
+	var _emmett = __webpack_require__(/*! emmett */ 45);
 	
 	var _emmett2 = _interopRequireDefault(_emmett);
 	
-	var _monkey = __webpack_require__(/*! ./monkey */ 56);
+	var _monkey = __webpack_require__(/*! ./monkey */ 47);
 	
-	var _type = __webpack_require__(/*! ./type */ 57);
+	var _type = __webpack_require__(/*! ./type */ 48);
 	
 	var _type2 = _interopRequireDefault(_type);
 	
-	var _helpers = __webpack_require__(/*! ./helpers */ 59);
+	var _helpers = __webpack_require__(/*! ./helpers */ 50);
 	
 	/**
 	 * Traversal helper function for dynamic cursors. Will throw a legible error
@@ -14190,9 +13395,7 @@ exports["UI"] =
 	  }, {
 	    key: 'up',
 	    value: function up() {
-	      if (!this.isRoot()) return this.tree.select(this.path.slice(0, -1));
-	
-	      return null;
+	      if (!this.isRoot()) return this.tree.select(this.path.slice(0, -1));else return null;
 	    }
 	
 	    /**
@@ -14307,39 +13510,6 @@ exports["UI"] =
 	        return fn.call(l > 1 ? scope : this, this.select(i), i, array);
 	      }, this);
 	    }
-	
-	    /**
-	     * Method used to allow iterating over cursors containing list-type data.
-	     *
-	     * e.g. for(let i of cursor) { ... }
-	     *
-	     * @returns {object} -  Each item sequentially.
-	    //  */
-	    // [Symbol.iterator]() {
-	    //   const array = this._get().data;
-	
-	    //   if (!type.array(array))
-	    //     throw Error('baobab.Cursor.@@iterate: cannot iterate a non-list type.');
-	
-	    //   let i = 0;
-	
-	    //   const cursor = this,
-	    //         length = array.length;
-	
-	    //   return {
-	    //     next: function() {
-	    //       if (i < length) {
-	    //         return {
-	    //           value: cursor.select(i++)
-	    //         };
-	    //       }
-	
-	    //       return {
-	    //         done: true
-	    //       };
-	    //     }
-	    //   };
-	    // }
 	
 	    /**
 	     * Getter Methods
@@ -14512,14 +13682,13 @@ exports["UI"] =
 	        value: maxRecords
 	      });
 	
-	      this.state.recording = true;
-	
 	      if (this.archive) return this;
 	
 	      // Lazy binding
 	      this._lazyBind();
 	
 	      this.archive = new _helpers.Archive(maxRecords);
+	      this.state.recording = true;
 	      return this;
 	    }
 	
@@ -14721,7 +13890,7 @@ exports["UI"] =
 	module.exports = exports['default'];
 
 /***/ },
-/* 56 */
+/* 47 */
 /*!*********************************!*\
   !*** ./~/baobab/dist/monkey.js ***!
   \*********************************/
@@ -14745,19 +13914,19 @@ exports["UI"] =
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _type = __webpack_require__(/*! ./type */ 57);
+	var _type = __webpack_require__(/*! ./type */ 48);
 	
 	var _type2 = _interopRequireDefault(_type);
 	
-	var _update2 = __webpack_require__(/*! ./update */ 58);
+	var _update2 = __webpack_require__(/*! ./update */ 49);
 	
 	var _update3 = _interopRequireDefault(_update2);
 	
-	var _helpers = __webpack_require__(/*! ./helpers */ 59);
+	var _helpers = __webpack_require__(/*! ./helpers */ 50);
 	
 	/**
 	 * Monkey Definition class
-	 * Note: The only reason why this is a class is to be able to spot it within
+	 * Note: The only reason why this is a class is to be able to spot it whithin
 	 * otherwise ordinary data.
 	 *
 	 * @constructor
@@ -14901,9 +14070,7 @@ exports["UI"] =
 	        return (0, _helpers.getIn)(_this4.tree._data, p).solvedPath;
 	      });else paths = this.depPaths;
 	
-	      if (!this.isRecursive) return paths;
-	
-	      return paths.reduce(function (accumulatedPaths, path) {
+	      if (!this.isRecursive) return paths;else return paths.reduce(function (accumulatedPaths, path) {
 	        var monkeyPath = _type2['default'].monkeyPath(_this4.tree._monkeys, path);
 	
 	        if (!monkeyPath) return accumulatedPaths.concat([path]);
@@ -14985,7 +14152,7 @@ exports["UI"] =
 	exports.Monkey = Monkey;
 
 /***/ },
-/* 57 */
+/* 48 */
 /*!*******************************!*\
   !*** ./~/baobab/dist/type.js ***!
   \*******************************/
@@ -15005,7 +14172,7 @@ exports["UI"] =
 	  value: true
 	});
 	
-	var _monkey = __webpack_require__(/*! ./monkey */ 56);
+	var _monkey = __webpack_require__(/*! ./monkey */ 47);
 	
 	var type = {};
 	
@@ -15152,9 +14319,8 @@ exports["UI"] =
 	 * @return {boolean}
 	 */
 	type.monkeyPath = function (data, path) {
-	  var subpath = [];
-	
-	  var c = data,
+	  var subpath = [],
+	      c = data,
 	      i = undefined,
 	      l = undefined;
 	
@@ -15195,15 +14361,11 @@ exports["UI"] =
 	  if (type.object(definition)) {
 	    if (!type['function'](definition.get) || definition.cursors && (!type.object(definition.cursors) || !Object.keys(definition.cursors).every(function (k) {
 	      return type.path(definition.cursors[k]);
-	    }))) return null;
-	
-	    return 'object';
+	    }))) return null;else return 'object';
 	  } else if (type.array(definition)) {
 	    if (!type['function'](definition[definition.length - 1]) || !definition.slice(0, -1).every(function (p) {
 	      return type.path(p);
-	    })) return null;
-	
-	    return 'array';
+	    })) return null;else return 'array';
 	  }
 	
 	  return null;
@@ -15239,7 +14401,7 @@ exports["UI"] =
 	module.exports = exports['default'];
 
 /***/ },
-/* 58 */
+/* 49 */
 /*!*********************************!*\
   !*** ./~/baobab/dist/update.js ***!
   \*********************************/
@@ -15262,11 +14424,13 @@ exports["UI"] =
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
 	
-	var _type = __webpack_require__(/*! ./type */ 57);
+	var _type = __webpack_require__(/*! ./type */ 48);
 	
 	var _type2 = _interopRequireDefault(_type);
 	
-	var _helpers = __webpack_require__(/*! ./helpers */ 59);
+	var _monkey = __webpack_require__(/*! ./monkey */ 47);
+	
+	var _helpers = __webpack_require__(/*! ./helpers */ 50);
 	
 	function err(operation, expectedTarget, path) {
 	  return (0, _helpers.makeError)('Baobab.update: cannot apply the "' + operation + '" on ' + ('a non ' + expectedTarget + ' (path: /' + path.join('/') + ').'), { path: path });
@@ -15290,11 +14454,11 @@ exports["UI"] =
 	
 	  // Dummy root, so we can shift and alter the root
 	  var dummy = { root: data },
-	      dummyPath = ['root'].concat(_toConsumableArray(path)),
-	      currentPath = [];
+	      dummyPath = ['root'].concat(_toConsumableArray(path));
 	
 	  // Walking the path
 	  var p = dummy,
+	      currentPath = [],
 	      i = undefined,
 	      l = undefined,
 	      s = undefined;
@@ -15320,14 +14484,14 @@ exports["UI"] =
 	        // Purity check
 	        if (opts.pure && p[s] === value) return { node: p[s] };
 	
-	        if (_type2['default'].lazyGetter(p, s)) {
+	        if (opts.persistent) {
+	          p[s] = (0, _helpers.shallowClone)(value);
+	        } else if (value instanceof _monkey.MonkeyDefinition) {
 	          Object.defineProperty(p, s, {
 	            value: value,
 	            enumerable: true,
 	            configurable: true
 	          });
-	        } else if (opts.persistent) {
-	          p[s] = (0, _helpers.shallowClone)(value);
 	        } else {
 	          p[s] = value;
 	        }
@@ -15351,19 +14515,9 @@ exports["UI"] =
 	            var result = value(p[s]);
 	
 	            // Purity check
-	            if (opts.pure && p[s] === result) return { node: p[s] };
+	            if (opts.pure && result === value) return { node: p[s] };
 	
-	            if (_type2['default'].lazyGetter(p, s)) {
-	              Object.defineProperty(p, s, {
-	                value: result,
-	                enumerable: true,
-	                configurable: true
-	              });
-	            } else if (opts.persistent) {
-	              p[s] = (0, _helpers.shallowClone)(result);
-	            } else {
-	              p[s] = result;
-	            }
+	            p[s] = opts.persistent ? (0, _helpers.shallowClone)(result) : result;
 	          }
 	
 	          /**
@@ -15458,15 +14612,13 @@ exports["UI"] =
 	module.exports = exports['default'];
 
 /***/ },
-/* 59 */
+/* 50 */
 /*!**********************************!*\
   !*** ./~/baobab/dist/helpers.js ***!
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {/* eslint eqeqeq: 0 */
-	
-	/**
+	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Baobab Helpers
 	 * ===============
 	 *
@@ -15485,6 +14637,7 @@ exports["UI"] =
 	exports.coercePath = coercePath;
 	exports.getIn = getIn;
 	exports.makeError = makeError;
+	exports.pathObject = pathObject;
 	exports.solveRelativePath = solveRelativePath;
 	exports.solveUpdate = solveUpdate;
 	exports.splice = splice;
@@ -15493,9 +14646,9 @@ exports["UI"] =
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _monkey = __webpack_require__(/*! ./monkey */ 56);
+	var _monkey = __webpack_require__(/*! ./monkey */ 47);
 	
-	var _type = __webpack_require__(/*! ./type */ 57);
+	var _type = __webpack_require__(/*! ./type */ 48);
 	
 	var _type2 = _interopRequireDefault(_type);
 	
@@ -15503,40 +14656,6 @@ exports["UI"] =
 	 * Noop function
 	 */
 	var noop = Function.prototype;
-	
-	/**
-	 * Function returning the index of the first element of a list matching the
-	 * given predicate.
-	 *
-	 * @param  {array}     a  - The target array.
-	 * @param  {function}  fn - The predicate function.
-	 * @return {mixed}        - The index of the first matching item or -1.
-	 */
-	function index(a, fn) {
-	  var i = undefined,
-	      l = undefined;
-	  for (i = 0, l = a.length; i < l; i++) {
-	    if (fn(a[i])) return i;
-	  }
-	  return -1;
-	}
-	
-	/**
-	 * Efficient slice function used to clone arrays or parts of them.
-	 *
-	 * @param  {array} array - The array to slice.
-	 * @return {array}       - The sliced array.
-	 */
-	function slice(array) {
-	  var newArray = new Array(array.length);
-	
-	  var i = undefined,
-	      l = undefined;
-	
-	  for (i = 0, l = array.length; i < l; i++) newArray[i] = array[i];
-	
-	  return newArray;
-	}
 	
 	/**
 	 * Archive abstraction
@@ -15651,9 +14770,8 @@ exports["UI"] =
 	 * @return {RegExp}    - The cloned regular expression.
 	 */
 	function cloneRegexp(re) {
-	  var pattern = re.source;
-	
-	  var flags = '';
+	  var pattern = re.source,
+	      flags = '';
 	
 	  if (re.global) flags += 'g';
 	  if (re.multiline) flags += 'm';
@@ -15679,16 +14797,14 @@ exports["UI"] =
 	  // Array
 	  if (_type2['default'].array(item)) {
 	    if (deep) {
-	      var a = [];
-	
 	      var i = undefined,
-	          l = undefined;
-	
+	          l = undefined,
+	          a = [];
 	      for (i = 0, l = item.length; i < l; i++) a.push(cloner(true, item[i]));
 	      return a;
+	    } else {
+	      return slice(item);
 	    }
-	
-	    return slice(item);
 	  }
 	
 	  // Date
@@ -15699,22 +14815,11 @@ exports["UI"] =
 	
 	  // Object
 	  if (_type2['default'].object(item)) {
-	    var o = {};
-	
-	    var k = undefined;
+	    var k = undefined,
+	        o = {};
 	
 	    // NOTE: could be possible to erase computed properties through `null`.
-	    for (k in item) {
-	      if (_type2['default'].lazyGetter(item, k)) {
-	        Object.defineProperty(o, k, {
-	          get: Object.getOwnPropertyDescriptor(item, k).get,
-	          enumerable: true,
-	          configurable: true
-	        });
-	      } else if (item.hasOwnProperty(k)) {
-	        o[k] = deep ? cloner(true, item[k]) : item[k];
-	      }
-	    }
+	    for (k in item) if (item.hasOwnProperty(k)) o[k] = deep ? cloner(true, item[k]) : item[k];
 	    return o;
 	  }
 	
@@ -15840,9 +14945,8 @@ exports["UI"] =
 	function getIn(object, path) {
 	  if (!path) return notFoundObject;
 	
-	  var solvedPath = [];
-	
-	  var exists = true,
+	  var solvedPath = [],
+	      exists = true,
 	      c = object,
 	      idx = undefined,
 	      i = undefined,
@@ -15880,6 +14984,23 @@ exports["UI"] =
 	}
 	
 	/**
+	 * Function returning the index of the first element of a list matching the
+	 * given predicate.
+	 *
+	 * @param  {array}     a  - The target array.
+	 * @param  {function}  fn - The predicate function.
+	 * @return {mixed}        - The index of the first matching item or -1.
+	 */
+	function index(a, fn) {
+	  var i = undefined,
+	      l = undefined;
+	  for (i = 0, l = a.length; i < l; i++) {
+	    if (fn(a[i])) return i;
+	  }
+	  return -1;
+	}
+	
+	/**
 	 * Little helper returning a JavaScript error carrying some data with it.
 	 *
 	 * @param  {string} message - The error message.
@@ -15910,9 +15031,8 @@ exports["UI"] =
 	    objects[_key - 1] = arguments[_key];
 	  }
 	
-	  var o = objects[0];
-	
-	  var t = undefined,
+	  var o = objects[0],
+	      t = undefined,
 	      i = undefined,
 	      l = undefined,
 	      k = undefined;
@@ -15940,6 +15060,47 @@ exports["UI"] =
 	
 	exports.shallowMerge = shallowMerge;
 	exports.deepMerge = deepMerge;
+	
+	/**
+	 * Function returning a nested object according to the given path and the
+	 * given leaf.
+	 *
+	 * @param  {array}  path - The path to follow.
+	 * @param  {mixed}  leaf - The leaf to append at the end of the path.
+	 * @return {object}      - The nested object.
+	 */
+	
+	function pathObject(path, leaf) {
+	  var l = path.length,
+	      o = {},
+	      c = o,
+	      i = undefined;
+	
+	  if (!l) o = leaf;
+	
+	  for (i = 0; i < l; i++) {
+	    c[path[i]] = i + 1 === l ? leaf : {};
+	    c = c[path[i]];
+	  }
+	
+	  return o;
+	}
+	
+	/**
+	 * Efficient slice function used to clone arrays or parts of them.
+	 *
+	 * @param  {array} array - The array to slice.
+	 * @return {array}       - The sliced array.
+	 */
+	function slice(array) {
+	  var newArray = new Array(array.length),
+	      i = undefined,
+	      l = undefined;
+	
+	  for (i = 0, l = array.length; i < l; i++) newArray[i] = array[i];
+	
+	  return newArray;
+	}
 	
 	/**
 	 * Solving a potentially relative path.
@@ -16051,7 +15212,6 @@ exports["UI"] =
 	 */
 	var uniqid = (function () {
 	  var i = 0;
-	
 	  return function () {
 	    return i++;
 	  };
@@ -16061,7 +15221,7 @@ exports["UI"] =
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 60 */
+/* 51 */
 /*!**********************************!*\
   !*** ./~/baobab/dist/watcher.js ***!
   \**********************************/
@@ -16090,19 +15250,19 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var _emmett = __webpack_require__(/*! emmett */ 54);
+	var _emmett = __webpack_require__(/*! emmett */ 45);
 	
 	var _emmett2 = _interopRequireDefault(_emmett);
 	
-	var _cursor = __webpack_require__(/*! ./cursor */ 55);
+	var _cursor = __webpack_require__(/*! ./cursor */ 46);
 	
 	var _cursor2 = _interopRequireDefault(_cursor);
 	
-	var _type = __webpack_require__(/*! ./type */ 57);
+	var _type = __webpack_require__(/*! ./type */ 48);
 	
 	var _type2 = _interopRequireDefault(_type);
 	
-	var _helpers = __webpack_require__(/*! ./helpers */ 59);
+	var _helpers = __webpack_require__(/*! ./helpers */ 50);
 	
 	/**
 	 * Watcher class.
@@ -16160,9 +15320,7 @@ exports["UI"] =
 	        var v = _this2.mapping[k];
 	
 	        // Watcher mappings can accept a cursor
-	        if (v instanceof _cursor2['default']) return v.solvedPath;
-	
-	        return _this2.mapping[k];
+	        if (v instanceof _cursor2['default']) return v.solvedPath;else return _this2.mapping[k];
 	      });
 	
 	      return rawPaths.reduce(function (cp, p) {
@@ -16175,7 +15333,7 @@ exports["UI"] =
 	        // Facet path?
 	        var monkeyPath = _type2['default'].monkeyPath(_this2.tree._monkeys, p);
 	
-	        if (monkeyPath) return cp.concat((0, _helpers.getIn)(_this2.tree._monkeys, monkeyPath).data.relatedPaths());
+	        if (monkeyPath) return cp.concat((0, _helpers.getIn)(_this2.tree._monkeys, p).data.relatedPaths());
 	
 	        return cp.concat([p]);
 	      }, []);
@@ -16244,7 +15402,7 @@ exports["UI"] =
 	module.exports = exports['default'];
 
 /***/ },
-/* 61 */
+/* 52 */
 /*!********************************!*\
   !*** ./src/TextInput/index.js ***!
   \********************************/
@@ -16265,16 +15423,16 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 62);
+	__webpack_require__(/*! ./styles.css */ 53);
 	
 	// html
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 64);
-	var clearTmpl = __webpack_require__(/*! ./clear.tmpl */ 65);
-	var clearWrapper = __webpack_require__(/*! ./clearWrapper.html */ 66);
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 55);
+	var clearTmpl = __webpack_require__(/*! ./clear.tmpl */ 56);
+	var clearWrapper = __webpack_require__(/*! ./clearWrapper.html */ 57);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 8);
-	var debounce = __webpack_require__(/*! debounce */ 67);
+	var debounce = __webpack_require__(/*! debounce */ 58);
 	
 	var TextInput = (function (_BaseComponent) {
 	  _inherits(TextInput, _BaseComponent);
@@ -16342,7 +15500,7 @@ exports["UI"] =
 	module.exports = TextInput;
 
 /***/ },
-/* 62 */
+/* 53 */
 /*!**********************************!*\
   !*** ./src/TextInput/styles.css ***!
   \**********************************/
@@ -16351,7 +15509,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 63);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 54);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 6)(content, {});
@@ -16371,7 +15529,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 63 */
+/* 54 */
 /*!*****************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/TextInput/styles.css ***!
   \*****************************************************************************/
@@ -16388,7 +15546,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 64 */
+/* 55 */
 /*!**********************************!*\
   !*** ./src/TextInput/input.tmpl ***!
   \**********************************/
@@ -16399,7 +15557,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 65 */
+/* 56 */
 /*!**********************************!*\
   !*** ./src/TextInput/clear.tmpl ***!
   \**********************************/
@@ -16410,7 +15568,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 66 */
+/* 57 */
 /*!*****************************************!*\
   !*** ./src/TextInput/clearWrapper.html ***!
   \*****************************************/
@@ -16419,7 +15577,7 @@ exports["UI"] =
 	module.exports = "<div class='ui-text-input-clear-wrapper'></div>";
 
 /***/ },
-/* 67 */
+/* 58 */
 /*!*****************************!*\
   !*** ./~/debounce/index.js ***!
   \*****************************/
@@ -16430,7 +15588,7 @@ exports["UI"] =
 	 * Module dependencies.
 	 */
 	
-	var now = __webpack_require__(/*! date-now */ 68);
+	var now = __webpack_require__(/*! date-now */ 59);
 	
 	/**
 	 * Returns a function, that, as long as it continues to be invoked, will not
@@ -16481,7 +15639,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 68 */
+/* 59 */
 /*!*****************************!*\
   !*** ./~/date-now/index.js ***!
   \*****************************/
@@ -16495,7 +15653,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 69 */
+/* 60 */
 /*!********************************!*\
   !*** ./src/Typeahead/index.js ***!
   \********************************/
@@ -16521,7 +15679,7 @@ exports["UI"] =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var $ = __webpack_require__(/*! jquery */ 1);
-	var PrettyTypeahead = __webpack_require__(/*! ./PrettyTypeahead */ 70);
+	var PrettyTypeahead = __webpack_require__(/*! ./PrettyTypeahead */ 61);
 	
 	var Typeahead = (function (_PrettyTypeahead) {
 	  _inherits(Typeahead, _PrettyTypeahead);
@@ -16582,7 +15740,7 @@ exports["UI"] =
 	module.exports = Typeahead;
 
 /***/ },
-/* 70 */
+/* 61 */
 /*!************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/index.js ***!
   \************************************************/
@@ -16612,11 +15770,11 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.less */ 71);
+	__webpack_require__(/*! ./styles.less */ 62);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 1);
-	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 73);
+	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 64);
 	
 	var HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 	
@@ -16788,7 +15946,7 @@ exports["UI"] =
 	module.exports = PrettyTypeahead;
 
 /***/ },
-/* 71 */
+/* 62 */
 /*!***************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/styles.less ***!
   \***************************************************/
@@ -16797,7 +15955,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../../~/css-loader!./../../../~/less-loader!./styles.less */ 72);
+	var content = __webpack_require__(/*! !./../../../~/css-loader!./../../../~/less-loader!./styles.less */ 63);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../../~/style-loader/addStyles.js */ 6)(content, {});
@@ -16817,7 +15975,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 72 */
+/* 63 */
 /*!**********************************************************************************!*\
   !*** ./~/css-loader!./~/less-loader!./src/Typeahead/PrettyTypeahead/styles.less ***!
   \**********************************************************************************/
@@ -16834,7 +15992,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 73 */
+/* 64 */
 /*!**************************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/index.js ***!
   \**************************************************************/
@@ -16860,11 +16018,11 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 74);
+	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 65);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 8);
-	var TextInput = __webpack_require__(/*! ../../../TextInput */ 61);
+	var TextInput = __webpack_require__(/*! ../../../TextInput */ 52);
 	var ListView = __webpack_require__(/*! ../../../ListView */ 28);
 	var assert = __webpack_require__(/*! ../../../assert.js */ 12);
 	
@@ -16940,7 +16098,7 @@ exports["UI"] =
 	module.exports = BaseTypeahead;
 
 /***/ },
-/* 74 */
+/* 65 */
 /*!************************************************************************!*\
   !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/baseTypeahead.html ***!
   \************************************************************************/
@@ -16949,7 +16107,7 @@ exports["UI"] =
 	module.exports = "<div class='ui-typeahead'>\n  <div class='input-container'></div>\n  <div class='results-list-container'></div>\n</div>\n\n";
 
 /***/ },
-/* 75 */
+/* 66 */
 /*!********************!*\
   !*** ./src/URL.js ***!
   \********************/
@@ -16959,8 +16117,8 @@ exports["UI"] =
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var history = __webpack_require__(/*! html5-history-api */ 76);
-	var url = __webpack_require__(/*! url */ 79);
+	var history = __webpack_require__(/*! html5-history-api */ 67);
+	var url = __webpack_require__(/*! url */ 70);
 	
 	var URL = (function () {
 	  function URL(locationAPI) {
@@ -16985,7 +16143,7 @@ exports["UI"] =
 	module.exports = URL;
 
 /***/ },
-/* 76 */
+/* 67 */
 /*!****************************************!*\
   !*** ./~/html5-history-api/history.js ***!
   \****************************************/
@@ -17007,7 +16165,7 @@ exports["UI"] =
 	 * Update: 2015-10-16 22:16
 	 */
 	(function(factory) {
-	    if ("function" === 'function' && __webpack_require__(/*! !webpack amd define */ 78)['amd']) {
+	    if ("function" === 'function' && __webpack_require__(/*! !webpack amd define */ 69)['amd']) {
 	        // https://github.com/devote/HTML5-History-API/issues/73
 	        var rndKey = '[history' + (new Date()).getTime() + ']';
 	        var onError = requirejs['onError'];
@@ -18086,10 +17244,10 @@ exports["UI"] =
 	    return historyObject;
 	});
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 77)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 68)(module)))
 
 /***/ },
-/* 77 */
+/* 68 */
 /*!***********************************!*\
   !*** (webpack)/buildin/module.js ***!
   \***********************************/
@@ -18108,7 +17266,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 78 */
+/* 69 */
 /*!***************************************!*\
   !*** (webpack)/buildin/amd-define.js ***!
   \***************************************/
@@ -18118,7 +17276,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 79 */
+/* 70 */
 /*!**********************!*\
   !*** ./~/url/url.js ***!
   \**********************/
@@ -18145,7 +17303,7 @@ exports["UI"] =
 	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 	// USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
-	var punycode = __webpack_require__(/*! punycode */ 80);
+	var punycode = __webpack_require__(/*! punycode */ 71);
 	
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -18217,7 +17375,7 @@ exports["UI"] =
 	      'gopher:': true,
 	      'file:': true
 	    },
-	    querystring = __webpack_require__(/*! querystring */ 81);
+	    querystring = __webpack_require__(/*! querystring */ 72);
 	
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && isObject(url) && url instanceof Url) return url;
@@ -18834,7 +17992,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 80 */
+/* 71 */
 /*!********************************!*\
   !*** ./~/punycode/punycode.js ***!
   \********************************/
@@ -19369,10 +18527,10 @@ exports["UI"] =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 77)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 68)(module), (function() { return this; }())))
 
 /***/ },
-/* 81 */
+/* 72 */
 /*!********************************!*\
   !*** ./~/querystring/index.js ***!
   \********************************/
@@ -19380,12 +18538,12 @@ exports["UI"] =
 
 	'use strict';
 	
-	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 82);
-	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 83);
+	exports.decode = exports.parse = __webpack_require__(/*! ./decode */ 73);
+	exports.encode = exports.stringify = __webpack_require__(/*! ./encode */ 74);
 
 
 /***/ },
-/* 82 */
+/* 73 */
 /*!*********************************!*\
   !*** ./~/querystring/decode.js ***!
   \*********************************/
@@ -19474,7 +18632,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 83 */
+/* 74 */
 /*!*********************************!*\
   !*** ./~/querystring/encode.js ***!
   \*********************************/
