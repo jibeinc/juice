@@ -25,6 +25,8 @@ class Pagination extends BaseComponent {
   pageChange(pageNumber, event) {
     this.set(pageNumber);
     if (this.onPageClick) {
+      event.stopPropagation();
+      event.preventDefault();
       this.onPageClick(pageNumber, event);
     }
   }
