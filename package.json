@@ -2,10 +2,13 @@
   "name": "jibe-ui-components",
   "version": "0.0.1",
   "description": "General JavaScript classes for common UI components",
+  "engines": {
+    "node" : ">=5.0.0"
+  },
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && webpack --progress --colors --display-chunks -p",
-    "build-dev": "npm run clean && webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
+    "build": "npm run clean && ./node_modules/.bin/webpack --progress --colors --display-chunks -p",
+    "build-dev": "npm run clean && /node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
     "watch": "webpack --watch",
     "clean": "rm -rf dist"
   },
@@ -13,12 +16,8 @@
     "type": "git",
     "url": "ssh://git@stash.internal.jibe.com/js/jibe-ui-components.git"
   },
+  "private": true,
   "author": "John Hatcher",
-  "directories": {
-    "examples": "examples",
-    "src": "src",
-    "dist": "dist"
-  },
   "dependencies": {
     "babel-polyfill": "^6.2.0",
     "baobab": "^2.1.1",
