@@ -2,9 +2,9 @@
 
 require('./styles.css');
 
-const BaseComponent = require('../../BaseComponent');
+const BaseComponent        = require('../../BaseComponent');
 const ExpandCollapseToggle = require('../ExpandCollapseToggle');
-const collapseTmpl = require('./expandCollapseContent.tmpl');
+const collapseTmpl         = require('./expandCollapseContent.tmpl');
 
 class ExpandCollapseContainer extends BaseComponent {
   constructor(el, opts) {
