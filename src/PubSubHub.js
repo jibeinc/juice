@@ -16,7 +16,7 @@ class PubSubHub {
     if (!this.listeners[namespace]) {
       this.listeners[namespace] = [];
     }
-    this.listeners[namespace].unshift(payload);
+    this.listeners[namespace].push(payload);
   }
 
   get(namespace) {
