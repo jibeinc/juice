@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>List View Example</title>
+  <script src='https://cdn.polyfill.io/v2/polyfill.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/dot/1.0.3/doT.min.js'></script>
+  <script>
+    window.exports = {};
+  </script>
+  <script src='../../dist/ui.js'></script>
+</head>
+
+<body>
+
+  <div class='search-results'></div>
+
+  <script>
+    var itemTemplate = '<h1>[[= model.item.name ]]</h1><div class="item-button-[[= model.index ]]"></div>';
+
+    var resultsItem = new exports.UI.ListViewItemFactory({
+      render: function (viewModel) {
+        return exports.UI.Dot.compile(itemTemplate, viewModel);
+      },
+      controller: function (item, index) {
+        var itemButton = new exports.UI.Button('.item-button-' + index, {
+          preventPropagation: true
+        });
+
+        itemButton.subscribe(function () {
+          console.log('item button clicked', item);
+        });
+
+        itemButton.render();
+      }
+    });
+
+    var results = new exports.UI.ListView('.search-results', {
+      results: [
+        {
+          name: 'John Hatcher'
+        },
+        {
+          name: 'Robbie Wagner'
+        },
+        {
+          name: 'Arch Duke of Whales'
+        }
+      ],
+
+      renderItem: function (item, index) {
+        return resultsItem.make(item, index);
+      }
+    });
+
+    results.render();
+  </script>
+
+</body>
+
+</html>

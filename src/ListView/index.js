@@ -14,25 +14,29 @@ const listViewTmpl = require('./listView.dot');
 // scripts
 const $             = require('jquery');
 const BaseComponent = require('../BaseComponent');
-const assert        = require('../assert');
 
 class ListView extends BaseComponent {
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
     super(el);
-    this.results = opts.results || [];
-    this.fetch = opts.fetch;
-    this.renderItem = opts.renderItem || this.renderItem;
-    assert(typeof this.fetch === 'function');
+
+    Object.assign(this, {
+      fetch: opts.fetch,
+      listItemOpts: opts.listItemOpts || {},
+      renderItem: opts.renderItem || this.renderItem,
+      results: opts.results || []
+    });
   }
 
   render() {
     this.$el.html(listViewTmpl(this));
+    this.$el.find('li').attr(this.listItemOpts.attrs || {})
     this.$el.find('li').click((evt) => {
       this.set(this.results[$(evt.target).attr('data-index')]);
     });
-    return this.$el.html();
+    return this;
   }
 
+  // expected to be overriden
   renderItem(item) {
     return item.toString();
   }

@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>List View Example</title>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script>window.exports = {};</script>
-  <script src='../dist/ui.js'></script>
+  <script>
+    window.exports = {};
+  </script>
+  <script src='../../dist/ui.js'></script>
 </head>
+
 <body>
 
   <div class='search-results'></div>
 
   <script>
     var results = new exports.UI.ListView('.search-results', {
-      fetch: function (cb) {
+      fetch: function(cb) {
         var results = [];
 
         // TODO: go do some stuff to get new results...
@@ -20,10 +24,18 @@
         cb(results);
       },
 
+      listItemOpts: {
+        attrs: {
+          foo: 'bar',
+          baz: 'foobar',
+          class: 'testClass'
+        }
+      },
+
       results: [1, 2, 3, 4, 5] // initial results to show
     });
 
-    results.subscribe(function (selection) {
+    results.subscribe(function(selection) {
       console.log('list item selected', selection);
     });
 
@@ -31,4 +43,5 @@
   </script>
 
 </body>
+
 </html>

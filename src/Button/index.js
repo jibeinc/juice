@@ -14,12 +14,14 @@ class Button extends BaseComponent {
     super(el);
     this.label = opts.label || 'ClickMe!';
     this.submit = opts.submit || false;
+    this.preventPropagation = opts.preventPropagation || false;
   }
 
   render() {
     this.$el.html(buttonTmpl(this));
     this.$el.find('button').click((evt) => {
       evt.preventDefault();
+      this.preventPropagation? evt.stopPropagation() : $.noop;
       this.publish('click', this.id);
     });
     return this.$el.html();
