@@ -50,7 +50,7 @@ class LocationTypeahead extends Typeahead {
     opts.fixedResults = (opts.fixedResults || []).concat([{
       useMyCurrentLocation: true,
       preSelectHook: (item) => {
-        $('.ui-current-location-listItem').click(); // trigger use my location flow
+        $('.ui-current-location-listItem').click(); // trigger 'use my location' icon
         return false; // don't run normal selection behavior
       }
     }]);
@@ -62,7 +62,6 @@ class LocationTypeahead extends Typeahead {
   }
 
   renderItem(item) {
-    console.log('renderItem', item);
     if (item && item.useMyCurrentLocation) {
       return this.iconFactory.make({
         name: 'listItem'

@@ -34,8 +34,13 @@ class Typeahead extends PrettyTypeahead {
   }
 
   handleSelection(selection) {
-    const runSelection = selection && selection.preSelectHook ? selection.preSelectHook.apply(this, [selection]) : true;
+    let runSelection = true;
+    if (selection && selection.preSelectHook) {
+      runSelection = selection.preSelectHook.apply(this, [selection]);
+    }
+
     if (runSelection) {
+      console.log('proceed with selection', selection);
       this.textInput.set(this.getDisplayValue(selection));
       this.set(selection);
     }

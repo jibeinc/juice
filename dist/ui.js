@@ -16784,7 +16784,8 @@ exports["UI"] =
 	    var _this2 = this;
 	
 	    this.$el.addClass('ui-current-location');
-	    this.$el.on('click', function () {
+	    this.$el.on('click', function (evt) {
+	      evt.stopPropagation();
 	      _this2.getCurrentLocation();
 	    });
 	    this.$el.css('background-image', 'url(' + this.iconURL + ')');
@@ -18375,8 +18376,13 @@ exports["UI"] =
 	  };
 	
 	  Typeahead.prototype.handleSelection = function handleSelection(selection) {
-	    var runSelection = selection && selection.preSelectHook ? selection.preSelectHook.apply(this, [selection]) : true;
+	    var runSelection = true;
+	    if (selection && selection.preSelectHook) {
+	      runSelection = selection.preSelectHook.apply(this, [selection]);
+	    }
+	
 	    if (runSelection) {
+	      console.log('proceed with selection', selection);
 	      this.textInput.set(this.getDisplayValue(selection));
 	      this.set(selection);
 	    }
