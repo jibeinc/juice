@@ -22,7 +22,7 @@ class BaseFragmentFactory {
     this.controller = opts.controller || $.noop;
   }
 
-  make(data) {
+  make(data={}) {
     // 1. get the generated html (consumer defines this)
     var itemHTML = this.render({
       item: data.item,

@@ -9714,8 +9714,10 @@ exports["UI"] =
 	    this.controller = opts.controller || $.noop;
 	  }
 	
-	  BaseFragmentFactory.prototype.make = function make(data) {
+	  BaseFragmentFactory.prototype.make = function make() {
 	    var _this = this;
+	
+	    var data = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
 	    // 1. get the generated html (consumer defines this)
 	    var itemHTML = this.render({
@@ -18790,30 +18792,104 @@ exports["UI"] =
 	//   - add a "use my current location" icon to text input
 	//   - add fixed result that triggers "use my current location" on click
 	
+	// styles
+	__webpack_require__(/*! ./styles.css */ 76);
+	
 	// scripts
 	var Typeahead = __webpack_require__(/*! ../Typeahead */ 69);
+	var FragFactory = __webpack_require__(/*! ../BaseFragmentFactory */ 6);
+	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 36);
 	
 	var LocationTypeahead = (function (_Typeahead) {
 	  _inherits(LocationTypeahead, _Typeahead);
 	
 	  function LocationTypeahead(el) {
+	    var _this;
+	
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
 	    _classCallCheck(this, LocationTypeahead);
 	
+	    var iconFactory = new FragFactory({
+	      render: function render() {
+	        return '<div class="ui-current-location-icon"></div>';
+	      },
+	
+	      controller: function controller() {
+	        var currentLocationIcon = new CurrentLocation('.ui-current-location-icon', {
+	          geolocationAPI: opts.geolocationAPI
+	        });
+	
+	        currentLocationIcon.subscribe(function (event) {
+	          if (event.isLocation) {
+	            _this.set(event);
+	            _this.textInput.$input.val('Your current location'); // just for display
+	          }
+	        });
+	
+	        currentLocationIcon.render();
+	      }
+	    });
+	
 	    // setup our clearing icon to be
 	    opts.textInputOpts = {
-	      icon: 'L',
+	      icon: iconFactory.make(),
 	      iconClearsValue: false
 	    };
 	
-	    return _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
+	    return _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
 	  }
 	
 	  return LocationTypeahead;
 	})(Typeahead);
 	
 	module.exports = LocationTypeahead;
+
+/***/ },
+/* 76 */
+/*!******************************************!*\
+  !*** ./src/LocationTypeahead/styles.css ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 77);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 31)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 77 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/LocationTypeahead/styles.css ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 30)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".ui-current-location-icon {\n  width: 22px;\n  height: 22px;\n}\n\n.ui-text-input-icon {\n  right: 0;\n}\n", ""]);
+	
+	// exports
+
 
 /***/ }
 /******/ ]);

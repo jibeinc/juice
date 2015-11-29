@@ -77,7 +77,8 @@
         });
 
         cb(matches);
-      }
+      },
+      geolocationAPI: window.navigator.geolocation
     });
 
     locationSearch.subscribe(function (choice) {
