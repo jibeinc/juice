@@ -18085,8 +18085,8 @@ exports["UI"] =
 	
 	// html
 	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 64);
-	var clearTmpl = __webpack_require__(/*! ./clear.tmpl */ 65);
-	var clearWrapper = __webpack_require__(/*! ./clearWrapper.html */ 66);
+	var iconTmpl = __webpack_require__(/*! ./icon.tmpl */ 65);
+	var iconWrapper = __webpack_require__(/*! ./iconWrapper.html */ 66);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 33);
@@ -18104,7 +18104,8 @@ exports["UI"] =
 	
 	    _this.value = opts.value || '';
 	    _this.wait = opts.wait || 300;
-	    _this.clearingIcon = opts.clearingIcon || 'x';
+	    _this.icon = opts.icon || 'x';
+	    _this.iconClearsValue = typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue;
 	    _this.$input = null;
 	    return _possibleConstructorReturn(_this, _this);
 	  }
@@ -18123,17 +18124,20 @@ exports["UI"] =
 	
 	    this.$input.keyup(onKeyup); // debounced slightly for ux
 	
-	    if (this.clearingIcon) {
+	    if (this.icon) {
 	      // the wrapper to place a clearing icon (X)
-	      this.$input.wrap(clearWrapper);
-	      this.$wrapper = this.$el.find('.ui-text-input-clear-wrapper');
+	      this.$input.wrap(iconWrapper);
+	      this.$wrapper = this.$el.find('.ui-text-input-icon-wrapper');
 	
 	      // the clearing icon itself (absolute positioned within wrapper to be on the right)
-	      this.$wrapper.append(clearTmpl(this));
-	      this.$clear = this.$el.find('.ui-text-input-clear');
-	      this.$clear.click(function () {
-	        _this2.set('');
-	      });
+	      this.$wrapper.append(iconTmpl(this));
+	      this.$icon = this.$el.find('.ui-text-input-icon');
+	
+	      if (this.iconClearsValue) {
+	        this.$icon.click(function () {
+	          _this2.set('');
+	        });
+	      }
 	    }
 	
 	    return this.$el.html();
@@ -18198,7 +18202,7 @@ exports["UI"] =
 	
 	
 	// module
-	exports.push([module.id, ".ui-text-input {\n  width: 100%;\n}\n\n.ui-text-input-clear-wrapper {\n  position: relative;\n}\n\n.ui-text-input-clear {\n  font-size: 16px;\n  position: absolute;\n  top: 5px;\n  right: 15px;\n  cursor: pointer;\n}\n", ""]);
+	exports.push([module.id, ".ui-text-input {\n  width: 100%;\n}\n\n.ui-text-input-icon-wrapper {\n  position: relative;\n}\n\n.ui-text-input-icon {\n  font-size: 16px;\n  position: absolute;\n  top: 5px;\n  right: 15px;\n  cursor: pointer;\n}\n", ""]);
 	
 	// exports
 
@@ -18216,23 +18220,23 @@ exports["UI"] =
 
 /***/ },
 /* 65 */
-/*!**********************************!*\
-  !*** ./src/TextInput/clear.tmpl ***!
-  \**********************************/
+/*!*********************************!*\
+  !*** ./src/TextInput/icon.tmpl ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	module.exports = function (scope) {
-	  return "<span class='ui-text-input-clear'>" + scope.clearingIcon + "</span>";
+	  return "<span class='ui-text-input-icon'>" + scope.icon + "</span>";
 	};
 
 /***/ },
 /* 66 */
-/*!*****************************************!*\
-  !*** ./src/TextInput/clearWrapper.html ***!
-  \*****************************************/
+/*!****************************************!*\
+  !*** ./src/TextInput/iconWrapper.html ***!
+  \****************************************/
 /***/ function(module, exports) {
 
-	module.exports = "<div class='ui-text-input-clear-wrapper'></div>";
+	module.exports = "<div class='ui-text-input-icon-wrapper'></div>";
 
 /***/ },
 /* 67 */
@@ -18697,7 +18701,7 @@ exports["UI"] =
 	    assert(typeof _this.fetch === 'function');
 	
 	    _this.$el.append(containerHTML);
-	    _this.textInput = new TextInput(_this.$el.find('.input-container'));
+	    _this.textInput = new TextInput(_this.$el.find('.input-container'), opts.textInputOpts);
 	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), {
 	      fetch: function fetch(cb) {
 	        _this.refreshResults(cb);
@@ -18792,10 +18796,18 @@ exports["UI"] =
 	var LocationTypeahead = (function (_Typeahead) {
 	  _inherits(LocationTypeahead, _Typeahead);
 	
-	  function LocationTypeahead() {
+	  function LocationTypeahead(el) {
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
 	    _classCallCheck(this, LocationTypeahead);
 	
-	    return _possibleConstructorReturn(this, _Typeahead.call(this));
+	    // setup our clearing icon to be
+	    opts.textInputOpts = {
+	      icon: 'L',
+	      iconClearsValue: false
+	    };
+	
+	    return _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
 	  }
 	
 	  return LocationTypeahead;

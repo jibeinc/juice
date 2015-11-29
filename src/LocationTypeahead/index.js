@@ -9,8 +9,15 @@
 const Typeahead = require('../Typeahead');
 
 class LocationTypeahead extends Typeahead {
-  constructor() {
-    super();
+  constructor(el, opts={}) {
+
+    // setup our clearing icon to be
+    opts.textInputOpts = {
+      icon: 'L',
+      iconClearsValue: false
+    };
+
+    super(el, opts);
   }
 }
 

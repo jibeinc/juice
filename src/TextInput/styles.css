@@ -2,11 +2,11 @@
   width: 100%;
 }
 
-.ui-text-input-clear-wrapper {
+.ui-text-input-icon-wrapper {
   position: relative;
 }
 
-.ui-text-input-clear {
+.ui-text-input-icon {
   font-size: 16px;
   position: absolute;
   top: 5px;

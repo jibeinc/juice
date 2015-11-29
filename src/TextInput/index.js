@@ -9,8 +9,8 @@ require('./styles.css');
 
 // html
 const inputTmpl    = require('./input.tmpl');
-const clearTmpl    = require('./clear.tmpl');
-const clearWrapper = require('./clearWrapper.html');
+const iconTmpl    = require('./icon.tmpl');
+const iconWrapper = require('./iconWrapper.html');
 
 // scripts
 const BaseComponent = require('../BaseComponent');
@@ -21,7 +21,8 @@ class TextInput extends BaseComponent {
     super(el);
     this.value = opts.value || '';
     this.wait = opts.wait || 300;
-    this.clearingIcon = opts.clearingIcon || 'x';
+    this.icon = opts.icon || 'x';
+    this.iconClearsValue = typeof opts.iconClearsValue  === 'undefined'? true : opts.iconClearsValue;
     this.$input = null;
     return this;
   }
@@ -38,17 +39,20 @@ class TextInput extends BaseComponent {
 
     this.$input.keyup(onKeyup); // debounced slightly for ux
 
-    if (this.clearingIcon) {
+    if (this.icon) {
       // the wrapper to place a clearing icon (X)
-      this.$input.wrap(clearWrapper);
-      this.$wrapper = this.$el.find('.ui-text-input-clear-wrapper');
+      this.$input.wrap(iconWrapper);
+      this.$wrapper = this.$el.find('.ui-text-input-icon-wrapper');
 
       // the clearing icon itself (absolute positioned within wrapper to be on the right)
-      this.$wrapper.append(clearTmpl(this));
-      this.$clear = this.$el.find('.ui-text-input-clear');
-      this.$clear.click(() => {
-        this.set('');
-      });
+      this.$wrapper.append(iconTmpl(this));
+      this.$icon = this.$el.find('.ui-text-input-icon');
+
+      if (this.iconClearsValue) {
+        this.$icon.click(() => {
+          this.set('');
+        });
+      }
     }
 
     return this.$el.html();
