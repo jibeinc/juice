@@ -77,16 +77,7 @@
         });
 
         cb(matches);
-      },
-
-      fixedResults: [{
-        template: '<div class="get-my-location-magic-item">Use my current location</div>',
-        controller: function (item) {
-          var useMyLocationItem = new exports.UI.CurrentLocation('.get-my-location-magic-item', {
-            geolocationAPI: window.navigator.geolocation
-          });
-        }
-      }]
+      }
     });
 
     locationSearch.subscribe(function (choice) {
