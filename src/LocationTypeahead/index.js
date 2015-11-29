@@ -8,6 +8,9 @@
 // styles
 require('./styles.css');
 
+// html
+const currentLocationTemplate = require('./useMyCurrentLocation.tmpl');
+
 // scripts
 const $               = require('jquery');
 const Typeahead       = require('../Typeahead');
@@ -20,7 +23,8 @@ class LocationTypeahead extends Typeahead {
     // define the "current location" icon DOM fragment
     const iconFactory = new FragFactory({
       render: (data) => {
-        return '<div class="ui-current-location-' + data.name + ' ui-curr-loc"></div>';
+        data.displayValue = data.name === 'listItem' ? 'inline' : 'none';
+        return currentLocationTemplate(data);
       },
 
       controller: (data) => {

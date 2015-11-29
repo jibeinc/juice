@@ -18801,6 +18801,9 @@ exports["UI"] =
 	// styles
 	__webpack_require__(/*! ./styles.css */ 76);
 	
+	// html
+	var currentLocationTemplate = __webpack_require__(/*! ./useMyCurrentLocation.tmpl */ 78);
+	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 1);
 	var Typeahead = __webpack_require__(/*! ../Typeahead */ 69);
@@ -18818,7 +18821,8 @@ exports["UI"] =
 	    // define the "current location" icon DOM fragment
 	    var iconFactory = new FragFactory({
 	      render: function render(data) {
-	        return '<div class="ui-current-location-' + data.name + ' ui-curr-loc"></div>';
+	        data.displayValue = data.name === 'listItem' ? 'inline' : 'none';
+	        return currentLocationTemplate(data);
 	      },
 	
 	      controller: function controller(data) {
@@ -18848,7 +18852,7 @@ exports["UI"] =
 	    opts.fixedResults = (opts.fixedResults || []).concat([{
 	      useMyCurrentLocation: true,
 	      preSelectHook: function preSelectHook(item) {
-	        $('.ui-current-location-listItem').click(); // trigger use my location flow
+	        $('.ui-current-location-listItem').click(); // trigger 'use my location' icon
 	        return false; // don't run normal selection behavior
 	      }
 	    }]);
@@ -18861,7 +18865,6 @@ exports["UI"] =
 	  }
 	
 	  LocationTypeahead.prototype.renderItem = function renderItem(item) {
-	    console.log('renderItem', item);
 	    if (item && item.useMyCurrentLocation) {
 	      return this.iconFactory.make({
 	        name: 'listItem'
@@ -18917,10 +18920,21 @@ exports["UI"] =
 	
 	
 	// module
-	exports.push([module.id, ".ui-curr-loc {\n  width: 22px;\n  height: 22px;\n}\n\n.ui-location-typeahead .ui-text-input-icon {\n  right: 0;\n}\n", ""]);
+	exports.push([module.id, ".ui-curr-loc {\n  display: inline-block;\n  width: 22px;\n  height: 22px;\n}\n\n.ui-location-typeahead .ui-text-input-icon {\n  right: 0;\n}\n", ""]);
 	
 	// exports
 
+
+/***/ },
+/* 78 */
+/*!*********************************************************!*\
+  !*** ./src/LocationTypeahead/useMyCurrentLocation.tmpl ***!
+  \*********************************************************/
+/***/ function(module, exports) {
+
+	module.exports = function (scope) {
+	  return "<span class='ui-current-location-" + scope.name + " ui-curr-loc'></span>\n<span style='display: " + scope.displayValue + " '>Use my current location</span>\n";
+	};
 
 /***/ }
 /******/ ]);
