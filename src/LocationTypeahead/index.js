@@ -9,6 +9,7 @@
 require('./styles.css');
 
 // scripts
+const $               = require('jquery');
 const Typeahead       = require('../Typeahead');
 const FragFactory     = require('../BaseFragmentFactory');
 const CurrentLocation = require('../CurrentLocation');
@@ -16,13 +17,14 @@ const CurrentLocation = require('../CurrentLocation');
 class LocationTypeahead extends Typeahead {
   constructor(el, opts={}) {
 
+    // define the "current location" icon DOM fragment
     const iconFactory = new FragFactory({
-      render: () => {
-        return '<div class="ui-current-location-icon"></div>';
+      render: (data) => {
+        return '<div class="ui-current-location-' + data.name + ' ui-curr-loc"></div>';
       },
 
-      controller: () => {
-        const currentLocationIcon = new CurrentLocation('.ui-current-location-icon', {
+      controller: (data) => {
+        const currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name, {
           geolocationAPI: opts.geolocationAPI
         });
 
@@ -32,19 +34,43 @@ class LocationTypeahead extends Typeahead {
             this.textInput.$input.val('Your current location'); // just for display
           }
         });
-
         currentLocationIcon.render();
       }
     });
 
-    // setup our clearing icon to be
+    // setup the input icon to be a "use current location" component
     opts.textInputOpts = {
-      icon: iconFactory.make(),
-      iconClearsValue: false
+      iconClearsValue: false,
+      icon: iconFactory.make({
+        name: 'icon'
+      })
     };
 
+    // setup "current location" fixed result
+    opts.fixedResults = (opts.fixedResults || []).concat([{
+      useMyCurrentLocation: true,
+      preSelectHook: (item) => {
+        $('.ui-current-location-listItem').click(); // trigger use my location flow
+        return false; // don't run normal selection behavior
+      }
+    }]);
+
     super(el, opts);
+
+    this.iconFactory = iconFactory;
+    this.$el.addClass('ui-location-typeahead');
   }
+
+  renderItem(item) {
+    console.log('renderItem', item);
+    if (item && item.useMyCurrentLocation) {
+      return this.iconFactory.make({
+        name: 'listItem'
+      });
+    } else {
+      return super.renderItem(item);
+    }
+  };
 }
 
 module.exports = LocationTypeahead;

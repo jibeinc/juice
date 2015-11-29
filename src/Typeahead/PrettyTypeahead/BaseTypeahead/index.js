@@ -20,7 +20,7 @@ const assert        = require('../../../assert.js');
 
 class BaseTypeahead extends BaseComponent {
   constructor(el, opts) {
-    super(el);
+    super(el, opts);
     this.results = [];
     this.fetch = opts.fetch;
     assert(typeof this.fetch === 'function');

@@ -24,10 +24,7 @@ class BaseFragmentFactory {
 
   make(data={}) {
     // 1. get the generated html (consumer defines this)
-    var itemHTML = this.render({
-      item: data.item,
-      index: data.index
-    });
+    var itemHTML = this.render(data);
 
     var $context = $('<div></div>').html(itemHTML);
 

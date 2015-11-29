@@ -1,8 +1,8 @@
-.ui-current-location-icon {
+.ui-curr-loc {
   width: 22px;
   height: 22px;
 }
 
-.ui-text-input-icon {
+.ui-location-typeahead .ui-text-input-icon {
   right: 0;
 }

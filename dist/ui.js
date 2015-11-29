@@ -9720,10 +9720,7 @@ exports["UI"] =
 	    var data = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 	
 	    // 1. get the generated html (consumer defines this)
-	    var itemHTML = this.render({
-	      item: data.item,
-	      index: data.index
-	    });
+	    var itemHTML = this.render(data);
 	
 	    var $context = $('<div></div>').html(itemHTML);
 	
@@ -18378,8 +18375,11 @@ exports["UI"] =
 	  };
 	
 	  Typeahead.prototype.handleSelection = function handleSelection(selection) {
-	    this.textInput.set(this.getDisplayValue(selection));
-	    this.set(selection);
+	    var runSelection = selection && selection.preSelectHook ? selection.preSelectHook.apply(this, [selection]) : true;
+	    if (runSelection) {
+	      this.textInput.set(this.getDisplayValue(selection));
+	      this.set(selection);
+	    }
 	  };
 	
 	  Typeahead.prototype.renderItem = function renderItem(item) {
@@ -18696,7 +18696,7 @@ exports["UI"] =
 	  function BaseTypeahead(el, opts) {
 	    _classCallCheck(this, BaseTypeahead);
 	
-	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
+	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
 	    _this.results = [];
 	    _this.fetch = opts.fetch;
@@ -18796,6 +18796,7 @@ exports["UI"] =
 	__webpack_require__(/*! ./styles.css */ 76);
 	
 	// scripts
+	var $ = __webpack_require__(/*! jquery */ 1);
 	var Typeahead = __webpack_require__(/*! ../Typeahead */ 69);
 	var FragFactory = __webpack_require__(/*! ../BaseFragmentFactory */ 6);
 	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 36);
@@ -18804,19 +18805,18 @@ exports["UI"] =
 	  _inherits(LocationTypeahead, _Typeahead);
 	
 	  function LocationTypeahead(el) {
-	    var _this;
-	
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
 	    _classCallCheck(this, LocationTypeahead);
 	
+	    // define the "current location" icon DOM fragment
 	    var iconFactory = new FragFactory({
-	      render: function render() {
-	        return '<div class="ui-current-location-icon"></div>';
+	      render: function render(data) {
+	        return '<div class="ui-current-location-' + data.name + ' ui-curr-loc"></div>';
 	      },
 	
-	      controller: function controller() {
-	        var currentLocationIcon = new CurrentLocation('.ui-current-location-icon', {
+	      controller: function controller(data) {
+	        var currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name, {
 	          geolocationAPI: opts.geolocationAPI
 	        });
 	
@@ -18826,19 +18826,44 @@ exports["UI"] =
 	            _this.textInput.$input.val('Your current location'); // just for display
 	          }
 	        });
-	
 	        currentLocationIcon.render();
 	      }
 	    });
 	
-	    // setup our clearing icon to be
+	    // setup the input icon to be a "use current location" component
 	    opts.textInputOpts = {
-	      icon: iconFactory.make(),
-	      iconClearsValue: false
+	      iconClearsValue: false,
+	      icon: iconFactory.make({
+	        name: 'icon'
+	      })
 	    };
 	
-	    return _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
+	    // setup "current location" fixed result
+	    opts.fixedResults = (opts.fixedResults || []).concat([{
+	      useMyCurrentLocation: true,
+	      preSelectHook: function preSelectHook(item) {
+	        $('.ui-current-location-listItem').click(); // trigger use my location flow
+	        return false; // don't run normal selection behavior
+	      }
+	    }]);
+	
+	    var _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
+	
+	    _this.iconFactory = iconFactory;
+	    _this.$el.addClass('ui-location-typeahead');
+	    return _this;
 	  }
+	
+	  LocationTypeahead.prototype.renderItem = function renderItem(item) {
+	    console.log('renderItem', item);
+	    if (item && item.useMyCurrentLocation) {
+	      return this.iconFactory.make({
+	        name: 'listItem'
+	      });
+	    } else {
+	      return _Typeahead.prototype.renderItem.call(this, item);
+	    }
+	  };
 	
 	  return LocationTypeahead;
 	})(Typeahead);
@@ -18886,7 +18911,7 @@ exports["UI"] =
 	
 	
 	// module
-	exports.push([module.id, ".ui-current-location-icon {\n  width: 22px;\n  height: 22px;\n}\n\n.ui-text-input-icon {\n  right: 0;\n}\n", ""]);
+	exports.push([module.id, ".ui-curr-loc {\n  width: 22px;\n  height: 22px;\n}\n\n.ui-location-typeahead .ui-text-input-icon {\n  right: 0;\n}\n", ""]);
 	
 	// exports
 
