@@ -13,6 +13,7 @@
 const containerHTML = require('./baseTypeahead.html');
 
 // scripts
+const $             = require('jquery');
 const BaseComponent = require('../../../BaseComponent');
 const TextInput     = require('../../../TextInput');
 const ListView      = require('../../../ListView');
@@ -27,12 +28,12 @@ class BaseTypeahead extends BaseComponent {
 
     this.$el.append(containerHTML);
     this.textInput       = new TextInput(this.$el.find('.input-container'), opts.textInputOpts);
-    this.resultsListView = new ListView(this.$el.find('.results-list-container'), {
+    this.resultsListView = new ListView(this.$el.find('.results-list-container'), $.extend({
       fetch: (cb) => {
         this.refreshResults(cb);
       },
       renderItem: opts.renderItem || null
-    });
+    }, opts.listViewOpts || {}));
 
     // when an item is picked from the list view:
     this.resultsListView.subscribe((evt) => {

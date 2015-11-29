@@ -18685,6 +18685,7 @@ exports["UI"] =
 	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 74);
 	
 	// scripts
+	var $ = __webpack_require__(/*! jquery */ 1);
 	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 33);
 	var TextInput = __webpack_require__(/*! ../../../TextInput */ 61);
 	var ListView = __webpack_require__(/*! ../../../ListView */ 45);
@@ -18704,12 +18705,12 @@ exports["UI"] =
 	
 	    _this.$el.append(containerHTML);
 	    _this.textInput = new TextInput(_this.$el.find('.input-container'), opts.textInputOpts);
-	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), {
+	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), $.extend({
 	      fetch: function fetch(cb) {
 	        _this.refreshResults(cb);
 	      },
 	      renderItem: opts.renderItem || null
-	    });
+	    }, opts.listViewOpts || {}));
 	
 	    // when an item is picked from the list view:
 	    _this.resultsListView.subscribe(function (evt) {
