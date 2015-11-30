@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
+const debounce = require('debounce');
 
 class InfiniteScroll extends BaseComponent {
   constructor(el, opts = {}) {
@@ -11,14 +12,14 @@ class InfiniteScroll extends BaseComponent {
 
     if (!opts.onScrollToBottom) {
       throw new Error('You must provide an onScrollToBottom function');
-    }
-    else {
+    } else {
       this.onScrollToBottom = opts.onScrollToBottom;
     }
 
+    const debounceWait = opts.debounceWait || 500;
     const $scrollTarget = opts.windowScroll ? $(window) : this.$el;
 
-    $scrollTarget.scroll(() => {
+    $scrollTarget.scroll(debounce(() => {
       const scrollTop = $scrollTarget.scrollTop();
       const elementHeight = $scrollTarget.height();
       const elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
@@ -27,7 +28,7 @@ class InfiniteScroll extends BaseComponent {
       if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
         this.onScrollToBottom();
       }
-    });
+    }, debounceWait, false));
 
     return this;
   }

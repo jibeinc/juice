@@ -71,7 +71,7 @@ exports["UI"] =
 	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 53),
 	  Pagination: __webpack_require__(/*! ./Pagination */ 57),
 	  InfiniteScroll: __webpack_require__(/*! ./InfiniteScroll */ 60),
-	  TextInput: __webpack_require__(/*! ./TextInput */ 61),
+	  TextInput: __webpack_require__(/*! ./TextInput */ 63),
 	  Typeahead: __webpack_require__(/*! ./Typeahead */ 69),
 	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 75)
 	};
@@ -17965,6 +17965,7 @@ exports["UI"] =
 	
 	var $ = __webpack_require__(/*! jquery */ 1);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 33);
+	var debounce = __webpack_require__(/*! debounce */ 61);
 	
 	var InfiniteScroll = (function (_BaseComponent) {
 	  _inherits(InfiniteScroll, _BaseComponent);
@@ -17984,9 +17985,10 @@ exports["UI"] =
 	      _this.onScrollToBottom = opts.onScrollToBottom;
 	    }
 	
+	    var debounceWait = opts.debounceWait || 500;
 	    var $scrollTarget = opts.windowScroll ? $(window) : _this.$el;
 	
-	    $scrollTarget.scroll(function () {
+	    $scrollTarget.scroll(debounce(function () {
 	      var scrollTop = $scrollTarget.scrollTop();
 	      var elementHeight = $scrollTarget.height();
 	      var elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
@@ -17995,7 +17997,7 @@ exports["UI"] =
 	      if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
 	        _this.onScrollToBottom();
 	      }
-	    });
+	    }, debounceWait, false));
 	
 	    return _possibleConstructorReturn(_this, _this);
 	  }
@@ -18011,6 +18013,82 @@ exports["UI"] =
 
 /***/ },
 /* 61 */
+/*!*****************************!*\
+  !*** ./~/debounce/index.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * Module dependencies.
+	 */
+	
+	var now = __webpack_require__(/*! date-now */ 62);
+	
+	/**
+	 * Returns a function, that, as long as it continues to be invoked, will not
+	 * be triggered. The function will be called after it stops being called for
+	 * N milliseconds. If `immediate` is passed, trigger the function on the
+	 * leading edge, instead of the trailing.
+	 *
+	 * @source underscore.js
+	 * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
+	 * @param {Function} function to wrap
+	 * @param {Number} timeout in ms (`100`)
+	 * @param {Boolean} whether to execute at the beginning (`false`)
+	 * @api public
+	 */
+	
+	module.exports = function debounce(func, wait, immediate){
+	  var timeout, args, context, timestamp, result;
+	  if (null == wait) wait = 100;
+	
+	  function later() {
+	    var last = now() - timestamp;
+	
+	    if (last < wait && last > 0) {
+	      timeout = setTimeout(later, wait - last);
+	    } else {
+	      timeout = null;
+	      if (!immediate) {
+	        result = func.apply(context, args);
+	        if (!timeout) context = args = null;
+	      }
+	    }
+	  };
+	
+	  return function debounced() {
+	    context = this;
+	    args = arguments;
+	    timestamp = now();
+	    var callNow = immediate && !timeout;
+	    if (!timeout) timeout = setTimeout(later, wait);
+	    if (callNow) {
+	      result = func.apply(context, args);
+	      context = args = null;
+	    }
+	
+	    return result;
+	  };
+	};
+
+
+/***/ },
+/* 62 */
+/*!*****************************!*\
+  !*** ./~/date-now/index.js ***!
+  \*****************************/
+/***/ function(module, exports) {
+
+	module.exports = Date.now || now
+	
+	function now() {
+	    return new Date().getTime()
+	}
+
+
+/***/ },
+/* 63 */
 /*!********************************!*\
   !*** ./src/TextInput/index.js ***!
   \********************************/
@@ -18031,16 +18109,16 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 62);
+	__webpack_require__(/*! ./styles.css */ 64);
 	
 	// html
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 64);
-	var iconTmpl = __webpack_require__(/*! ./icon.tmpl */ 65);
-	var iconWrapper = __webpack_require__(/*! ./iconWrapper.html */ 66);
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 66);
+	var iconTmpl = __webpack_require__(/*! ./icon.tmpl */ 67);
+	var iconWrapper = __webpack_require__(/*! ./iconWrapper.html */ 68);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 33);
-	var debounce = __webpack_require__(/*! debounce */ 67);
+	var debounce = __webpack_require__(/*! debounce */ 61);
 	
 	var TextInput = (function (_BaseComponent) {
 	  _inherits(TextInput, _BaseComponent);
@@ -18112,7 +18190,7 @@ exports["UI"] =
 	module.exports = TextInput;
 
 /***/ },
-/* 62 */
+/* 64 */
 /*!**********************************!*\
   !*** ./src/TextInput/styles.css ***!
   \**********************************/
@@ -18121,7 +18199,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 63);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 65);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 31)(content, {});
@@ -18141,7 +18219,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 63 */
+/* 65 */
 /*!*****************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/TextInput/styles.css ***!
   \*****************************************************************************/
@@ -18158,7 +18236,7 @@ exports["UI"] =
 
 
 /***/ },
-/* 64 */
+/* 66 */
 /*!**********************************!*\
   !*** ./src/TextInput/input.tmpl ***!
   \**********************************/
@@ -18169,7 +18247,7 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 65 */
+/* 67 */
 /*!*********************************!*\
   !*** ./src/TextInput/icon.tmpl ***!
   \*********************************/
@@ -18180,89 +18258,13 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 66 */
+/* 68 */
 /*!****************************************!*\
   !*** ./src/TextInput/iconWrapper.html ***!
   \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = "<div class='ui-text-input-icon-wrapper'></div>";
-
-/***/ },
-/* 67 */
-/*!*****************************!*\
-  !*** ./~/debounce/index.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	/**
-	 * Module dependencies.
-	 */
-	
-	var now = __webpack_require__(/*! date-now */ 68);
-	
-	/**
-	 * Returns a function, that, as long as it continues to be invoked, will not
-	 * be triggered. The function will be called after it stops being called for
-	 * N milliseconds. If `immediate` is passed, trigger the function on the
-	 * leading edge, instead of the trailing.
-	 *
-	 * @source underscore.js
-	 * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
-	 * @param {Function} function to wrap
-	 * @param {Number} timeout in ms (`100`)
-	 * @param {Boolean} whether to execute at the beginning (`false`)
-	 * @api public
-	 */
-	
-	module.exports = function debounce(func, wait, immediate){
-	  var timeout, args, context, timestamp, result;
-	  if (null == wait) wait = 100;
-	
-	  function later() {
-	    var last = now() - timestamp;
-	
-	    if (last < wait && last > 0) {
-	      timeout = setTimeout(later, wait - last);
-	    } else {
-	      timeout = null;
-	      if (!immediate) {
-	        result = func.apply(context, args);
-	        if (!timeout) context = args = null;
-	      }
-	    }
-	  };
-	
-	  return function debounced() {
-	    context = this;
-	    args = arguments;
-	    timestamp = now();
-	    var callNow = immediate && !timeout;
-	    if (!timeout) timeout = setTimeout(later, wait);
-	    if (callNow) {
-	      result = func.apply(context, args);
-	      context = args = null;
-	    }
-	
-	    return result;
-	  };
-	};
-
-
-/***/ },
-/* 68 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
-/***/ function(module, exports) {
-
-	module.exports = Date.now || now
-	
-	function now() {
-	    return new Date().getTime()
-	}
-
 
 /***/ },
 /* 69 */
@@ -18642,7 +18644,7 @@ exports["UI"] =
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 33);
-	var TextInput = __webpack_require__(/*! ../../../TextInput */ 61);
+	var TextInput = __webpack_require__(/*! ../../../TextInput */ 63);
 	var ListView = __webpack_require__(/*! ../../../ListView */ 45);
 	var assert = __webpack_require__(/*! ../../../assert.js */ 7);
 	
