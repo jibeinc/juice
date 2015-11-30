@@ -9,11 +9,11 @@ class InfiniteScroll extends BaseComponent {
       preserveChildElements: true
     });
 
-    if (!opts.list) {
-      throw new Error('No ListView provided. One is required for InfiniteScroll');
+    if (!opts.onScrollToBottom) {
+      throw new Error('You must provide an onScrollToBottom function');
     }
     else {
-      this.list = opts.list;
+      this.onScrollToBottom = opts.onScrollToBottom;
     }
 
     const $scrollTarget = opts.windowScroll ? $(window) : this.$el;
@@ -25,7 +25,7 @@ class InfiniteScroll extends BaseComponent {
       const scrollTrigger = opts.scrollTrigger || 0.95;
 
       if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
-        this.list.refresh();
+        this.onScrollToBottom();
       }
     });
 

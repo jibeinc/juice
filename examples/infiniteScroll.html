@@ -72,7 +72,7 @@
     list.render();
 
     var infiniteScroll = new exports.UI.InfiniteScroll('.infinite-scroll-test', {
-        list: list,
+        onScrollToBottom: list.refresh.bind(list),
         scrollTrigger: 0.98,
         windowScroll: true
     });
