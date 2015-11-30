@@ -20,7 +20,8 @@ class CurrentLocation extends BaseComponent {
 
   render() {
     this.$el.addClass('ui-current-location');
-    this.$el.on('click', () => {
+    this.$el.on('click', (evt) => {
+      evt.stopPropagation();
       this.getCurrentLocation();
     });
     this.$el.css('background-image', `url(${ this.iconURL })` );

@@ -1,23 +1,29 @@
 'use strict';
 
 const UIComponents = {
-  $: require('jquery'),
-  Button: require('./Button'),
+
+  // exposed dependences
+  $:   require('jquery'),
   Dot: require('./Dot'),
-  CurrentLocation: require('./CurrentLocation'),
+
+  // services
+  BaseFragmentFactory: require('./BaseFragmentFactory'),
+  PubSubHub:           require('./PubSubHub'),
+  State:               require('./State'),
+  URL:                 require('./URL'),
+
+  // components
+  Button:                  require('./Button'),
+  CurrentLocation:         require('./CurrentLocation'),
   ExpandCollapseContainer: require('./ExpandCollapse/ExpandCollapseContainer'),
-  ExpandCollapseToggle: require('./ExpandCollapse/ExpandCollapseToggle'),
-  InfiniteScroll: require('./InfiniteScroll'),
-  ListViewItemFactory: require('./ListView/ListViewItemFactory'),
-  ListView: require('./ListView'),
-  MultiSelect: require('./MultiSelect'),
-  Pagination: require('./Pagination'),
-  PubSubHub: require('./PubSubHub'),
-  SingleSelect: require('./SingleSelect'),
-  State: require('./State'),
-  TextInput: require('./TextInput'),
-  Typeahead: require('./Typeahead'),
-  URL: require('./URL')
+  ListView:                require('./ListView'),
+  SingleSelect:            require('./SingleSelect'),
+  MultiSelect:             require('./MultiSelect'),
+  Pagination:              require('./Pagination'),
+  InfiniteScroll:          require('./InfiniteScroll'),
+  TextInput:               require('./TextInput'),
+  Typeahead:               require('./Typeahead'),
+  LocationTypeahead:       require('./LocationTypeahead')
 };
 
 module.exports = UIComponents;

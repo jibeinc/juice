@@ -1,0 +1,9 @@
+.ui-curr-loc {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+}
+
+.ui-location-typeahead .ui-text-input-icon {
+  right: 0;
+}

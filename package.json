@@ -3,15 +3,15 @@
   "version": "0.0.1",
   "description": "General JavaScript classes for common UI components",
   "engines": {
-    "node" : ">=5.0.0"
+    "node": ">=5.0.0"
   },
   "main": "index.js",
   "scripts": {
     "build": "npm run clean && ./node_modules/.bin/webpack --progress --colors --display-chunks -p",
-    "build-dev": "npm run clean && /node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
-    "watch": "webpack --watch",
+    "build-dev": "npm run clean && ./node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
+    "watch": "./node_modules/.bin/webpack --watch",
     "clean": "rm -rf dist",
-    "install": "napa flaviusmatis/simplePagination.js"
+    "postinstall": "./node_modules/.bin/napa"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,9 @@
   },
   "private": true,
   "author": "John Hatcher",
+  "napa": {
+    "simplePagination": "flaviusmatis/simplePagination.js"
+  },
   "dependencies": {
     "babel-polyfill": "^6.2.0",
     "baobab": "^2.1.1",

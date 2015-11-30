@@ -2,7 +2,7 @@
 
 const BaseComponent = require('../BaseComponent');
 const $ = require('jquery');
-const simplePagination = require('imports?jQuery=jquery!../../node_modules/simplePagination.js/jquery.simplePagination.js');
+const simplePagination = require('imports?jQuery=jquery!../../node_modules/simplePagination/jquery.simplePagination.js');
 const paginationTmpl = require('./pagination.dot');
 
 class Pagination extends BaseComponent {
