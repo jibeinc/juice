@@ -1,0 +1,54 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "globals": {
+    "ROOT_DIR": true,
+    "it": false,
+    "xit": false,
+    "describe": false,
+    "xdescribe": false,
+    "beforeEach": false,
+    "before": false,
+    "after": false,
+    "afterEach": false,
+    "mtShout": true,
+    "statsd": false,
+    "window": true,
+    "document": false,
+    "$": false,
+    "angular": false,
+    "_": true,
+    "Spinner": false,
+    "Mirror": false,
+    "moment": true,
+    "alert": false,
+    "navigator": false,
+    "matchMedia": false,
+    "addthis": false,
+    "Snap": false,
+    "JIBE": true,
+    "DateFormatter": true,
+    "dateFormat": true
+  },
+  "rules": {
+    "indent": [1, 2, {
+      "SwitchCase": 1
+    }],
+    "yoda": [1, "never"],
+
+    //ES6 Stuff
+    "arrow-parens": 1,
+    "arrow-spacing": 1,
+    "constructor-super": 1,
+    "no-class-assign": 1,
+    "no-const-assign": 1,
+    "no-dupe-class-members": 1,
+    "no-this-before-super": 1,
+    "no-var": 1,
+    "object-shorthand": 1,
+    "prefer-arrow-callback": 1,
+    "prefer-const": 1
+  }
+}

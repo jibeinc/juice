@@ -18130,11 +18130,15 @@ exports["UI"] =
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
-	    _this.value = opts.value || '';
-	    _this.wait = opts.wait || 300;
-	    _this.icon = opts.icon || 'x';
-	    _this.iconClearsValue = typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue;
-	    _this.$input = null;
+	    Object.assign(_this, {
+	      $input: null,
+	      icon: opts.icon || 'x',
+	      iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
+	      placeholder: opts.placeholder || null,
+	      value: opts.value || '',
+	      wait: opts.wait || 300
+	    });
+	
 	    return _possibleConstructorReturn(_this, _this);
 	  }
 	
@@ -18243,7 +18247,7 @@ exports["UI"] =
 /***/ function(module, exports) {
 
 	module.exports = function (scope) {
-	  return "<input type='text' id='" + scope.id + "' class='ui-text-input form-control' value='" + scope.get() + "'/>";
+	  return "<input type='text' id='" + scope.id + "'\nclass='ui-text-input form-control'\nplaceholder='" + scope.placeholder + "'\nvalue='" + scope.get() + "'/>\n";
 	};
 
 /***/ },
