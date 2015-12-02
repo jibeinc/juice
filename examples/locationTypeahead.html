@@ -78,7 +78,10 @@
 
         cb(matches);
       },
-      geolocationAPI: window.navigator.geolocation
+      geolocationAPI: window.navigator.geolocation,
+      textInputOpts: {
+        placeholder: 'Try "New York"'
+      }
     });
 
     locationSearch.subscribe(function (choice) {

@@ -23,7 +23,7 @@ class TextInput extends BaseComponent {
       $input: null,
       icon: opts.icon || 'x',
       iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
-      placeholder: opts.placeholder || null,
+      placeholder: opts.placeholder || '',
       value: opts.value || '',
       wait: opts.wait || 300
     });
