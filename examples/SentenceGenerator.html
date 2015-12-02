@@ -22,16 +22,16 @@
     var config = {
         structure: [
           {
-            fragment: '${count} jobs',
+            fragment: '${value.count} jobs',
             required: true,
           },
           {
-            fragment: 'for ${keywords}',
+            fragment: 'for ${value.keywords}',
             required: false,
             default: 'for all categories'
           },
           {
-            fragment: 'in ${location}',
+            fragment: 'in ${value.location}',
             required: false,
           }
         ],
