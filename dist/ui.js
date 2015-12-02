@@ -16419,9 +16419,12 @@ exports["UI"] =
 	      this.$el.html('');
 	    }
 	
-	    this.value = null;
-	    this.id = uuid.v4();
-	    this.keyEvents = keyEvents;
+	    Object.assign(this, {
+	      keyEvents: keyEvents,
+	      attrs: opts.attrs || {},
+	      id: uuid.v4(),
+	      value: null
+	    });
 	
 	    return this;
 	  }
@@ -17060,7 +17063,7 @@ exports["UI"] =
 	
 	    _classCallCheck(this, ListView);
 	
-	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
+	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
 	    Object.assign(_this, {
 	      fetch: opts.fetch,
@@ -17075,6 +17078,7 @@ exports["UI"] =
 	    var _this2 = this;
 	
 	    this.$el.html(listViewTmpl(this));
+	    this.$el.find('ul').attr(this.attrs);
 	    this.$el.find('li').attr(this.listItemOpts.attrs || {});
 	    this.$el.find('li').click(function (evt) {
 	      _this2.set(_this2.results[$(evt.target).attr('data-index')]);
