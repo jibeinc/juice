@@ -33,7 +33,7 @@ class ListView extends BaseComponent {
     this.$el.find('li').click((evt) => {
       this.set(this.results[$(evt.target).attr('data-index')]);
     });
-    return this;
+    return this.$el.html();
   }
 
   // expected to be overriden
