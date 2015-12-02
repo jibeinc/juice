@@ -18963,13 +18963,12 @@ exports["UI"] =
 	      var fallback = segment.default;
 	      var required = segment.required;
 	
-	      // search and replace with the data values     
-	      var matches;
+	      // search and replace with the data values
+	      var matches = undefined;
 	      while ((matches = regex.exec(fragment)) !== null) {
 	        var matchStr = matches[0];
 	        var match = matches[1];
 	
-	        // TODO: support arbitrarily-deep nesting
 	        if (dotty.exists(this, match)) {
 	          fragment = fragment.replace(matchStr, dotty.get(this, match));
 	        } else if (fallback) {

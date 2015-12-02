@@ -55,7 +55,7 @@ class SentenceGenerator extends BaseComponent {
       let required = segment.required;
 
       // search and replace with the data values
-      var matches;
+      let matches;
       while ((matches = regex.exec(fragment)) !== null ) {
         let matchStr  = matches[0];
         let match     = matches[1];
@@ -72,7 +72,7 @@ class SentenceGenerator extends BaseComponent {
           fragment = null;
         }
 
-        // the data object passed in is missing critical data. Fail softly. Weep.
+        // the data object passed in is missing critical data. Fail softly.
         else {
           this.$el.html('<span></span>');
           return;
@@ -80,9 +80,8 @@ class SentenceGenerator extends BaseComponent {
       }
 
 
-      // skip this fragment bcuz theres no data :-(
+      // skip this fragment because theres no data :-(
       if (fragment === null) {
-        console.log('fragment skipped');
         continue;
       }
 
@@ -94,7 +93,6 @@ class SentenceGenerator extends BaseComponent {
       }
     }
 
-    console.log(templateString);
     this.$el.html('<span>' + templateString + '</span');
   }
 };
