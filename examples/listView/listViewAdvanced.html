@@ -19,15 +19,15 @@
     var itemTemplate = '<h1>[[= model.item.name ]]</h1><div class="item-button-[[= model.index ]]"></div>';
 
     var resultsItem = new exports.UI.BaseFragmentFactory({
-      render: function (data) {
+      render: function(data) {
         return exports.UI.Dot.compile(itemTemplate, data);
       },
-      controller: function (data) {
+      controller: function(data) {
         var itemButton = new exports.UI.Button('.item-button-' + data.index, {
           preventPropagation: true
         });
 
-        itemButton.subscribe(function () {
+        itemButton.subscribe(function() {
           console.log('item button clicked', data.item);
         });
 
@@ -36,22 +36,22 @@
     });
 
     var results = new exports.UI.ListView('.search-results', {
-      results: [
-        {
-          name: 'John Hatcher'
-        },
-        {
-          name: 'Robbie Wagner'
-        },
-        {
-          name: 'Arch Duke of Whales'
-        }
-      ],
+      attrs: {
+        class: 'list-view-test-class',
+        foo: 'bar'
+      },
+      results: [{
+        name: 'John Hatcher'
+      }, {
+        name: 'Robbie Wagner'
+      }, {
+        name: 'Arch Duke of Whales'
+      }],
 
-      renderItem: function (item, index) {
+      renderItem: function(item, index) {
         return resultsItem.make({
           item: item,
-          index:index
+          index: index
         });
       }
     });

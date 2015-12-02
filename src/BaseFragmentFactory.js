@@ -24,9 +24,9 @@ class BaseFragmentFactory {
 
   make(data={}) {
     // 1. get the generated html (consumer defines this)
-    var itemHTML = this.render(data);
+    const itemHTML = this.render(data);
 
-    var $context = $('<div></div>').html(itemHTML);
+    const $context = $('<div></div>').html(itemHTML);
 
     // 2. now run the controller against that context
     // we delay here, in order to give the DOM time to actually render (happens on return)

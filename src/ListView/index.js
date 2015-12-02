@@ -12,12 +12,12 @@ require('./styles.css');
 const listViewTmpl = require('./listView.dot');
 
 // scripts
-const $             = require('jquery');
+const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 
 class ListView extends BaseComponent {
   constructor(el, opts = {}) {
-    super(el);
+    super(el, opts);
 
     Object.assign(this, {
       fetch: opts.fetch,
@@ -29,6 +29,8 @@ class ListView extends BaseComponent {
 
   render() {
     this.$el.html(listViewTmpl(this));
+
+    this.$el.find('ul.ui-list').attr(this.attrs);
     this.$el.find('li.ui-list-item').attr(this.listItemOpts.attrs || {})
     this.$el.find('li.ui-list-item').click((evt) => {
       this.set(this.results[$(evt.target).attr('data-index')]);
