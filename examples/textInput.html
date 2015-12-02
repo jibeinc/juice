@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Text Input Example</title>
   <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script>window.exports = {};</script>
+  <script>
+    window.exports = {};
+  </script>
   <script src='../dist/ui.js'></script>
 </head>
+
 <body>
 
   <div class='ui-text-input'></div>
@@ -18,9 +22,11 @@
   </style>
 
   <script>
-    var c = new exports.UI.TextInput('.ui-text-input');
+    var c = new exports.UI.TextInput('.ui-text-input', {
+      placeholder: 'What up?'
+    });
 
-    c.subscribe(function (msg) {
+    c.subscribe(function(msg) {
       console.log(msg);
     });
 
@@ -28,4 +34,5 @@
   </script>
 
 </body>
+
 </html>

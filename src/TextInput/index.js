@@ -8,22 +8,26 @@
 require('./styles.css');
 
 // html
-const inputTmpl    = require('./input.tmpl');
-const iconTmpl    = require('./icon.tmpl');
+const inputTmpl = require('./input.tmpl');
+const iconTmpl = require('./icon.tmpl');
 const iconWrapper = require('./iconWrapper.html');
 
 // scripts
 const BaseComponent = require('../BaseComponent');
-const debounce      = require('debounce');
+const debounce = require('debounce');
 
 class TextInput extends BaseComponent {
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
     super(el);
-    this.value = opts.value || '';
-    this.wait = opts.wait || 300;
-    this.icon = opts.icon || 'x';
-    this.iconClearsValue = typeof opts.iconClearsValue  === 'undefined'? true : opts.iconClearsValue;
-    this.$input = null;
+    Object.assign(this, {
+      $input: null,
+      icon: opts.icon || 'x',
+      iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
+      placeholder: opts.placeholder || null,
+      value: opts.value || '',
+      wait: opts.wait || 300
+    });
+
     return this;
   }
 
