@@ -21,7 +21,8 @@ class SentenceGenerator extends BaseComponent {
     Object.assign(this, {
       structure: opts.structure || [],
       ordinality: opts.ordinality || false,
-      delimiter: opts.delimiter || null
+      delimiter: opts.delimiter || null,
+      regex: opts.regex || /\$\{(?:\s*)([\S]+?)(?:\s*)\}/g
     });
 
     // sort the array by the ordinality of sentence fragments
@@ -42,8 +43,8 @@ class SentenceGenerator extends BaseComponent {
   }
 
   render() {
-    var templateString = '';
-    var regex          = /\$\{(?:\s*)([\S]+?)(?:\s*)\}/g;
+    let templateString = '';
+    let regex          = this.regex;
 
     for (let i = 0; i < this.structure.length; i++) {
       
