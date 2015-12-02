@@ -17079,7 +17079,7 @@ exports["UI"] =
 	    this.$el.find('li').click(function (evt) {
 	      _this2.set(_this2.results[$(evt.target).attr('data-index')]);
 	    });
-	    return this;
+	    return this.$el.html();
 	  };
 	
 	  // expected to be overriden
