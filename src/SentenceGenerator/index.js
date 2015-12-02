@@ -9,6 +9,7 @@ require('./styles.css');
 
 // scripts
 const $             = require('jquery');
+const dotty         = require('dotty');
 const BaseComponent = require('../BaseComponent');
 
 
@@ -58,8 +59,8 @@ class SentenceGenerator extends BaseComponent {
         let matchStr  = matches[0];
         let match     = matches[1];
 
-        if (this.value[match]) {
-          fragment = fragment.replace(matchStr, this.value[match]);
+        if (dotty.exists(this, match)) {
+          fragment = fragment.replace(matchStr, dotty.get(this,match));
         }
 
         else if (fallback) {
