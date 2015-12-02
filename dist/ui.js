@@ -18134,7 +18134,7 @@ exports["UI"] =
 	      $input: null,
 	      icon: opts.icon || 'x',
 	      iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
-	      placeholder: opts.placeholder || null,
+	      placeholder: opts.placeholder || '',
 	      value: opts.value || '',
 	      wait: opts.wait || 300
 	    });
@@ -18660,8 +18660,10 @@ exports["UI"] =
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
-	    _this.results = [];
-	    _this.fetch = opts.fetch;
+	    Object.assign(_this, {
+	      fetch: opts.fetch,
+	      results: []
+	    });
 	    assert(typeof _this.fetch === 'function');
 	
 	    _this.$el.append(containerHTML);
@@ -18796,13 +18798,16 @@ exports["UI"] =
 	      }
 	    });
 	
+	    //Ensure we have an opts.textInputOpts object
+	    opts.textInputOpts = opts.textInputOpts || {};
+	
 	    // setup the input icon to be a "use current location" component
-	    opts.textInputOpts = {
+	    Object.assign(opts.textInputOpts, {
 	      iconClearsValue: false,
 	      icon: iconFactory.make({
 	        name: 'icon'
 	      })
-	    };
+	    });
 	
 	    // setup "current location" fixed result
 	    opts.fixedResults = (opts.fixedResults || []).concat([{
