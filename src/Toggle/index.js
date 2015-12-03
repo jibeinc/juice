@@ -1,8 +1,8 @@
 'use strict';
 
-const BaseComponent = require('../../BaseComponent');
+const BaseComponent = require('../BaseComponent');
 
-class ExpandCollapseToggle extends BaseComponent {
+class Toggle extends BaseComponent {
   constructor(el, opts = {}) {
     super(el, {
       parentElement: opts.parentElement,
@@ -43,4 +43,4 @@ class ExpandCollapseToggle extends BaseComponent {
   }
 }
 
-module.exports = ExpandCollapseToggle;
+module.exports = Toggle;
