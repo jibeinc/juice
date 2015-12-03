@@ -33,7 +33,7 @@ class ListView extends BaseComponent {
     this.$el.find('ul.ui-list').attr(this.attrs);
     this.$el.find('li.ui-list-item').attr(this.listItemOpts.attrs || {})
     this.$el.find('li.ui-list-item').click((evt) => {
-      this.set(this.results[$(evt.target).attr('data-index')]);
+      this.set(this.results[$(evt.currentTarget).attr('data-index')]);
     });
     return this.$el.html();
   }
