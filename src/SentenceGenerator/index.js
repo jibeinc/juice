@@ -22,19 +22,20 @@ class SentenceGenerator extends BaseComponent {
       structure: opts.structure || [],
       ordinality: opts.ordinality || false,
       delimiter: opts.delimiter || null,
-      regex: opts.regex || /\$\{(?:\s*)([\S]+?)(?:\s*)\}/g
+      regex: opts.regex || /\$\{(?:\s*)([\S]+?)(?:\s*)\}/g,
+      value: ''
     });
 
     // sort the array by the ordinality of sentence fragments
     if (this.ordinality) {
-      this.structure = opts.structure.sort(function compare(a, b) {
+      this.structure = opts.structure.sort((a, b) => {
         return a - b;
       });
     }
   }
 
   get() {
-    return (this.value !== undefined) ? this.value : '';
+    return this.value;
   }
 
   set(data) {
@@ -43,16 +44,16 @@ class SentenceGenerator extends BaseComponent {
   }
 
   render() {
-    let templateString = '';
-    let regex          = this.regex;
+    let templateString   = '';
+    const regex          = this.regex;
 
     for (let i = 0; i < this.structure.length; i++) {
       
       // get the properties of each object
       let segment  = this.structure[i];
       let fragment = segment.fragment;
-      let fallback = segment.default;
-      let required = segment.required;
+      const fallback = segment.default;
+      const required = segment.required;
 
       // search and replace with the data values
       let matches;
@@ -78,7 +79,6 @@ class SentenceGenerator extends BaseComponent {
           return;
         }
       }
-
 
       // skip this fragment because theres no data :-(
       if (fragment === null) {
