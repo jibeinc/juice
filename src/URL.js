@@ -15,6 +15,10 @@ class URL {
     history.pushState(null, null, url.format(currentURL));
   }
 
+  redirect(href) {
+    this.location = href;
+  }
+
   getQueryParams() {
     return url.parse(this.location.search, true).query;
   }

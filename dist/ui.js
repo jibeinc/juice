@@ -9920,7 +9920,6 @@ exports["UI"] =
 	var getIn = helpers.getIn;
 	var makeError = helpers.makeError;
 	var deepMerge = helpers.deepMerge;
-	var pathObject = helpers.pathObject;
 	var shallowClone = helpers.shallowClone;
 	var shallowMerge = helpers.shallowMerge;
 	var uniqid = helpers.uniqid;
@@ -9963,9 +9962,11 @@ exports["UI"] =
 	 * @return {string} string - The resultant hash.
 	 */
 	function hashPath(path) {
-	  return '/' + path.map(function (step) {
-	    if (_type2['default']['function'](step) || _type2['default'].object(step)) return '#' + uniqid() + '#';else return step;
-	  }).join('/');
+	  return 'λ' + path.map(function (step) {
+	    if (_type2['default']['function'](step) || _type2['default'].object(step)) return '#' + uniqid() + '#';
+	
+	    return step;
+	  }).join('λ');
 	}
 	
 	/**
@@ -10020,7 +10021,7 @@ exports["UI"] =
 	    this._data = initialData;
 	
 	    // Properties
-	    this.root = new _cursor2['default'](this, [], '/');
+	    this.root = new _cursor2['default'](this, [], 'λ');
 	    delete this.root.release;
 	
 	    // Does the user want an immutable tree?
@@ -10330,7 +10331,7 @@ exports["UI"] =
 	      if (this._future) this._future = clearTimeout(this._future);
 	
 	      var affectedPaths = Object.keys(this._affectedPathsIndex).map(function (h) {
-	        return h !== '/' ? h.split('/').slice(1) : [];
+	        return h !== 'λ' ? h.split('λ').slice(1) : [];
 	      });
 	
 	      // Is the tree still valid?
@@ -10430,7 +10431,9 @@ exports["UI"] =
 	
 	  if (!args.length) throw new Error('Baobab.monkey: missing definition.');
 	
-	  if (args.length === 1) return new _monkey.MonkeyDefinition(args[0]);else return new _monkey.MonkeyDefinition(args);
+	  if (args.length === 1) return new _monkey.MonkeyDefinition(args[0]);
+	
+	  return new _monkey.MonkeyDefinition(args);
 	};
 	Baobab.dynamicNode = Baobab.monkey;
 	
@@ -10447,7 +10450,7 @@ exports["UI"] =
 	 * Version
 	 */
 	Object.defineProperty(Baobab, 'version', {
-	  value: '2.1.1'
+	  value: '2.1.2'
 	});
 	
 	/**
@@ -10458,9 +10461,9 @@ exports["UI"] =
 
 /***/ },
 /* 11 */
-/*!*************************************!*\
-  !*** ./~/baobab/~/emmett/emmett.js ***!
-  \*************************************/
+/*!****************************!*\
+  !*** ./~/emmett/emmett.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -11330,7 +11333,9 @@ exports["UI"] =
 	  }, {
 	    key: 'up',
 	    value: function up() {
-	      if (!this.isRoot()) return this.tree.select(this.path.slice(0, -1));else return null;
+	      if (!this.isRoot()) return this.tree.select(this.path.slice(0, -1));
+	
+	      return null;
 	    }
 	
 	    /**
@@ -11445,6 +11450,39 @@ exports["UI"] =
 	        return fn.call(l > 1 ? scope : this, this.select(i), i, array);
 	      }, this);
 	    }
+	
+	    /**
+	     * Method used to allow iterating over cursors containing list-type data.
+	     *
+	     * e.g. for(let i of cursor) { ... }
+	     *
+	     * @returns {object} -  Each item sequentially.
+	    //  */
+	    // [Symbol.iterator]() {
+	    //   const array = this._get().data;
+	
+	    //   if (!type.array(array))
+	    //     throw Error('baobab.Cursor.@@iterate: cannot iterate a non-list type.');
+	
+	    //   let i = 0;
+	
+	    //   const cursor = this,
+	    //         length = array.length;
+	
+	    //   return {
+	    //     next: function() {
+	    //       if (i < length) {
+	    //         return {
+	    //           value: cursor.select(i++)
+	    //         };
+	    //       }
+	
+	    //       return {
+	    //         done: true
+	    //       };
+	    //     }
+	    //   };
+	    // }
 	
 	    /**
 	     * Getter Methods
@@ -11617,13 +11655,14 @@ exports["UI"] =
 	        value: maxRecords
 	      });
 	
+	      this.state.recording = true;
+	
 	      if (this.archive) return this;
 	
 	      // Lazy binding
 	      this._lazyBind();
 	
 	      this.archive = new _helpers.Archive(maxRecords);
-	      this.state.recording = true;
 	      return this;
 	    }
 	
@@ -11861,7 +11900,7 @@ exports["UI"] =
 	
 	/**
 	 * Monkey Definition class
-	 * Note: The only reason why this is a class is to be able to spot it whithin
+	 * Note: The only reason why this is a class is to be able to spot it within
 	 * otherwise ordinary data.
 	 *
 	 * @constructor
@@ -12005,7 +12044,9 @@ exports["UI"] =
 	        return (0, _helpers.getIn)(_this4.tree._data, p).solvedPath;
 	      });else paths = this.depPaths;
 	
-	      if (!this.isRecursive) return paths;else return paths.reduce(function (accumulatedPaths, path) {
+	      if (!this.isRecursive) return paths;
+	
+	      return paths.reduce(function (accumulatedPaths, path) {
 	        var monkeyPath = _type2['default'].monkeyPath(_this4.tree._monkeys, path);
 	
 	        if (!monkeyPath) return accumulatedPaths.concat([path]);
@@ -12254,8 +12295,9 @@ exports["UI"] =
 	 * @return {boolean}
 	 */
 	type.monkeyPath = function (data, path) {
-	  var subpath = [],
-	      c = data,
+	  var subpath = [];
+	
+	  var c = data,
 	      i = undefined,
 	      l = undefined;
 	
@@ -12296,11 +12338,15 @@ exports["UI"] =
 	  if (type.object(definition)) {
 	    if (!type['function'](definition.get) || definition.cursors && (!type.object(definition.cursors) || !Object.keys(definition.cursors).every(function (k) {
 	      return type.path(definition.cursors[k]);
-	    }))) return null;else return 'object';
+	    }))) return null;
+	
+	    return 'object';
 	  } else if (type.array(definition)) {
 	    if (!type['function'](definition[definition.length - 1]) || !definition.slice(0, -1).every(function (p) {
 	      return type.path(p);
-	    })) return null;else return 'array';
+	    })) return null;
+	
+	    return 'array';
 	  }
 	
 	  return null;
@@ -12363,8 +12409,6 @@ exports["UI"] =
 	
 	var _type2 = _interopRequireDefault(_type);
 	
-	var _monkey = __webpack_require__(/*! ./monkey */ 13);
-	
 	var _helpers = __webpack_require__(/*! ./helpers */ 16);
 	
 	function err(operation, expectedTarget, path) {
@@ -12389,11 +12433,11 @@ exports["UI"] =
 	
 	  // Dummy root, so we can shift and alter the root
 	  var dummy = { root: data },
-	      dummyPath = ['root'].concat(_toConsumableArray(path));
+	      dummyPath = ['root'].concat(_toConsumableArray(path)),
+	      currentPath = [];
 	
 	  // Walking the path
 	  var p = dummy,
-	      currentPath = [],
 	      i = undefined,
 	      l = undefined,
 	      s = undefined;
@@ -12419,14 +12463,14 @@ exports["UI"] =
 	        // Purity check
 	        if (opts.pure && p[s] === value) return { node: p[s] };
 	
-	        if (opts.persistent) {
-	          p[s] = (0, _helpers.shallowClone)(value);
-	        } else if (value instanceof _monkey.MonkeyDefinition) {
+	        if (_type2['default'].lazyGetter(p, s)) {
 	          Object.defineProperty(p, s, {
 	            value: value,
 	            enumerable: true,
 	            configurable: true
 	          });
+	        } else if (opts.persistent) {
+	          p[s] = (0, _helpers.shallowClone)(value);
 	        } else {
 	          p[s] = value;
 	        }
@@ -12450,9 +12494,19 @@ exports["UI"] =
 	            var result = value(p[s]);
 	
 	            // Purity check
-	            if (opts.pure && result === value) return { node: p[s] };
+	            if (opts.pure && p[s] === result) return { node: p[s] };
 	
-	            p[s] = opts.persistent ? (0, _helpers.shallowClone)(result) : result;
+	            if (_type2['default'].lazyGetter(p, s)) {
+	              Object.defineProperty(p, s, {
+	                value: result,
+	                enumerable: true,
+	                configurable: true
+	              });
+	            } else if (opts.persistent) {
+	              p[s] = (0, _helpers.shallowClone)(result);
+	            } else {
+	              p[s] = result;
+	            }
 	          }
 	
 	          /**
@@ -12553,7 +12607,9 @@ exports["UI"] =
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {/**
+	/* WEBPACK VAR INJECTION */(function(global) {/* eslint eqeqeq: 0 */
+	
+	/**
 	 * Baobab Helpers
 	 * ===============
 	 *
@@ -12572,7 +12628,6 @@ exports["UI"] =
 	exports.coercePath = coercePath;
 	exports.getIn = getIn;
 	exports.makeError = makeError;
-	exports.pathObject = pathObject;
 	exports.solveRelativePath = solveRelativePath;
 	exports.solveUpdate = solveUpdate;
 	exports.splice = splice;
@@ -12591,6 +12646,40 @@ exports["UI"] =
 	 * Noop function
 	 */
 	var noop = Function.prototype;
+	
+	/**
+	 * Function returning the index of the first element of a list matching the
+	 * given predicate.
+	 *
+	 * @param  {array}     a  - The target array.
+	 * @param  {function}  fn - The predicate function.
+	 * @return {mixed}        - The index of the first matching item or -1.
+	 */
+	function index(a, fn) {
+	  var i = undefined,
+	      l = undefined;
+	  for (i = 0, l = a.length; i < l; i++) {
+	    if (fn(a[i])) return i;
+	  }
+	  return -1;
+	}
+	
+	/**
+	 * Efficient slice function used to clone arrays or parts of them.
+	 *
+	 * @param  {array} array - The array to slice.
+	 * @return {array}       - The sliced array.
+	 */
+	function slice(array) {
+	  var newArray = new Array(array.length);
+	
+	  var i = undefined,
+	      l = undefined;
+	
+	  for (i = 0, l = array.length; i < l; i++) newArray[i] = array[i];
+	
+	  return newArray;
+	}
 	
 	/**
 	 * Archive abstraction
@@ -12705,8 +12794,9 @@ exports["UI"] =
 	 * @return {RegExp}    - The cloned regular expression.
 	 */
 	function cloneRegexp(re) {
-	  var pattern = re.source,
-	      flags = '';
+	  var pattern = re.source;
+	
+	  var flags = '';
 	
 	  if (re.global) flags += 'g';
 	  if (re.multiline) flags += 'm';
@@ -12732,14 +12822,16 @@ exports["UI"] =
 	  // Array
 	  if (_type2['default'].array(item)) {
 	    if (deep) {
+	      var a = [];
+	
 	      var i = undefined,
-	          l = undefined,
-	          a = [];
+	          l = undefined;
+	
 	      for (i = 0, l = item.length; i < l; i++) a.push(cloner(true, item[i]));
 	      return a;
-	    } else {
-	      return slice(item);
 	    }
+	
+	    return slice(item);
 	  }
 	
 	  // Date
@@ -12750,11 +12842,22 @@ exports["UI"] =
 	
 	  // Object
 	  if (_type2['default'].object(item)) {
-	    var k = undefined,
-	        o = {};
+	    var o = {};
+	
+	    var k = undefined;
 	
 	    // NOTE: could be possible to erase computed properties through `null`.
-	    for (k in item) if (item.hasOwnProperty(k)) o[k] = deep ? cloner(true, item[k]) : item[k];
+	    for (k in item) {
+	      if (_type2['default'].lazyGetter(item, k)) {
+	        Object.defineProperty(o, k, {
+	          get: Object.getOwnPropertyDescriptor(item, k).get,
+	          enumerable: true,
+	          configurable: true
+	        });
+	      } else if (item.hasOwnProperty(k)) {
+	        o[k] = deep ? cloner(true, item[k]) : item[k];
+	      }
+	    }
 	    return o;
 	  }
 	
@@ -12880,8 +12983,9 @@ exports["UI"] =
 	function getIn(object, path) {
 	  if (!path) return notFoundObject;
 	
-	  var solvedPath = [],
-	      exists = true,
+	  var solvedPath = [];
+	
+	  var exists = true,
 	      c = object,
 	      idx = undefined,
 	      i = undefined,
@@ -12919,23 +13023,6 @@ exports["UI"] =
 	}
 	
 	/**
-	 * Function returning the index of the first element of a list matching the
-	 * given predicate.
-	 *
-	 * @param  {array}     a  - The target array.
-	 * @param  {function}  fn - The predicate function.
-	 * @return {mixed}        - The index of the first matching item or -1.
-	 */
-	function index(a, fn) {
-	  var i = undefined,
-	      l = undefined;
-	  for (i = 0, l = a.length; i < l; i++) {
-	    if (fn(a[i])) return i;
-	  }
-	  return -1;
-	}
-	
-	/**
 	 * Little helper returning a JavaScript error carrying some data with it.
 	 *
 	 * @param  {string} message - The error message.
@@ -12966,8 +13053,9 @@ exports["UI"] =
 	    objects[_key - 1] = arguments[_key];
 	  }
 	
-	  var o = objects[0],
-	      t = undefined,
+	  var o = objects[0];
+	
+	  var t = undefined,
 	      i = undefined,
 	      l = undefined,
 	      k = undefined;
@@ -12995,47 +13083,6 @@ exports["UI"] =
 	
 	exports.shallowMerge = shallowMerge;
 	exports.deepMerge = deepMerge;
-	
-	/**
-	 * Function returning a nested object according to the given path and the
-	 * given leaf.
-	 *
-	 * @param  {array}  path - The path to follow.
-	 * @param  {mixed}  leaf - The leaf to append at the end of the path.
-	 * @return {object}      - The nested object.
-	 */
-	
-	function pathObject(path, leaf) {
-	  var l = path.length,
-	      o = {},
-	      c = o,
-	      i = undefined;
-	
-	  if (!l) o = leaf;
-	
-	  for (i = 0; i < l; i++) {
-	    c[path[i]] = i + 1 === l ? leaf : {};
-	    c = c[path[i]];
-	  }
-	
-	  return o;
-	}
-	
-	/**
-	 * Efficient slice function used to clone arrays or parts of them.
-	 *
-	 * @param  {array} array - The array to slice.
-	 * @return {array}       - The sliced array.
-	 */
-	function slice(array) {
-	  var newArray = new Array(array.length),
-	      i = undefined,
-	      l = undefined;
-	
-	  for (i = 0, l = array.length; i < l; i++) newArray[i] = array[i];
-	
-	  return newArray;
-	}
 	
 	/**
 	 * Solving a potentially relative path.
@@ -13147,6 +13194,7 @@ exports["UI"] =
 	 */
 	var uniqid = (function () {
 	  var i = 0;
+	
 	  return function () {
 	    return i++;
 	  };
@@ -13255,7 +13303,9 @@ exports["UI"] =
 	        var v = _this2.mapping[k];
 	
 	        // Watcher mappings can accept a cursor
-	        if (v instanceof _cursor2['default']) return v.solvedPath;else return _this2.mapping[k];
+	        if (v instanceof _cursor2['default']) return v.solvedPath;
+	
+	        return _this2.mapping[k];
 	      });
 	
 	      return rawPaths.reduce(function (cp, p) {
@@ -13268,7 +13318,7 @@ exports["UI"] =
 	        // Facet path?
 	        var monkeyPath = _type2['default'].monkeyPath(_this2.tree._monkeys, p);
 	
-	        if (monkeyPath) return cp.concat((0, _helpers.getIn)(_this2.tree._monkeys, p).data.relatedPaths());
+	        if (monkeyPath) return cp.concat((0, _helpers.getIn)(_this2.tree._monkeys, monkeyPath).data.relatedPaths());
 	
 	        return cp.concat([p]);
 	      }, []);
@@ -13362,6 +13412,10 @@ exports["UI"] =
 	    currentURL.query = queryObj;
 	    currentURL.search = null;
 	    history.pushState(null, null, url.format(currentURL));
+	  };
+	
+	  URL.prototype.redirect = function redirect(href) {
+	    this.location = href;
 	  };
 	
 	  URL.prototype.getQueryParams = function getQueryParams() {
@@ -14508,9 +14562,9 @@ exports["UI"] =
 
 /***/ },
 /* 22 */
-/*!**************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
-  \**************************************************/
+/*!**********************!*\
+  !*** ./~/url/url.js ***!
+  \**********************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15224,9 +15278,9 @@ exports["UI"] =
 
 /***/ },
 /* 23 */
-/*!************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
-  \************************************************************/
+/*!********************************!*\
+  !*** ./~/punycode/punycode.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -15758,13 +15812,13 @@ exports["UI"] =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../buildin/module.js */ 20)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 20)(module), (function() { return this; }())))
 
 /***/ },
 /* 24 */
-/*!******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
-  \******************************************************************/
+/*!********************************!*\
+  !*** ./~/querystring/index.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15775,9 +15829,9 @@ exports["UI"] =
 
 /***/ },
 /* 25 */
-/*!*******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
-  \*******************************************************************/
+/*!*********************************!*\
+  !*** ./~/querystring/decode.js ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15864,9 +15918,9 @@ exports["UI"] =
 
 /***/ },
 /* 26 */
-/*!*******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
-  \*******************************************************************/
+/*!*********************************!*\
+  !*** ./~/querystring/encode.js ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -18081,9 +18135,9 @@ exports["UI"] =
 
 /***/ },
 /* 62 */
-/*!****************************************!*\
-  !*** ./~/debounce/~/date-now/index.js ***!
-  \****************************************/
+/*!*****************************!*\
+  !*** ./~/date-now/index.js ***!
+  \*****************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
