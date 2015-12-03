@@ -71,7 +71,7 @@ exports["UI"] =
 	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 53),
 	  Pagination: __webpack_require__(/*! ./Pagination */ 57),
 	  InfiniteScroll: __webpack_require__(/*! ./InfiniteScroll */ 60),
-	  TextInput: __webpack_require__(/*! ./TextInput */ 61),
+	  TextInput: __webpack_require__(/*! ./TextInput */ 63),
 	  Typeahead: __webpack_require__(/*! ./Typeahead */ 69),
 	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 75),
 	  SentenceGenerator: __webpack_require__(/*! ./SentenceGenerator */ 79)
@@ -16420,9 +16420,12 @@ exports["UI"] =
 	      this.$el.html('');
 	    }
 	
-	    this.value = null;
-	    this.id = uuid.v4();
-	    this.keyEvents = keyEvents;
+	    Object.assign(this, {
+	      keyEvents: keyEvents,
+	      attrs: opts.attrs || {},
+	      id: uuid.v4(),
+	      value: null
+	    });
 	
 	    return this;
 	  }
@@ -17061,7 +17064,7 @@ exports["UI"] =
 	
 	    _classCallCheck(this, ListView);
 	
-	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
+	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
 	    Object.assign(_this, {
 	      fetch: opts.fetch,
@@ -17076,11 +17079,13 @@ exports["UI"] =
 	    var _this2 = this;
 	
 	    this.$el.html(listViewTmpl(this));
-	    this.$el.find('li').attr(this.listItemOpts.attrs || {});
-	    this.$el.find('li').click(function (evt) {
-	      _this2.set(_this2.results[$(evt.target).attr('data-index')]);
+	
+	    this.$el.find('ul.ui-list').attr(this.attrs);
+	    this.$el.find('li.ui-list-item').attr(this.listItemOpts.attrs || {});
+	    this.$el.find('li.ui-list-item').click(function (evt) {
+	      _this2.set(_this2.results[$(evt.currentTarget).attr('data-index')]);
 	    });
-	    return this;
+	    return this.$el.html();
 	  };
 	
 	  // expected to be overriden
@@ -17161,7 +17166,7 @@ exports["UI"] =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<ul> ';var arr1=it.results;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+=' <li id=\''+( it.id )+'\' data-index=\''+( index )+'\'>'+( it.renderItem(value, index) )+'</li> ';} } out+='</ul>';return out;
+	var out='<ul class=\'ui-list\'> ';var arr1=it.results;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+=' <li id=\''+( it.id )+'\' class=\'ui-list-item\' data-index=\''+( index )+'\'>'+( it.renderItem(value, index) )+'</li> ';} } out+='</ul>';return out;
 	}
 
 /***/ },
@@ -17966,6 +17971,7 @@ exports["UI"] =
 	
 	var $ = __webpack_require__(/*! jquery */ 1);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 33);
+	var debounce = __webpack_require__(/*! debounce */ 61);
 	
 	var InfiniteScroll = (function (_BaseComponent) {
 	  _inherits(InfiniteScroll, _BaseComponent);
@@ -17979,24 +17985,25 @@ exports["UI"] =
 	      preserveChildElements: true
 	    }));
 	
-	    if (!opts.list) {
-	      throw new Error('No ListView provided. One is required for InfiniteScroll');
+	    if (!opts.onScrollToBottom) {
+	      throw new Error('You must provide an onScrollToBottom function');
 	    } else {
-	      _this.list = opts.list;
+	      _this.onScrollToBottom = opts.onScrollToBottom;
 	    }
 	
+	    var debounceWait = opts.debounceWait || 500;
 	    var $scrollTarget = opts.windowScroll ? $(window) : _this.$el;
 	
-	    $scrollTarget.scroll(function () {
+	    $scrollTarget.scroll(debounce(function () {
 	      var scrollTop = $scrollTarget.scrollTop();
 	      var elementHeight = $scrollTarget.height();
 	      var elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
 	      var scrollTrigger = opts.scrollTrigger || 0.95;
 	
 	      if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
-	        _this.list.refresh();
+	        _this.onScrollToBottom();
 	      }
-	    });
+	    }, debounceWait, false));
 	
 	    return _possibleConstructorReturn(_this, _this);
 	  }
@@ -18012,6 +18019,82 @@ exports["UI"] =
 
 /***/ },
 /* 61 */
+/*!*****************************!*\
+  !*** ./~/debounce/index.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * Module dependencies.
+	 */
+	
+	var now = __webpack_require__(/*! date-now */ 62);
+	
+	/**
+	 * Returns a function, that, as long as it continues to be invoked, will not
+	 * be triggered. The function will be called after it stops being called for
+	 * N milliseconds. If `immediate` is passed, trigger the function on the
+	 * leading edge, instead of the trailing.
+	 *
+	 * @source underscore.js
+	 * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
+	 * @param {Function} function to wrap
+	 * @param {Number} timeout in ms (`100`)
+	 * @param {Boolean} whether to execute at the beginning (`false`)
+	 * @api public
+	 */
+	
+	module.exports = function debounce(func, wait, immediate){
+	  var timeout, args, context, timestamp, result;
+	  if (null == wait) wait = 100;
+	
+	  function later() {
+	    var last = now() - timestamp;
+	
+	    if (last < wait && last > 0) {
+	      timeout = setTimeout(later, wait - last);
+	    } else {
+	      timeout = null;
+	      if (!immediate) {
+	        result = func.apply(context, args);
+	        if (!timeout) context = args = null;
+	      }
+	    }
+	  };
+	
+	  return function debounced() {
+	    context = this;
+	    args = arguments;
+	    timestamp = now();
+	    var callNow = immediate && !timeout;
+	    if (!timeout) timeout = setTimeout(later, wait);
+	    if (callNow) {
+	      result = func.apply(context, args);
+	      context = args = null;
+	    }
+	
+	    return result;
+	  };
+	};
+
+
+/***/ },
+/* 62 */
+/*!****************************************!*\
+  !*** ./~/debounce/~/date-now/index.js ***!
+  \****************************************/
+/***/ function(module, exports) {
+
+	module.exports = Date.now || now
+	
+	function now() {
+	    return new Date().getTime()
+	}
+
+
+/***/ },
+/* 63 */
 /*!********************************!*\
   !*** ./src/TextInput/index.js ***!
   \********************************/
@@ -18032,16 +18115,16 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 62);
+	__webpack_require__(/*! ./styles.css */ 64);
 	
 	// html
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 64);
-	var iconTmpl = __webpack_require__(/*! ./icon.tmpl */ 65);
-	var iconWrapper = __webpack_require__(/*! ./iconWrapper.html */ 66);
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 66);
+	var iconTmpl = __webpack_require__(/*! ./icon.tmpl */ 67);
+	var iconWrapper = __webpack_require__(/*! ./iconWrapper.html */ 68);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 33);
-	var debounce = __webpack_require__(/*! debounce */ 67);
+	var debounce = __webpack_require__(/*! debounce */ 61);
 	
 	var TextInput = (function (_BaseComponent) {
 	  _inherits(TextInput, _BaseComponent);
@@ -18053,11 +18136,15 @@ exports["UI"] =
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
-	    _this.value = opts.value || '';
-	    _this.wait = opts.wait || 300;
-	    _this.icon = opts.icon || 'x';
-	    _this.iconClearsValue = typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue;
-	    _this.$input = null;
+	    Object.assign(_this, {
+	      $input: null,
+	      icon: opts.icon || 'x',
+	      iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
+	      placeholder: opts.placeholder || '',
+	      value: opts.value || '',
+	      wait: opts.wait || 300
+	    });
+	
 	    return _possibleConstructorReturn(_this, _this);
 	  }
 	
@@ -18113,7 +18200,7 @@ exports["UI"] =
 	module.exports = TextInput;
 
 /***/ },
-/* 62 */
+/* 64 */
 /*!**********************************!*\
   !*** ./src/TextInput/styles.css ***!
   \**********************************/
@@ -18122,7 +18209,7 @@ exports["UI"] =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 63);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 65);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 31)(content, {});
@@ -18142,7 +18229,7 @@ exports["UI"] =
 	}
 
 /***/ },
-/* 63 */
+/* 65 */
 /*!*****************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/TextInput/styles.css ***!
   \*****************************************************************************/
@@ -18159,18 +18246,18 @@ exports["UI"] =
 
 
 /***/ },
-/* 64 */
+/* 66 */
 /*!**********************************!*\
   !*** ./src/TextInput/input.tmpl ***!
   \**********************************/
 /***/ function(module, exports) {
 
 	module.exports = function (scope) {
-	  return "<input type='text' id='" + scope.id + "' class='ui-text-input form-control' value='" + scope.get() + "'/>";
+	  return "<input type='text' id='" + scope.id + "'\nclass='ui-text-input form-control'\nplaceholder='" + scope.placeholder + "'\nvalue='" + scope.get() + "'/>\n";
 	};
 
 /***/ },
-/* 65 */
+/* 67 */
 /*!*********************************!*\
   !*** ./src/TextInput/icon.tmpl ***!
   \*********************************/
@@ -18181,89 +18268,13 @@ exports["UI"] =
 	};
 
 /***/ },
-/* 66 */
+/* 68 */
 /*!****************************************!*\
   !*** ./src/TextInput/iconWrapper.html ***!
   \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = "<div class='ui-text-input-icon-wrapper'></div>";
-
-/***/ },
-/* 67 */
-/*!*****************************!*\
-  !*** ./~/debounce/index.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	/**
-	 * Module dependencies.
-	 */
-	
-	var now = __webpack_require__(/*! date-now */ 68);
-	
-	/**
-	 * Returns a function, that, as long as it continues to be invoked, will not
-	 * be triggered. The function will be called after it stops being called for
-	 * N milliseconds. If `immediate` is passed, trigger the function on the
-	 * leading edge, instead of the trailing.
-	 *
-	 * @source underscore.js
-	 * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
-	 * @param {Function} function to wrap
-	 * @param {Number} timeout in ms (`100`)
-	 * @param {Boolean} whether to execute at the beginning (`false`)
-	 * @api public
-	 */
-	
-	module.exports = function debounce(func, wait, immediate){
-	  var timeout, args, context, timestamp, result;
-	  if (null == wait) wait = 100;
-	
-	  function later() {
-	    var last = now() - timestamp;
-	
-	    if (last < wait && last > 0) {
-	      timeout = setTimeout(later, wait - last);
-	    } else {
-	      timeout = null;
-	      if (!immediate) {
-	        result = func.apply(context, args);
-	        if (!timeout) context = args = null;
-	      }
-	    }
-	  };
-	
-	  return function debounced() {
-	    context = this;
-	    args = arguments;
-	    timestamp = now();
-	    var callNow = immediate && !timeout;
-	    if (!timeout) timeout = setTimeout(later, wait);
-	    if (callNow) {
-	      result = func.apply(context, args);
-	      context = args = null;
-	    }
-	
-	    return result;
-	  };
-	};
-
-
-/***/ },
-/* 68 */
-/*!****************************************!*\
-  !*** ./~/debounce/~/date-now/index.js ***!
-  \****************************************/
-/***/ function(module, exports) {
-
-	module.exports = Date.now || now
-	
-	function now() {
-	    return new Date().getTime()
-	}
-
 
 /***/ },
 /* 69 */
@@ -18643,7 +18654,7 @@ exports["UI"] =
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 33);
-	var TextInput = __webpack_require__(/*! ../../../TextInput */ 61);
+	var TextInput = __webpack_require__(/*! ../../../TextInput */ 63);
 	var ListView = __webpack_require__(/*! ../../../ListView */ 45);
 	var assert = __webpack_require__(/*! ../../../assert.js */ 7);
 	
@@ -18655,8 +18666,10 @@ exports["UI"] =
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
-	    _this.results = [];
-	    _this.fetch = opts.fetch;
+	    Object.assign(_this, {
+	      fetch: opts.fetch,
+	      results: []
+	    });
 	    assert(typeof _this.fetch === 'function');
 	
 	    _this.$el.append(containerHTML);
@@ -18791,13 +18804,16 @@ exports["UI"] =
 	      }
 	    });
 	
+	    //Ensure we have an opts.textInputOpts object
+	    opts.textInputOpts = opts.textInputOpts || {};
+	
 	    // setup the input icon to be a "use current location" component
-	    opts.textInputOpts = {
+	    Object.assign(opts.textInputOpts, {
 	      iconClearsValue: false,
 	      icon: iconFactory.make({
 	        name: 'icon'
 	      })
-	    };
+	    });
 	
 	    // setup "current location" fixed result
 	    opts.fixedResults = (opts.fixedResults || []).concat([{
@@ -18930,12 +18946,13 @@ exports["UI"] =
 	      structure: opts.structure || [],
 	      ordinality: opts.ordinality || false,
 	      delimiter: opts.delimiter || null,
-	      regex: opts.regex || /\$\{(?:\s*)([\S]+?)(?:\s*)\}/g
+	      regex: opts.regex || /\$\{(?:\s*)([\S]+?)(?:\s*)\}/g,
+	      value: ''
 	    });
 	
 	    // sort the array by the ordinality of sentence fragments
 	    if (_this.ordinality) {
-	      _this.structure = opts.structure.sort(function compare(a, b) {
+	      _this.structure = opts.structure.sort(function (a, b) {
 	        return a - b;
 	      });
 	    }
@@ -18943,7 +18960,7 @@ exports["UI"] =
 	  }
 	
 	  SentenceGenerator.prototype.get = function get() {
-	    return this.value !== undefined ? this.value : '';
+	    return this.value;
 	  };
 	
 	  SentenceGenerator.prototype.set = function set(data) {
@@ -18959,9 +18976,9 @@ exports["UI"] =
 	
 	      // get the properties of each object
 	      var segment = this.structure[i];
-	      var fragment = segment.fragment;
 	      var fallback = segment.default;
 	      var required = segment.required;
+	      var fragment = segment.fragment;
 	
 	      // search and replace with the data values
 	      var matches = undefined;
@@ -18977,16 +18994,15 @@ exports["UI"] =
 	          fragment = null;
 	        }
 	
-	        // the data object passed in is missing critical data. Fail softly. Weep.
+	        // the data object passed in is missing critical data. Fail softly.
 	        else {
 	            this.$el.html('<span></span>');
 	            return;
 	          }
 	      }
 	
-	      // skip this fragment bcuz theres no data :-(
+	      // skip this fragment because theres no data :-(
 	      if (fragment === null) {
-	        console.log('fragment skipped');
 	        continue;
 	      }
 	
@@ -18998,7 +19014,6 @@ exports["UI"] =
 	      }
 	    }
 	
-	    console.log(templateString);
 	    this.$el.html('<span>' + templateString + '</span');
 	  };
 	

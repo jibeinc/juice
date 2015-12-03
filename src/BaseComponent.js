@@ -36,9 +36,12 @@ class BaseComponent {
       this.$el.html('');
     }
 
-    this.value = null;
-    this.id = uuid.v4();
-    this.keyEvents = keyEvents;
+    Object.assign(this, {
+      keyEvents,
+      attrs: opts.attrs || {},
+      id: uuid.v4(),
+      value: null
+    });
 
     return this;
   }

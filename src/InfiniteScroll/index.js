@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
+const debounce = require('debounce');
 
 class InfiniteScroll extends BaseComponent {
   constructor(el, opts = {}) {
@@ -9,25 +10,25 @@ class InfiniteScroll extends BaseComponent {
       preserveChildElements: true
     });
 
-    if (!opts.list) {
-      throw new Error('No ListView provided. One is required for InfiniteScroll');
-    }
-    else {
-      this.list = opts.list;
+    if (!opts.onScrollToBottom) {
+      throw new Error('You must provide an onScrollToBottom function');
+    } else {
+      this.onScrollToBottom = opts.onScrollToBottom;
     }
 
+    const debounceWait = opts.debounceWait || 500;
     const $scrollTarget = opts.windowScroll ? $(window) : this.$el;
 
-    $scrollTarget.scroll(() => {
+    $scrollTarget.scroll(debounce(() => {
       const scrollTop = $scrollTarget.scrollTop();
       const elementHeight = $scrollTarget.height();
       const elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
       const scrollTrigger = opts.scrollTrigger || 0.95;
 
       if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
-        this.list.refresh();
+        this.onScrollToBottom();
       }
-    });
+    }, debounceWait, false));
 
     return this;
   }

@@ -7,11 +7,11 @@ require('./styles.css');
 const multiSelectTmpl = require('./multiSelect.dot');
 
 // scripts
-const $             = require('jquery');
+const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 
 class MultiSelect extends BaseComponent {
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
     super(el);
     this.displayNameKey = opts.displayNameKey || 'displayName';
     this.renderItem = opts.renderItem || this.renderItem;
@@ -23,7 +23,7 @@ class MultiSelect extends BaseComponent {
   }
 
   setOptions(options) {
-    const selections = this.get().map(s => s.value);
+    const selections = this.get().map((s) => s.value);
 
     this.options = options.map((opt) => {
       if (typeof opt !== 'object') {
@@ -53,7 +53,7 @@ class MultiSelect extends BaseComponent {
 
   set(v) {
     this.options = this.options.map((opt) => {
-      opt.checked = opt.value === v? !opt.checked : opt.checked;
+      opt.checked = opt.value === v ? !opt.checked : opt.checked;
       return opt;
     });
     this.render();

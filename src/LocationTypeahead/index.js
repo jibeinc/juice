@@ -12,13 +12,13 @@ require('./styles.css');
 const currentLocationTemplate = require('./useMyCurrentLocation.tmpl');
 
 // scripts
-const $               = require('jquery');
-const Typeahead       = require('../Typeahead');
-const FragFactory     = require('../BaseFragmentFactory');
+const $ = require('jquery');
+const Typeahead = require('../Typeahead');
+const FragFactory = require('../BaseFragmentFactory');
 const CurrentLocation = require('../CurrentLocation');
 
 class LocationTypeahead extends Typeahead {
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
 
     // define the "current location" icon DOM fragment
     const iconFactory = new FragFactory({
@@ -42,13 +42,16 @@ class LocationTypeahead extends Typeahead {
       }
     });
 
+    //Ensure we have an opts.textInputOpts object
+    opts.textInputOpts = opts.textInputOpts || {};
+
     // setup the input icon to be a "use current location" component
-    opts.textInputOpts = {
+    Object.assign(opts.textInputOpts, {
       iconClearsValue: false,
       icon: iconFactory.make({
         name: 'icon'
       })
-    };
+    });
 
     // setup "current location" fixed result
     opts.fixedResults = (opts.fixedResults || []).concat([{
