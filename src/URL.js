@@ -16,7 +16,7 @@ class URL {
   }
 
   redirect(href) {
-    this.location = href;
+    this.location.href = href;
   }
 
   getQueryParams() {

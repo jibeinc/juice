@@ -13415,7 +13415,7 @@ exports["UI"] =
 	  };
 	
 	  URL.prototype.redirect = function redirect(href) {
-	    this.location = href;
+	    this.location.href = href;
 	  };
 	
 	  URL.prototype.getQueryParams = function getQueryParams() {
