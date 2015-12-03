@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sentence Generator Example</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>window.exports = {};</script>
+  <script src='../dist/ui.js'></script>
+</head>
+<body>
+
+    <h1 class='sentence-container-one'></h1>
+    <h2 class='sentence-container-two'></h2>
+    <h3 class='sentence-container-three'></h3>
+
+    <!-- Nothing should show in this div-->
+    <div class='sentence-container-four'></div> 
+    
+    <h4 class='sentence-container-five'></h4>
+
+  <script>
+    // set the data
+    var config = {
+        structure: [
+          {
+            fragment: '${value.count} jobs',
+            required: true,
+          },
+          {
+            fragment: 'for ${value.keywords}',
+            required: false,
+            default: 'for all categories'
+          },
+          {
+            fragment: 'in ${value.location}',
+            required: false,
+          }
+        ],
+        delimiter: ' '
+    };
+
+    var data = {
+      count: 36,
+      keywords: 'Adverserial Combatant',
+      location: 'the Valley of Death'
+    };
+
+    // example usage
+    var sentenceOne = new exports.UI.SentenceGenerator('.sentence-container-one', config);
+    sentenceOne.set(data);
+
+    // change delimiter
+    config.delimiter = '~';
+    var sentenceTwo = new exports.UI.SentenceGenerator('.sentence-container-two', config);
+    sentenceTwo.set(data);
+    sentenceTwo.get();
+
+    // graceful fallback to static string in case data value is not present
+    delete data.keywords;
+    config.delimiter = ' ';
+    var sentenceThree = new exports.UI.SentenceGenerator('.sentence-container-three', config);
+    sentenceThree.set(data);
+    sentenceThree.get();  
+
+    // graceful recovery if critical data value isn't present
+    delete data.count;
+    var sentenceFour = new exports.UI.SentenceGenerator('.sentence-container-four', config);
+    sentenceFour.set(data);
+    sentenceFour.get();
+
+    // selective inclusion if non-critical data value is missing
+    data.count = 36;
+    delete data.location;
+    var sentenceFive = new exports.UI.SentenceGenerator('.sentence-container-five', config);
+    sentenceFive.set(data);
+    sentenceFive.get();
+  </script>
+
+</body>
+</html>

@@ -73,7 +73,8 @@ exports["UI"] =
 	  InfiniteScroll: __webpack_require__(/*! ./InfiniteScroll */ 60),
 	  TextInput: __webpack_require__(/*! ./TextInput */ 63),
 	  Typeahead: __webpack_require__(/*! ./Typeahead */ 69),
-	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 75)
+	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 75),
+	  SentenceGenerator: __webpack_require__(/*! ./SentenceGenerator */ 79)
 	};
 	
 	module.exports = UIComponents;
@@ -9919,6 +9920,7 @@ exports["UI"] =
 	var getIn = helpers.getIn;
 	var makeError = helpers.makeError;
 	var deepMerge = helpers.deepMerge;
+	var pathObject = helpers.pathObject;
 	var shallowClone = helpers.shallowClone;
 	var shallowMerge = helpers.shallowMerge;
 	var uniqid = helpers.uniqid;
@@ -9961,11 +9963,9 @@ exports["UI"] =
 	 * @return {string} string - The resultant hash.
 	 */
 	function hashPath(path) {
-	  return 'λ' + path.map(function (step) {
-	    if (_type2['default']['function'](step) || _type2['default'].object(step)) return '#' + uniqid() + '#';
-	
-	    return step;
-	  }).join('λ');
+	  return '/' + path.map(function (step) {
+	    if (_type2['default']['function'](step) || _type2['default'].object(step)) return '#' + uniqid() + '#';else return step;
+	  }).join('/');
 	}
 	
 	/**
@@ -10020,7 +10020,7 @@ exports["UI"] =
 	    this._data = initialData;
 	
 	    // Properties
-	    this.root = new _cursor2['default'](this, [], 'λ');
+	    this.root = new _cursor2['default'](this, [], '/');
 	    delete this.root.release;
 	
 	    // Does the user want an immutable tree?
@@ -10330,7 +10330,7 @@ exports["UI"] =
 	      if (this._future) this._future = clearTimeout(this._future);
 	
 	      var affectedPaths = Object.keys(this._affectedPathsIndex).map(function (h) {
-	        return h !== 'λ' ? h.split('λ').slice(1) : [];
+	        return h !== '/' ? h.split('/').slice(1) : [];
 	      });
 	
 	      // Is the tree still valid?
@@ -10430,9 +10430,7 @@ exports["UI"] =
 	
 	  if (!args.length) throw new Error('Baobab.monkey: missing definition.');
 	
-	  if (args.length === 1) return new _monkey.MonkeyDefinition(args[0]);
-	
-	  return new _monkey.MonkeyDefinition(args);
+	  if (args.length === 1) return new _monkey.MonkeyDefinition(args[0]);else return new _monkey.MonkeyDefinition(args);
 	};
 	Baobab.dynamicNode = Baobab.monkey;
 	
@@ -10449,7 +10447,7 @@ exports["UI"] =
 	 * Version
 	 */
 	Object.defineProperty(Baobab, 'version', {
-	  value: '2.1.2'
+	  value: '2.1.1'
 	});
 	
 	/**
@@ -10460,9 +10458,9 @@ exports["UI"] =
 
 /***/ },
 /* 11 */
-/*!****************************!*\
-  !*** ./~/emmett/emmett.js ***!
-  \****************************/
+/*!*************************************!*\
+  !*** ./~/baobab/~/emmett/emmett.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -11332,9 +11330,7 @@ exports["UI"] =
 	  }, {
 	    key: 'up',
 	    value: function up() {
-	      if (!this.isRoot()) return this.tree.select(this.path.slice(0, -1));
-	
-	      return null;
+	      if (!this.isRoot()) return this.tree.select(this.path.slice(0, -1));else return null;
 	    }
 	
 	    /**
@@ -11449,39 +11445,6 @@ exports["UI"] =
 	        return fn.call(l > 1 ? scope : this, this.select(i), i, array);
 	      }, this);
 	    }
-	
-	    /**
-	     * Method used to allow iterating over cursors containing list-type data.
-	     *
-	     * e.g. for(let i of cursor) { ... }
-	     *
-	     * @returns {object} -  Each item sequentially.
-	    //  */
-	    // [Symbol.iterator]() {
-	    //   const array = this._get().data;
-	
-	    //   if (!type.array(array))
-	    //     throw Error('baobab.Cursor.@@iterate: cannot iterate a non-list type.');
-	
-	    //   let i = 0;
-	
-	    //   const cursor = this,
-	    //         length = array.length;
-	
-	    //   return {
-	    //     next: function() {
-	    //       if (i < length) {
-	    //         return {
-	    //           value: cursor.select(i++)
-	    //         };
-	    //       }
-	
-	    //       return {
-	    //         done: true
-	    //       };
-	    //     }
-	    //   };
-	    // }
 	
 	    /**
 	     * Getter Methods
@@ -11654,14 +11617,13 @@ exports["UI"] =
 	        value: maxRecords
 	      });
 	
-	      this.state.recording = true;
-	
 	      if (this.archive) return this;
 	
 	      // Lazy binding
 	      this._lazyBind();
 	
 	      this.archive = new _helpers.Archive(maxRecords);
+	      this.state.recording = true;
 	      return this;
 	    }
 	
@@ -11899,7 +11861,7 @@ exports["UI"] =
 	
 	/**
 	 * Monkey Definition class
-	 * Note: The only reason why this is a class is to be able to spot it within
+	 * Note: The only reason why this is a class is to be able to spot it whithin
 	 * otherwise ordinary data.
 	 *
 	 * @constructor
@@ -12043,9 +12005,7 @@ exports["UI"] =
 	        return (0, _helpers.getIn)(_this4.tree._data, p).solvedPath;
 	      });else paths = this.depPaths;
 	
-	      if (!this.isRecursive) return paths;
-	
-	      return paths.reduce(function (accumulatedPaths, path) {
+	      if (!this.isRecursive) return paths;else return paths.reduce(function (accumulatedPaths, path) {
 	        var monkeyPath = _type2['default'].monkeyPath(_this4.tree._monkeys, path);
 	
 	        if (!monkeyPath) return accumulatedPaths.concat([path]);
@@ -12294,9 +12254,8 @@ exports["UI"] =
 	 * @return {boolean}
 	 */
 	type.monkeyPath = function (data, path) {
-	  var subpath = [];
-	
-	  var c = data,
+	  var subpath = [],
+	      c = data,
 	      i = undefined,
 	      l = undefined;
 	
@@ -12337,15 +12296,11 @@ exports["UI"] =
 	  if (type.object(definition)) {
 	    if (!type['function'](definition.get) || definition.cursors && (!type.object(definition.cursors) || !Object.keys(definition.cursors).every(function (k) {
 	      return type.path(definition.cursors[k]);
-	    }))) return null;
-	
-	    return 'object';
+	    }))) return null;else return 'object';
 	  } else if (type.array(definition)) {
 	    if (!type['function'](definition[definition.length - 1]) || !definition.slice(0, -1).every(function (p) {
 	      return type.path(p);
-	    })) return null;
-	
-	    return 'array';
+	    })) return null;else return 'array';
 	  }
 	
 	  return null;
@@ -12408,6 +12363,8 @@ exports["UI"] =
 	
 	var _type2 = _interopRequireDefault(_type);
 	
+	var _monkey = __webpack_require__(/*! ./monkey */ 13);
+	
 	var _helpers = __webpack_require__(/*! ./helpers */ 16);
 	
 	function err(operation, expectedTarget, path) {
@@ -12432,11 +12389,11 @@ exports["UI"] =
 	
 	  // Dummy root, so we can shift and alter the root
 	  var dummy = { root: data },
-	      dummyPath = ['root'].concat(_toConsumableArray(path)),
-	      currentPath = [];
+	      dummyPath = ['root'].concat(_toConsumableArray(path));
 	
 	  // Walking the path
 	  var p = dummy,
+	      currentPath = [],
 	      i = undefined,
 	      l = undefined,
 	      s = undefined;
@@ -12462,14 +12419,14 @@ exports["UI"] =
 	        // Purity check
 	        if (opts.pure && p[s] === value) return { node: p[s] };
 	
-	        if (_type2['default'].lazyGetter(p, s)) {
+	        if (opts.persistent) {
+	          p[s] = (0, _helpers.shallowClone)(value);
+	        } else if (value instanceof _monkey.MonkeyDefinition) {
 	          Object.defineProperty(p, s, {
 	            value: value,
 	            enumerable: true,
 	            configurable: true
 	          });
-	        } else if (opts.persistent) {
-	          p[s] = (0, _helpers.shallowClone)(value);
 	        } else {
 	          p[s] = value;
 	        }
@@ -12493,19 +12450,9 @@ exports["UI"] =
 	            var result = value(p[s]);
 	
 	            // Purity check
-	            if (opts.pure && p[s] === result) return { node: p[s] };
+	            if (opts.pure && result === value) return { node: p[s] };
 	
-	            if (_type2['default'].lazyGetter(p, s)) {
-	              Object.defineProperty(p, s, {
-	                value: result,
-	                enumerable: true,
-	                configurable: true
-	              });
-	            } else if (opts.persistent) {
-	              p[s] = (0, _helpers.shallowClone)(result);
-	            } else {
-	              p[s] = result;
-	            }
+	            p[s] = opts.persistent ? (0, _helpers.shallowClone)(result) : result;
 	          }
 	
 	          /**
@@ -12606,9 +12553,7 @@ exports["UI"] =
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {/* eslint eqeqeq: 0 */
-	
-	/**
+	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Baobab Helpers
 	 * ===============
 	 *
@@ -12627,6 +12572,7 @@ exports["UI"] =
 	exports.coercePath = coercePath;
 	exports.getIn = getIn;
 	exports.makeError = makeError;
+	exports.pathObject = pathObject;
 	exports.solveRelativePath = solveRelativePath;
 	exports.solveUpdate = solveUpdate;
 	exports.splice = splice;
@@ -12645,40 +12591,6 @@ exports["UI"] =
 	 * Noop function
 	 */
 	var noop = Function.prototype;
-	
-	/**
-	 * Function returning the index of the first element of a list matching the
-	 * given predicate.
-	 *
-	 * @param  {array}     a  - The target array.
-	 * @param  {function}  fn - The predicate function.
-	 * @return {mixed}        - The index of the first matching item or -1.
-	 */
-	function index(a, fn) {
-	  var i = undefined,
-	      l = undefined;
-	  for (i = 0, l = a.length; i < l; i++) {
-	    if (fn(a[i])) return i;
-	  }
-	  return -1;
-	}
-	
-	/**
-	 * Efficient slice function used to clone arrays or parts of them.
-	 *
-	 * @param  {array} array - The array to slice.
-	 * @return {array}       - The sliced array.
-	 */
-	function slice(array) {
-	  var newArray = new Array(array.length);
-	
-	  var i = undefined,
-	      l = undefined;
-	
-	  for (i = 0, l = array.length; i < l; i++) newArray[i] = array[i];
-	
-	  return newArray;
-	}
 	
 	/**
 	 * Archive abstraction
@@ -12793,9 +12705,8 @@ exports["UI"] =
 	 * @return {RegExp}    - The cloned regular expression.
 	 */
 	function cloneRegexp(re) {
-	  var pattern = re.source;
-	
-	  var flags = '';
+	  var pattern = re.source,
+	      flags = '';
 	
 	  if (re.global) flags += 'g';
 	  if (re.multiline) flags += 'm';
@@ -12821,16 +12732,14 @@ exports["UI"] =
 	  // Array
 	  if (_type2['default'].array(item)) {
 	    if (deep) {
-	      var a = [];
-	
 	      var i = undefined,
-	          l = undefined;
-	
+	          l = undefined,
+	          a = [];
 	      for (i = 0, l = item.length; i < l; i++) a.push(cloner(true, item[i]));
 	      return a;
+	    } else {
+	      return slice(item);
 	    }
-	
-	    return slice(item);
 	  }
 	
 	  // Date
@@ -12841,22 +12750,11 @@ exports["UI"] =
 	
 	  // Object
 	  if (_type2['default'].object(item)) {
-	    var o = {};
-	
-	    var k = undefined;
+	    var k = undefined,
+	        o = {};
 	
 	    // NOTE: could be possible to erase computed properties through `null`.
-	    for (k in item) {
-	      if (_type2['default'].lazyGetter(item, k)) {
-	        Object.defineProperty(o, k, {
-	          get: Object.getOwnPropertyDescriptor(item, k).get,
-	          enumerable: true,
-	          configurable: true
-	        });
-	      } else if (item.hasOwnProperty(k)) {
-	        o[k] = deep ? cloner(true, item[k]) : item[k];
-	      }
-	    }
+	    for (k in item) if (item.hasOwnProperty(k)) o[k] = deep ? cloner(true, item[k]) : item[k];
 	    return o;
 	  }
 	
@@ -12982,9 +12880,8 @@ exports["UI"] =
 	function getIn(object, path) {
 	  if (!path) return notFoundObject;
 	
-	  var solvedPath = [];
-	
-	  var exists = true,
+	  var solvedPath = [],
+	      exists = true,
 	      c = object,
 	      idx = undefined,
 	      i = undefined,
@@ -13022,6 +12919,23 @@ exports["UI"] =
 	}
 	
 	/**
+	 * Function returning the index of the first element of a list matching the
+	 * given predicate.
+	 *
+	 * @param  {array}     a  - The target array.
+	 * @param  {function}  fn - The predicate function.
+	 * @return {mixed}        - The index of the first matching item or -1.
+	 */
+	function index(a, fn) {
+	  var i = undefined,
+	      l = undefined;
+	  for (i = 0, l = a.length; i < l; i++) {
+	    if (fn(a[i])) return i;
+	  }
+	  return -1;
+	}
+	
+	/**
 	 * Little helper returning a JavaScript error carrying some data with it.
 	 *
 	 * @param  {string} message - The error message.
@@ -13052,9 +12966,8 @@ exports["UI"] =
 	    objects[_key - 1] = arguments[_key];
 	  }
 	
-	  var o = objects[0];
-	
-	  var t = undefined,
+	  var o = objects[0],
+	      t = undefined,
 	      i = undefined,
 	      l = undefined,
 	      k = undefined;
@@ -13082,6 +12995,47 @@ exports["UI"] =
 	
 	exports.shallowMerge = shallowMerge;
 	exports.deepMerge = deepMerge;
+	
+	/**
+	 * Function returning a nested object according to the given path and the
+	 * given leaf.
+	 *
+	 * @param  {array}  path - The path to follow.
+	 * @param  {mixed}  leaf - The leaf to append at the end of the path.
+	 * @return {object}      - The nested object.
+	 */
+	
+	function pathObject(path, leaf) {
+	  var l = path.length,
+	      o = {},
+	      c = o,
+	      i = undefined;
+	
+	  if (!l) o = leaf;
+	
+	  for (i = 0; i < l; i++) {
+	    c[path[i]] = i + 1 === l ? leaf : {};
+	    c = c[path[i]];
+	  }
+	
+	  return o;
+	}
+	
+	/**
+	 * Efficient slice function used to clone arrays or parts of them.
+	 *
+	 * @param  {array} array - The array to slice.
+	 * @return {array}       - The sliced array.
+	 */
+	function slice(array) {
+	  var newArray = new Array(array.length),
+	      i = undefined,
+	      l = undefined;
+	
+	  for (i = 0, l = array.length; i < l; i++) newArray[i] = array[i];
+	
+	  return newArray;
+	}
 	
 	/**
 	 * Solving a potentially relative path.
@@ -13193,7 +13147,6 @@ exports["UI"] =
 	 */
 	var uniqid = (function () {
 	  var i = 0;
-	
 	  return function () {
 	    return i++;
 	  };
@@ -13302,9 +13255,7 @@ exports["UI"] =
 	        var v = _this2.mapping[k];
 	
 	        // Watcher mappings can accept a cursor
-	        if (v instanceof _cursor2['default']) return v.solvedPath;
-	
-	        return _this2.mapping[k];
+	        if (v instanceof _cursor2['default']) return v.solvedPath;else return _this2.mapping[k];
 	      });
 	
 	      return rawPaths.reduce(function (cp, p) {
@@ -13317,7 +13268,7 @@ exports["UI"] =
 	        // Facet path?
 	        var monkeyPath = _type2['default'].monkeyPath(_this2.tree._monkeys, p);
 	
-	        if (monkeyPath) return cp.concat((0, _helpers.getIn)(_this2.tree._monkeys, monkeyPath).data.relatedPaths());
+	        if (monkeyPath) return cp.concat((0, _helpers.getIn)(_this2.tree._monkeys, p).data.relatedPaths());
 	
 	        return cp.concat([p]);
 	      }, []);
@@ -14557,9 +14508,9 @@ exports["UI"] =
 
 /***/ },
 /* 22 */
-/*!**********************!*\
-  !*** ./~/url/url.js ***!
-  \**********************/
+/*!**************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15273,9 +15224,9 @@ exports["UI"] =
 
 /***/ },
 /* 23 */
-/*!********************************!*\
-  !*** ./~/punycode/punycode.js ***!
-  \********************************/
+/*!************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
+  \************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -15807,13 +15758,13 @@ exports["UI"] =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 20)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../buildin/module.js */ 20)(module), (function() { return this; }())))
 
 /***/ },
 /* 24 */
-/*!********************************!*\
-  !*** ./~/querystring/index.js ***!
-  \********************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15824,9 +15775,9 @@ exports["UI"] =
 
 /***/ },
 /* 25 */
-/*!*********************************!*\
-  !*** ./~/querystring/decode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15913,9 +15864,9 @@ exports["UI"] =
 
 /***/ },
 /* 26 */
-/*!*********************************!*\
-  !*** ./~/querystring/encode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -18130,9 +18081,9 @@ exports["UI"] =
 
 /***/ },
 /* 62 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
+/*!****************************************!*\
+  !*** ./~/debounce/~/date-now/index.js ***!
+  \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -18853,7 +18804,7 @@ exports["UI"] =
 	      }
 	    });
 	
-	    // ensure we have an opts.textInputOpts object
+	    //Ensure we have an opts.textInputOpts object
 	    opts.textInputOpts = opts.textInputOpts || {};
 	
 	    // setup the input icon to be a "use current location" component
@@ -18951,6 +18902,415 @@ exports["UI"] =
 	module.exports = function (scope) {
 	  return "<span class='ui-current-location-" + scope.name + " ui-curr-loc'></span>\n<span style='display: " + scope.displayValue + " '>Use my current location</span>\n";
 	};
+
+/***/ },
+/* 79 */
+/*!****************************************!*\
+  !*** ./src/SentenceGenerator/index.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict'
+	
+	// # Render a string
+	//
+	//   - recieve a template config, and a data object. Render the parsed String.
+	//
+	// css
+	;
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	__webpack_require__(/*! ./styles.css */ 80);
+	
+	// scripts
+	var $ = __webpack_require__(/*! jquery */ 1);
+	var dotty = __webpack_require__(/*! dotty */ 82);
+	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 33);
+	
+	var SentenceGenerator = (function (_BaseComponent) {
+	  _inherits(SentenceGenerator, _BaseComponent);
+	
+	  function SentenceGenerator(el) {
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	    _classCallCheck(this, SentenceGenerator);
+	
+	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
+	
+	    Object.assign(_this, {
+	      structure: opts.structure || [],
+	      ordinality: opts.ordinality || false,
+	      delimiter: opts.delimiter || null,
+	      regex: opts.regex || /\$\{(?:\s*)([\S]+?)(?:\s*)\}/g,
+	      value: ''
+	    });
+	
+	    // sort the array by the ordinality of sentence fragments
+	    if (_this.ordinality) {
+	      _this.structure = opts.structure.sort(function (a, b) {
+	        return a - b;
+	      });
+	    }
+	    return _this;
+	  }
+	
+	  SentenceGenerator.prototype.get = function get() {
+	    return this.value;
+	  };
+	
+	  SentenceGenerator.prototype.set = function set(data) {
+	    this.value = data;
+	    this.render();
+	  };
+	
+	  SentenceGenerator.prototype.render = function render() {
+	    var templateString = '';
+	    var regex = this.regex;
+	
+	    for (var i = 0; i < this.structure.length; i++) {
+	
+	      // get the properties of each object
+	      var segment = this.structure[i];
+	      var fallback = segment.default;
+	      var required = segment.required;
+	      var fragment = segment.fragment;
+	
+	      // search and replace with the data values
+	      var matches = undefined;
+	      while ((matches = regex.exec(fragment)) !== null) {
+	        var matchStr = matches[0];
+	        var match = matches[1];
+	
+	        if (dotty.exists(this, match)) {
+	          fragment = fragment.replace(matchStr, dotty.get(this, match));
+	        } else if (fallback) {
+	          fragment = fallback;
+	        } else if (!required) {
+	          fragment = null;
+	        }
+	
+	        // the data object passed in is missing critical data. Fail softly.
+	        else {
+	            this.$el.html('<span></span>');
+	            return;
+	          }
+	      }
+	
+	      // skip this fragment because theres no data :-(
+	      if (fragment === null) {
+	        continue;
+	      }
+	
+	      templateString += fragment;
+	
+	      // optional inclusion of the delimiter
+	      if (this.delimiter && i < this.structure.length - 1) {
+	        templateString += this.delimiter;
+	      }
+	    }
+	
+	    this.$el.html('<span>' + templateString + '</span');
+	  };
+	
+	  return SentenceGenerator;
+	})(BaseComponent);
+	
+	;
+	
+	module.exports = SentenceGenerator;
+
+/***/ },
+/* 80 */
+/*!******************************************!*\
+  !*** ./src/SentenceGenerator/styles.css ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 81);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 31)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 81 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SentenceGenerator/styles.css ***!
+  \*************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 30)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 82 */
+/*!******************************!*\
+  !*** ./~/dotty/lib/index.js ***!
+  \******************************/
+/***/ function(module, exports) {
+
+	//
+	// Dotty makes it easy to programmatically access arbitrarily nested objects and
+	// their properties.
+	//
+	
+	//
+	// `object` is an object, `path` is the path to the property you want to check
+	// for existence of.
+	//
+	// `path` can be provided as either a `"string.separated.with.dots"` or as
+	// `["an", "array"]`.
+	//
+	// Returns `true` if the path can be completely resolved, `false` otherwise.
+	//
+	
+	var exists = module.exports.exists = function exists(object, path) {
+	  if (typeof path === "string") {
+	    path = path.split(".");
+	  }
+	
+	  if (!(path instanceof Array) || path.length === 0) {
+	    return false;
+	  }
+	
+	  path = path.slice();
+	
+	  var key = path.shift();
+	
+	  if (typeof object !== "object" || object === null) {
+	    return false;
+	  }
+	
+	  if (path.length === 0) {
+	    return Object.hasOwnProperty.apply(object, [key]);
+	  } else {
+	    return exists(object[key], path);
+	  }
+	};
+	
+	//
+	// These arguments are the same as those for `exists`.
+	//
+	// The return value, however, is the property you're trying to access, or
+	// `undefined` if it can't be found. This means you won't be able to tell
+	// the difference between an unresolved path and an undefined property, so you 
+	// should not use `get` to check for the existence of a property. Use `exists`
+	// instead.
+	//
+	
+	var get = module.exports.get = function get(object, path) {
+	  if (typeof path === "string") {
+	    path = path.split(".");
+	  }
+	
+	  if (!(path instanceof Array) || path.length === 0) {
+	    return;
+	  }
+	
+	  path = path.slice();
+	
+	  var key = path.shift();
+	
+	  if (typeof object !== "object" || object === null) {
+	    return;
+	  }
+	
+	  if (path.length === 0) {
+	    return object[key];
+	  }
+	
+	  if (path.length) {
+	    return get(object[key], path);
+	  }
+	};
+	
+	//
+	// Arguments are similar to `exists` and `get`, with the exception that path
+	// components are regexes with some special cases. If a path component is `"*"`
+	// on its own, it'll be converted to `/.*/`.
+	//
+	// The return value is an array of values where the key path matches the
+	// specified criterion. If none match, an empty array will be returned.
+	//
+	
+	var search = module.exports.search = function search(object, path) {
+	  if (typeof path === "string") {
+	    path = path.split(".");
+	  }
+	
+	  if (!(path instanceof Array) || path.length === 0) {
+	    return;
+	  }
+	
+	  path = path.slice();
+	
+	  var key = path.shift();
+	
+	  if (typeof object !== "object" || object === null) {
+	    return;
+	  }
+	
+	  if (key === "*") {
+	    key = ".*";
+	  }
+	
+	  if (typeof key === "string") {
+	    key = new RegExp(key);
+	  }
+	
+	  if (path.length === 0) {
+	    return Object.keys(object).filter(key.test.bind(key)).map(function(k) { return object[k]; });
+	  } else {
+	    return Array.prototype.concat.apply([], Object.keys(object).filter(key.test.bind(key)).map(function(k) { return search(object[k], path); }));
+	  }
+	};
+	
+	//
+	// The first two arguments for `put` are the same as `exists` and `get`.
+	//
+	// The third argument is a value to `put` at the `path` of the `object`.
+	// Objects in the middle will be created if they don't exist, or added to if
+	// they do. If a value is encountered in the middle of the path that is *not*
+	// an object, it will not be overwritten.
+	//
+	// The return value is `true` in the case that the value was `put`
+	// successfully, or `false` otherwise.
+	//
+	
+	var put = module.exports.put = function put(object, path, value) {
+	  if (typeof path === "string") {
+	    path = path.split(".");
+	  }
+	
+	  if (!(path instanceof Array) || path.length === 0) {
+	    return false;
+	  }
+	  
+	  path = path.slice();
+	
+	  var key = path.shift();
+	
+	  if (typeof object !== "object" || object === null) {
+	    return false;
+	  }
+	
+	  if (path.length === 0) {
+	    object[key] = value;
+	  } else {
+	    if (typeof object[key] === "undefined") {
+	      object[key] = {};
+	    }
+	
+	    if (typeof object[key] !== "object" || object[key] === null) {
+	      return false;
+	    }
+	
+	    return put(object[key], path, value);
+	  }
+	};
+	
+	//
+	// `remove` is like `put` in reverse!
+	//
+	// The return value is `true` in the case that the value existed and was removed
+	// successfully, or `false` otherwise.
+	//
+	
+	var remove = module.exports.remove = function remove(object, path, value) {
+	  if (typeof path === "string") {
+	    path = path.split(".");
+	  }
+	
+	  if (!(path instanceof Array) || path.length === 0) {
+	    return false;
+	  }
+	  
+	  path = path.slice();
+	
+	  var key = path.shift();
+	
+	  if (typeof object !== "object" || object === null) {
+	    return false;
+	  }
+	
+	  if (path.length === 0) {
+	    if (!Object.hasOwnProperty.call(object, key)) {
+	      return false;
+	    }
+	
+	    delete object[key];
+	
+	    return true;
+	  } else {
+	    return remove(object[key], path, value);
+	  }
+	};
+	
+	//
+	// `deepKeys` creates a list of all possible key paths for a given object.
+	//
+	// The return value is always an array, the members of which are paths in array
+	// format. If you want them in dot-notation format, do something like this:
+	//
+	// ```js
+	// dotty.deepKeys(obj).map(function(e) {
+	//   return e.join(".");
+	// });
+	// ```
+	//
+	// *Note: this will probably explode on recursive objects. Be careful.*
+	//
+	
+	var deepKeys = module.exports.deepKeys = function deepKeys(object, prefix) {
+	  if (typeof prefix === "undefined") {
+	    prefix = [];
+	  }
+	
+	  var keys = [];
+	
+	  for (var k in object) {
+	    if (!Object.hasOwnProperty.call(object, k)) {
+	      continue;
+	    }
+	
+	    keys.push(prefix.concat([k]));
+	
+	    if (typeof object[k] === "object" && object[k] !== null) {
+	      keys = keys.concat(deepKeys(object[k], prefix.concat([k])));
+	    }
+	  }
+	
+	  return keys;
+	};
+
 
 /***/ }
 /******/ ]);

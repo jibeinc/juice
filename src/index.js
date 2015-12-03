@@ -23,7 +23,8 @@ const UIComponents = {
   InfiniteScroll:          require('./InfiniteScroll'),
   TextInput:               require('./TextInput'),
   Typeahead:               require('./Typeahead'),
-  LocationTypeahead:       require('./LocationTypeahead')
+  LocationTypeahead:       require('./LocationTypeahead'),
+  SentenceGenerator:       require('./SentenceGenerator') 
 };
 
 module.exports = UIComponents;
