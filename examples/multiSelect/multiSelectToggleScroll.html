@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Multi Select Example</title>
+
+  <link rel='stylesheet' type='text/css' href='./styles.css'>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>
+    window.exports = {};
+  </script>
+  <script src='../../dist/ui.js'></script>
+</head>
+
+<body>
+
+  <div class='categories'></div>
+  <span class='show-more'>MORE</span>
+
+  <script>
+    var categories = new exports.UI.MultiSelect('.categories', {
+      options: [{
+        displayName: 'Marketing',
+        value: 'mrkt01',
+        count: 5
+      }, {
+        displayName: 'Sales',
+        value: 'sales',
+        count: 9
+      }, {
+        displayName: 'Engineering',
+        value: 'eng-2015',
+        count: 43
+      }, {
+        displayName: 'Finance',
+        value: 'finance',
+        count: 50
+      }, {
+        displayName: 'Accounting',
+        value: 'acct',
+        count: 7
+      }, {
+        displayName: 'Management',
+        value: 'management',
+        count: 12
+      }],
+      renderItem: function(item) {
+        return item.displayName + ' (' + item.count + ')';
+      }
+    });
+
+    categories.subscribe(function(choice) {
+      console.log('New Category kiiii!', choice);
+    });
+
+    categories.render();
+
+
+    var toggle = new exports.UI.Toggle('.show-more', {
+      toggledClass: 'i-am-toggled',
+      untoggledClass: 'i-am-NOT-toggled'
+    });
+    toggle.render();
+
+    toggle.subscribe(function(isToggled) {
+      if (isToggled) {
+        categories.$el.addClass('show-all');
+      } else {
+        categories.$el.removeClass('show-all');
+      }
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+.categories {
+  height: 90px;
+  width: 200px;
+  overflow: hidden;
+}
+.categories.show-all {
+  overflow-y: scroll;
+}
