@@ -14,23 +14,28 @@ class Toggle extends BaseComponent {
     if (opts.untoggledClass) {
       this.$el.addClass(opts.untoggledClass);
     }
-    this.$el.addClass(opts.untoggledClass);
 
     this.$el.click((evt) => {
       evt.stopPropagation();
       evt.preventDefault();
 
-      // if it is already toggled, we need to apply untoggled classes
-      if (opts.untoggledClass && this.value) {
+      // Execute untoggle
+      if (this.value) {
         if (opts.toggledClass) {
           this.$el.removeClass(opts.toggledClass);
         }
-        this.$el.addClass(opts.untoggledClass);
-      } else if (opts.toggledClass && !this.value) {
+        if (opts.untoggledClass) {
+          this.$el.addClass(opts.untoggledClass);
+        }
+      }
+      //Execute toggle
+      else if (!this.value) {
         if (opts.untoggledClass) {
           this.$el.removeClass(opts.untoggledClass);
         }
-        this.$el.addClass(opts.toggledClass);
+        if (opts.toggledClass) {
+          this.$el.addClass(opts.toggledClass);
+        }
       }
       this.set(!this.value);
     });

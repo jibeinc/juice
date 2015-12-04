@@ -16985,24 +16985,29 @@ exports["UI"] =
 	    if (opts.untoggledClass) {
 	      _this.$el.addClass(opts.untoggledClass);
 	    }
-	    _this.$el.addClass(opts.untoggledClass);
 	
 	    _this.$el.click(function (evt) {
 	      evt.stopPropagation();
 	      evt.preventDefault();
 	
-	      // if it is already toggled, we need to apply untoggled classes
-	      if (opts.untoggledClass && _this.value) {
+	      // Execute untoggle
+	      if (_this.value) {
 	        if (opts.toggledClass) {
 	          _this.$el.removeClass(opts.toggledClass);
 	        }
-	        _this.$el.addClass(opts.untoggledClass);
-	      } else if (opts.toggledClass && !_this.value) {
 	        if (opts.untoggledClass) {
-	          _this.$el.removeClass(opts.untoggledClass);
+	          _this.$el.addClass(opts.untoggledClass);
 	        }
-	        _this.$el.addClass(opts.toggledClass);
 	      }
+	      //Execute toggle
+	      else if (!_this.value) {
+	          if (opts.untoggledClass) {
+	            _this.$el.removeClass(opts.untoggledClass);
+	          }
+	          if (opts.toggledClass) {
+	            _this.$el.addClass(opts.toggledClass);
+	          }
+	        }
 	      _this.set(!_this.value);
 	    });
 	
