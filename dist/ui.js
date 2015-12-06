@@ -17400,10 +17400,10 @@ exports["UI"] =
 	  };
 	
 	  MultiSelect.prototype.set = function set(v) {
-	    this.options = this.options.map(function (opt) {
-	      opt.checked = opt.value === v ? !opt.checked : opt.checked;
-	      return opt;
+	    this.options.forEach(function (option) {
+	      option.checked = option.value === v ? !option.checked : option.checked;
 	    });
+	
 	    this.render();
 	    this.publish(this.get());
 	    return this;

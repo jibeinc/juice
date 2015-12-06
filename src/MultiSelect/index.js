@@ -52,10 +52,10 @@ class MultiSelect extends BaseComponent {
   }
 
   set(v) {
-    this.options = this.options.map((opt) => {
-      opt.checked = opt.value === v ? !opt.checked : opt.checked;
-      return opt;
+    this.options.forEach((option) => {
+      option.checked = option.value === v ? !option.checked : option.checked;
     });
+
     this.render();
     this.publish(this.get());
     return this;
