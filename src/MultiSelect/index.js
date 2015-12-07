@@ -62,7 +62,7 @@ class MultiSelect extends BaseComponent {
       });
     } else {
       this.options.forEach((option) => {
-        option.checked = option.value === v ? !option.checked : option.checked;
+        option.checked = option.value === selected ? !option.checked : option.checked;
       });
     }
 

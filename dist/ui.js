@@ -17411,7 +17411,7 @@ exports["UI"] =
 	      });
 	    } else {
 	      this.options.forEach(function (option) {
-	        option.checked = option.value === v ? !option.checked : option.checked;
+	        option.checked = option.value === selected ? !option.checked : option.checked;
 	      });
 	    }
 	
