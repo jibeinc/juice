@@ -17399,10 +17399,21 @@ exports["UI"] =
 	    return this.$el.html();
 	  };
 	
-	  MultiSelect.prototype.set = function set(v) {
-	    this.options.forEach(function (option) {
-	      option.checked = option.value === v ? !option.checked : option.checked;
-	    });
+	  /**
+	   * Check the options that are in the array passed
+	   * @param selected An array of selected values or a value to select
+	   */
+	
+	  MultiSelect.prototype.set = function set(selected) {
+	    if (Array.isArray(selected)) {
+	      this.options.forEach(function (option) {
+	        option.checked = selected.indexOf(option.value) === -1 ? false : true;
+	      });
+	    } else {
+	      this.options.forEach(function (option) {
+	        option.checked = option.value === v ? !option.checked : option.checked;
+	      });
+	    }
 	
 	    this.render();
 	    this.publish(this.get());
