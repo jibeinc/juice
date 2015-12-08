@@ -17108,7 +17108,7 @@ exports["UI"] =
 	    var _this3 = this;
 	
 	    this.publish('refresh');
-	    this.fetch(function (results) {
+	    return this.fetch(function (results) {
 	      _this3.results = results;
 	      _this3.render();
 	    });

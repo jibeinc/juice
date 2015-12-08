@@ -45,7 +45,7 @@ class ListView extends BaseComponent {
 
   refresh() {
     this.publish('refresh');
-    this.fetch((results) => {
+    return this.fetch((results) => {
       this.results = results;
       this.render();
     });
