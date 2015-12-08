@@ -17189,7 +17189,6 @@ exports["UI"] =
 	'use strict'
 	
 	// # TODO
-	//    - support separation of value from displayValue
 	//    - styles
 	
 	// css
@@ -17246,7 +17245,15 @@ exports["UI"] =
 	        return opt;
 	      }
 	    });
-	    return _BaseComponent.prototype.set.call(this, v);
+	
+	    // get value from options w/ display property
+	    var val = this.options.filter(function (opt) {
+	      if (opt.selected) {
+	        return opt.value;
+	      }
+	    })[0];
+	
+	    return _BaseComponent.prototype.set.call(this, val);
 	  };
 	
 	  SingleSelect.prototype.render = function render() {
