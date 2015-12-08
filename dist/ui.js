@@ -10459,9 +10459,9 @@ exports["UI"] =
 
 /***/ },
 /* 11 */
-/*!****************************!*\
-  !*** ./~/emmett/emmett.js ***!
-  \****************************/
+/*!*************************************!*\
+  !*** ./~/baobab/~/emmett/emmett.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -14513,9 +14513,9 @@ exports["UI"] =
 
 /***/ },
 /* 22 */
-/*!**********************!*\
-  !*** ./~/url/url.js ***!
-  \**********************/
+/*!**************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15229,9 +15229,9 @@ exports["UI"] =
 
 /***/ },
 /* 23 */
-/*!********************************!*\
-  !*** ./~/punycode/punycode.js ***!
-  \********************************/
+/*!************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
+  \************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -15763,13 +15763,13 @@ exports["UI"] =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 20)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../buildin/module.js */ 20)(module), (function() { return this; }())))
 
 /***/ },
 /* 24 */
-/*!********************************!*\
-  !*** ./~/querystring/index.js ***!
-  \********************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15780,9 +15780,9 @@ exports["UI"] =
 
 /***/ },
 /* 25 */
-/*!*********************************!*\
-  !*** ./~/querystring/decode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15869,9 +15869,9 @@ exports["UI"] =
 
 /***/ },
 /* 26 */
-/*!*********************************!*\
-  !*** ./~/querystring/encode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -17221,6 +17221,13 @@ exports["UI"] =
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
 	    _this.options = (opts.options || []).map(function (opt) {
+	      if ($.isPlainObject(opt)) {
+	        return {
+	          display: opt.display,
+	          value: opt.value,
+	          selected: opt.value === _this.get()
+	        };
+	      }
 	      return {
 	        value: opt,
 	        selected: opt === _this.get()
@@ -17231,8 +17238,13 @@ exports["UI"] =
 	
 	  SingleSelect.prototype.set = function set(v) {
 	    this.options = this.options.map(function (opt) {
-	      opt.selected = opt.value === v;
-	      return opt;
+	      if (opt.display) {
+	        opt.selected = opt.display === v;
+	        return opt;
+	      } else {
+	        opt.selected = opt.value === v;
+	        return opt;
+	      }
 	    });
 	    return _BaseComponent.prototype.set.call(this, v);
 	  };
@@ -17309,10 +17321,18 @@ exports["UI"] =
 
 	module.exports = function (scope) {
 	  return '<select>\n' + scope.options.map(function (option) {
-	    if (option.selected) {
-	      return '<option selected=true>' + option.value + '</option>';
+	    if (option.display) {
+	      if (option.selected) {
+	        return '<option selected=true>' + option.display + '</option>';
+	      } else {
+	        return '<option>' + option.display + '</option>';
+	      }
 	    } else {
-	      return '<option>' + option.value + '</option>';
+	      if (option.selected) {
+	        return '<option selected=true>' + option.value + '</option>';
+	      } else {
+	        return '<option>' + option.value + '</option>';
+	      }
 	    }
 	  }) + '\n</select>\n';
 	};
@@ -18091,9 +18111,9 @@ exports["UI"] =
 
 /***/ },
 /* 62 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
+/*!****************************************!*\
+  !*** ./~/debounce/~/date-now/index.js ***!
+  \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
