@@ -42,7 +42,15 @@ class SingleSelect extends BaseComponent {
         return opt;
       }
     });
-    return super.set(v);
+
+    // get value from options w/ display property
+    let val = this.options.filter((opt) => {
+      if (opt.selected) {
+        return opt.value;
+      }
+    })[0];
+
+    return super.set(val);
   }
 
   render() {
