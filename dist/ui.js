@@ -17249,9 +17249,10 @@ exports["UI"] =
 	    // get value from options w/ display property
 	    var val = this.options.filter(function (opt) {
 	      if (opt.selected) {
-	        return opt.value;
+	        return opt;
 	      }
-	    })[0];
+	    })[0].value;
+	    console.log(val);
 	
 	    return _BaseComponent.prototype.set.call(this, val);
 	  };
