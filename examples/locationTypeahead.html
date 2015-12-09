@@ -10,6 +10,7 @@
 <body>
 
   <div class='location-search'></div>
+  <div class='b0rken-search'></div>
 
   <script>
     var db = [
@@ -93,6 +94,31 @@
     });
 
     locationSearch.render();
+
+  // # location input
+  // typeahead suggests TwoFishes results,
+  // then also comes with fixed options and a "use my current location" icon
+
+  var locationSearch2 = new exports.UI.LocationTypeahead('.b0rken-search', {
+    fetch: function (term, done) {
+      // TODO: hit two fishes
+      done([{
+        displayName: 'one fish'
+      }, {
+        displayName: 'two fish'
+      }]);
+    },
+
+    textInputOpts: {
+      placeholder: 'Try "Civil Engineer"'
+    }
+  });
+
+  locationSearch2.subscribe( function (choice) {
+    console.log('choice is: ', choice);
+  });
+
+  locationSearch2.render();
   </script>
 
 </body>

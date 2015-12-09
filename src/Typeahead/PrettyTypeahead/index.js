@@ -82,8 +82,8 @@ class PrettyTypeahead extends BaseTypeahead {
 
   renderItem(item) {
     // bold the matching part
-    const originalText = String(item);
-    const searchTerm   = this.textInput.get();
+    const originalText = String(this.getDisplayValue(item));
+    const searchTerm   = this.textInput.get() || '';
     let matchIndex   = -1;
 
     if (searchTerm.length !== 0) {

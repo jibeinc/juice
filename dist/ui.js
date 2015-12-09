@@ -10459,9 +10459,9 @@ exports["UI"] =
 
 /***/ },
 /* 11 */
-/*!****************************!*\
-  !*** ./~/emmett/emmett.js ***!
-  \****************************/
+/*!*************************************!*\
+  !*** ./~/baobab/~/emmett/emmett.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -14513,9 +14513,9 @@ exports["UI"] =
 
 /***/ },
 /* 22 */
-/*!**********************!*\
-  !*** ./~/url/url.js ***!
-  \**********************/
+/*!**************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15229,9 +15229,9 @@ exports["UI"] =
 
 /***/ },
 /* 23 */
-/*!********************************!*\
-  !*** ./~/punycode/punycode.js ***!
-  \********************************/
+/*!************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
+  \************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -15763,13 +15763,13 @@ exports["UI"] =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 20)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../buildin/module.js */ 20)(module), (function() { return this; }())))
 
 /***/ },
 /* 24 */
-/*!********************************!*\
-  !*** ./~/querystring/index.js ***!
-  \********************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15780,9 +15780,9 @@ exports["UI"] =
 
 /***/ },
 /* 25 */
-/*!*********************************!*\
-  !*** ./~/querystring/decode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15869,9 +15869,9 @@ exports["UI"] =
 
 /***/ },
 /* 26 */
-/*!*********************************!*\
-  !*** ./~/querystring/encode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -18130,9 +18130,9 @@ exports["UI"] =
 
 /***/ },
 /* 62 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
+/*!****************************************!*\
+  !*** ./~/debounce/~/date-now/index.js ***!
+  \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -18515,8 +18515,8 @@ exports["UI"] =
 	
 	  PrettyTypeahead.prototype.renderItem = function renderItem(item) {
 	    // bold the matching part
-	    var originalText = String(item);
-	    var searchTerm = this.textInput.get();
+	    var originalText = String(this.getDisplayValue(item));
+	    var searchTerm = this.textInput.get() || '';
 	    var matchIndex = -1;
 	
 	    if (searchTerm.length !== 0) {
@@ -18698,7 +18698,9 @@ exports["UI"] =
 	var BaseTypeahead = (function (_BaseComponent) {
 	  _inherits(BaseTypeahead, _BaseComponent);
 	
-	  function BaseTypeahead(el, opts) {
+	  function BaseTypeahead(el) {
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
 	    _classCallCheck(this, BaseTypeahead);
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
@@ -18710,7 +18712,7 @@ exports["UI"] =
 	    assert(typeof _this.fetch === 'function');
 	
 	    _this.$el.append(containerHTML);
-	    _this.textInput = new TextInput(_this.$el.find('.input-container'), opts.textInputOpts);
+	    _this.textInput = new TextInput(_this.$el.find('.input-container'), opts.textInputOpts || {});
 	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), {
 	      fetch: function fetch(cb) {
 	        _this.refreshResults(cb);
