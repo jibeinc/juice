@@ -104,7 +104,7 @@ class PrettyTypeahead extends BaseTypeahead {
       }
     }
 
-    return item;
+    return this.getDisplayValue(item);
   }
 
   attachKeyEvents() {

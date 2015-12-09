@@ -55,11 +55,18 @@ class BaseTypeahead extends BaseComponent {
   }
 
   handleSelection(selection) {
-    this.textInput.set(selection);
     this.set(selection);
   }
 
+  getDisplayValue(item) {
+    if (typeof item === 'object') {
+      item = item[this.displayProperty];
+    }
+    return item;
+  }
+
   set(v) {
+    this.textInput.set(this.getDisplayValue(v));
     this.value = v;
     this.publish(this.get());
     return this;

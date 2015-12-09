@@ -51,11 +51,21 @@ class MultiSelect extends BaseComponent {
     return this.$el.html();
   }
 
-  set(v) {
-    this.options = this.options.map((opt) => {
-      opt.checked = opt.value === v ? !opt.checked : opt.checked;
-      return opt;
-    });
+  /**
+   * Check the options that are in the array passed
+   * @param selected An array of selected values or a value to select
+   */
+  set(selected) {
+    if (Array.isArray(selected)) {
+      this.options.forEach((option) => {
+        option.checked = selected.indexOf(option.value) === -1 ? false : true;
+      });
+    } else {
+      this.options.forEach((option) => {
+        option.checked = option.value === selected ? !option.checked : option.checked;
+      });
+    }
+
     this.render();
     this.publish(this.get());
     return this;

@@ -26,13 +26,6 @@ class Typeahead extends PrettyTypeahead {
     });
   }
 
-  getDisplayValue(item) {
-    if (typeof item === 'object') {
-      item = item[this.displayProperty];
-    }
-    return item;
-  }
-
   handleSelection(selection) {
     let runSelection = true;
     if (selection && selection.preSelectHook) {
@@ -41,13 +34,8 @@ class Typeahead extends PrettyTypeahead {
 
     if (runSelection) {
       console.log('proceed with selection', selection);
-      this.textInput.set(this.getDisplayValue(selection));
       this.set(selection);
     }
-  }
-
-  renderItem(item) {
-    return super.renderItem(this.getDisplayValue(item));
   }
 
   selectByIndex() {
