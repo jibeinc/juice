@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Typeahead Example</title>
   <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script>window.exports = {};</script>
+  <script>
+    window.exports = {};
+  </script>
   <script src='../dist/ui.js'></script>
 </head>
+
 <body>
 
   <div class='search'></div>
 
   <script>
-    var db = [
-      {displayName: 18045972508},
-      {displayName: 22458484822},
-      {displayName: 44444449393},
-      {displayName: '11234rrwer4'},
-      {displayName: 324224-445},
-      {displayName: '94df-847s-f49'},
-      {displayName: 304566745},
-      {displayName: 9535374648},
-      {displayName: 90447743},
-      {displayName: '71ggf_ffee'},
-      {displayName: '4055333-0000'},
-      {displayName: 2000100000}
-    ];
+    var db = [{
+      displayName: 18045972508
+    }, {
+      displayName: 22458484822
+    }, {
+      displayName: 44444449393
+    }, {
+      displayName: '11234rrwer4'
+    }, {
+      displayName: 324224 - 445
+    }, {
+      displayName: '94df-847s-f49'
+    }, {
+      displayName: 304566745
+    }, {
+      displayName: 9535374648
+    }, {
+      displayName: 90447743
+    }, {
+      displayName: '71ggf_ffee'
+    }, {
+      displayName: '4055333-0000'
+    }, {
+      displayName: 2000100000
+    }];
 
     var searchNumbers = new exports.UI.Typeahead('.search', {
-      fetch: function (term, cb) {
-        var matches = db.filter(function (item) {
+      fetch: function(term, cb) {
+        var matches = db.filter(function(item) {
           return (item.displayName + '').indexOf(term) !== -1;
         });
 
@@ -37,15 +52,21 @@
       },
 
       allowFreeForm: true,
-      fixedResults: [{displayName: '-- use my membership id --'}]
+      fixedResults: [{
+        displayName: '-- use my membership id --'
+      }]
     });
 
-    searchNumbers.subscribe(function (choice) {
+    searchNumbers.subscribe(function(choice) {
       console.log('new numba', choice);
     });
 
     searchNumbers.render();
+    searchNumbers.set({
+      displayName: 'setting new value on load!'
+    });
   </script>
 
 </body>
+
 </html>

@@ -10459,9 +10459,9 @@ exports["UI"] =
 
 /***/ },
 /* 11 */
-/*!*************************************!*\
-  !*** ./~/baobab/~/emmett/emmett.js ***!
-  \*************************************/
+/*!****************************!*\
+  !*** ./~/emmett/emmett.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -14513,9 +14513,9 @@ exports["UI"] =
 
 /***/ },
 /* 22 */
-/*!**************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
-  \**************************************************/
+/*!**********************!*\
+  !*** ./~/url/url.js ***!
+  \**********************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15229,9 +15229,9 @@ exports["UI"] =
 
 /***/ },
 /* 23 */
-/*!************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
-  \************************************************************/
+/*!********************************!*\
+  !*** ./~/punycode/punycode.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -15763,13 +15763,13 @@ exports["UI"] =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../buildin/module.js */ 20)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 20)(module), (function() { return this; }())))
 
 /***/ },
 /* 24 */
-/*!******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
-  \******************************************************************/
+/*!********************************!*\
+  !*** ./~/querystring/index.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15780,9 +15780,9 @@ exports["UI"] =
 
 /***/ },
 /* 25 */
-/*!*******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
-  \*******************************************************************/
+/*!*********************************!*\
+  !*** ./~/querystring/decode.js ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15869,9 +15869,9 @@ exports["UI"] =
 
 /***/ },
 /* 26 */
-/*!*******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
-  \*******************************************************************/
+/*!*********************************!*\
+  !*** ./~/querystring/encode.js ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -17108,7 +17108,7 @@ exports["UI"] =
 	    var _this3 = this;
 	
 	    this.publish('refresh');
-	    this.fetch(function (results) {
+	    return this.fetch(function (results) {
 	      _this3.results = results;
 	      _this3.render();
 	    });
@@ -17427,11 +17427,22 @@ exports["UI"] =
 	    return this.$el.html();
 	  };
 	
-	  MultiSelect.prototype.set = function set(v) {
-	    this.options = this.options.map(function (opt) {
-	      opt.checked = opt.value === v ? !opt.checked : opt.checked;
-	      return opt;
-	    });
+	  /**
+	   * Check the options that are in the array passed
+	   * @param selected An array of selected values or a value to select
+	   */
+	
+	  MultiSelect.prototype.set = function set(selected) {
+	    if (Array.isArray(selected)) {
+	      this.options.forEach(function (option) {
+	        option.checked = selected.indexOf(option.value) === -1 ? false : true;
+	      });
+	    } else {
+	      this.options.forEach(function (option) {
+	        option.checked = option.value === selected ? !option.checked : option.checked;
+	      });
+	    }
+	
 	    this.render();
 	    this.publish(this.get());
 	    return this;
@@ -18119,9 +18130,9 @@ exports["UI"] =
 
 /***/ },
 /* 62 */
-/*!****************************************!*\
-  !*** ./~/debounce/~/date-now/index.js ***!
-  \****************************************/
+/*!*****************************!*\
+  !*** ./~/date-now/index.js ***!
+  \*****************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -18332,8 +18343,6 @@ exports["UI"] =
 	// scripts
 	;
 	
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -18368,13 +18377,6 @@ exports["UI"] =
 	    });
 	  };
 	
-	  Typeahead.prototype.getDisplayValue = function getDisplayValue(item) {
-	    if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
-	      item = item[this.displayProperty];
-	    }
-	    return item;
-	  };
-	
 	  Typeahead.prototype.handleSelection = function handleSelection(selection) {
 	    var runSelection = true;
 	    if (selection && selection.preSelectHook) {
@@ -18383,13 +18385,8 @@ exports["UI"] =
 	
 	    if (runSelection) {
 	      console.log('proceed with selection', selection);
-	      this.textInput.set(this.getDisplayValue(selection));
 	      this.set(selection);
 	    }
-	  };
-	
-	  Typeahead.prototype.renderItem = function renderItem(item) {
-	    return _PrettyTypeahead.prototype.renderItem.call(this, this.getDisplayValue(item));
 	  };
 	
 	  Typeahead.prototype.selectByIndex = function selectByIndex() {
@@ -18540,7 +18537,7 @@ exports["UI"] =
 	      }
 	    }
 	
-	    return item;
+	    return this.getDisplayValue(item);
 	  };
 	
 	  PrettyTypeahead.prototype.attachKeyEvents = function attachKeyEvents() {
@@ -18682,6 +18679,8 @@ exports["UI"] =
 	// html
 	;
 	
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -18739,11 +18738,18 @@ exports["UI"] =
 	  }
 	
 	  BaseTypeahead.prototype.handleSelection = function handleSelection(selection) {
-	    this.textInput.set(selection);
 	    this.set(selection);
 	  };
 	
+	  BaseTypeahead.prototype.getDisplayValue = function getDisplayValue(item) {
+	    if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+	      item = item[this.displayProperty];
+	    }
+	    return item;
+	  };
+	
 	  BaseTypeahead.prototype.set = function set(v) {
+	    this.textInput.set(this.getDisplayValue(v));
 	    this.value = v;
 	    this.publish(this.get());
 	    return this;
