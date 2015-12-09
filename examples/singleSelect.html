@@ -9,17 +9,40 @@
 <body>
 
   <div class='month-picker'></div>
+  <div class='sort-menu'></div>
 
   <script>
     var month = new exports.UI.SingleSelect('.month-picker', {
       options: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     });
 
+    var sortmenu = new exports.UI.SingleSelect('.sort-menu', {
+      options: [
+        {
+          display: 'Posted Date',
+          value: 'posted_date'
+        },
+        {
+          display: 'Relevance',
+          value: 'relevance'
+        },
+        {
+          display: 'Title',
+          value: 'title'
+        }
+      ]
+    });
+
     month.subscribe(function (choice) {
       console.log('Its a new month!', choice);
     });
 
+    sortmenu.subscribe(function (choice) {
+      console.log('The option selected is:', choice);
+    });
+
     month.render();
+    sortmenu.render();
   </script>
 
 </body>

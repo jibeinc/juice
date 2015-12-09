@@ -1,7 +1,6 @@
 'use strict';
 
 // # TODO
-//    - support separation of value from displayValue
 //    - styles
 
 // css
@@ -18,6 +17,13 @@ class SingleSelect extends BaseComponent {
   constructor(el, opts={}) {
     super(el);
     this.options = (opts.options || []).map((opt) => {
+      if ($.isPlainObject(opt)) {
+        return {
+          display: opt.display,
+          value: opt.value,
+          selected: opt.value === this.get()
+        };
+      }
       return {
         value: opt,
         selected: opt === this.get()
@@ -27,10 +33,25 @@ class SingleSelect extends BaseComponent {
 
   set(v) {
     this.options = this.options.map((opt) => {
-      opt.selected = opt.value === v;
-      return opt;
+      if (opt.display) {
+        opt.selected = opt.display === v;
+        return opt;
+      }
+      else {
+        opt.selected = opt.value === v;
+        return opt;
+      }
     });
-    return super.set(v);
+
+    // get value from options w/ display property
+    const val = this.options.filter((opt) => {
+      if (opt.selected) {
+        return opt;
+      }
+    })[0].value;
+    console.log(val);
+
+    return super.set(val);
   }
 
   render() {
