@@ -17189,7 +17189,6 @@ exports["UI"] =
 	'use strict'
 	
 	// # TODO
-	//    - support separation of value from displayValue
 	//    - styles
 	
 	// css
@@ -17221,6 +17220,13 @@ exports["UI"] =
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
 	    _this.options = (opts.options || []).map(function (opt) {
+	      if ($.isPlainObject(opt)) {
+	        return {
+	          display: opt.display,
+	          value: opt.value,
+	          selected: opt.value === _this.get()
+	        };
+	      }
 	      return {
 	        value: opt,
 	        selected: opt === _this.get()
@@ -17231,10 +17237,24 @@ exports["UI"] =
 	
 	  SingleSelect.prototype.set = function set(v) {
 	    this.options = this.options.map(function (opt) {
-	      opt.selected = opt.value === v;
-	      return opt;
+	      if (opt.display) {
+	        opt.selected = opt.display === v;
+	        return opt;
+	      } else {
+	        opt.selected = opt.value === v;
+	        return opt;
+	      }
 	    });
-	    return _BaseComponent.prototype.set.call(this, v);
+	
+	    // get value from options w/ display property
+	    var val = this.options.filter(function (opt) {
+	      if (opt.selected) {
+	        return opt;
+	      }
+	    })[0].value;
+	    console.log(val);
+	
+	    return _BaseComponent.prototype.set.call(this, val);
 	  };
 	
 	  SingleSelect.prototype.render = function render() {
@@ -17309,10 +17329,18 @@ exports["UI"] =
 
 	module.exports = function (scope) {
 	  return '<select>\n' + scope.options.map(function (option) {
-	    if (option.selected) {
-	      return '<option selected=true>' + option.value + '</option>';
+	    if (option.display) {
+	      if (option.selected) {
+	        return '<option selected=true>' + option.display + '</option>';
+	      } else {
+	        return '<option>' + option.display + '</option>';
+	      }
 	    } else {
-	      return '<option>' + option.value + '</option>';
+	      if (option.selected) {
+	        return '<option selected=true>' + option.value + '</option>';
+	      } else {
+	        return '<option>' + option.value + '</option>';
+	      }
 	    }
 	  }) + '\n</select>\n';
 	};
