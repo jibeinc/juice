@@ -62,6 +62,10 @@ class TextInput extends BaseComponent {
     return this.$el.html();
   }
 
+  get() {
+    return (typeof this.value === 'undefined') ? '' : this.value;
+  };
+
   set(v) {
     this.value = v;
     if (this.$input) {
