@@ -18230,6 +18230,10 @@ exports["UI"] =
 	    return this.$el.html();
 	  };
 	
+	  TextInput.prototype.get = function get() {
+	    return typeof this.value === 'undefined' ? '' : this.value;
+	  };
+	
 	  TextInput.prototype.set = function set(v) {
 	    this.value = v;
 	    if (this.$input) {
@@ -18423,6 +18427,7 @@ exports["UI"] =
 	// - add highlights for partial matches
 	// - ESC key forces blur
 	// - point to click from results list and hover highlight
+	// - hover highlight renders list view results on top of page instead of pushing elements down
 	
 	// ==================================================== //
 	// use the child class `Typeahead` in your actual UI's! //
@@ -18653,7 +18658,7 @@ exports["UI"] =
 	
 	
 	// module
-	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto, 'Helvetica Neue', sans-serif;\n}\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n}\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n  border-bottom: solid #F3F3F3 1px;\n}\n.ui-typeahead .results-list-container li:hover {\n  background-color: #00516f;\n  color: white;\n  cursor: pointer;\n}\n.ui-typeahead .results-list-container .ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n", ""]);
+	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto, 'Helvetica Neue', sans-serif;\n  position: relative;\n}\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n  position: absolute;\n  width: 100%;\n}\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n  border-bottom: solid #F3F3F3 1px;\n}\n.ui-typeahead .results-list-container li:hover {\n  background-color: #00516f;\n  color: white;\n  cursor: pointer;\n}\n.ui-typeahead .results-list-container .ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n", ""]);
 	
 	// exports
 
@@ -18679,8 +18684,6 @@ exports["UI"] =
 	// html
 	;
 	
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -18691,6 +18694,7 @@ exports["UI"] =
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 33);
+	var $ = __webpack_require__(/*! jquery */ 1);
 	var TextInput = __webpack_require__(/*! ../../../TextInput */ 63);
 	var ListView = __webpack_require__(/*! ../../../ListView */ 45);
 	var assert = __webpack_require__(/*! ../../../assert.js */ 7);
@@ -18744,7 +18748,7 @@ exports["UI"] =
 	  };
 	
 	  BaseTypeahead.prototype.getDisplayValue = function getDisplayValue(item) {
-	    if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+	    if ($.isPlainObject(item)) {
 	      item = item[this.displayProperty];
 	    }
 	    return item;
