@@ -10459,9 +10459,9 @@ exports["UI"] =
 
 /***/ },
 /* 11 */
-/*!****************************!*\
-  !*** ./~/emmett/emmett.js ***!
-  \****************************/
+/*!*************************************!*\
+  !*** ./~/baobab/~/emmett/emmett.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -14513,9 +14513,9 @@ exports["UI"] =
 
 /***/ },
 /* 22 */
-/*!**********************!*\
-  !*** ./~/url/url.js ***!
-  \**********************/
+/*!**************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15229,9 +15229,9 @@ exports["UI"] =
 
 /***/ },
 /* 23 */
-/*!********************************!*\
-  !*** ./~/punycode/punycode.js ***!
-  \********************************/
+/*!************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
+  \************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -15763,13 +15763,13 @@ exports["UI"] =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 20)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../buildin/module.js */ 20)(module), (function() { return this; }())))
 
 /***/ },
 /* 24 */
-/*!********************************!*\
-  !*** ./~/querystring/index.js ***!
-  \********************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15780,9 +15780,9 @@ exports["UI"] =
 
 /***/ },
 /* 25 */
-/*!*********************************!*\
-  !*** ./~/querystring/decode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15869,9 +15869,9 @@ exports["UI"] =
 
 /***/ },
 /* 26 */
-/*!*********************************!*\
-  !*** ./~/querystring/encode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -18130,9 +18130,9 @@ exports["UI"] =
 
 /***/ },
 /* 62 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
+/*!****************************************!*\
+  !*** ./~/debounce/~/date-now/index.js ***!
+  \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -18228,6 +18228,10 @@ exports["UI"] =
 	    }
 	
 	    return this.$el.html();
+	  };
+	
+	  TextInput.prototype.get = function get() {
+	    return typeof this.value === 'undefined' ? '' : this.value;
 	  };
 	
 	  TextInput.prototype.set = function set(v) {
@@ -18423,6 +18427,7 @@ exports["UI"] =
 	// - add highlights for partial matches
 	// - ESC key forces blur
 	// - point to click from results list and hover highlight
+	// - hover highlight renders list view results on top of page instead of pushing elements down
 	
 	// ==================================================== //
 	// use the child class `Typeahead` in your actual UI's! //
@@ -18515,8 +18520,8 @@ exports["UI"] =
 	
 	  PrettyTypeahead.prototype.renderItem = function renderItem(item) {
 	    // bold the matching part
-	    var originalText = String(item);
-	    var searchTerm = this.textInput.get();
+	    var originalText = String(this.getDisplayValue(item));
+	    var searchTerm = this.textInput.get() || '';
 	    var matchIndex = -1;
 	
 	    if (searchTerm.length !== 0) {
@@ -18653,7 +18658,7 @@ exports["UI"] =
 	
 	
 	// module
-	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto, 'Helvetica Neue', sans-serif;\n}\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n}\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n  border-bottom: solid #F3F3F3 1px;\n}\n.ui-typeahead .results-list-container li:hover {\n  background-color: #00516f;\n  color: white;\n  cursor: pointer;\n}\n.ui-typeahead .results-list-container .ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n", ""]);
+	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto, 'Helvetica Neue', sans-serif;\n  position: relative;\n}\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n  position: absolute;\n  width: 100%;\n}\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n  border-bottom: solid #F3F3F3 1px;\n}\n.ui-typeahead .results-list-container li:hover {\n  background-color: #00516f;\n  color: white;\n  cursor: pointer;\n}\n.ui-typeahead .results-list-container .ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n", ""]);
 	
 	// exports
 
@@ -18679,8 +18684,6 @@ exports["UI"] =
 	// html
 	;
 	
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -18691,6 +18694,7 @@ exports["UI"] =
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 33);
+	var $ = __webpack_require__(/*! jquery */ 1);
 	var TextInput = __webpack_require__(/*! ../../../TextInput */ 63);
 	var ListView = __webpack_require__(/*! ../../../ListView */ 45);
 	var assert = __webpack_require__(/*! ../../../assert.js */ 7);
@@ -18698,7 +18702,9 @@ exports["UI"] =
 	var BaseTypeahead = (function (_BaseComponent) {
 	  _inherits(BaseTypeahead, _BaseComponent);
 	
-	  function BaseTypeahead(el, opts) {
+	  function BaseTypeahead(el) {
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
 	    _classCallCheck(this, BaseTypeahead);
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
@@ -18710,7 +18716,7 @@ exports["UI"] =
 	    assert(typeof _this.fetch === 'function');
 	
 	    _this.$el.append(containerHTML);
-	    _this.textInput = new TextInput(_this.$el.find('.input-container'), opts.textInputOpts);
+	    _this.textInput = new TextInput(_this.$el.find('.input-container'), opts.textInputOpts || {});
 	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), {
 	      fetch: function fetch(cb) {
 	        _this.refreshResults(cb);
@@ -18742,7 +18748,7 @@ exports["UI"] =
 	  };
 	
 	  BaseTypeahead.prototype.getDisplayValue = function getDisplayValue(item) {
-	    if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+	    if ($.isPlainObject(item)) {
 	      item = item[this.displayProperty];
 	    }
 	    return item;

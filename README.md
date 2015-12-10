@@ -12,6 +12,12 @@ Framework agnostic UI components built with ES6 and WebPack
     - To run the examples: start any http server (`python -m SimpleHTTPServer`) then navigate to your localhost
       and go to `/examples`
 
+## Working with Jibe-apply:
+
+ Realistically, there isn't a clean way to do this. The current method is to execute `npm run build-dev` and then copying over the dist file to Jibe-apply-app's dist/js directory, i.e.:
+
+    - `npm run build-dev && cp dist/ui.js ../jibe-apply-app/dist/js/jibe-ui.js`
+
 ## Dependencies:
 
     - jQuery
