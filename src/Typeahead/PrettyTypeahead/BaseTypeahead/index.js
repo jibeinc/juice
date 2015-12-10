@@ -60,7 +60,6 @@ class BaseTypeahead extends BaseComponent {
   }
 
   getDisplayValue(item) {
-    console.log('in basetypeahead class, object is: ', item);
     if ($.isPlainObject(item)) {
       item = item[this.displayProperty];
     }
