@@ -14,6 +14,7 @@ const containerHTML = require('./baseTypeahead.html');
 
 // scripts
 const BaseComponent = require('../../../BaseComponent');
+const $ = require('jquery');
 const TextInput = require('../../../TextInput');
 const ListView = require('../../../ListView');
 const assert = require('../../../assert.js');
@@ -59,7 +60,8 @@ class BaseTypeahead extends BaseComponent {
   }
 
   getDisplayValue(item) {
-    if (typeof item === 'object') {
+    console.log('in basetypeahead class, object is: ', item);
+    if ($.isPlainObject(item)) {
       item = item[this.displayProperty];
     }
     return item;
