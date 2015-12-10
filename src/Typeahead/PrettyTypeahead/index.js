@@ -8,6 +8,7 @@
 // - add highlights for partial matches
 // - ESC key forces blur
 // - point to click from results list and hover highlight
+// - hover highlight renders list view results on top of page instead of pushing elements down
 
 // ==================================================== //
 // use the child class `Typeahead` in your actual UI's! //
@@ -84,7 +85,7 @@ class PrettyTypeahead extends BaseTypeahead {
     // bold the matching part
     const originalText = String(this.getDisplayValue(item));
     const searchTerm   = this.textInput.get() || '';
-    let matchIndex   = -1;
+    let matchIndex     = -1;
 
     if (searchTerm.length !== 0) {
       matchIndex = originalText.indexOf(searchTerm);
