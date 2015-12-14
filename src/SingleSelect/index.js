@@ -44,13 +44,12 @@ class SingleSelect extends BaseComponent {
     });
 
     // get value from options w/ display property
-    const val = this.options.filter((opt) => {
-      if (opt.selected) {
-        return opt;
+    let val;
+    for (let option of this.options) {
+      if (option.selected) {
+        val = option.value;
       }
-    })[0].value;
-    console.log(val);
-
+    }
     return super.set(val);
   }
 
