@@ -17247,12 +17247,33 @@ exports["UI"] =
 	    });
 	
 	    // get value from options w/ display property
-	    var val = this.options.filter(function (opt) {
-	      if (opt.selected) {
-	        return opt;
+	    var val = undefined;
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+	
+	    try {
+	      for (var _iterator = this.options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var option = _step.value;
+	
+	        if (option.selected) {
+	          val = option.value;
+	        }
 	      }
-	    })[0].value;
-	    console.log(val);
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
+	      }
+	    }
 	
 	    return _BaseComponent.prototype.set.call(this, val);
 	  };
