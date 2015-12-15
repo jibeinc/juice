@@ -39,7 +39,7 @@ class SentenceGenerator extends BaseComponent {
   }
 
   set(data) {
-    this.value = data;
+    this.value = (typeof data !== 'undefined') ? data: {};
     this.render();
   }
 
