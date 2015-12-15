@@ -45,7 +45,7 @@ class SingleSelect extends BaseComponent {
 
     // get value from options w/ display property
     let val;
-    for (let option of this.options) {
+    for (const option of this.options) {
       if (option.selected) {
         val = option.value;
       }
