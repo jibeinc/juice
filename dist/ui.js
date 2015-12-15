@@ -17188,7 +17188,11 @@ exports["UI"] =
 
 	'use strict'
 	
-	// # TODO
+	//  @title: SingleSelect
+	//  @author: jhatcher
+	//  @description:
+	//    Simple dropdown list with the ability to choose one option
+	//  @todo:
 	//    - styles
 	
 	// css
@@ -17211,6 +17215,13 @@ exports["UI"] =
 	
 	var SingleSelect = (function (_BaseComponent) {
 	  _inherits(SingleSelect, _BaseComponent);
+	
+	  // @constructor
+	  // @param {String} el   - The dom element to attach to
+	  // @param {Object} opts - The options passed in to configure this component
+	  // @param {Array} opts.options - each option to be rendered, containing 3 attributes (2 are passed in):
+	  //    @prop {String} [optional] display - the display to render for the option
+	  //    @prop {String} value - the data value to send to the server
 	
 	  function SingleSelect(el) {
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -17235,6 +17246,45 @@ exports["UI"] =
 	    return _this;
 	  }
 	
+	  // @method
+	  // @returns the display attribute of the option if it exists, fallback to the value
+	
+	  SingleSelect.prototype.getDisplayValue = function getDisplayValue() {
+	    var display = undefined;
+	
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+	
+	    try {
+	      for (var _iterator = this.options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var opt = _step.value;
+	
+	        if (opt.selected) {
+	          display = opt.display ? opt.display : opt.value;
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
+	      }
+	    }
+	
+	    return display;
+	  };
+	
+	  // @method
+	  // @param {Object} v - the Option Object (display,value,selected) to set
+	
 	  SingleSelect.prototype.set = function set(v) {
 	    this.options = this.options.map(function (opt) {
 	      if (opt.display) {
@@ -17247,15 +17297,39 @@ exports["UI"] =
 	    });
 	
 	    // get value from options w/ display property
-	    var val = this.options.filter(function (opt) {
-	      if (opt.selected) {
-	        return opt;
+	    var val = undefined;
+	    var _iteratorNormalCompletion2 = true;
+	    var _didIteratorError2 = false;
+	    var _iteratorError2 = undefined;
+	
+	    try {
+	      for (var _iterator2 = this.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	        var option = _step2.value;
+	
+	        if (option.selected) {
+	          val = option.value;
+	        }
 	      }
-	    })[0].value;
-	    console.log(val);
+	    } catch (err) {
+	      _didIteratorError2 = true;
+	      _iteratorError2 = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	          _iterator2.return();
+	        }
+	      } finally {
+	        if (_didIteratorError2) {
+	          throw _iteratorError2;
+	        }
+	      }
+	    }
 	
 	    return _BaseComponent.prototype.set.call(this, val);
 	  };
+	
+	  // @method
+	  // @returns the HTML of the element
 	
 	  SingleSelect.prototype.render = function render() {
 	    var _this2 = this;
@@ -18962,9 +19036,9 @@ exports["UI"] =
 
 	'use strict'
 	
-	// # Render a string
-	//
-	//   - recieve a template config, and a data object. Render the parsed String.
+	//  @title: Sentence Generator
+	//  @author: Naveed Nadjmabadi
+	//  @description: recieve a template config, and a data object. Render the parsed String.
 	//
 	// css
 	;
@@ -18984,6 +19058,24 @@ exports["UI"] =
 	
 	var SentenceGenerator = (function (_BaseComponent) {
 	  _inherits(SentenceGenerator, _BaseComponent);
+	
+	  /*  @constructor
+	  **  @param {string} el   - The dom element to attach to
+	  **  @param {Object} opts - The options passed in to configure this component
+	  **  @param {Array} opts.structure - The sentence 'fragments' to be assembled. Each index
+	  **    is an Object that takes at least 3 properties:
+	  **
+	  **    {
+	  **      fragment: {String}  - part of the sentence with a ${} where the value should be interpolated
+	  **      required: {Boolean} - whether the fragment is necessary for the string to exist
+	  **      default: {String}   - a fallback string in case the value inside ${} is falsey
+	  **      ordinality: {Number} [optional] - the order of the sentence fragment in the entire string
+	  **    }
+	  **
+	  **  @param {Boolean} [optional] opts.ordinality - whether the fragment objects have explicit arrangement
+	  **  @param {String} [optional] opts.delimiter - a character to put inbetween each sentence fragment
+	  **  @param {Regex} [optional] opts.regex - the pattern to determine where string interpolation takes place
+	  */
 	
 	  function SentenceGenerator(el) {
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
@@ -19013,8 +19105,14 @@ exports["UI"] =
 	    return this.value;
 	  };
 	
+	  /*
+	  ** @method
+	  ** @param {Object} data - An object containing the values to interpolate
+	  **
+	  */
+	
 	  SentenceGenerator.prototype.set = function set(data) {
-	    this.value = data;
+	    this.value = typeof data !== 'undefined' ? data : {};
 	    this.render();
 	  };
 	
