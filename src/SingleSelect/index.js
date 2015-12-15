@@ -1,6 +1,10 @@
 'use strict';
 
-// # TODO
+//  @title: SingleSelect
+//  @author: jhatcher
+//  @description:
+//    Simple dropdown list with the ability to choose one option
+//  @todo:
 //    - styles
 
 // css
@@ -14,6 +18,14 @@ const $             = require('jquery');
 const BaseComponent = require('../BaseComponent');
 
 class SingleSelect extends BaseComponent {
+
+// @constructor
+// @param {String} el   - The dom element to attach to
+// @param {Object} opts - The options passed in to configure this component
+// @param {Array} opts.options - each option to be rendered, containing 3 attributes (2 are passed in):
+//    @prop {String} [optional] display - the display to render for the option
+//    @prop {String} value - the data value to send to the server
+
   constructor(el, opts={}) {
     super(el);
     this.options = (opts.options || []).map((opt) => {
@@ -68,6 +80,8 @@ class SingleSelect extends BaseComponent {
     return super.set(val);
   }
 
+// @method
+// @returns the HTML of the element
   render() {
     this.$el.html(selectTmpl(this));
     this.$el.find('select').change((evt) => {
