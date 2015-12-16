@@ -1,8 +1,8 @@
 'use strict';
 
-// # Render a string 
-//
-//   - recieve a template config, and a data object. Render the parsed String.
+//  @title: Sentence Generator
+//  @author: Naveed Nadjmabadi
+//  @description: recieve a template config, and a data object. Render the parsed String.
 //
 // css
 require('./styles.css');
@@ -14,7 +14,24 @@ const BaseComponent = require('../BaseComponent');
 
 
 class SentenceGenerator extends BaseComponent {
-  
+
+/*  @constructor
+**  @param {string} el   - The dom element to attach to
+**  @param {Object} opts - The options passed in to configure this component
+**  @param {Array} opts.structure - The sentence 'fragments' to be assembled. Each index
+**    is an Object that takes at least 3 properties:
+**
+**    {
+**      fragment: {String}  - part of the sentence with a ${} where the value should be interpolated
+**      required: {Boolean} - whether the fragment is necessary for the string to exist
+**      default: {String}   - a fallback string in case the value inside ${} is falsey
+**      ordinality: {Number} [optional] - the order of the sentence fragment in the entire string
+**    }
+**
+**  @param {Boolean} [optional] opts.ordinality - whether the fragment objects have explicit arrangement
+**  @param {String} [optional] opts.delimiter - a character to put inbetween each sentence fragment
+**  @param {Regex} [optional] opts.regex - the pattern to determine where string interpolation takes place
+*/
   constructor(el, opts = {}) {
     super(el);
 
@@ -34,12 +51,18 @@ class SentenceGenerator extends BaseComponent {
     }
   }
 
+
   get() {
     return this.value;
   }
 
+/*
+** @method
+** @param {Object} data - An object containing the values to interpolate
+**
+*/
   set(data) {
-    this.value = data;
+    this.value = (typeof data !== 'undefined') ? data: {};
     this.render();
   }
 
