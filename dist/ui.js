@@ -17550,7 +17550,7 @@ exports["UI"] =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<div class=\'ui-multi-select\'>'; it.options.forEach(function (opt) { out+=' <div> <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <label for=\''+( it.id )+'\'>'+( it.renderItem(opt) )+'</label> </div>'; }); out+='</div>';return out;
+	var out='<div class=\'ui-multi-select\'> ';var arr1=it.options;if(arr1){var opt,index=-1,l1=arr1.length-1;while(index<l1){opt=arr1[index+=1];out+=' <div> <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <label for=\''+( it.id )+'\'>'+( it.renderItem(opt) )+'</label> </div> ';} } out+='</div>';return out;
 	}
 
 /***/ },
