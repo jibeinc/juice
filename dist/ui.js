@@ -17287,45 +17287,11 @@ exports["UI"] =
 	
 	  SingleSelect.prototype.set = function set(v) {
 	    this.options = this.options.map(function (opt) {
-	      if (opt.display) {
-	        opt.selected = opt.display === v;
-	        return opt;
-	      } else {
-	        opt.selected = opt.value === v;
-	        return opt;
-	      }
+	      opt.selected = opt.value === v;
+	      return opt;
 	    });
 	
-	    // get value from options w/ display property
-	    var val = undefined;
-	    var _iteratorNormalCompletion2 = true;
-	    var _didIteratorError2 = false;
-	    var _iteratorError2 = undefined;
-	
-	    try {
-	      for (var _iterator2 = this.options[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	        var option = _step2.value;
-	
-	        if (option.selected) {
-	          val = option.value;
-	        }
-	      }
-	    } catch (err) {
-	      _didIteratorError2 = true;
-	      _iteratorError2 = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-	          _iterator2.return();
-	        }
-	      } finally {
-	        if (_didIteratorError2) {
-	          throw _iteratorError2;
-	        }
-	      }
-	    }
-	
-	    return _BaseComponent.prototype.set.call(this, val);
+	    return _BaseComponent.prototype.set.call(this, v);
 	  };
 	
 	  // @method
@@ -17405,15 +17371,15 @@ exports["UI"] =
 	  return '<select>\n' + scope.options.map(function (option) {
 	    if (option.display) {
 	      if (option.selected) {
-	        return '<option selected=true>' + option.display + '</option>';
+	        return '<option value=' + option.value + ' selected=true>' + option.display + '</option>';
 	      } else {
-	        return '<option>' + option.display + '</option>';
+	        return '<option value=' + option.value + '>' + option.display + '</option>';
 	      }
 	    } else {
 	      if (option.selected) {
-	        return '<option selected=true>' + option.value + '</option>';
+	        return '<option value=' + option.value + ' selected=true>' + option.value + '</option>';
 	      } else {
-	        return '<option>' + option.value + '</option>';
+	        return '<option value=' + option.value + '>' + option.value + '</option>';
 	      }
 	    }
 	  }) + '\n</select>\n';
