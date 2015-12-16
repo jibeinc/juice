@@ -3,15 +3,15 @@ ${
   scope.options.map(function (option) {
     if (option.display) {
       if (option.selected) {
-        return '<option selected=true>' + option.display + '</option>';
+        return '<option value=' + option.value + ' selected=true>' + option.display + '</option>';
       } else {
-        return '<option>' + option.display + '</option>';
+        return '<option value=' + option.value + '>' + option.display + '</option>';
       }
     } else {
       if (option.selected) {
-        return '<option selected=true>' + option.value + '</option>';
+        return '<option value=' + option.value + ' selected=true>' + option.value + '</option>';
       } else {
-        return '<option>' + option.value + '</option>';
+        return '<option value=' + option.value + '>' + option.value + '</option>';
       }     
     }
   })

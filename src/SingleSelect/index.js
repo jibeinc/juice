@@ -33,25 +33,11 @@ class SingleSelect extends BaseComponent {
 
   set(v) {
     this.options = this.options.map((opt) => {
-      if (opt.display) {
-        opt.selected = opt.display === v;
-        return opt;
-      }
-      else {
-        opt.selected = opt.value === v;
-        return opt;
-      }
+      opt.selected = opt.value === v;
+      return opt;
     });
 
-    // get value from options w/ display property
-    const val = this.options.filter((opt) => {
-      if (opt.selected) {
-        return opt;
-      }
-    })[0].value;
-    console.log(val);
-
-    return super.set(val);
+    return super.set(v);
   }
 
   render() {
