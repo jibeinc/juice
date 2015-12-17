@@ -1,7 +1,7 @@
 'use strict';
 
 // css
-require('./styles.css');
+require('./styles.scss');
 
 // html
 const multiSelectTmpl = require('./multiSelect.dot');
