@@ -25,7 +25,8 @@ const UIComponents = {
   Toggle: require('./Toggle'),
   Typeahead: require('./Typeahead'),
   LocationTypeahead: require('./LocationTypeahead'),
-  SentenceGenerator: require('./SentenceGenerator')
+  SentenceGenerator: require('./SentenceGenerator'),
+  JUISpinner: require('./Spinner')
 };
 
 module.exports = UIComponents;
