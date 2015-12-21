@@ -10459,9 +10459,9 @@ exports["UI"] =
 
 /***/ },
 /* 11 */
-/*!*************************************!*\
-  !*** ./~/baobab/~/emmett/emmett.js ***!
-  \*************************************/
+/*!****************************!*\
+  !*** ./~/emmett/emmett.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -14513,9 +14513,9 @@ exports["UI"] =
 
 /***/ },
 /* 22 */
-/*!**************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
-  \**************************************************/
+/*!**********************!*\
+  !*** ./~/url/url.js ***!
+  \**********************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15229,9 +15229,9 @@ exports["UI"] =
 
 /***/ },
 /* 23 */
-/*!************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/punycode/punycode.js ***!
-  \************************************************************/
+/*!********************************!*\
+  !*** ./~/punycode/punycode.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -15763,13 +15763,13 @@ exports["UI"] =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../buildin/module.js */ 20)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../webpack/buildin/module.js */ 20)(module), (function() { return this; }())))
 
 /***/ },
 /* 24 */
-/*!******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
-  \******************************************************************/
+/*!********************************!*\
+  !*** ./~/querystring/index.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15780,9 +15780,9 @@ exports["UI"] =
 
 /***/ },
 /* 25 */
-/*!*******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
-  \*******************************************************************/
+/*!*********************************!*\
+  !*** ./~/querystring/decode.js ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -15869,9 +15869,9 @@ exports["UI"] =
 
 /***/ },
 /* 26 */
-/*!*******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
-  \*******************************************************************/
+/*!*********************************!*\
+  !*** ./~/querystring/encode.js ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -17405,7 +17405,7 @@ exports["UI"] =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 54);
+	__webpack_require__(/*! ./styles.scss */ 54);
 	
 	// html
 	var multiSelectTmpl = __webpack_require__(/*! ./multiSelect.dot */ 56);
@@ -17461,6 +17461,9 @@ exports["UI"] =
 	    var _this2 = this;
 	
 	    this.$el.html(multiSelectTmpl(this));
+	    this.$el.find('label').click(function (evt) {
+	      _this2.set($(evt.target.parentElement).find('input').val());
+	    });
 	    this.$el.find('input').click(function (evt) {
 	      _this2.set($(evt.target).val());
 	    });
@@ -17497,15 +17500,15 @@ exports["UI"] =
 
 /***/ },
 /* 54 */
-/*!************************************!*\
-  !*** ./src/MultiSelect/styles.css ***!
-  \************************************/
+/*!*************************************!*\
+  !*** ./src/MultiSelect/styles.scss ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 55);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./../../~/jsontosass-loader?{"checkedColor":"#105b63","uncheckedColor":"#ffffff"}!./styles.scss */ 55);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 31)(content, {});
@@ -17514,8 +17517,8 @@ exports["UI"] =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?{\"checkedColor\":\"#105b63\",\"uncheckedColor\":\"#ffffff\"}!./styles.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?{\"checkedColor\":\"#105b63\",\"uncheckedColor\":\"#ffffff\"}!./styles.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -17526,9 +17529,9 @@ exports["UI"] =
 
 /***/ },
 /* 55 */
-/*!*******************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/MultiSelect/styles.css ***!
-  \*******************************************************************************/
+/*!************************************************************************************************************************************************!*\
+  !*** ./~/css-loader!./~/sass-loader!./~/jsontosass-loader?{"checkedColor":"#105b63","uncheckedColor":"#ffffff"}!./src/MultiSelect/styles.scss ***!
+  \************************************************************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 30)();
@@ -17536,7 +17539,7 @@ exports["UI"] =
 	
 	
 	// module
-	exports.push([module.id, "", ""]);
+	exports.push([module.id, "@media (max-width: 768px) {\n  label {\n    position: relative;\n    cursor: pointer; }\n    label input[type=\"checkbox\"] {\n      display: none; }\n  label input[type=\"checkbox\"] + span {\n    display: inline-block;\n    line-height: normal;\n    cursor: pointer;\n    padding: 8px 14px;\n    background-color: #ffffff;\n    border: 1px solid #D0D0D0; }\n  label input[type=\"checkbox\"] + span:hover {\n    border-color: #000;\n    background-color: #105b63;\n    color: #fff; }\n  label input[type=\"checkbox\"]:checked + span {\n    border-color: #000;\n    background-color: #105b63;\n    color: #fff; } }\n", ""]);
 	
 	// exports
 
@@ -17550,7 +17553,7 @@ exports["UI"] =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<div class=\'ui-multi-select\'> ';var arr1=it.options;if(arr1){var opt,index=-1,l1=arr1.length-1;while(index<l1){opt=arr1[index+=1];out+=' <div> <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <label for=\''+( it.id )+'\'>'+( it.renderItem(opt) )+'</label> </div> ';} } out+='</div>';return out;
+	var out='<div class=\'ui-multi-select\'> ';var arr1=it.options;if(arr1){var opt,index=-1,l1=arr1.length-1;while(index<l1){opt=arr1[index+=1];out+=' <div class="select-option"> <label> <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <span>'+(it.renderItem(opt))+'</span> </label> </div> ';} } out+='</div>';return out;
 	}
 
 /***/ },
@@ -18170,9 +18173,9 @@ exports["UI"] =
 
 /***/ },
 /* 62 */
-/*!****************************************!*\
-  !*** ./~/debounce/~/date-now/index.js ***!
-  \****************************************/
+/*!*****************************!*\
+  !*** ./~/date-now/index.js ***!
+  \*****************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now

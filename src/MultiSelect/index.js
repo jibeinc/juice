@@ -1,7 +1,7 @@
 'use strict';
 
 // css
-require('./styles.css');
+require('./styles.scss');
 
 // html
 const multiSelectTmpl = require('./multiSelect.dot');
@@ -45,6 +45,9 @@ class MultiSelect extends BaseComponent {
 
   render() {
     this.$el.html(multiSelectTmpl(this));
+    this.$el.find('label').click((evt) => {
+      this.set($(evt.target.parentElement).find('input').val());
+    });
     this.$el.find('input').click((evt) => {
       this.set($(evt.target).val());
     });
