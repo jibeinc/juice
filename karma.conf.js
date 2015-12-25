@@ -1,6 +1,6 @@
-var webpack = require('webpack');
-var sassGlobals = require('./sassvars.json');
-var sassVars = JSON.stringify(sassGlobals);
+const webpack = require('webpack');
+const sassGlobals = require('./sassvars.json');
+const sassVars = JSON.stringify(sassGlobals);
 
 module.exports = function (config) {
   config.set({
