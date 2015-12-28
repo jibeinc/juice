@@ -1,5 +1,8 @@
 <ul class='ui-list'>
   {{~it.results :value:index}}
-    <li id='{{= it.id }}' class='ui-list-item' data-index='{{= index }}'>{{= it.renderItem(value, index) }}</li>
+    {{var item = it.renderItem(value, index);}}
+    {{? item}}
+      <li id='{{=it.id}}' class='ui-list-item' data-index='{{=index}}'>{{=item}}</li>
+    {{?}}
   {{~}}
 </ul>

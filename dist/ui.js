@@ -17176,7 +17176,7 @@ exports["UI"] =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<ul class=\'ui-list\'> ';var arr1=it.results;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+=' <li id=\''+( it.id )+'\' class=\'ui-list-item\' data-index=\''+( index )+'\'>'+( it.renderItem(value, index) )+'</li> ';} } out+='</ul>';return out;
+	var out='<ul class=\'ui-list\'> ';var arr1=it.results;if(arr1){var value,index=-1,l1=arr1.length-1;while(index<l1){value=arr1[index+=1];out+=' ';var item = it.renderItem(value, index);out+=' ';if(item){out+=' <li id=\''+(it.id)+'\' class=\'ui-list-item\' data-index=\''+(index)+'\'>'+(item)+'</li> ';}out+=' ';} } out+='</ul>';return out;
 	}
 
 /***/ },
