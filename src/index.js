@@ -1,6 +1,8 @@
 'use strict';
 
-const UIComponents = {
+const initFunc = require('./init');
+
+let UIComponents = {
 
   // exposed dependences
   $: require('jquery'),
@@ -26,6 +28,10 @@ const UIComponents = {
   Typeahead: require('./Typeahead'),
   LocationTypeahead: require('./LocationTypeahead'),
   SentenceGenerator: require('./SentenceGenerator')
+};
+
+UIComponents.init = function init() {
+  return initFunc.apply(UIComponents, arguments);
 };
 
 module.exports = UIComponents;

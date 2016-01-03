@@ -18,6 +18,12 @@ const dotConfigOverrides = {
   selfcontained: false
 };
 
+const globalTemplateMap = {
+  translate: function (token, context) {
+    return 'hatcher'; //$.i18n.t(token, context);
+  }
+};
+
 class DotService {
 
   constructor(doT) {
@@ -46,7 +52,7 @@ class DotService {
   }
 
   compile(template, data) {
-    return this.doT.template(template, dotConfigOverrides)(data);
+    return this.doT.template(template, dotConfigOverrides, globalTemplateMap)(data);
   }
 }
 
