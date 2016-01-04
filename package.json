@@ -12,7 +12,8 @@
     "watch": "./node_modules/.bin/webpack --watch",
     "clean": "rm -rf dist",
     "postinstall": "./node_modules/.bin/napa",
-    "test": "karma start"
+    "test": "karma start",
+    "lint": "./node_modules/.bin/eslint ./src/*"
   },
   "repository": {
     "type": "git",
@@ -27,10 +28,12 @@
     "babel-polyfill": "^6.2.0",
     "baobab": "^2.1.1",
     "debounce": "^1.0.0",
+    "dot": "git+ssh://git@stash.internal.jibe.com/ja/client-dot-engine.git",
     "dotty": "0.0.2",
     "html5-history-api": "^4.2.4",
+    "i18next": "^2.0.14",
     "jquery": "^2.1.4",
-    "jsdom": "^3.1.2",
+    "jsdom": "3.0.3",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
@@ -59,7 +62,7 @@
     "css-loader": "^0.22.0",
     "cssnext-loader": "^1.0.1",
     "dot-loader": "^0.1.1",
-    "eslint": "^1.10.2",
+    "eslint": "^1.10.3",
     "eslint-loader": "^1.1.1",
     "expect": "^1.13.3",
     "file-loader": "^0.8.4",

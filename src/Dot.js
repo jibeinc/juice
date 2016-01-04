@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 const doT = require('dot');
+const i18n = require('./i18n');
 
 // Note: this just mimics apply current setup
 const dotConfigOverrides = {
@@ -16,6 +17,12 @@ const dotConfigOverrides = {
   strip: false,
   append: true,
   selfcontained: false
+};
+
+const globalTemplateMap = {
+  translate: (token, context) => {
+    return i18n.getInstance().t(token, context);
+  }
 };
 
 class DotService {
@@ -41,12 +48,12 @@ class DotService {
       throw new Error('You must specify a jquery-friendly css selector to render template into.');
     }
 
-    const renderIntoDOMWith = this.doT.template(template, dotConfigOverrides);
+    const renderIntoDOMWith = this.doT.template(template, dotConfigOverrides, globalTemplateMap);
     return $(cssSelector).html(renderIntoDOMWith(viewModel));
   }
 
   compile(template, data) {
-    return this.doT.template(template, dotConfigOverrides)(data);
+    return this.doT.template(template, dotConfigOverrides, globalTemplateMap)(data);
   }
 }
 
