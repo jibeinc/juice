@@ -1,5 +1,8 @@
 'use strict';
 
+// scripts
+const $ = require('jquery');
+
 // css
 require('./styles.css');
 
