@@ -27,9 +27,10 @@
     "babel-polyfill": "^6.2.0",
     "baobab": "^2.1.1",
     "debounce": "^1.0.0",
-    "dot": "^1.0.3",
+    "dot": "git+ssh://git@stash.internal.jibe.com/ja/client-dot-engine.git",
     "dotty": "0.0.2",
     "html5-history-api": "^4.2.4",
+    "i18next": "^2.0.14",
     "jquery": "^2.1.4",
     "jsdom": "3.0.3",
     "uuid": "^2.0.1"

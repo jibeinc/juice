@@ -1,5 +1,7 @@
 'use strict';
 
-module.exports = function init(UI, opts) {
-  console.log('init', UI, opts);
+const i18n = require('./i18n');
+
+module.exports = function init(opts, cb) {
+  i18n.createInstance(opts.locale, opts.TRANSLATIONS, cb);
 };

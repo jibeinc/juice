@@ -2,11 +2,11 @@
 
 const initFunc = require('./init');
 
-let UIComponents = {
-
+const UIComponents = {
   // exposed dependences
   $: require('jquery'),
   Dot: require('./Dot'),
+  i18n: require('./i18n'),
 
   // services
   BaseFragmentFactory: require('./BaseFragmentFactory'),
