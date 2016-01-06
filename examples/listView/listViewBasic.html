@@ -4,9 +4,6 @@
 <head>
   <title>List View Example</title>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script>
-    window.exports = {};
-  </script>
   <script src='../../dist/ui.js'></script>
 </head>
 
@@ -15,7 +12,7 @@
   <div class='search-results'></div>
 
   <script>
-    var results = new exports.UI.ListView('.search-results', {
+    var results = new UI.ListView('.search-results', {
       fetch: function(cb) {
         var results = [];
 

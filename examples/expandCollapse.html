@@ -5,9 +5,6 @@
   <title>Expand/Collapse Example</title>
   <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script>
-    window.exports = {};
-  </script>
   <script src='../dist/ui.js'></script>
 </head>
 
@@ -32,7 +29,7 @@
   </div>
 
   <script>
-    var container = new exports.UI.ExpandCollapse('.expand-collapse-test-container', {
+    var container = new UI.ExpandCollapse('.expand-collapse-test-container', {
       toggledClass: 'i-am-toggled',
       toggleSelector: '.toggle',
       untoggledClass: 'i-am-NOT-toggled'

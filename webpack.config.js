@@ -5,7 +5,6 @@ module.exports = {
   entry: './src/index.js',
   output: {
     library: 'UI',
-    libraryTarget: 'commonjs',
     path: __dirname + '/dist',
     filename: 'ui.js',
     publicPath: '/dist/'
