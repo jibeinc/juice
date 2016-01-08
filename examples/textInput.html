@@ -20,6 +20,9 @@
 
   <script>
     var c = new UI.TextInput('.ui-text-input', {
+      onEnterPressed: function () {
+        console.log('Press dat shizz');
+      },
       placeholder: 'What up?'
     });
 
