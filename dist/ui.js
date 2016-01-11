@@ -16956,7 +16956,9 @@ var UI =
 	var ExpandCollapse = (function (_BaseComponent) {
 	  _inherits(ExpandCollapse, _BaseComponent);
 	
-	  function ExpandCollapse(el, opts) {
+	  function ExpandCollapse(el) {
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
 	    _classCallCheck(this, ExpandCollapse);
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, {
@@ -16964,12 +16966,7 @@ var UI =
 	      preserveChildElements: true
 	    }));
 	
-	    var toggle = new Toggle(opts.toggleSelector, opts);
-	    toggle.render();
-	
-	    toggle.subscribe(function (isToggled) {
-	      _this.expandCollapse(isToggled);
-	    });
+	    _this.opts = opts;
 	
 	    return _possibleConstructorReturn(_this, _this);
 	  }
@@ -16984,8 +16981,16 @@ var UI =
 	  };
 	
 	  ExpandCollapse.prototype.render = function render() {
+	    var _this2 = this;
+	
 	    var innerContent = this.$el.html();
 	    this.$el.html(collapseTmpl(innerContent));
+	    var toggle = new Toggle(this.opts.toggleSelector, this.opts);
+	    toggle.render();
+	
+	    toggle.subscribe(function (isToggled) {
+	      _this2.expandCollapse(isToggled);
+	    });
 	    return this.$el[0].outerHTML;
 	  };
 	
