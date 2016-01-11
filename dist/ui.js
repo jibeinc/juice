@@ -18595,8 +18595,6 @@ var UI =
 	  _inherits(PrettyTypeahead, _BaseTypeahead);
 	
 	  function PrettyTypeahead(el) {
-	    var _this;
-	
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
 	    _classCallCheck(this, PrettyTypeahead);
@@ -18605,7 +18603,12 @@ var UI =
 	      return _this.renderItem(item);
 	    };
 	
-	    return _this = _possibleConstructorReturn(this, _BaseTypeahead.call(this, el, opts));
+	    var _this = _possibleConstructorReturn(this, _BaseTypeahead.call(this, el, opts));
+	
+	    _this.textInput.subscribe(function () {
+	      _this.highlightIndex = null;
+	    });
+	    return _this;
 	  }
 	
 	  PrettyTypeahead.prototype.render = function render() {
@@ -18723,19 +18726,25 @@ var UI =
 	
 	  PrettyTypeahead.prototype.selectByIndex = function selectByIndex() {
 	    if (this.active()) {
-	      this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).click();
-	      this.textInput.$el.find('input').blur();
+	      var highlighted = this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS);
+	      if (highlighted.length) {
+	        highlighted.click();
+	      } else {
+	        var valueToSet = this.textInput.get();
+	        if (valueToSet) this.set(valueToSet);
+	      }
 	    }
+	    this.textInput.$el.find('input').blur();
 	  };
 	
 	  PrettyTypeahead.prototype.incrementHighlight = function incrementHighlight() {
-	    this.highlightIndex = typeof this.highlightIndex === 'undefined' ? 0 : this.highlightIndex + 1;
+	    this.highlightIndex = typeof this.highlightIndex === 'undefined' || this.highlightIndex === null ? 0 : this.highlightIndex + 1;
 	    this.normalizeHighlightIndex();
 	    this.renderHighlight();
 	  };
 	
 	  PrettyTypeahead.prototype.decrementHighlight = function decrementHighlight() {
-	    this.highlightIndex = typeof this.highlightIndex === 'undefined' ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
+	    this.highlightIndex = typeof this.highlightIndex === 'undefined' || this.highlightIndex === null ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
 	    this.normalizeHighlightIndex();
 	    this.renderHighlight();
 	  };
@@ -18852,12 +18861,14 @@ var UI =
 	
 	    Object.assign(_this, {
 	      fetch: opts.fetch,
-	      results: []
+	      results: [],
+	      textInputOpts: opts.textInputOpts || {}
 	    });
 	    assert(typeof _this.fetch === 'function');
 	
 	    _this.$el.append(containerHTML);
-	    _this.textInput = new TextInput(_this.$el.find('.input-container'), opts.textInputOpts || {});
+	
+	    _this.textInput = new TextInput(_this.$el.find('.input-container'), _this.textInputOpts);
 	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), {
 	      fetch: function fetch(cb) {
 	        _this.refreshResults(cb);
