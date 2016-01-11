@@ -18404,7 +18404,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?{\"checkedColor\":\"#105b63\",\"uncheckedColor\":\"#ffffff\"}!./styles.scss\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./../../~/jsontosass-loader?path=./sassvars.json!./styles.scss */ 58);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
@@ -18413,8 +18413,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?{\"checkedColor\":\"#105b63\",\"uncheckedColor\":\"#ffffff\"}!./styles.scss", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?{\"checkedColor\":\"#105b63\",\"uncheckedColor\":\"#ffffff\"}!./styles.scss");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?path=./sassvars.json!./styles.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?path=./sassvars.json!./styles.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -18424,7 +18424,23 @@ var UI =
 	}
 
 /***/ },
-/* 58 */,
+/* 58 */
+/*!***************************************************************************************************************!*\
+  !*** ./~/css-loader!./~/sass-loader!./~/jsontosass-loader?path=./sassvars.json!./src/MultiSelect/styles.scss ***!
+  \***************************************************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 33)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "@media (max-width: 768px) {\n  label {\n    position: relative;\n    cursor: pointer; }\n    label input[type=\"checkbox\"] {\n      display: none; }\n  label input[type=\"checkbox\"] + span {\n    display: inline-block;\n    line-height: normal;\n    cursor: pointer;\n    padding: 8px 14px;\n    background-color: #ffffff;\n    border: 1px solid #D0D0D0; }\n  label input[type=\"checkbox\"] + span:hover {\n    border-color: #000;\n    background-color: #105b63;\n    color: #fff; }\n  label input[type=\"checkbox\"]:checked + span {\n    border-color: #000;\n    background-color: #105b63;\n    color: #fff; } }\n", ""]);
+	
+	// exports
+
+
+/***/ },
 /* 59 */
 /*!*****************************************!*\
   !*** ./src/MultiSelect/multiSelect.dot ***!

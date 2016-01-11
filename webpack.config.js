@@ -1,5 +1,4 @@
-var sassGlobals = require('./sassvars.json');
-var sassVars = JSON.stringify(sassGlobals);
+var sassVars = './sassvars.json';
 
 module.exports = {
   entry: './src/index.js',
@@ -31,7 +30,7 @@ module.exports = {
       loader: 'style!css!less'
     }, {
       test: /\.scss$/,
-      loader: "style!css!sass!jsontosass?" + sassVars
+      loader: "style!css!sass!jsontosass?path=" + sassVars
     }, {
       // compress and load images as embedded data-uri's
       test: /\.(jpe?g|png|gif|svg)$/,
