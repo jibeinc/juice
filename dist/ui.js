@@ -16983,8 +16983,11 @@ var UI =
 	  ExpandCollapse.prototype.render = function render() {
 	    var _this2 = this;
 	
-	    var innerContent = this.$el.html();
-	    this.$el.html(collapseTmpl(innerContent));
+	    if (this.$el.find('.grow').length === 0) {
+	      var innerContent = this.$el.html();
+	      this.$el.html(collapseTmpl(innerContent));
+	    }
+	
 	    var toggle = new Toggle(this.opts.toggleSelector, this.opts);
 	    toggle.render();
 	

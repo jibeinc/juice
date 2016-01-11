@@ -28,8 +28,11 @@ class ExpandCollapse extends BaseComponent {
   }
 
   render() {
-    const innerContent = this.$el.html();
-    this.$el.html(collapseTmpl(innerContent));
+    if(this.$el.find('.grow').length === 0) {
+      const innerContent = this.$el.html();
+      this.$el.html(collapseTmpl(innerContent));
+    }
+    
     const toggle = new Toggle(this.opts.toggleSelector, this.opts);
     toggle.render();
 
