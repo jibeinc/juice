@@ -1,5 +1,4 @@
-var sassGlobals = require('./sassvars.json');
-var sassVars = JSON.stringify(sassGlobals);
+var sassVars = './sassvars.json';
 
 module.exports = {
   entry: './src/index.js',
@@ -10,10 +9,10 @@ module.exports = {
     publicPath: '/dist/'
   },
   cssnext: {
-    browsers: ['last 2 versions', 'ie >= 9'],
+    browsers: ['last 2 versions', 'ie >= 9']
   },
   resolve: {
-    modulesDirectories: ['node_modules', 'bower_components'],
+    modulesDirectories: ['node_modules', 'bower_components']
   },
   module: {
     preLoaders: [{
@@ -31,7 +30,7 @@ module.exports = {
       loader: 'style!css!less'
     }, {
       test: /\.scss$/,
-      loader: "style!css!sass!jsontosass?" + sassVars
+      loader: "style!css!sass!jsontosass?path=" + sassVars
     }, {
       // compress and load images as embedded data-uri's
       test: /\.(jpe?g|png|gif|svg)$/,
@@ -80,7 +79,7 @@ module.exports = {
           // loose mode is required for IE9 and IE10!
           ['transform-es2015-classes', {
             'loose': true
-          }],
+          }]
         ]
       }
     }]

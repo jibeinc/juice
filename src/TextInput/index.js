@@ -23,6 +23,7 @@ class TextInput extends BaseComponent {
       $input: null,
       icon: opts.icon || 'x',
       onEnterPressed: opts.onEnterPressed || null,
+      onIconClick: opts.onIconClick || null,
       iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
       placeholder: opts.placeholder || '',
       value: opts.value || '',
@@ -59,9 +60,14 @@ class TextInput extends BaseComponent {
       this.$wrapper.append(iconTmpl(this));
       this.$icon = this.$el.find('.ui-text-input-icon');
 
-      if (this.iconClearsValue) {
+      if (this.iconClearsValue || this.onIconClick) {
         this.$icon.click(() => {
-          this.set('');
+          if (this.iconClearsValue) {
+            this.set('');
+          }
+          if (this.onIconClick) {
+            this.onIconClick();
+          }
         });
       }
     }
