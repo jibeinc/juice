@@ -7,7 +7,7 @@ require('./styles.css');
 
 // scripts
 const $ = require('jquery');
-const Spinner = require('./spin.js');
+const BaseSpinner = require('./spin.js');
 const BaseComponent = require('../BaseComponent');
 
 /**
@@ -39,28 +39,43 @@ const BaseComponent = require('../BaseComponent');
     var spinner = new Spinner(opts).spin(target)
  */
 
-class JUISpinner extends BaseComponent {
+class Spinner extends BaseComponent {
   constructor(el, opts = {}) {
+
+    // determine if global
+    if (!el) {
+      el = $('body');
+    }
+
+    // needed so elements aren't destroyed
+    opts.preserveChildElements = true;
+    opts.className = 'juicy-spinner';
+
     super(el, opts);
 
     Object.assign(this, {
-      opts: opts
+      opts,
+      _toggled: false
     });
+
+    this.spinner = new BaseSpinner(opts);
   }
 
   start() {
-    const opts   = this.opts;
-    const target = this.$el;
 
-    let spinner = new Spinner(opts).spin(target);
-    console.log(spinner);
-    this.spinner = spinner;
+    // retrieve native dom element
+    const target = this.$el.get(0);
 
-    return spinner;
+    this.toggleOverlay();
+
+    // launch spinner
+    return this.spinner.spin(target);
   }
 
   stop() {
-    this.spinner.stop();
+
+    this.toggleOverlay();
+    return this.spinner.stop();
   }
 
   render() {
@@ -71,10 +86,22 @@ class JUISpinner extends BaseComponent {
     return this.spinner || null;
   }
 
+  toggleOverlay() {
+    if (this._toggled) {
+      this.$el.removeClass('toggle');
+    }
+    else {
+      this.$el.addClass('toggle');
+    }
+  }
+
   set (opts) {
     const newOpts = $.extend({}, this.opts, opts);
-    this.opts = newOpts;
+
+    // destroy reference to spinner & recreate w/ newOpts
+    this.spinner = null;
+    this.spinner = new BaseSpinner(newOpts);
   }
 }
 
-module.exports = JUISpinner;
+module.exports = Spinner;

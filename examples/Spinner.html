@@ -9,32 +9,11 @@
 <body>
 
   <div class="spinner-div"></div>
-
+  <h3 style="text-align: center">Spinner will stop after 5 seconds</h3>
 
   <script>
     exports.UI.$(document).ready(function () {
-      var spinner = new exports.UI.JUISpinner('.spinner-div', {
-        lines: 12,             // The number of lines to draw
-        length: 7,             // The length of each line
-        width: 5,              // The line thickness
-        radius: 10,            // The radius of the inner circle
-        scale: 1.0,            // Scales overall size of the spinner
-        corners: 1,            // Roundness (0..1)
-        color: '#000',         // #rgb or #rrggbb
-        opacity: 1/4,          // Opacity of the lines
-        rotate: 0,             // Rotation offset
-        direction: 1,          // 1: clockwise, -1: counterclockwise
-        speed: 1,              // Rounds per second
-        trail: 100,            // Afterglow percentage
-        fps: 20,               // Frames per second when using setTimeout()
-        zIndex: 2e9,           // Use a high z-index by default
-        className: 'spinner',  // CSS class to assign to the element
-        top: '50%',            // center vertically
-        left: '50%',           // center horizontally
-        shadow: false,         // Whether to render a shadow
-        hwaccel: false,        // Whether to use hardware acceleration (might be buggy)
-        position: 'absolute'   // Element positioning
-      });
+      var spinner = new exports.UI.Spinner('.spinner-div');
 
       spinner.start();
 
@@ -42,10 +21,10 @@
         console.log('launched the spinner!');
       });
 
-      // setTimeout(function () {
-      //   spinner.stop();
-      //   console.log('stopped the spinner');
-      // }, 3000);
+      setTimeout(function () {
+        spinner.stop();
+        console.log('stopped the spinner after 5 seconds');
+      }, 5000);
     });
   </script>
 

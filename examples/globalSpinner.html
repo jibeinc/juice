@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Global Spinner Example</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>window.exports = {};</script>
+  <script src='../dist/ui.js'></script>
+</head>
+<body>
+
+  <form>
+    <div class='button-container-1'></div>
+    <div class='button-container-2'></div>
+  </form>
+
+  <script>
+    UI.$(document).ready(function() {
+
+      /* 1. Instantiate the UI Classes */
+      var btnOn = new UI.Button('.button-container-1', {
+        label: 'Spinner On',
+        submit: true
+      });
+
+      var btnOff = new UI.Button('.button-container-2', {
+        label: 'Spinner Off',
+        submit: true
+      });
+
+      var spinner = new UI.Spinner();
+
+      /* 2. Define actions to occur with interaction */
+      btnOn.subscribe(function () {
+        console.log('button On clicked!');
+        spinner.start();
+      });
+
+      btnOff.subscribe(function () {
+        console.log('button Off clicked!');
+        spinner.stop();
+      });
+
+      spinner.subscribe(function () {
+        console.log('spinner started!');
+      });
+
+      /* 3. Render UI Components */
+      btnOn.render();
+      btnOff.render();
+    });
+  </script>
+
+</body>
+  <style type='text/css'>
+    .button-container-2 {
+      z-index: 3000;
+      position: absolute;
+    }
+  </style>
+</html>
