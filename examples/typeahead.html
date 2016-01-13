@@ -5,9 +5,6 @@
   <title>Typeahead Example</title>
   <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script>
-    window.exports = {};
-  </script>
   <script src='../dist/ui.js'></script>
 </head>
 
@@ -42,7 +39,7 @@
       displayName: 2000100000
     }];
 
-    var searchNumbers = new exports.UI.Typeahead('.search', {
+    var searchNumbers = new UI.Typeahead('.search', {
       fetch: function(term, cb) {
         var matches = db.filter(function(item) {
           return (item.displayName + '').indexOf(term) !== -1;

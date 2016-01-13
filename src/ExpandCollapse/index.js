@@ -2,22 +2,18 @@
 
 require('./styles.css');
 
-const BaseComponent        = require('../BaseComponent');
+const BaseComponent = require('../BaseComponent');
 const Toggle = require('../Toggle/');
-const collapseTmpl         = require('./expandCollapseContent.tmpl');
+const collapseTmpl = require('./expandCollapseContent.tmpl');
 
 class ExpandCollapse extends BaseComponent {
-  constructor(el, opts) {
+  constructor(el, opts = {}) {
     super(el, {
       parentElement: opts.parentElement,
       preserveChildElements: true
     });
-    const toggle = new Toggle(opts.toggleSelector, opts);
-    toggle.render();
 
-    toggle.subscribe((isToggled) => {
-      this.expandCollapse(isToggled);
-    });
+    this.opts = opts;
 
     return this;
   }
@@ -32,8 +28,17 @@ class ExpandCollapse extends BaseComponent {
   }
 
   render() {
-    const innerContent = this.$el.html();
-    this.$el.html(collapseTmpl(innerContent));
+    if(this.$el.find('.grow').length === 0) {
+      const innerContent = this.$el.html();
+      this.$el.html(collapseTmpl(innerContent));
+    }
+    
+    const toggle = new Toggle(this.opts.toggleSelector, this.opts);
+    toggle.render();
+
+    toggle.subscribe((isToggled) => {
+      this.expandCollapse(isToggled);
+    });
     return this.$el[0].outerHTML;
   }
 }

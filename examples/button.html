@@ -3,7 +3,6 @@
 <head>
   <title>Button Example</title>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script>window.exports = {};</script>
   <script src='../dist/ui.js'></script>
 </head>
 <body>
@@ -13,7 +12,7 @@
   </form>
 
   <script>
-    var btn = new exports.UI.Button('.button-container', {
+    var btn = new UI.Button('.button-container', {
       label: 'Search',
       submit: true
     });

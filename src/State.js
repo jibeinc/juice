@@ -2,8 +2,9 @@ const Baobab = require('baobab');
 
 // centralized state
 class State {
-  constructor(initialState={}) {
-    this.state = new Baobab(initialState);
+  constructor(initialState={}, opts={}) {
+    this.state = new Baobab(initialState, opts);
+
     this.cursors = {};
     this.modifiers = {};
   }

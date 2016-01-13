@@ -1,4 +1,6 @@
-var webpack = require('webpack');
+const webpack = require('webpack');
+const sassGlobals = require('./sassvars.json');
+const sassVars = JSON.stringify(sassGlobals);
 
 module.exports = function (config) {
   config.set({
@@ -16,6 +18,33 @@ module.exports = function (config) {
       devtool: 'inline-source-map', //just do inline source maps instead of the default
       module: {
         loaders: [{
+          // automatically load css into the DOM
+          test: /\.css$/,
+          loader: 'style!css!cssnext?compress'
+        }, {
+          // automatically load less into the DOM
+          test: /\.less$/,
+          loader: 'style!css!less'
+        }, {
+          test: /\.scss$/,
+          loader: "style!css!sass!jsontosass?" + sassVars
+        }, {
+          // compress and load images as embedded data-uri's
+          test: /\.(jpe?g|png|gif|svg)$/,
+          loader: 'url!img?minimize'
+        }, {
+          // load static html snippets as strings
+          test: /\.html$/,
+          loader: 'html'
+        }, {
+          // load dot template as compiler fn
+          test: /\.dot$/,
+          loader: 'dot'
+        }, {
+          // load ES6 template string as compiler fn
+          test: /\.tmpl$/,
+          loader: 'babel?plugins[]=transform-es2015-template-literals!template-string'
+        }, {
           test: /\.js$/,
           loader: 'babel',
           exclude: /node_modules/,

@@ -3,7 +3,6 @@
 <head>
   <title>Single Select Example</title>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script>window.exports = {};</script>
   <script src='../dist/ui.js'></script>
 </head>
 <body>
@@ -12,11 +11,11 @@
   <div class='sort-menu'></div>
 
   <script>
-    var month = new exports.UI.SingleSelect('.month-picker', {
+    var month = new UI.SingleSelect('.month-picker', {
       options: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     });
 
-    var sortmenu = new exports.UI.SingleSelect('.sort-menu', {
+    var sortmenu = new UI.SingleSelect('.sort-menu', {
       options: [
         {
           display: 'Posted Date',

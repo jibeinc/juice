@@ -5,9 +5,6 @@
   <title>List View Example</title>
   <script src='https://cdn.polyfill.io/v2/polyfill.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/dot/1.0.3/doT.min.js'></script>
-  <script>
-    window.exports = {};
-  </script>
   <script src='../../dist/ui.js'></script>
 </head>
 
@@ -18,12 +15,12 @@
   <script>
     var itemTemplate = '<h1>[[= model.item.name ]]</h1><div class="item-button-[[= model.index ]]"></div>';
 
-    var resultsItem = new exports.UI.BaseFragmentFactory({
+    var resultsItem = new UI.BaseFragmentFactory({
       render: function(data) {
-        return exports.UI.Dot.compile(itemTemplate, data);
+        return UI.Dot.compile(itemTemplate, data);
       },
       controller: function(data) {
-        var itemButton = new exports.UI.Button('.item-button-' + data.index, {
+        var itemButton = new UI.Button('.item-button-' + data.index, {
           preventPropagation: true
         });
 
@@ -35,7 +32,7 @@
       }
     });
 
-    var results = new exports.UI.ListView('.search-results', {
+    var results = new UI.ListView('.search-results', {
       attrs: {
         class: 'list-view-test-class',
         foo: 'bar'

@@ -22,6 +22,7 @@ class TextInput extends BaseComponent {
     Object.assign(this, {
       $input: null,
       icon: opts.icon || 'x',
+      onEnterPressed: opts.onEnterPressed || null,
       iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
       placeholder: opts.placeholder || '',
       value: opts.value || '',
@@ -37,8 +38,14 @@ class TextInput extends BaseComponent {
     this.$el.html(inputTmpl(this));
     this.$input = this.$el.find('input');
 
-    const onKeyup = debounce(() => {
+    const onKeyup = debounce((e) => {
       this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
+      if (e.keyCode == 13) {
+        this.$input.blur();
+        if (this.onEnterPressed) {
+          this.onEnterPressed(this.get());
+        }
+      }
     }, this.wait);
 
     this.$input.keyup(onKeyup); // debounced slightly for ux
@@ -76,6 +83,7 @@ class TextInput extends BaseComponent {
     this.publish(this.get());
     return this;
   }
-};
+}
+;
 
 module.exports = TextInput;

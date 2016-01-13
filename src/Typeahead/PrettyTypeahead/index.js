@@ -18,18 +18,22 @@
 require('./styles.less');
 
 // scripts
-const $             = require('jquery');
+const $ = require('jquery');
 const BaseTypeahead = require('./BaseTypeahead');
 
 const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
 class PrettyTypeahead extends BaseTypeahead {
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
     opts.renderItem = (item) => {
       return this.renderItem(item);
     };
 
     super(el, opts);
+
+    this.textInput.subscribe(() => {
+      this.highlightIndex = null;
+    });
   }
 
   render() {
@@ -84,8 +88,8 @@ class PrettyTypeahead extends BaseTypeahead {
   renderItem(item) {
     // bold the matching part
     const originalText = String(this.getDisplayValue(item));
-    const searchTerm   = this.textInput.get() || '';
-    let matchIndex     = -1;
+    const searchTerm = this.textInput.get() || '';
+    let matchIndex = -1;
 
     if (searchTerm.length !== 0) {
       matchIndex = originalText.indexOf(searchTerm);
@@ -93,7 +97,7 @@ class PrettyTypeahead extends BaseTypeahead {
 
     if (matchIndex >= 0) {
       const start = matchIndex;
-      const end   = start + searchTerm.length;
+      const end = start + searchTerm.length;
 
       item = originalText.substring(0, start);
       item += '<b>';
@@ -143,19 +147,27 @@ class PrettyTypeahead extends BaseTypeahead {
 
   selectByIndex() {
     if (this.active()) {
-      this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).click();
-      this.textInput.$el.find('input').blur();
+      const highlighted = this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS);
+      if (highlighted.length) {
+        highlighted.click();
+      }
+      else {
+        const valueToSet = this.textInput.get();
+        if (valueToSet)
+          this.set(valueToSet);
+      }
     }
+    this.textInput.$el.find('input').blur();
   }
 
   incrementHighlight() {
-    this.highlightIndex = typeof this.highlightIndex === 'undefined'? 0 : this.highlightIndex + 1;
+    this.highlightIndex = (typeof this.highlightIndex === 'undefined' || this.highlightIndex === null) ? 0 : this.highlightIndex + 1;
     this.normalizeHighlightIndex();
     this.renderHighlight();
   }
 
   decrementHighlight() {
-    this.highlightIndex = typeof this.highlightIndex === 'undefined'? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
+    this.highlightIndex = (typeof this.highlightIndex === 'undefined' || this.highlightIndex === null) ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
     this.normalizeHighlightIndex();
     this.renderHighlight();
   }

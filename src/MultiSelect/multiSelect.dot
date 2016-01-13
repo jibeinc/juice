@@ -1,8 +1,10 @@
 <div class='ui-multi-select'>
   {{~it.options :opt:index}}
-  <div>
-    <input type='checkbox' name='{{= it.id }}' value='{{= opt.value }}' {{? opt.checked }}checked=true{{?}}/>
-    <label for='{{= it.id }}'>{{= it.renderItem(opt) }}</label>
+  <div class="select-option">
+    <label>
+      <input type='checkbox' name='{{= it.id }}' value='{{= opt.value }}' {{? opt.checked }}checked=true{{?}}/>
+      <span>{{=it.renderItem(opt)}}</span>
+    </label>
   </div>
   {{~}}
 </div>

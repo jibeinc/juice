@@ -4,7 +4,6 @@
   <title>Dot Service Example</title>
   <script src='https://cdn.polyfill.io/v2/polyfill.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/dot/1.0.3/doT.min.js'></script>
-  <script>window.exports = {};</script>
   <script src='../dist/ui.js'></script>
 </head>
 <body>
@@ -12,11 +11,11 @@
   <div class='dot-target'></div>
 
   <script>
-    exports.UI.Dot.renderIntoDOM('<h1>[[= model.greeting ]]</h1>', '.dot-target', {
+    UI.Dot.renderIntoDOM('<h1>[[= model.greeting ]]</h1>', '.dot-target', {
       greeting: 'Hello World of Dots!'
     });
 
-    var str = exports.UI.Dot.compile('<h1>[[= model.greeting ]]</h1>', {
+    var str = UI.Dot.compile('<h1>[[= model.greeting ]]</h1>', {
       greeting: 'me compile!'
     });
 

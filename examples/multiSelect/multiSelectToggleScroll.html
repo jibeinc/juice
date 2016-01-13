@@ -6,9 +6,6 @@
 
   <link rel='stylesheet' type='text/css' href='./styles.css'>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script>
-    window.exports = {};
-  </script>
   <script src='../../dist/ui.js'></script>
 </head>
 
@@ -18,7 +15,7 @@
   <span class='show-more'>MORE</span>
 
   <script>
-    var categories = new exports.UI.MultiSelect('.categories', {
+    var categories = new UI.MultiSelect('.categories', {
       options: [{
         displayName: 'Marketing',
         value: 'mrkt01',
@@ -56,7 +53,7 @@
     categories.render();
 
 
-    var toggle = new exports.UI.Toggle('.show-more', {
+    var toggle = new UI.Toggle('.show-more', {
       toggledClass: 'i-am-toggled',
       untoggledClass: 'i-am-NOT-toggled'
     });
