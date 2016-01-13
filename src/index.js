@@ -18,16 +18,17 @@ const UIComponents = {
   Button: require('./Button'),
   CurrentLocation: require('./CurrentLocation'),
   ExpandCollapse: require('./ExpandCollapse/'),
+  InfiniteScroll: require('./InfiniteScroll'),
   ListView: require('./ListView'),
-  SingleSelect: require('./SingleSelect'),
+  LocationTypeahead: require('./LocationTypeahead'),
   MultiSelect: require('./MultiSelect'),
   Pagination: require('./Pagination'),
-  InfiniteScroll: require('./InfiniteScroll'),
+  RadioButtons: require('./RadioButtons'),
+  SentenceGenerator: require('./SentenceGenerator'),
+  SingleSelect: require('./SingleSelect'),
   TextInput: require('./TextInput'),
   Toggle: require('./Toggle'),
-  Typeahead: require('./Typeahead'),
-  LocationTypeahead: require('./LocationTypeahead'),
-  SentenceGenerator: require('./SentenceGenerator')
+  Typeahead: require('./Typeahead')
 };
 
 UIComponents.init = function init() {

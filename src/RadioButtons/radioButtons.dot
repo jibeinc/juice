@@ -1,0 +1,10 @@
+<div class='ui-radio-buttons'>
+  {{~it.options :opt:index}}
+  <div class="select-option">
+    <label>
+      <input type='radio' name='{{= it.id }}' value='{{= opt.value }}' {{? opt.checked }}checked=true{{?}}/>
+      <span>{{=it.renderItem(opt)}}</span>
+    </label>
+  </div>
+  {{~}}
+</div>

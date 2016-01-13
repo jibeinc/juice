@@ -68,16 +68,17 @@ var UI =
 	  Button: __webpack_require__(/*! ./Button */ 30),
 	  CurrentLocation: __webpack_require__(/*! ./CurrentLocation */ 39),
 	  ExpandCollapse: __webpack_require__(/*! ./ExpandCollapse/ */ 43),
-	  ListView: __webpack_require__(/*! ./ListView */ 48),
-	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 52),
-	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 56),
-	  Pagination: __webpack_require__(/*! ./Pagination */ 60),
-	  InfiniteScroll: __webpack_require__(/*! ./InfiniteScroll */ 63),
-	  TextInput: __webpack_require__(/*! ./TextInput */ 66),
+	  InfiniteScroll: __webpack_require__(/*! ./InfiniteScroll */ 48),
+	  ListView: __webpack_require__(/*! ./ListView */ 51),
+	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 55),
+	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 71),
+	  Pagination: __webpack_require__(/*! ./Pagination */ 75),
+	  RadioButtons: __webpack_require__(/*! ./RadioButtons */ 78),
+	  SentenceGenerator: __webpack_require__(/*! ./SentenceGenerator */ 80),
+	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 84),
+	  TextInput: __webpack_require__(/*! ./TextInput */ 65),
 	  Toggle: __webpack_require__(/*! ./Toggle */ 46),
-	  Typeahead: __webpack_require__(/*! ./Typeahead */ 72),
-	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 78),
-	  SentenceGenerator: __webpack_require__(/*! ./SentenceGenerator */ 82)
+	  Typeahead: __webpack_require__(/*! ./Typeahead */ 59)
 	};
 	
 	UIComponents.init = function init() {
@@ -17934,6 +17935,147 @@ var UI =
 
 /***/ },
 /* 48 */
+/*!*************************************!*\
+  !*** ./src/InfiniteScroll/index.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var $ = __webpack_require__(/*! jquery */ 4);
+	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
+	var debounce = __webpack_require__(/*! debounce */ 49);
+	
+	var InfiniteScroll = function (_BaseComponent) {
+	  _inherits(InfiniteScroll, _BaseComponent);
+	
+	  function InfiniteScroll(el) {
+	    var _ret;
+	
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	    _classCallCheck(this, InfiniteScroll);
+	
+	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, {
+	      preserveChildElements: true
+	    }));
+	
+	    if (!opts.onScrollToBottom) {
+	      throw new Error('You must provide an onScrollToBottom function');
+	    } else {
+	      _this.onScrollToBottom = opts.onScrollToBottom;
+	    }
+	
+	    var debounceWait = opts.debounceWait || 500;
+	    var $scrollTarget = opts.windowScroll ? $(window) : _this.$el;
+	
+	    $scrollTarget.scroll(debounce(function () {
+	      var scrollTop = $scrollTarget.scrollTop();
+	      var elementHeight = $scrollTarget.height();
+	      var elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
+	      var scrollTrigger = opts.scrollTrigger || 0.95;
+	
+	      if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
+	        _this.onScrollToBottom();
+	      }
+	    }, debounceWait, false));
+	
+	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
+	  }
+	
+	  InfiniteScroll.prototype.render = function render() {
+	    return this.$el.html();
+	  };
+	
+	  return InfiniteScroll;
+	}(BaseComponent);
+	
+	module.exports = InfiniteScroll;
+
+/***/ },
+/* 49 */
+/*!*****************************!*\
+  !*** ./~/debounce/index.js ***!
+  \*****************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * Module dependencies.
+	 */
+	
+	var now = __webpack_require__(/*! date-now */ 50);
+	
+	/**
+	 * Returns a function, that, as long as it continues to be invoked, will not
+	 * be triggered. The function will be called after it stops being called for
+	 * N milliseconds. If `immediate` is passed, trigger the function on the
+	 * leading edge, instead of the trailing.
+	 *
+	 * @source underscore.js
+	 * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
+	 * @param {Function} function to wrap
+	 * @param {Number} timeout in ms (`100`)
+	 * @param {Boolean} whether to execute at the beginning (`false`)
+	 * @api public
+	 */
+	
+	module.exports = function debounce(func, wait, immediate){
+	  var timeout, args, context, timestamp, result;
+	  if (null == wait) wait = 100;
+	
+	  function later() {
+	    var last = now() - timestamp;
+	
+	    if (last < wait && last > 0) {
+	      timeout = setTimeout(later, wait - last);
+	    } else {
+	      timeout = null;
+	      if (!immediate) {
+	        result = func.apply(context, args);
+	        if (!timeout) context = args = null;
+	      }
+	    }
+	  };
+	
+	  return function debounced() {
+	    context = this;
+	    args = arguments;
+	    timestamp = now();
+	    var callNow = immediate && !timeout;
+	    if (!timeout) timeout = setTimeout(later, wait);
+	    if (callNow) {
+	      result = func.apply(context, args);
+	      context = args = null;
+	    }
+	
+	    return result;
+	  };
+	};
+
+
+/***/ },
+/* 50 */
+/*!*****************************!*\
+  !*** ./~/date-now/index.js ***!
+  \*****************************/
+/***/ function(module, exports) {
+
+	module.exports = Date.now || now
+	
+	function now() {
+	    return new Date().getTime()
+	}
+
+
+/***/ },
+/* 51 */
 /*!*******************************!*\
   !*** ./src/ListView/index.js ***!
   \*******************************/
@@ -17954,10 +18096,10 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 49);
+	__webpack_require__(/*! ./styles.css */ 52);
 	
 	// html
-	var listViewTmpl = __webpack_require__(/*! ./listView.dot */ 51);
+	var listViewTmpl = __webpack_require__(/*! ./listView.dot */ 54);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
@@ -18019,7 +18161,7 @@ var UI =
 	module.exports = ListView;
 
 /***/ },
-/* 49 */
+/* 52 */
 /*!*********************************!*\
   !*** ./src/ListView/styles.css ***!
   \*********************************/
@@ -18028,7 +18170,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 50);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 53);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
@@ -18048,7 +18190,7 @@ var UI =
 	}
 
 /***/ },
-/* 50 */
+/* 53 */
 /*!****************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/ListView/styles.css ***!
   \****************************************************************************/
@@ -18065,7 +18207,7 @@ var UI =
 
 
 /***/ },
-/* 51 */
+/* 54 */
 /*!***********************************!*\
   !*** ./src/ListView/listView.dot ***!
   \***********************************/
@@ -18077,22 +18219,13 @@ var UI =
 	}
 
 /***/ },
-/* 52 */
-/*!***********************************!*\
-  !*** ./src/SingleSelect/index.js ***!
-  \***********************************/
+/* 55 */
+/*!****************************************!*\
+  !*** ./src/LocationTypeahead/index.js ***!
+  \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
-	//  @title: SingleSelect
-	//  @author: jhatcher
-	//  @description:
-	//    Simple dropdown list with the ability to choose one option
-	//  @todo:
-	//    - styles
-	
-	// css
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -18100,127 +18233,108 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 53);
+	// # Location Search Typeahead
+	//
+	//   Extends `Typeahead` class to:
+	//
+	//   - add a "use my current location" icon to text input
+	//   - add fixed result that triggers "use my current location" on click
+	
+	// styles
+	__webpack_require__(/*! ./styles.css */ 56);
 	
 	// html
-	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 55);
+	var currentLocationTemplate = __webpack_require__(/*! ./useMyCurrentLocation.tmpl */ 58);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
-	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
+	var Typeahead = __webpack_require__(/*! ../Typeahead */ 59);
+	var FragFactory = __webpack_require__(/*! ../BaseFragmentFactory */ 9);
+	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 39);
 	
-	var SingleSelect = function (_BaseComponent) {
-	  _inherits(SingleSelect, _BaseComponent);
+	var LocationTypeahead = function (_Typeahead) {
+	  _inherits(LocationTypeahead, _Typeahead);
 	
-	  // @constructor
-	  // @param {String} el   - The dom element to attach to
-	  // @param {Object} opts - The options passed in to configure this component
-	  // @param {Array} opts.options - each option to be rendered, containing 3 attributes (2 are passed in):
-	  //    @prop {String} [optional] display - the display to render for the option
-	  //    @prop {String} value - the data value to send to the server
-	
-	  function SingleSelect(el) {
+	  function LocationTypeahead(el) {
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
-	    _classCallCheck(this, SingleSelect);
+	    _classCallCheck(this, LocationTypeahead);
 	
-	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
+	    // define the "current location" icon DOM fragment
+	    var iconFactory = new FragFactory({
+	      render: function render(data) {
+	        data.displayValue = data.name === 'listItem' ? 'inline' : 'none';
+	        return currentLocationTemplate(data);
+	      },
 	
-	    _this.options = (opts.options || []).map(function (opt) {
-	      if ($.isPlainObject(opt)) {
-	        return {
-	          display: opt.display,
-	          value: opt.value,
-	          selected: opt.value === _this.get()
-	        };
+	      controller: function controller(data) {
+	        var currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name, {
+	          geolocationAPI: opts.geolocationAPI
+	        });
+	
+	        currentLocationIcon.subscribe(function (event) {
+	          if (event.isLocation) {
+	            _this.set(event);
+	            _this.textInput.$input.val('Your current location'); // just for display
+	          }
+	        });
+	        currentLocationIcon.render();
 	      }
-	      return {
-	        value: opt,
-	        selected: opt === _this.get()
-	      };
 	    });
+	
+	    //Ensure we have an opts.textInputOpts object
+	    opts.textInputOpts = opts.textInputOpts || {};
+	
+	    // setup the input icon to be a "use current location" component
+	    Object.assign(opts.textInputOpts, {
+	      iconClearsValue: false,
+	      icon: iconFactory.make({
+	        name: 'icon'
+	      })
+	    });
+	
+	    // setup "current location" fixed result
+	    opts.fixedResults = (opts.fixedResults || []).concat([{
+	      useMyCurrentLocation: true,
+	      preSelectHook: function preSelectHook(item) {
+	        $('.ui-current-location-listItem').click(); // trigger 'use my location' icon
+	        return false; // don't run normal selection behavior
+	      }
+	    }]);
+	
+	    var _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
+	
+	    _this.iconFactory = iconFactory;
+	    _this.$el.addClass('ui-location-typeahead');
 	    return _this;
 	  }
 	
-	  // @method
-	  // @returns the display attribute of the option if it exists, fallback to the value
-	
-	  SingleSelect.prototype.getDisplayValue = function getDisplayValue() {
-	    var display = undefined;
-	
-	    var _iteratorNormalCompletion = true;
-	    var _didIteratorError = false;
-	    var _iteratorError = undefined;
-	
-	    try {
-	      for (var _iterator = this.options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	        var opt = _step.value;
-	
-	        if (opt.selected) {
-	          display = opt.display ? opt.display : opt.value;
-	        }
-	      }
-	    } catch (err) {
-	      _didIteratorError = true;
-	      _iteratorError = err;
-	    } finally {
-	      try {
-	        if (!_iteratorNormalCompletion && _iterator.return) {
-	          _iterator.return();
-	        }
-	      } finally {
-	        if (_didIteratorError) {
-	          throw _iteratorError;
-	        }
-	      }
+	  LocationTypeahead.prototype.renderItem = function renderItem(item) {
+	    if (item && item.useMyCurrentLocation) {
+	      return this.iconFactory.make({
+	        name: 'listItem'
+	      });
+	    } else {
+	      return _Typeahead.prototype.renderItem.call(this, item);
 	    }
-	
-	    return display;
 	  };
 	
-	  // @method
-	  // @param {Object} v - the Option Object (display,value,selected) to set
+	  return LocationTypeahead;
+	}(Typeahead);
 	
-	  SingleSelect.prototype.set = function set(v) {
-	    this.options = this.options.map(function (opt) {
-	      opt.selected = opt.value === v;
-	      return opt;
-	    });
-	
-	    return _BaseComponent.prototype.set.call(this, v);
-	  };
-	
-	  // @method
-	  // @returns the HTML of the element
-	
-	  SingleSelect.prototype.render = function render() {
-	    var _this2 = this;
-	
-	    this.$el.html(selectTmpl(this));
-	    this.$el.find('select').change(function (evt) {
-	      _this2.set($(evt.target).val());
-	    });
-	    return this.$el.html();
-	  };
-	
-	  return SingleSelect;
-	}(BaseComponent);
-	
-	;
-	
-	module.exports = SingleSelect;
+	module.exports = LocationTypeahead;
 
 /***/ },
-/* 53 */
-/*!*************************************!*\
-  !*** ./src/SingleSelect/styles.css ***!
-  \*************************************/
+/* 56 */
+/*!******************************************!*\
+  !*** ./src/LocationTypeahead/styles.css ***!
+  \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 54);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 57);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
@@ -18240,10 +18354,10 @@ var UI =
 	}
 
 /***/ },
-/* 54 */
-/*!********************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SingleSelect/styles.css ***!
-  \********************************************************************************/
+/* 57 */
+/*!*************************************************************************************!*\
+  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/LocationTypeahead/styles.css ***!
+  \*************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 33)();
@@ -18251,38 +18365,696 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, "", ""]);
+	exports.push([module.id, ".ui-curr-loc {\n  display: inline-block;\n  width: 22px;\n  height: 22px;\n}\n\n.ui-location-typeahead .ui-text-input-icon {\n  right: 0;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 55 */
-/*!**************************************!*\
-  !*** ./src/SingleSelect/select.tmpl ***!
-  \**************************************/
+/* 58 */
+/*!*********************************************************!*\
+  !*** ./src/LocationTypeahead/useMyCurrentLocation.tmpl ***!
+  \*********************************************************/
 /***/ function(module, exports) {
 
 	module.exports = function (scope) {
-	  return '<select>\n' + scope.options.map(function (option) {
-	    if (option.display) {
-	      if (option.selected) {
-	        return '<option value=' + option.value + ' selected=true>' + option.display + '</option>';
-	      } else {
-	        return '<option value=' + option.value + '>' + option.display + '</option>';
-	      }
-	    } else {
-	      if (option.selected) {
-	        return '<option value=' + option.value + ' selected=true>' + option.value + '</option>';
-	      } else {
-	        return '<option value=' + option.value + '>' + option.value + '</option>';
-	      }
-	    }
-	  }) + '\n</select>\n';
+	  return "<span class='ui-current-location-" + scope.name + " ui-curr-loc'></span>\n<span style='display: " + scope.displayValue + " '>Use my current location</span>\n";
 	};
 
 /***/ },
-/* 56 */
+/* 59 */
+/*!********************************!*\
+  !*** ./src/Typeahead/index.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	// Extends PrettyTypeahead by adding:
+	//
+	// - support for results as objects instead of just simple values (selection value isn't just display string)
+	// - option to force user to pick from dropdown or to let them type in freely also
+	// - support for fixed result items
+	
+	// scripts
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var $ = __webpack_require__(/*! jquery */ 4);
+	var PrettyTypeahead = __webpack_require__(/*! ./PrettyTypeahead */ 60);
+	
+	var Typeahead = function (_PrettyTypeahead) {
+	  _inherits(Typeahead, _PrettyTypeahead);
+	
+	  function Typeahead(el) {
+	    var _ret;
+	
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	    _classCallCheck(this, Typeahead);
+	
+	    var _this = _possibleConstructorReturn(this, _PrettyTypeahead.call(this, el, opts));
+	
+	    _this.fixedResults = opts.fixedResults || [];
+	    _this.results = _this.results.concat(_this.fixedResults);
+	    _this.allowFreeForm = opts.allowFreeForm || false;
+	    _this.displayProperty = opts.displayProperty || 'displayName';
+	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
+	  }
+	
+	  Typeahead.prototype.refreshResults = function refreshResults(cb) {
+	    var _this2 = this;
+	
+	    return _PrettyTypeahead.prototype.refreshResults.call(this, function (results) {
+	      return cb(results.concat(_this2.fixedResults));
+	    });
+	  };
+	
+	  Typeahead.prototype.handleSelection = function handleSelection(selection) {
+	    var runSelection = true;
+	    if (selection && selection.preSelectHook) {
+	      runSelection = selection.preSelectHook.apply(this, [selection]);
+	    }
+	
+	    if (runSelection) {
+	      console.log('proceed with selection', selection);
+	      this.set(selection);
+	    }
+	  };
+	
+	  Typeahead.prototype.selectByIndex = function selectByIndex() {
+	    if (!this.active()) {
+	      return;
+	    }
+	
+	    _PrettyTypeahead.prototype.selectByIndex.call(this);
+	
+	    if (this.allowFreeForm && this.resultsListView.results.length === 0) {
+	      this.handleSelection(this.textInput.get());
+	    }
+	  };
+	
+	  return Typeahead;
+	}(PrettyTypeahead);
+	
+	module.exports = Typeahead;
+
+/***/ },
+/* 60 */
+/*!************************************************!*\
+  !*** ./src/Typeahead/PrettyTypeahead/index.js ***!
+  \************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	// Extends BaseTypeahead by adding:
+	//
+	// - the concept of "active"
+	// - the use of arrow keys/enter to pick from the results list
+	// - blur/focus events to close/open the results list
+	// - add highlights for partial matches
+	// - ESC key forces blur
+	// - point to click from results list and hover highlight
+	// - hover highlight renders list view results on top of page instead of pushing elements down
+	
+	// ==================================================== //
+	// use the child class `Typeahead` in your actual UI's! //
+	// ==================================================== //
+	
+	// less
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	__webpack_require__(/*! ./styles.less */ 61);
+	
+	// scripts
+	var $ = __webpack_require__(/*! jquery */ 4);
+	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 63);
+	
+	var HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
+	
+	var PrettyTypeahead = function (_BaseTypeahead) {
+	  _inherits(PrettyTypeahead, _BaseTypeahead);
+	
+	  function PrettyTypeahead(el) {
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	    _classCallCheck(this, PrettyTypeahead);
+	
+	    opts.renderItem = function (item) {
+	      return _this.renderItem(item);
+	    };
+	
+	    var _this = _possibleConstructorReturn(this, _BaseTypeahead.call(this, el, opts));
+	
+	    _this.textInput.subscribe(function () {
+	      _this.highlightIndex = null;
+	    });
+	    return _this;
+	  }
+	
+	  PrettyTypeahead.prototype.render = function render() {
+	    _BaseTypeahead.prototype.render.call(this);
+	
+	    // layer on our new behavior - hiding/showing results when user blurs/focuses
+	    this.resultsListView.$el.hide();
+	    this.attachFocusEvents();
+	
+	    // we also want to let you pick results from just the keyboard
+	    this.attachKeyEvents();
+	
+	    return this.$el.html();
+	  };
+	
+	  PrettyTypeahead.prototype.active = function active(v) {
+	    if (typeof v === 'boolean') {
+	      this.isActive = v;
+	
+	      if (this.isActive) {
+	        this.onActive();
+	      } else {
+	        this.onInactive();
+	      }
+	    }
+	
+	    return this.isActive;
+	  };
+	
+	  PrettyTypeahead.prototype.onActive = function onActive() {
+	    this.resultsListView.$el.show();
+	  };
+	
+	  PrettyTypeahead.prototype.onInactive = function onInactive() {
+	    this.resultsListView.$el.hide();
+	    delete this.highlightIndex;
+	  };
+	
+	  PrettyTypeahead.prototype.attachFocusEvents = function attachFocusEvents() {
+	    var _this2 = this;
+	
+	    this.textInput.$el.find('input').on('focus', function () {
+	      _this2.active(true);
+	    });
+	
+	    $(document).click(function (evt) {
+	      if (_this2.$el.find($(evt.target)).size() === 0 && $(evt.target)[0].tagName !== 'input') {
+	        _this2.active(false);
+	        _this2.textInput.$el.find('input').blur();
+	      }
+	    });
+	  };
+	
+	  PrettyTypeahead.prototype.renderItem = function renderItem(item) {
+	    // bold the matching part
+	    var originalText = String(this.getDisplayValue(item));
+	    var searchTerm = this.textInput.get() || '';
+	    var matchIndex = -1;
+	
+	    if (searchTerm.length !== 0) {
+	      matchIndex = originalText.indexOf(searchTerm);
+	    }
+	
+	    if (matchIndex >= 0) {
+	      var start = matchIndex;
+	      var end = start + searchTerm.length;
+	
+	      item = originalText.substring(0, start);
+	      item += '<b>';
+	      item += originalText.substring(start, end);
+	      item += '</b>';
+	
+	      if (end < originalText.length) {
+	        item += originalText.substring(end);
+	      }
+	    }
+	
+	    return this.getDisplayValue(item);
+	  };
+	
+	  PrettyTypeahead.prototype.attachKeyEvents = function attachKeyEvents() {
+	    var _this3 = this;
+	
+	    this.highlightIndex;
+	
+	    $(document).on('keydown', function (evt) {
+	      if (!_this3.active()) {
+	        return;
+	      }
+	
+	      switch (evt.which) {
+	        case _this3.keyEvents.UP:
+	          _this3.decrementHighlight();
+	          evt.preventDefault();
+	          break;
+	
+	        case _this3.keyEvents.DOWN:
+	          _this3.incrementHighlight();
+	          evt.preventDefault();
+	          break;
+	
+	        case _this3.keyEvents.ENTER:
+	          _this3.selectByIndex();
+	          evt.preventDefault();
+	
+	        case _this3.keyEvents.ESC:
+	          _this3.active(false);
+	          break;
+	
+	        default:
+	          break;
+	      }
+	    });
+	  };
+	
+	  PrettyTypeahead.prototype.selectByIndex = function selectByIndex() {
+	    if (this.active()) {
+	      var highlighted = this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS);
+	      if (highlighted.length) {
+	        highlighted.click();
+	      } else {
+	        var valueToSet = this.textInput.get();
+	        if (valueToSet) this.set(valueToSet);
+	      }
+	    }
+	    this.textInput.$el.find('input').blur();
+	  };
+	
+	  PrettyTypeahead.prototype.incrementHighlight = function incrementHighlight() {
+	    this.highlightIndex = typeof this.highlightIndex === 'undefined' || this.highlightIndex === null ? 0 : this.highlightIndex + 1;
+	    this.normalizeHighlightIndex();
+	    this.renderHighlight();
+	  };
+	
+	  PrettyTypeahead.prototype.decrementHighlight = function decrementHighlight() {
+	    this.highlightIndex = typeof this.highlightIndex === 'undefined' || this.highlightIndex === null ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
+	    this.normalizeHighlightIndex();
+	    this.renderHighlight();
+	  };
+	
+	  PrettyTypeahead.prototype.normalizeHighlightIndex = function normalizeHighlightIndex() {
+	    var length = this.resultsListView.$el.find('li').size();
+	    this.highlightIndex = (this.highlightIndex + length) % length;
+	  };
+	
+	  PrettyTypeahead.prototype.renderHighlight = function renderHighlight() {
+	    // remove the highlight
+	    this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).removeClass(HIGHLIGHT_CLASS);
+	
+	    // add it to the right index
+	    this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass(HIGHLIGHT_CLASS);
+	  };
+	
+	  return PrettyTypeahead;
+	}(BaseTypeahead);
+	
+	module.exports = PrettyTypeahead;
+
+/***/ },
+/* 61 */
+/*!***************************************************!*\
+  !*** ./src/Typeahead/PrettyTypeahead/styles.less ***!
+  \***************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../../~/css-loader!./../../../~/less-loader!./styles.less */ 62);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../../~/style-loader/addStyles.js */ 34)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/less-loader/index.js!./styles.less", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/less-loader/index.js!./styles.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 62 */
+/*!**********************************************************************************!*\
+  !*** ./~/css-loader!./~/less-loader!./src/Typeahead/PrettyTypeahead/styles.less ***!
+  \**********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../../~/css-loader/lib/css-base.js */ 33)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto, 'Helvetica Neue', sans-serif;\n  position: relative;\n}\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n  position: absolute;\n  width: 100%;\n}\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n  border-bottom: solid #F3F3F3 1px;\n}\n.ui-typeahead .results-list-container li:hover {\n  background-color: #00516f;\n  color: white;\n  cursor: pointer;\n}\n.ui-typeahead .results-list-container .ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 63 */
+/*!**************************************************************!*\
+  !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/index.js ***!
+  \**************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	// handle just the absolute core behavior of a typeahead
+	//
+	//   1. a text input
+	//   2. a list view of results based on current text
+	
+	// ============================================================== //
+	// its recommended using the child class `Typeahead` in your UI's //
+	// ============================================================== //
+	
+	// html
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 64);
+	
+	// scripts
+	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 36);
+	var $ = __webpack_require__(/*! jquery */ 4);
+	var TextInput = __webpack_require__(/*! ../../../TextInput */ 65);
+	var ListView = __webpack_require__(/*! ../../../ListView */ 51);
+	var assert = __webpack_require__(/*! ../../../assert.js */ 10);
+	
+	var BaseTypeahead = function (_BaseComponent) {
+	  _inherits(BaseTypeahead, _BaseComponent);
+	
+	  function BaseTypeahead(el) {
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	    _classCallCheck(this, BaseTypeahead);
+	
+	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
+	
+	    Object.assign(_this, {
+	      fetch: opts.fetch,
+	      results: [],
+	      textInputOpts: opts.textInputOpts || {}
+	    });
+	    assert(typeof _this.fetch === 'function');
+	
+	    _this.$el.append(containerHTML);
+	
+	    _this.textInput = new TextInput(_this.$el.find('.input-container'), _this.textInputOpts);
+	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), {
+	      fetch: function fetch(cb) {
+	        _this.refreshResults(cb);
+	      },
+	      renderItem: opts.renderItem || null
+	    });
+	
+	    // when an item is picked from the list view:
+	    _this.resultsListView.subscribe(function (evt) {
+	      if (evt === 'refresh') {
+	        return;
+	      }
+	
+	      // update text input with this value, set typeahead internal value
+	      _this.handleSelection(evt);
+	      _this.textInput.$el.find('input').focus();
+	    });
+	
+	    // when text input gets a new value:
+	    _this.textInput.subscribe(function (term) {
+	      // re render results list
+	      _this.resultsListView.refresh();
+	    });
+	    return _this;
+	  }
+	
+	  BaseTypeahead.prototype.handleSelection = function handleSelection(selection) {
+	    this.set(selection);
+	  };
+	
+	  BaseTypeahead.prototype.getDisplayValue = function getDisplayValue(item) {
+	    if ($.isPlainObject(item)) {
+	      item = item[this.displayProperty];
+	    }
+	    return item;
+	  };
+	
+	  BaseTypeahead.prototype.set = function set(v) {
+	    this.textInput.set(this.getDisplayValue(v));
+	    this.value = v;
+	    this.publish(this.get());
+	    return this;
+	  };
+	
+	  BaseTypeahead.prototype.render = function render() {
+	    this.textInput.render();
+	    this.resultsListView.refresh();
+	    return this.$el.html();
+	  };
+	
+	  BaseTypeahead.prototype.refreshResults = function refreshResults(cb) {
+	    var _this2 = this;
+	
+	    this.fetch(this.textInput.get(), function (results) {
+	      _this2.results = results;
+	      cb(results);
+	    });
+	  };
+	
+	  return BaseTypeahead;
+	}(BaseComponent);
+	
+	module.exports = BaseTypeahead;
+
+/***/ },
+/* 64 */
+/*!************************************************************************!*\
+  !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/baseTypeahead.html ***!
+  \************************************************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<div class='ui-typeahead'>\n  <div class='input-container'></div>\n  <div class='results-list-container'></div>\n</div>\n\n";
+
+/***/ },
+/* 65 */
+/*!********************************!*\
+  !*** ./src/TextInput/index.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	// # TextInput
+	// publishes a nicely throttled text input event
+	// adds a clearing x icon
+	
+	// css
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	__webpack_require__(/*! ./styles.css */ 66);
+	
+	// html
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 68);
+	var iconTmpl = __webpack_require__(/*! ./icon.tmpl */ 69);
+	var iconWrapper = __webpack_require__(/*! ./iconWrapper.html */ 70);
+	
+	// scripts
+	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
+	var debounce = __webpack_require__(/*! debounce */ 49);
+	
+	var TextInput = function (_BaseComponent) {
+	  _inherits(TextInput, _BaseComponent);
+	
+	  function TextInput(el) {
+	    var _ret;
+	
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	    _classCallCheck(this, TextInput);
+	
+	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
+	
+	    Object.assign(_this, {
+	      $input: null,
+	      icon: opts.icon || 'x',
+	      onEnterPressed: opts.onEnterPressed || null,
+	      onIconClick: opts.onIconClick || null,
+	      iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
+	      placeholder: opts.placeholder || '',
+	      value: opts.value || '',
+	      wait: opts.wait || 300
+	    });
+	
+	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
+	  }
+	
+	  TextInput.prototype.render = function render() {
+	    var _this2 = this;
+	
+	    // the base input
+	    this.$el.addClass('ui-text-input');
+	    this.$el.html(inputTmpl(this));
+	    this.$input = this.$el.find('input');
+	
+	    var onKeyup = debounce(function (e) {
+	      _this2.get() !== _this2.$input.val() ? _this2.set(_this2.$input.val()) : '';
+	      if (e.keyCode == 13) {
+	        _this2.$input.blur();
+	        if (_this2.onEnterPressed) {
+	          _this2.onEnterPressed(_this2.get());
+	        }
+	      }
+	    }, this.wait);
+	
+	    this.$input.keyup(onKeyup); // debounced slightly for ux
+	
+	    if (this.icon) {
+	      // the wrapper to place a clearing icon (X)
+	      this.$input.wrap(iconWrapper);
+	      this.$wrapper = this.$el.find('.ui-text-input-icon-wrapper');
+	
+	      // the clearing icon itself (absolute positioned within wrapper to be on the right)
+	      this.$wrapper.append(iconTmpl(this));
+	      this.$icon = this.$el.find('.ui-text-input-icon');
+	
+	      if (this.iconClearsValue || this.onIconClick) {
+	        this.$icon.click(function () {
+	          if (_this2.iconClearsValue) {
+	            _this2.set('');
+	          }
+	          if (_this2.onIconClick) {
+	            _this2.onIconClick();
+	          }
+	        });
+	      }
+	    }
+	
+	    return this.$el.html();
+	  };
+	
+	  TextInput.prototype.get = function get() {
+	    return typeof this.value === 'undefined' ? '' : this.value;
+	  };
+	
+	  TextInput.prototype.set = function set(v) {
+	    this.value = v;
+	    if (this.$input) {
+	      this.$input.val(this.value); // user will lose focus if we do a full render
+	    } else {
+	        this.render(); // first time
+	      }
+	    this.publish(this.get());
+	    return this;
+	  };
+	
+	  return TextInput;
+	}(BaseComponent);
+	
+	;
+	
+	module.exports = TextInput;
+
+/***/ },
+/* 66 */
+/*!**********************************!*\
+  !*** ./src/TextInput/styles.css ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 67);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 67 */
+/*!*****************************************************************************!*\
+  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/TextInput/styles.css ***!
+  \*****************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 33)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".ui-text-input {\n  width: 100%;\n}\n\n.ui-text-input-icon-wrapper {\n  position: relative;\n}\n\n.ui-text-input-icon {\n  font-size: 16px;\n  position: absolute;\n  top: 5px;\n  right: 15px;\n  cursor: pointer;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 68 */
+/*!**********************************!*\
+  !*** ./src/TextInput/input.tmpl ***!
+  \**********************************/
+/***/ function(module, exports) {
+
+	module.exports = function (scope) {
+	  return "<input type='text' id='" + scope.id + "'\nclass='ui-text-input form-control'\nplaceholder='" + scope.placeholder + "'\nvalue='" + scope.get() + "'/>\n";
+	};
+
+/***/ },
+/* 69 */
+/*!*********************************!*\
+  !*** ./src/TextInput/icon.tmpl ***!
+  \*********************************/
+/***/ function(module, exports) {
+
+	module.exports = function (scope) {
+	  return "<span class='ui-text-input-icon'>" + scope.icon + "</span>";
+	};
+
+/***/ },
+/* 70 */
+/*!****************************************!*\
+  !*** ./src/TextInput/iconWrapper.html ***!
+  \****************************************/
+/***/ function(module, exports) {
+
+	module.exports = "<div class='ui-text-input-icon-wrapper'></div>";
+
+/***/ },
+/* 71 */
 /*!**********************************!*\
   !*** ./src/MultiSelect/index.js ***!
   \**********************************/
@@ -18300,10 +19072,10 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.scss */ 57);
+	__webpack_require__(/*! ./styles.scss */ 72);
 	
 	// html
-	var multiSelectTmpl = __webpack_require__(/*! ./multiSelect.dot */ 59);
+	var multiSelectTmpl = __webpack_require__(/*! ./multiSelect.dot */ 74);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
@@ -18394,7 +19166,7 @@ var UI =
 	module.exports = MultiSelect;
 
 /***/ },
-/* 57 */
+/* 72 */
 /*!*************************************!*\
   !*** ./src/MultiSelect/styles.scss ***!
   \*************************************/
@@ -18403,7 +19175,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./../../~/jsontosass-loader?path=./sassvars.json!./styles.scss */ 58);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./../../~/jsontosass-loader?path=./sassvars.json!./styles.scss */ 73);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
@@ -18423,7 +19195,7 @@ var UI =
 	}
 
 /***/ },
-/* 58 */
+/* 73 */
 /*!***************************************************************************************************************!*\
   !*** ./~/css-loader!./~/sass-loader!./~/jsontosass-loader?path=./sassvars.json!./src/MultiSelect/styles.scss ***!
   \***************************************************************************************************************/
@@ -18440,7 +19212,7 @@ var UI =
 
 
 /***/ },
-/* 59 */
+/* 74 */
 /*!*****************************************!*\
   !*** ./src/MultiSelect/multiSelect.dot ***!
   \*****************************************/
@@ -18452,7 +19224,7 @@ var UI =
 	}
 
 /***/ },
-/* 60 */
+/* 75 */
 /*!*********************************!*\
   !*** ./src/Pagination/index.js ***!
   \*********************************/
@@ -18468,8 +19240,8 @@ var UI =
 	
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
 	var $ = __webpack_require__(/*! jquery */ 4);
-	var simplePagination = __webpack_require__(/*! imports?jQuery=jquery!../../~/simplePagination/jquery.simplePagination.js */ 61);
-	var paginationTmpl = __webpack_require__(/*! ./pagination.dot */ 62);
+	var simplePagination = __webpack_require__(/*! imports?jQuery=jquery!../../~/simplePagination/jquery.simplePagination.js */ 76);
+	var paginationTmpl = __webpack_require__(/*! ./pagination.dot */ 77);
 	
 	var Pagination = function (_BaseComponent) {
 	  _inherits(Pagination, _BaseComponent);
@@ -18525,7 +19297,7 @@ var UI =
 	module.exports = Pagination;
 
 /***/ },
-/* 61 */
+/* 76 */
 /*!****************************************************************************************!*\
   !*** ./~/imports-loader?jQuery=jquery!./~/simplePagination/jquery.simplePagination.js ***!
   \****************************************************************************************/
@@ -18931,7 +19703,7 @@ var UI =
 
 
 /***/ },
-/* 62 */
+/* 77 */
 /*!***************************************!*\
   !*** ./src/Pagination/pagination.dot ***!
   \***************************************/
@@ -18943,983 +19715,122 @@ var UI =
 	}
 
 /***/ },
-/* 63 */
-/*!*************************************!*\
-  !*** ./src/InfiniteScroll/index.js ***!
-  \*************************************/
+/* 78 */
+/*!***********************************!*\
+  !*** ./src/RadioButtons/index.js ***!
+  \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var $ = __webpack_require__(/*! jquery */ 4);
-	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
-	var debounce = __webpack_require__(/*! debounce */ 64);
-	
-	var InfiniteScroll = function (_BaseComponent) {
-	  _inherits(InfiniteScroll, _BaseComponent);
-	
-	  function InfiniteScroll(el) {
-	    var _ret;
-	
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-	
-	    _classCallCheck(this, InfiniteScroll);
-	
-	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, {
-	      preserveChildElements: true
-	    }));
-	
-	    if (!opts.onScrollToBottom) {
-	      throw new Error('You must provide an onScrollToBottom function');
-	    } else {
-	      _this.onScrollToBottom = opts.onScrollToBottom;
-	    }
-	
-	    var debounceWait = opts.debounceWait || 500;
-	    var $scrollTarget = opts.windowScroll ? $(window) : _this.$el;
-	
-	    $scrollTarget.scroll(debounce(function () {
-	      var scrollTop = $scrollTarget.scrollTop();
-	      var elementHeight = $scrollTarget.height();
-	      var elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
-	      var scrollTrigger = opts.scrollTrigger || 0.95;
-	
-	      if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
-	        _this.onScrollToBottom();
-	      }
-	    }, debounceWait, false));
-	
-	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
-	  }
-	
-	  InfiniteScroll.prototype.render = function render() {
-	    return this.$el.html();
-	  };
-	
-	  return InfiniteScroll;
-	}(BaseComponent);
-	
-	module.exports = InfiniteScroll;
-
-/***/ },
-/* 64 */
-/*!*****************************!*\
-  !*** ./~/debounce/index.js ***!
-  \*****************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	/**
-	 * Module dependencies.
-	 */
-	
-	var now = __webpack_require__(/*! date-now */ 65);
-	
-	/**
-	 * Returns a function, that, as long as it continues to be invoked, will not
-	 * be triggered. The function will be called after it stops being called for
-	 * N milliseconds. If `immediate` is passed, trigger the function on the
-	 * leading edge, instead of the trailing.
-	 *
-	 * @source underscore.js
-	 * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
-	 * @param {Function} function to wrap
-	 * @param {Number} timeout in ms (`100`)
-	 * @param {Boolean} whether to execute at the beginning (`false`)
-	 * @api public
-	 */
-	
-	module.exports = function debounce(func, wait, immediate){
-	  var timeout, args, context, timestamp, result;
-	  if (null == wait) wait = 100;
-	
-	  function later() {
-	    var last = now() - timestamp;
-	
-	    if (last < wait && last > 0) {
-	      timeout = setTimeout(later, wait - last);
-	    } else {
-	      timeout = null;
-	      if (!immediate) {
-	        result = func.apply(context, args);
-	        if (!timeout) context = args = null;
-	      }
-	    }
-	  };
-	
-	  return function debounced() {
-	    context = this;
-	    args = arguments;
-	    timestamp = now();
-	    var callNow = immediate && !timeout;
-	    if (!timeout) timeout = setTimeout(later, wait);
-	    if (callNow) {
-	      result = func.apply(context, args);
-	      context = args = null;
-	    }
-	
-	    return result;
-	  };
-	};
-
-
-/***/ },
-/* 65 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
-/***/ function(module, exports) {
-
-	module.exports = Date.now || now
-	
-	function now() {
-	    return new Date().getTime()
-	}
-
-
-/***/ },
-/* 66 */
-/*!********************************!*\
-  !*** ./src/TextInput/index.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	// # TextInput
-	// publishes a nicely throttled text input event
-	// adds a clearing x icon
-	
-	// css
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	__webpack_require__(/*! ./styles.css */ 67);
 	
 	// html
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 69);
-	var iconTmpl = __webpack_require__(/*! ./icon.tmpl */ 70);
-	var iconWrapper = __webpack_require__(/*! ./iconWrapper.html */ 71);
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var radioButtonsTmpl = __webpack_require__(/*! ./radioButtons.dot */ 79);
 	
 	// scripts
+	var $ = __webpack_require__(/*! jquery */ 4);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
-	var debounce = __webpack_require__(/*! debounce */ 64);
 	
-	var TextInput = function (_BaseComponent) {
-	  _inherits(TextInput, _BaseComponent);
+	var RadioButtons = function (_BaseComponent) {
+	  _inherits(RadioButtons, _BaseComponent);
 	
-	  function TextInput(el) {
-	    var _ret;
-	
+	  function RadioButtons(el) {
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
-	    _classCallCheck(this, TextInput);
+	    _classCallCheck(this, RadioButtons);
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
 	
-	    Object.assign(_this, {
-	      $input: null,
-	      icon: opts.icon || 'x',
-	      onEnterPressed: opts.onEnterPressed || null,
-	      onIconClick: opts.onIconClick || null,
-	      iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
-	      placeholder: opts.placeholder || '',
-	      value: opts.value || '',
-	      wait: opts.wait || 300
-	    });
-	
-	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
+	    _this.displayNameKey = opts.displayNameKey || 'displayName';
+	    _this.renderItem = opts.renderItem || _this.renderItem;
+	    _this.setOptions(opts.options || []);
+	    return _this;
 	  }
 	
-	  TextInput.prototype.render = function render() {
+	  RadioButtons.prototype.renderItem = function renderItem(item) {
+	    return JSON.stringify(item[this.displayNameKey]);
+	  };
+	
+	  RadioButtons.prototype.setOptions = function setOptions(options) {
+	    var selection = this.get();
+	    this.options = options.map(function (opt) {
+	      if ((typeof opt === 'undefined' ? 'undefined' : _typeof(opt)) !== 'object') {
+	        opt = {
+	          value: opt
+	        };
+	      }
+	      if (selection && selection.value) {
+	        opt.checked = selection.value === opt.value;
+	      } else {
+	        opt.checked = false;
+	      }
+	      return opt;
+	    });
+	  };
+	
+	  RadioButtons.prototype.get = function get() {
+	    this.options = this.options || [];
+	    var selected = this.options.filter(function (opt) {
+	      return opt.checked;
+	    });
+	    return selected[0] || null;
+	  };
+	
+	  RadioButtons.prototype.render = function render() {
 	    var _this2 = this;
 	
-	    // the base input
-	    this.$el.addClass('ui-text-input');
-	    this.$el.html(inputTmpl(this));
-	    this.$input = this.$el.find('input');
-	
-	    var onKeyup = debounce(function (e) {
-	      _this2.get() !== _this2.$input.val() ? _this2.set(_this2.$input.val()) : '';
-	      if (e.keyCode == 13) {
-	        _this2.$input.blur();
-	        if (_this2.onEnterPressed) {
-	          _this2.onEnterPressed(_this2.get());
-	        }
-	      }
-	    }, this.wait);
-	
-	    this.$input.keyup(onKeyup); // debounced slightly for ux
-	
-	    if (this.icon) {
-	      // the wrapper to place a clearing icon (X)
-	      this.$input.wrap(iconWrapper);
-	      this.$wrapper = this.$el.find('.ui-text-input-icon-wrapper');
-	
-	      // the clearing icon itself (absolute positioned within wrapper to be on the right)
-	      this.$wrapper.append(iconTmpl(this));
-	      this.$icon = this.$el.find('.ui-text-input-icon');
-	
-	      if (this.iconClearsValue || this.onIconClick) {
-	        this.$icon.click(function () {
-	          if (_this2.iconClearsValue) {
-	            _this2.set('');
-	          }
-	          if (_this2.onIconClick) {
-	            _this2.onIconClick();
-	          }
-	        });
-	      }
-	    }
-	
+	    this.$el.html(radioButtonsTmpl(this));
+	    this.$el.find('label').click(function (evt) {
+	      _this2.set($(evt.target.parentElement).find('input').val());
+	    });
+	    this.$el.find('input').click(function (evt) {
+	      _this2.set($(evt.target).val());
+	    });
 	    return this.$el.html();
 	  };
 	
-	  TextInput.prototype.get = function get() {
-	    return typeof this.value === 'undefined' ? '' : this.value;
-	  };
+	  /**
+	   * Check the options against the value passed
+	   * @param selected a value to select
+	   */
 	
-	  TextInput.prototype.set = function set(v) {
-	    this.value = v;
-	    if (this.$input) {
-	      this.$input.val(this.value); // user will lose focus if we do a full render
-	    } else {
-	        this.render(); // first time
-	      }
+	  RadioButtons.prototype.set = function set(selected) {
+	    this.options.forEach(function (option) {
+	      option.checked = option.value === selected;
+	    });
+	
+	    this.render();
 	    this.publish(this.get());
 	    return this;
 	  };
 	
-	  return TextInput;
+	  return RadioButtons;
 	}(BaseComponent);
 	
-	;
-	
-	module.exports = TextInput;
-
-/***/ },
-/* 67 */
-/*!**********************************!*\
-  !*** ./src/TextInput/styles.css ***!
-  \**********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 68);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 68 */
-/*!*****************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/TextInput/styles.css ***!
-  \*****************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 33)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".ui-text-input {\n  width: 100%;\n}\n\n.ui-text-input-icon-wrapper {\n  position: relative;\n}\n\n.ui-text-input-icon {\n  font-size: 16px;\n  position: absolute;\n  top: 5px;\n  right: 15px;\n  cursor: pointer;\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 69 */
-/*!**********************************!*\
-  !*** ./src/TextInput/input.tmpl ***!
-  \**********************************/
-/***/ function(module, exports) {
-
-	module.exports = function (scope) {
-	  return "<input type='text' id='" + scope.id + "'\nclass='ui-text-input form-control'\nplaceholder='" + scope.placeholder + "'\nvalue='" + scope.get() + "'/>\n";
-	};
-
-/***/ },
-/* 70 */
-/*!*********************************!*\
-  !*** ./src/TextInput/icon.tmpl ***!
-  \*********************************/
-/***/ function(module, exports) {
-
-	module.exports = function (scope) {
-	  return "<span class='ui-text-input-icon'>" + scope.icon + "</span>";
-	};
-
-/***/ },
-/* 71 */
-/*!****************************************!*\
-  !*** ./src/TextInput/iconWrapper.html ***!
-  \****************************************/
-/***/ function(module, exports) {
-
-	module.exports = "<div class='ui-text-input-icon-wrapper'></div>";
-
-/***/ },
-/* 72 */
-/*!********************************!*\
-  !*** ./src/Typeahead/index.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	// Extends PrettyTypeahead by adding:
-	//
-	// - support for results as objects instead of just simple values (selection value isn't just display string)
-	// - option to force user to pick from dropdown or to let them type in freely also
-	// - support for fixed result items
-	
-	// scripts
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var $ = __webpack_require__(/*! jquery */ 4);
-	var PrettyTypeahead = __webpack_require__(/*! ./PrettyTypeahead */ 73);
-	
-	var Typeahead = function (_PrettyTypeahead) {
-	  _inherits(Typeahead, _PrettyTypeahead);
-	
-	  function Typeahead(el) {
-	    var _ret;
-	
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-	
-	    _classCallCheck(this, Typeahead);
-	
-	    var _this = _possibleConstructorReturn(this, _PrettyTypeahead.call(this, el, opts));
-	
-	    _this.fixedResults = opts.fixedResults || [];
-	    _this.results = _this.results.concat(_this.fixedResults);
-	    _this.allowFreeForm = opts.allowFreeForm || false;
-	    _this.displayProperty = opts.displayProperty || 'displayName';
-	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
-	  }
-	
-	  Typeahead.prototype.refreshResults = function refreshResults(cb) {
-	    var _this2 = this;
-	
-	    return _PrettyTypeahead.prototype.refreshResults.call(this, function (results) {
-	      return cb(results.concat(_this2.fixedResults));
-	    });
-	  };
-	
-	  Typeahead.prototype.handleSelection = function handleSelection(selection) {
-	    var runSelection = true;
-	    if (selection && selection.preSelectHook) {
-	      runSelection = selection.preSelectHook.apply(this, [selection]);
-	    }
-	
-	    if (runSelection) {
-	      console.log('proceed with selection', selection);
-	      this.set(selection);
-	    }
-	  };
-	
-	  Typeahead.prototype.selectByIndex = function selectByIndex() {
-	    if (!this.active()) {
-	      return;
-	    }
-	
-	    _PrettyTypeahead.prototype.selectByIndex.call(this);
-	
-	    if (this.allowFreeForm && this.resultsListView.results.length === 0) {
-	      this.handleSelection(this.textInput.get());
-	    }
-	  };
-	
-	  return Typeahead;
-	}(PrettyTypeahead);
-	
-	module.exports = Typeahead;
-
-/***/ },
-/* 73 */
-/*!************************************************!*\
-  !*** ./src/Typeahead/PrettyTypeahead/index.js ***!
-  \************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	// Extends BaseTypeahead by adding:
-	//
-	// - the concept of "active"
-	// - the use of arrow keys/enter to pick from the results list
-	// - blur/focus events to close/open the results list
-	// - add highlights for partial matches
-	// - ESC key forces blur
-	// - point to click from results list and hover highlight
-	// - hover highlight renders list view results on top of page instead of pushing elements down
-	
-	// ==================================================== //
-	// use the child class `Typeahead` in your actual UI's! //
-	// ==================================================== //
-	
-	// less
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	__webpack_require__(/*! ./styles.less */ 74);
-	
-	// scripts
-	var $ = __webpack_require__(/*! jquery */ 4);
-	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 76);
-	
-	var HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
-	
-	var PrettyTypeahead = function (_BaseTypeahead) {
-	  _inherits(PrettyTypeahead, _BaseTypeahead);
-	
-	  function PrettyTypeahead(el) {
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-	
-	    _classCallCheck(this, PrettyTypeahead);
-	
-	    opts.renderItem = function (item) {
-	      return _this.renderItem(item);
-	    };
-	
-	    var _this = _possibleConstructorReturn(this, _BaseTypeahead.call(this, el, opts));
-	
-	    _this.textInput.subscribe(function () {
-	      _this.highlightIndex = null;
-	    });
-	    return _this;
-	  }
-	
-	  PrettyTypeahead.prototype.render = function render() {
-	    _BaseTypeahead.prototype.render.call(this);
-	
-	    // layer on our new behavior - hiding/showing results when user blurs/focuses
-	    this.resultsListView.$el.hide();
-	    this.attachFocusEvents();
-	
-	    // we also want to let you pick results from just the keyboard
-	    this.attachKeyEvents();
-	
-	    return this.$el.html();
-	  };
-	
-	  PrettyTypeahead.prototype.active = function active(v) {
-	    if (typeof v === 'boolean') {
-	      this.isActive = v;
-	
-	      if (this.isActive) {
-	        this.onActive();
-	      } else {
-	        this.onInactive();
-	      }
-	    }
-	
-	    return this.isActive;
-	  };
-	
-	  PrettyTypeahead.prototype.onActive = function onActive() {
-	    this.resultsListView.$el.show();
-	  };
-	
-	  PrettyTypeahead.prototype.onInactive = function onInactive() {
-	    this.resultsListView.$el.hide();
-	    delete this.highlightIndex;
-	  };
-	
-	  PrettyTypeahead.prototype.attachFocusEvents = function attachFocusEvents() {
-	    var _this2 = this;
-	
-	    this.textInput.$el.find('input').on('focus', function () {
-	      _this2.active(true);
-	    });
-	
-	    $(document).click(function (evt) {
-	      if (_this2.$el.find($(evt.target)).size() === 0 && $(evt.target)[0].tagName !== 'input') {
-	        _this2.active(false);
-	        _this2.textInput.$el.find('input').blur();
-	      }
-	    });
-	  };
-	
-	  PrettyTypeahead.prototype.renderItem = function renderItem(item) {
-	    // bold the matching part
-	    var originalText = String(this.getDisplayValue(item));
-	    var searchTerm = this.textInput.get() || '';
-	    var matchIndex = -1;
-	
-	    if (searchTerm.length !== 0) {
-	      matchIndex = originalText.indexOf(searchTerm);
-	    }
-	
-	    if (matchIndex >= 0) {
-	      var start = matchIndex;
-	      var end = start + searchTerm.length;
-	
-	      item = originalText.substring(0, start);
-	      item += '<b>';
-	      item += originalText.substring(start, end);
-	      item += '</b>';
-	
-	      if (end < originalText.length) {
-	        item += originalText.substring(end);
-	      }
-	    }
-	
-	    return this.getDisplayValue(item);
-	  };
-	
-	  PrettyTypeahead.prototype.attachKeyEvents = function attachKeyEvents() {
-	    var _this3 = this;
-	
-	    this.highlightIndex;
-	
-	    $(document).on('keydown', function (evt) {
-	      if (!_this3.active()) {
-	        return;
-	      }
-	
-	      switch (evt.which) {
-	        case _this3.keyEvents.UP:
-	          _this3.decrementHighlight();
-	          evt.preventDefault();
-	          break;
-	
-	        case _this3.keyEvents.DOWN:
-	          _this3.incrementHighlight();
-	          evt.preventDefault();
-	          break;
-	
-	        case _this3.keyEvents.ENTER:
-	          _this3.selectByIndex();
-	          evt.preventDefault();
-	
-	        case _this3.keyEvents.ESC:
-	          _this3.active(false);
-	          break;
-	
-	        default:
-	          break;
-	      }
-	    });
-	  };
-	
-	  PrettyTypeahead.prototype.selectByIndex = function selectByIndex() {
-	    if (this.active()) {
-	      var highlighted = this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS);
-	      if (highlighted.length) {
-	        highlighted.click();
-	      } else {
-	        var valueToSet = this.textInput.get();
-	        if (valueToSet) this.set(valueToSet);
-	      }
-	    }
-	    this.textInput.$el.find('input').blur();
-	  };
-	
-	  PrettyTypeahead.prototype.incrementHighlight = function incrementHighlight() {
-	    this.highlightIndex = typeof this.highlightIndex === 'undefined' || this.highlightIndex === null ? 0 : this.highlightIndex + 1;
-	    this.normalizeHighlightIndex();
-	    this.renderHighlight();
-	  };
-	
-	  PrettyTypeahead.prototype.decrementHighlight = function decrementHighlight() {
-	    this.highlightIndex = typeof this.highlightIndex === 'undefined' || this.highlightIndex === null ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
-	    this.normalizeHighlightIndex();
-	    this.renderHighlight();
-	  };
-	
-	  PrettyTypeahead.prototype.normalizeHighlightIndex = function normalizeHighlightIndex() {
-	    var length = this.resultsListView.$el.find('li').size();
-	    this.highlightIndex = (this.highlightIndex + length) % length;
-	  };
-	
-	  PrettyTypeahead.prototype.renderHighlight = function renderHighlight() {
-	    // remove the highlight
-	    this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).removeClass(HIGHLIGHT_CLASS);
-	
-	    // add it to the right index
-	    this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass(HIGHLIGHT_CLASS);
-	  };
-	
-	  return PrettyTypeahead;
-	}(BaseTypeahead);
-	
-	module.exports = PrettyTypeahead;
-
-/***/ },
-/* 74 */
-/*!***************************************************!*\
-  !*** ./src/Typeahead/PrettyTypeahead/styles.less ***!
-  \***************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../../~/css-loader!./../../../~/less-loader!./styles.less */ 75);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../../~/style-loader/addStyles.js */ 34)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/less-loader/index.js!./styles.less", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js!./../../../node_modules/less-loader/index.js!./styles.less");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 75 */
-/*!**********************************************************************************!*\
-  !*** ./~/css-loader!./~/less-loader!./src/Typeahead/PrettyTypeahead/styles.less ***!
-  \**********************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../../~/css-loader/lib/css-base.js */ 33)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".ui-typeahead {\n  font-family: Roboto, 'Helvetica Neue', sans-serif;\n  position: relative;\n}\n.ui-typeahead .results-list-container {\n  z-index: 1000;\n  box-shadow: gray 1px 1px 5px;\n  background-color: white;\n  position: absolute;\n  width: 100%;\n}\n.ui-typeahead .results-list-container ul {\n  list-style: none;\n  padding-left: 0;\n}\n.ui-typeahead .results-list-container li {\n  padding: 10px;\n  border-bottom: solid #F3F3F3 1px;\n}\n.ui-typeahead .results-list-container li:hover {\n  background-color: #00516f;\n  color: white;\n  cursor: pointer;\n}\n.ui-typeahead .results-list-container .ui-typeahead-highlight {\n  background-color: #00516f;\n  color: white;\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 76 */
-/*!**************************************************************!*\
-  !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/index.js ***!
-  \**************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	// handle just the absolute core behavior of a typeahead
-	//
-	//   1. a text input
-	//   2. a list view of results based on current text
-	
-	// ============================================================== //
-	// its recommended using the child class `Typeahead` in your UI's //
-	// ============================================================== //
-	
-	// html
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 77);
-	
-	// scripts
-	var BaseComponent = __webpack_require__(/*! ../../../BaseComponent */ 36);
-	var $ = __webpack_require__(/*! jquery */ 4);
-	var TextInput = __webpack_require__(/*! ../../../TextInput */ 66);
-	var ListView = __webpack_require__(/*! ../../../ListView */ 48);
-	var assert = __webpack_require__(/*! ../../../assert.js */ 10);
-	
-	var BaseTypeahead = function (_BaseComponent) {
-	  _inherits(BaseTypeahead, _BaseComponent);
-	
-	  function BaseTypeahead(el) {
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-	
-	    _classCallCheck(this, BaseTypeahead);
-	
-	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
-	
-	    Object.assign(_this, {
-	      fetch: opts.fetch,
-	      results: [],
-	      textInputOpts: opts.textInputOpts || {}
-	    });
-	    assert(typeof _this.fetch === 'function');
-	
-	    _this.$el.append(containerHTML);
-	
-	    _this.textInput = new TextInput(_this.$el.find('.input-container'), _this.textInputOpts);
-	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), {
-	      fetch: function fetch(cb) {
-	        _this.refreshResults(cb);
-	      },
-	      renderItem: opts.renderItem || null
-	    });
-	
-	    // when an item is picked from the list view:
-	    _this.resultsListView.subscribe(function (evt) {
-	      if (evt === 'refresh') {
-	        return;
-	      }
-	
-	      // update text input with this value, set typeahead internal value
-	      _this.handleSelection(evt);
-	      _this.textInput.$el.find('input').focus();
-	    });
-	
-	    // when text input gets a new value:
-	    _this.textInput.subscribe(function (term) {
-	      // re render results list
-	      _this.resultsListView.refresh();
-	    });
-	    return _this;
-	  }
-	
-	  BaseTypeahead.prototype.handleSelection = function handleSelection(selection) {
-	    this.set(selection);
-	  };
-	
-	  BaseTypeahead.prototype.getDisplayValue = function getDisplayValue(item) {
-	    if ($.isPlainObject(item)) {
-	      item = item[this.displayProperty];
-	    }
-	    return item;
-	  };
-	
-	  BaseTypeahead.prototype.set = function set(v) {
-	    this.textInput.set(this.getDisplayValue(v));
-	    this.value = v;
-	    this.publish(this.get());
-	    return this;
-	  };
-	
-	  BaseTypeahead.prototype.render = function render() {
-	    this.textInput.render();
-	    this.resultsListView.refresh();
-	    return this.$el.html();
-	  };
-	
-	  BaseTypeahead.prototype.refreshResults = function refreshResults(cb) {
-	    var _this2 = this;
-	
-	    this.fetch(this.textInput.get(), function (results) {
-	      _this2.results = results;
-	      cb(results);
-	    });
-	  };
-	
-	  return BaseTypeahead;
-	}(BaseComponent);
-	
-	module.exports = BaseTypeahead;
-
-/***/ },
-/* 77 */
-/*!************************************************************************!*\
-  !*** ./src/Typeahead/PrettyTypeahead/BaseTypeahead/baseTypeahead.html ***!
-  \************************************************************************/
-/***/ function(module, exports) {
-
-	module.exports = "<div class='ui-typeahead'>\n  <div class='input-container'></div>\n  <div class='results-list-container'></div>\n</div>\n\n";
-
-/***/ },
-/* 78 */
-/*!****************************************!*\
-  !*** ./src/LocationTypeahead/index.js ***!
-  \****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	// # Location Search Typeahead
-	//
-	//   Extends `Typeahead` class to:
-	//
-	//   - add a "use my current location" icon to text input
-	//   - add fixed result that triggers "use my current location" on click
-	
-	// styles
-	__webpack_require__(/*! ./styles.css */ 79);
-	
-	// html
-	var currentLocationTemplate = __webpack_require__(/*! ./useMyCurrentLocation.tmpl */ 81);
-	
-	// scripts
-	var $ = __webpack_require__(/*! jquery */ 4);
-	var Typeahead = __webpack_require__(/*! ../Typeahead */ 72);
-	var FragFactory = __webpack_require__(/*! ../BaseFragmentFactory */ 9);
-	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 39);
-	
-	var LocationTypeahead = function (_Typeahead) {
-	  _inherits(LocationTypeahead, _Typeahead);
-	
-	  function LocationTypeahead(el) {
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-	
-	    _classCallCheck(this, LocationTypeahead);
-	
-	    // define the "current location" icon DOM fragment
-	    var iconFactory = new FragFactory({
-	      render: function render(data) {
-	        data.displayValue = data.name === 'listItem' ? 'inline' : 'none';
-	        return currentLocationTemplate(data);
-	      },
-	
-	      controller: function controller(data) {
-	        var currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name, {
-	          geolocationAPI: opts.geolocationAPI
-	        });
-	
-	        currentLocationIcon.subscribe(function (event) {
-	          if (event.isLocation) {
-	            _this.set(event);
-	            _this.textInput.$input.val('Your current location'); // just for display
-	          }
-	        });
-	        currentLocationIcon.render();
-	      }
-	    });
-	
-	    //Ensure we have an opts.textInputOpts object
-	    opts.textInputOpts = opts.textInputOpts || {};
-	
-	    // setup the input icon to be a "use current location" component
-	    Object.assign(opts.textInputOpts, {
-	      iconClearsValue: false,
-	      icon: iconFactory.make({
-	        name: 'icon'
-	      })
-	    });
-	
-	    // setup "current location" fixed result
-	    opts.fixedResults = (opts.fixedResults || []).concat([{
-	      useMyCurrentLocation: true,
-	      preSelectHook: function preSelectHook(item) {
-	        $('.ui-current-location-listItem').click(); // trigger 'use my location' icon
-	        return false; // don't run normal selection behavior
-	      }
-	    }]);
-	
-	    var _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
-	
-	    _this.iconFactory = iconFactory;
-	    _this.$el.addClass('ui-location-typeahead');
-	    return _this;
-	  }
-	
-	  LocationTypeahead.prototype.renderItem = function renderItem(item) {
-	    if (item && item.useMyCurrentLocation) {
-	      return this.iconFactory.make({
-	        name: 'listItem'
-	      });
-	    } else {
-	      return _Typeahead.prototype.renderItem.call(this, item);
-	    }
-	  };
-	
-	  return LocationTypeahead;
-	}(Typeahead);
-	
-	module.exports = LocationTypeahead;
+	module.exports = RadioButtons;
 
 /***/ },
 /* 79 */
-/*!******************************************!*\
-  !*** ./src/LocationTypeahead/styles.css ***!
-  \******************************************/
-/***/ function(module, exports, __webpack_require__) {
+/*!*******************************************!*\
+  !*** ./src/RadioButtons/radioButtons.dot ***!
+  \*******************************************/
+/***/ function(module, exports) {
 
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 80);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
+	module.exports = function anonymous(it
+	/**/) {
+	var out='<div class=\'ui-radio-buttons\'> ';var arr1=it.options;if(arr1){var opt,index=-1,l1=arr1.length-1;while(index<l1){opt=arr1[index+=1];out+=' <div class="select-option"> <label> <input type=\'radio\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <span>'+(it.renderItem(opt))+'</span> </label> </div> ';} } out+='</div>';return out;
 	}
 
 /***/ },
 /* 80 */
-/*!*************************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/LocationTypeahead/styles.css ***!
-  \*************************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 33)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".ui-curr-loc {\n  display: inline-block;\n  width: 22px;\n  height: 22px;\n}\n\n.ui-location-typeahead .ui-text-input-icon {\n  right: 0;\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 81 */
-/*!*********************************************************!*\
-  !*** ./src/LocationTypeahead/useMyCurrentLocation.tmpl ***!
-  \*********************************************************/
-/***/ function(module, exports) {
-
-	module.exports = function (scope) {
-	  return "<span class='ui-current-location-" + scope.name + " ui-curr-loc'></span>\n<span style='display: " + scope.displayValue + " '>Use my current location</span>\n";
-	};
-
-/***/ },
-/* 82 */
 /*!****************************************!*\
   !*** ./src/SentenceGenerator/index.js ***!
   \****************************************/
@@ -19939,11 +19850,11 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 83);
+	__webpack_require__(/*! ./styles.css */ 81);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
-	var dotty = __webpack_require__(/*! dotty */ 85);
+	var dotty = __webpack_require__(/*! dotty */ 83);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
 	
 	var SentenceGenerator = function (_BaseComponent) {
@@ -20063,7 +19974,7 @@ var UI =
 	module.exports = SentenceGenerator;
 
 /***/ },
-/* 83 */
+/* 81 */
 /*!******************************************!*\
   !*** ./src/SentenceGenerator/styles.css ***!
   \******************************************/
@@ -20072,7 +19983,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 84);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 82);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
@@ -20092,7 +20003,7 @@ var UI =
 	}
 
 /***/ },
-/* 84 */
+/* 82 */
 /*!*************************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SentenceGenerator/styles.css ***!
   \*************************************************************************************/
@@ -20109,7 +20020,7 @@ var UI =
 
 
 /***/ },
-/* 85 */
+/* 83 */
 /*!******************************!*\
   !*** ./~/dotty/lib/index.js ***!
   \******************************/
@@ -20349,6 +20260,211 @@ var UI =
 	  return keys;
 	};
 
+
+/***/ },
+/* 84 */
+/*!***********************************!*\
+  !*** ./src/SingleSelect/index.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	//  @title: SingleSelect
+	//  @author: jhatcher
+	//  @description:
+	//    Simple dropdown list with the ability to choose one option
+	//  @todo:
+	//    - styles
+	
+	// css
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	__webpack_require__(/*! ./styles.css */ 85);
+	
+	// html
+	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 87);
+	
+	// scripts
+	var $ = __webpack_require__(/*! jquery */ 4);
+	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
+	
+	var SingleSelect = function (_BaseComponent) {
+	  _inherits(SingleSelect, _BaseComponent);
+	
+	  // @constructor
+	  // @param {String} el   - The dom element to attach to
+	  // @param {Object} opts - The options passed in to configure this component
+	  // @param {Array} opts.options - each option to be rendered, containing 3 attributes (2 are passed in):
+	  //    @prop {String} [optional] display - the display to render for the option
+	  //    @prop {String} value - the data value to send to the server
+	
+	  function SingleSelect(el) {
+	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	
+	    _classCallCheck(this, SingleSelect);
+	
+	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el));
+	
+	    _this.options = (opts.options || []).map(function (opt) {
+	      if ($.isPlainObject(opt)) {
+	        return {
+	          display: opt.display,
+	          value: opt.value,
+	          selected: opt.value === _this.get()
+	        };
+	      }
+	      return {
+	        value: opt,
+	        selected: opt === _this.get()
+	      };
+	    });
+	    return _this;
+	  }
+	
+	  // @method
+	  // @returns the display attribute of the option if it exists, fallback to the value
+	
+	  SingleSelect.prototype.getDisplayValue = function getDisplayValue() {
+	    var display = undefined;
+	
+	    var _iteratorNormalCompletion = true;
+	    var _didIteratorError = false;
+	    var _iteratorError = undefined;
+	
+	    try {
+	      for (var _iterator = this.options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	        var opt = _step.value;
+	
+	        if (opt.selected) {
+	          display = opt.display ? opt.display : opt.value;
+	        }
+	      }
+	    } catch (err) {
+	      _didIteratorError = true;
+	      _iteratorError = err;
+	    } finally {
+	      try {
+	        if (!_iteratorNormalCompletion && _iterator.return) {
+	          _iterator.return();
+	        }
+	      } finally {
+	        if (_didIteratorError) {
+	          throw _iteratorError;
+	        }
+	      }
+	    }
+	
+	    return display;
+	  };
+	
+	  // @method
+	  // @param {Object} v - the Option Object (display,value,selected) to set
+	
+	  SingleSelect.prototype.set = function set(v) {
+	    this.options = this.options.map(function (opt) {
+	      opt.selected = opt.value === v;
+	      return opt;
+	    });
+	
+	    return _BaseComponent.prototype.set.call(this, v);
+	  };
+	
+	  // @method
+	  // @returns the HTML of the element
+	
+	  SingleSelect.prototype.render = function render() {
+	    var _this2 = this;
+	
+	    this.$el.html(selectTmpl(this));
+	    this.$el.find('select').change(function (evt) {
+	      _this2.set($(evt.target).val());
+	    });
+	    return this.$el.html();
+	  };
+	
+	  return SingleSelect;
+	}(BaseComponent);
+	
+	;
+	
+	module.exports = SingleSelect;
+
+/***/ },
+/* 85 */
+/*!*************************************!*\
+  !*** ./src/SingleSelect/styles.css ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 86);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 86 */
+/*!********************************************************************************!*\
+  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SingleSelect/styles.css ***!
+  \********************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 33)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 87 */
+/*!**************************************!*\
+  !*** ./src/SingleSelect/select.tmpl ***!
+  \**************************************/
+/***/ function(module, exports) {
+
+	module.exports = function (scope) {
+	  return '<select>\n' + scope.options.map(function (option) {
+	    if (option.display) {
+	      if (option.selected) {
+	        return '<option value=' + option.value + ' selected=true>' + option.display + '</option>';
+	      } else {
+	        return '<option value=' + option.value + '>' + option.display + '</option>';
+	      }
+	    } else {
+	      if (option.selected) {
+	        return '<option value=' + option.value + ' selected=true>' + option.value + '</option>';
+	      } else {
+	        return '<option value=' + option.value + '>' + option.value + '</option>';
+	      }
+	    }
+	  }) + '\n</select>\n';
+	};
 
 /***/ }
 /******/ ]);
