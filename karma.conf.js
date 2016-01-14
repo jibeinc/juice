@@ -3,11 +3,14 @@ var sassVars = './sassvars.json';
 
 module.exports = function (config) {
   config.set({
-    browsers: ['Chrome'], //run in Chrome
+    browsers: [
+      'PhantomJS2'//,'Chrome'
+    ],
     singleRun: true, //just run once by default
     frameworks: ['mocha'], //use the mocha test framework
     files: [
-      'tests.webpack.js' //just load this file
+      'node_modules/babel-polyfill/dist/polyfill.js',
+      'tests.webpack.js'
     ],
     preprocessors: {
       'tests.webpack.js': ['webpack', 'sourcemap'] //preprocess with webpack and our sourcemap loader

@@ -2,6 +2,7 @@ const $ = require('jquery');
 const expect = require('expect');
 const RadioButtons = require('./index.js');
 
+const inputSelector = '.radio-buttons-test .ui-radio-buttons .select-option input';
 describe('radioButtons functionality', () => {
   let categories;
 
@@ -45,16 +46,14 @@ describe('radioButtons functionality', () => {
     categories.set('mrkt01');
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
-    let elementToClick = $($('.radio-buttons-test .ui-radio-buttons .select-option input')[0]);
-    elementToClick.click();
+    $($(inputSelector)[0]).click();
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
     //Ensure multiple clicks do not deselect the value, since it is a radio button
-    elementToClick.click();
+    $($(inputSelector)[0]).click();
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
-    elementToClick = $($('.radio-buttons-test .ui-radio-buttons .select-option input')[1]);
-    elementToClick.click();
+    $($(inputSelector)[1]).click();
     expect(categories.get().value).toBe('sales');
     expect(categories.get().checked).toBe(true);
   });
@@ -100,16 +99,13 @@ describe('radioBoxes functionality', () => {
     expect(categories.get()).toBe(null);
   });
   it('test checking an option', () => {
-    debugger;
-    let elementToClick = $($('.radio-buttons-test .ui-radio-buttons .select-option input')[0]);
-    elementToClick.click();
+    $($(inputSelector)[0]).click();
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
     //Ensure multiple clicks deselect the value, since these are radioboxes and we are allowed to uncheck
-    elementToClick.click();
+    $($(inputSelector)[0]).click();
     expect(categories.get()).toBe(null);
-    elementToClick = $($('.radio-buttons-test .ui-radio-buttons .select-option input')[1]);
-    elementToClick.click();
+    $($(inputSelector)[1]).click();
     expect(categories.get().value).toBe('sales');
     expect(categories.get().checked).toBe(true);
   });
