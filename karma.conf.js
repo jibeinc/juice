@@ -1,14 +1,16 @@
 const webpack = require('webpack');
-const sassGlobals = require('./sassvars.json');
-const sassVars = JSON.stringify(sassGlobals);
+var sassVars = './sassvars.json';
 
 module.exports = function (config) {
   config.set({
-    browsers: ['Chrome'], //run in Chrome
+    browsers: [
+      'PhantomJS2'//,'Chrome'
+    ],
     singleRun: true, //just run once by default
     frameworks: ['mocha'], //use the mocha test framework
     files: [
-      'tests.webpack.js' //just load this file
+      'node_modules/babel-polyfill/dist/polyfill.js',
+      'tests.webpack.js'
     ],
     preprocessors: {
       'tests.webpack.js': ['webpack', 'sourcemap'] //preprocess with webpack and our sourcemap loader
@@ -27,7 +29,7 @@ module.exports = function (config) {
           loader: 'style!css!less'
         }, {
           test: /\.scss$/,
-          loader: "style!css!sass!jsontosass?" + sassVars
+          loader: "style!css!sass!jsontosass?path=" + sassVars
         }, {
           // compress and load images as embedded data-uri's
           test: /\.(jpe?g|png|gif|svg)$/,
@@ -75,7 +77,7 @@ module.exports = function (config) {
               // loose mode is required for IE9 and IE10!
               ['transform-es2015-classes', {
                 'loose': true
-              }],
+              }]
             ]
           }
         }]

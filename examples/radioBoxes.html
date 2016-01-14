@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Radio Buttons Example</title>
+
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src='../dist/ui.js'></script>
+</head>
+<body>
+
+<div class='categories'></div>
+
+<script>
+  var categories = new UI.RadioButtons('.categories', {
+    options: [
+      {
+        displayName: 'Marketing',
+        value: 'mrkt01',
+        count: 5
+      },
+      {
+        displayName: 'Sales',
+        value: 'sales',
+        count: 9
+      },
+      {
+        displayName: 'Engineering',
+        value: 'eng-2015',
+        count: 43
+      }
+    ],
+    radioBoxes: true,
+    renderItem: function (item) {
+      return item.displayName + ' (' + item.count + ')';
+    }
+  });
+
+  categories.subscribe(function (choice) {
+    console.log('New Category kiiii!', choice);
+    categories.render();
+  });
+
+  categories.render();
+
+</script>
+
+</body>
+</html>
