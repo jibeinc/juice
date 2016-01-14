@@ -28,7 +28,10 @@ const UIComponents = {
   SingleSelect: require('./SingleSelect'),
   TextInput: require('./TextInput'),
   Toggle: require('./Toggle'),
-  Typeahead: require('./Typeahead')
+  Typeahead: require('./Typeahead'),
+  LocationTypeahead: require('./LocationTypeahead'),
+  SentenceGenerator: require('./SentenceGenerator'),
+  Spinner: require('./Spinner')
 };
 
 UIComponents.init = function init() {

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Spinner Example</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>window.exports = {};</script>
+  <script src='../dist/ui.js'></script>
+</head>
+<body>
+
+  <div class="spinner-div"></div>
+  <h3 style="text-align: center">Spinner will stop after 5 seconds</h3>
+
+  <script>
+    UI.$(document).ready(function () {
+      var spinner = new UI.Spinner('.spinner-div');
+
+      spinner.start();
+
+      spinner.subscribe(function () {
+        console.log('launched the spinner!');
+      });
+
+      setTimeout(function () {
+        spinner.stop();
+        console.log('stopped the spinner after 5 seconds');
+      }, 5000);
+    });
+  </script>
+
+</body>
+</html>
