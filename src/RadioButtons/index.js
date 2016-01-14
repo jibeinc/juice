@@ -10,8 +10,12 @@ const BaseComponent = require('../BaseComponent');
 class RadioButtons extends BaseComponent {
   constructor(el, opts = {}) {
     super(el);
-    this.displayNameKey = opts.displayNameKey || 'displayName';
-    this.renderItem = opts.renderItem || this.renderItem;
+    Object.assign(this, {
+      displayNameKey: opts.displayNameKey || 'displayName',
+      radioBoxes: opts.radioBoxes || false,
+      renderItem: opts.renderItem || this.renderItem
+    });
+
     this.setOptions(opts.options || []);
   }
 
@@ -62,9 +66,13 @@ class RadioButtons extends BaseComponent {
    */
   set(selected) {
     this.options.forEach((option) => {
-      option.checked = option.value === selected;
+      if (option.value === selected) {
+        option.checked = this.radioBoxes ? !option.checked : true;
+      }
+      else {
+        option.checked = false;
+      }
     });
-
 
     this.render();
     this.publish(this.get());
