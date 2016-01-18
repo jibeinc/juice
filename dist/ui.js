@@ -11168,9 +11168,9 @@ var UI =
 
 /***/ },
 /* 14 */
-/*!****************************!*\
-  !*** ./~/emmett/emmett.js ***!
-  \****************************/
+/*!*************************************!*\
+  !*** ./~/baobab/~/emmett/emmett.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -15399,9 +15399,9 @@ var UI =
 
 /***/ },
 /* 25 */
-/*!**********************!*\
-  !*** ./~/url/url.js ***!
-  \**********************/
+/*!**************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16115,9 +16115,9 @@ var UI =
 
 /***/ },
 /* 26 */
-/*!**************************************!*\
-  !*** ./~/url/~/punycode/punycode.js ***!
-  \**************************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/punycode/punycode.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -16649,13 +16649,13 @@ var UI =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ 23)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../../../buildin/module.js */ 23)(module), (function() { return this; }())))
 
 /***/ },
 /* 27 */
-/*!********************************!*\
-  !*** ./~/querystring/index.js ***!
-  \********************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16666,9 +16666,9 @@ var UI =
 
 /***/ },
 /* 28 */
-/*!*********************************!*\
-  !*** ./~/querystring/decode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16755,9 +16755,9 @@ var UI =
 
 /***/ },
 /* 29 */
-/*!*********************************!*\
-  !*** ./~/querystring/encode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -18065,9 +18065,9 @@ var UI =
 
 /***/ },
 /* 50 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
+/*!****************************************!*\
+  !*** ./~/debounce/~/date-now/index.js ***!
+  \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -20550,6 +20550,7 @@ var UI =
 	    // needed so elements aren't destroyed
 	    opts.preserveChildElements = true;
 	    opts.className = 'juicy-spinner';
+	    opts.position = 'fixed';
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
@@ -20563,19 +20564,16 @@ var UI =
 	  }
 	
 	  Spinner.prototype.start = function start() {
+	    this.toggleOverlay(true);
+	    this.publish();
 	
 	    // retrieve native dom element
 	    var target = this.$el.get(0);
-	
-	    this.toggleOverlay();
-	
-	    // launch spinner
 	    return this.spinner.spin(target);
 	  };
 	
 	  Spinner.prototype.stop = function stop() {
-	
-	    this.toggleOverlay();
+	    this.toggleOverlay(false);
 	    return this.spinner.stop();
 	  };
 	
@@ -20587,11 +20585,14 @@ var UI =
 	    return this.spinner || null;
 	  };
 	
-	  Spinner.prototype.toggleOverlay = function toggleOverlay() {
-	    if (this._toggled) {
-	      this.$el.removeClass('toggle');
+	  Spinner.prototype.toggleOverlay = function toggleOverlay(toggle) {
+	
+	    if (toggle) {
+	      $('body').addClass('noScroll');
+	      $('body').prepend('<div class=\'juicy-spinner-container\'></div>');
 	    } else {
-	      this.$el.addClass('toggle');
+	      $('.juicy-spinner-container').remove();
+	      $('body').removeClass('noScroll');
 	    }
 	  };
 	
@@ -20649,7 +20650,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, "/* Transparent Overlay */\n.juicy-spinner:before {\n  content: '';\n  display: block;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  z-index: 1999;\n  background-color: rgba(0,0,0,0.3);\n}", ""]);
+	exports.push([module.id, "/* Transparent Overlay */\n.juicy-spinner:before {\n  content: '';\n  display: block;\n  position: fixed;\n\n}\n\n.juicy-spinner-container {\n\ttop: 0;\n\tleft: 0;\n  position: fixed;\n  background-color: rgba(0,0,0,0.5);\n  z-index: 1001;\n  height: 100%;\n  width: 100%;\n}\n\n.noScroll {\n  overflow: hidden;\n  z-index: 1000;\n  display: block;\n}", ""]);
 	
 	// exports
 

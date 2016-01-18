@@ -3,10 +3,21 @@
   content: '';
   display: block;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+
+}
+
+.juicy-spinner-container {
+	top: 0;
+	left: 0;
+  position: fixed;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1001;
   height: 100%;
-  z-index: 1999;
-  background-color: rgba(0,0,0,0.3);
+  width: 100%;
+}
+
+.noScroll {
+  overflow: hidden;
+  z-index: 1000;
+  display: block;
 }

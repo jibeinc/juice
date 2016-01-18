@@ -50,6 +50,7 @@ class Spinner extends BaseComponent {
     // needed so elements aren't destroyed
     opts.preserveChildElements = true;
     opts.className = 'juicy-spinner';
+    opts.position = 'fixed';
 
     super(el, opts);
 
@@ -62,36 +63,36 @@ class Spinner extends BaseComponent {
   }
 
   start() {
+    this.toggleOverlay(true);
+    this.publish();
 
     // retrieve native dom element
     const target = this.$el.get(0);
-
-    this.toggleOverlay();
-
-    // launch spinner
     return this.spinner.spin(target);
   }
 
   stop() {
-
-    this.toggleOverlay();
+    this.toggleOverlay(false);
     return this.spinner.stop();
   }
 
   render() {
-    return this.start()
+    return this.start();
   }
 
   get () {
     return this.spinner || null;
   }
 
-  toggleOverlay() {
-    if (this._toggled) {
-      this.$el.removeClass('toggle');
+  toggleOverlay(toggle) {
+
+    if (toggle) {
+      $('body').addClass('noScroll');
+      $('body').prepend('<div class=\'juicy-spinner-container\'></div>'); 
     }
     else {
-      this.$el.addClass('toggle');
+      $('.juicy-spinner-container').remove();
+      $('body').removeClass('noScroll');
     }
   }
 
