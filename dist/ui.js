@@ -18906,6 +18906,7 @@ var UI =
 	      onIconClick: opts.onIconClick || null,
 	      iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
 	      placeholder: opts.placeholder || '',
+	      showIconOnNotEmpty: opts.showIconOnNotEmpty || false,
 	      value: opts.value || '',
 	      wait: opts.wait || 300
 	    });
@@ -18942,6 +18943,8 @@ var UI =
 	      this.$wrapper.append(iconTmpl(this));
 	      this.$icon = this.$el.find('.ui-text-input-icon');
 	
+	      this.showHideIcon();
+	
 	      if (this.iconClearsValue || this.onIconClick) {
 	        this.$icon.click(function () {
 	          if (_this2.iconClearsValue) {
@@ -18957,6 +18960,16 @@ var UI =
 	    return this.$el.html();
 	  };
 	
+	  TextInput.prototype.showHideIcon = function showHideIcon() {
+	    if (this.showIconOnNotEmpty) {
+	      if (this.get()) {
+	        this.$icon.show();
+	      } else {
+	        this.$icon.hide();
+	      }
+	    }
+	  };
+	
 	  TextInput.prototype.get = function get() {
 	    return typeof this.value === 'undefined' ? '' : this.value;
 	  };
@@ -18968,14 +18981,14 @@ var UI =
 	    } else {
 	        this.render(); // first time
 	      }
+	
+	    this.showHideIcon();
 	    this.publish(this.get());
 	    return this;
 	  };
 	
 	  return TextInput;
 	}(BaseComponent);
-	
-	;
 	
 	module.exports = TextInput;
 
