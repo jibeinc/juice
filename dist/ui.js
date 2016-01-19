@@ -20544,6 +20544,7 @@ var UI =
 	
 	    // determine if global
 	    if (!el) {
+	      $('body').prepend('<div class=\'juicy-spinner-container\' style=\'display:none\'></div>');
 	      el = $('body');
 	    }
 	
@@ -20589,9 +20590,9 @@ var UI =
 	
 	    if (toggle) {
 	      $('body').addClass('noScroll');
-	      $('body').prepend('<div class=\'juicy-spinner-container\'></div>');
+	      $('.juicy-spinner-container').css('display', 'block');
 	    } else {
-	      $('.juicy-spinner-container').remove();
+	      $('.juicy-spinner-container').css('display', 'none');
 	      $('body').removeClass('noScroll');
 	    }
 	  };
