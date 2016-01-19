@@ -11168,9 +11168,9 @@ var UI =
 
 /***/ },
 /* 14 */
-/*!*************************************!*\
-  !*** ./~/baobab/~/emmett/emmett.js ***!
-  \*************************************/
+/*!****************************!*\
+  !*** ./~/emmett/emmett.js ***!
+  \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -15399,9 +15399,9 @@ var UI =
 
 /***/ },
 /* 25 */
-/*!**************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
-  \**************************************************/
+/*!**********************!*\
+  !*** ./~/url/url.js ***!
+  \**********************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16115,9 +16115,9 @@ var UI =
 
 /***/ },
 /* 26 */
-/*!******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/punycode/punycode.js ***!
-  \******************************************************************/
+/*!**************************************!*\
+  !*** ./~/url/~/punycode/punycode.js ***!
+  \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -16649,13 +16649,13 @@ var UI =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../../../buildin/module.js */ 23)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ 23)(module), (function() { return this; }())))
 
 /***/ },
 /* 27 */
-/*!******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
-  \******************************************************************/
+/*!********************************!*\
+  !*** ./~/querystring/index.js ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16666,9 +16666,9 @@ var UI =
 
 /***/ },
 /* 28 */
-/*!*******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
-  \*******************************************************************/
+/*!*********************************!*\
+  !*** ./~/querystring/decode.js ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16755,9 +16755,9 @@ var UI =
 
 /***/ },
 /* 29 */
-/*!*******************************************************************!*\
-  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
-  \*******************************************************************/
+/*!*********************************!*\
+  !*** ./~/querystring/encode.js ***!
+  \*********************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -18065,9 +18065,9 @@ var UI =
 
 /***/ },
 /* 50 */
-/*!****************************************!*\
-  !*** ./~/debounce/~/date-now/index.js ***!
-  \****************************************/
+/*!*****************************!*\
+  !*** ./~/date-now/index.js ***!
+  \*****************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -18906,6 +18906,7 @@ var UI =
 	      onIconClick: opts.onIconClick || null,
 	      iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
 	      placeholder: opts.placeholder || '',
+	      showIconOnNotEmpty: opts.showIconOnNotEmpty || false,
 	      value: opts.value || '',
 	      wait: opts.wait || 300
 	    });
@@ -18942,6 +18943,8 @@ var UI =
 	      this.$wrapper.append(iconTmpl(this));
 	      this.$icon = this.$el.find('.ui-text-input-icon');
 	
+	      this.showHideIcon();
+	
 	      if (this.iconClearsValue || this.onIconClick) {
 	        this.$icon.click(function () {
 	          if (_this2.iconClearsValue) {
@@ -18957,6 +18960,16 @@ var UI =
 	    return this.$el.html();
 	  };
 	
+	  TextInput.prototype.showHideIcon = function showHideIcon() {
+	    if (this.showIconOnNotEmpty) {
+	      if (this.get()) {
+	        this.$icon.show();
+	      } else {
+	        this.$icon.hide();
+	      }
+	    }
+	  };
+	
 	  TextInput.prototype.get = function get() {
 	    return typeof this.value === 'undefined' ? '' : this.value;
 	  };
@@ -18968,14 +18981,14 @@ var UI =
 	    } else {
 	        this.render(); // first time
 	      }
+	
+	    this.showHideIcon();
 	    this.publish(this.get());
 	    return this;
 	  };
 	
 	  return TextInput;
 	}(BaseComponent);
-	
-	;
 	
 	module.exports = TextInput;
 

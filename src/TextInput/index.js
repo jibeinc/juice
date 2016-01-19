@@ -26,6 +26,7 @@ class TextInput extends BaseComponent {
       onIconClick: opts.onIconClick || null,
       iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
       placeholder: opts.placeholder || '',
+      showIconOnNotEmpty: opts.showIconOnNotEmpty || false,
       value: opts.value || '',
       wait: opts.wait || 300
     });
@@ -60,6 +61,8 @@ class TextInput extends BaseComponent {
       this.$wrapper.append(iconTmpl(this));
       this.$icon = this.$el.find('.ui-text-input-icon');
 
+      this.showHideIcon();
+
       if (this.iconClearsValue || this.onIconClick) {
         this.$icon.click(() => {
           if (this.iconClearsValue) {
@@ -75,6 +78,17 @@ class TextInput extends BaseComponent {
     return this.$el.html();
   }
 
+  showHideIcon() {
+    if (this.showIconOnNotEmpty) {
+      if (this.get()) {
+        this.$icon.show();
+      }
+      else {
+        this.$icon.hide();
+      }
+    }
+  }
+
   get() {
     return (typeof this.value === 'undefined') ? '' : this.value;
   };
@@ -86,10 +100,11 @@ class TextInput extends BaseComponent {
     } else {
       this.render(); // first time
     }
+
+    this.showHideIcon();
     this.publish(this.get());
     return this;
   }
 }
-;
 
 module.exports = TextInput;
