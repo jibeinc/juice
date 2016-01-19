@@ -11168,9 +11168,9 @@ var UI =
 
 /***/ },
 /* 14 */
-/*!****************************!*\
-  !*** ./~/emmett/emmett.js ***!
-  \****************************/
+/*!*************************************!*\
+  !*** ./~/baobab/~/emmett/emmett.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -15399,9 +15399,9 @@ var UI =
 
 /***/ },
 /* 25 */
-/*!**********************!*\
-  !*** ./~/url/url.js ***!
-  \**********************/
+/*!**************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16115,9 +16115,9 @@ var UI =
 
 /***/ },
 /* 26 */
-/*!**************************************!*\
-  !*** ./~/url/~/punycode/punycode.js ***!
-  \**************************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/punycode/punycode.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -16649,13 +16649,13 @@ var UI =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ 23)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../../../buildin/module.js */ 23)(module), (function() { return this; }())))
 
 /***/ },
 /* 27 */
-/*!********************************!*\
-  !*** ./~/querystring/index.js ***!
-  \********************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16666,9 +16666,9 @@ var UI =
 
 /***/ },
 /* 28 */
-/*!*********************************!*\
-  !*** ./~/querystring/decode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16755,9 +16755,9 @@ var UI =
 
 /***/ },
 /* 29 */
-/*!*********************************!*\
-  !*** ./~/querystring/encode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -18065,9 +18065,9 @@ var UI =
 
 /***/ },
 /* 50 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
+/*!****************************************!*\
+  !*** ./~/debounce/~/date-now/index.js ***!
+  \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -20557,6 +20557,7 @@ var UI =
 	
 	    // determine if global
 	    if (!el) {
+	      $('body').prepend('<div class=\'juicy-spinner-container\' style=\'display:none\'></div>');
 	      el = $('body');
 	    }
 	
@@ -20602,9 +20603,9 @@ var UI =
 	
 	    if (toggle) {
 	      $('body').addClass('noScroll');
-	      $('body').prepend('<div class=\'juicy-spinner-container\'></div>');
+	      $('.juicy-spinner-container').css('display', 'block');
 	    } else {
-	      $('.juicy-spinner-container').remove();
+	      $('.juicy-spinner-container').css('display', 'none');
 	      $('body').removeClass('noScroll');
 	    }
 	  };
