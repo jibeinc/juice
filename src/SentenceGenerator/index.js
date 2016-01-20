@@ -24,8 +24,8 @@ class SentenceGenerator extends BaseComponent {
 **    {
 **      fragment: {String}  - part of the sentence with a ${} where the value should be interpolated
 **      required: {Boolean} - whether the fragment is necessary for the string to exist
-**      default: {String}   - a fallback string in case the value inside ${} is falsey
-**      ordinality: {Number} [optional] - the order of the sentence fragment in the entire string
+**      default: {String} [optional]  - a fallback string in case the value inside ${} is falsey
+**      order: {Number} [optional] - the order of the sentence fragment in the entire string
 **    }
 **
 **  @param {Boolean} [optional] opts.ordinality - whether the fragment objects have explicit arrangement
@@ -46,7 +46,7 @@ class SentenceGenerator extends BaseComponent {
     // sort the array by the ordinality of sentence fragments
     if (this.ordinality) {
       this.structure = opts.structure.sort((a, b) => {
-        return a - b;
+        return a.order - b.order;
       });
     }
   }
