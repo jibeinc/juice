@@ -11168,9 +11168,9 @@ var UI =
 
 /***/ },
 /* 14 */
-/*!****************************!*\
-  !*** ./~/emmett/emmett.js ***!
-  \****************************/
+/*!*************************************!*\
+  !*** ./~/baobab/~/emmett/emmett.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -15399,9 +15399,9 @@ var UI =
 
 /***/ },
 /* 25 */
-/*!**********************!*\
-  !*** ./~/url/url.js ***!
-  \**********************/
+/*!**************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16115,9 +16115,9 @@ var UI =
 
 /***/ },
 /* 26 */
-/*!**************************************!*\
-  !*** ./~/url/~/punycode/punycode.js ***!
-  \**************************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/punycode/punycode.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -16649,13 +16649,13 @@ var UI =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ 23)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../../../buildin/module.js */ 23)(module), (function() { return this; }())))
 
 /***/ },
 /* 27 */
-/*!********************************!*\
-  !*** ./~/querystring/index.js ***!
-  \********************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16666,9 +16666,9 @@ var UI =
 
 /***/ },
 /* 28 */
-/*!*********************************!*\
-  !*** ./~/querystring/decode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16755,9 +16755,9 @@ var UI =
 
 /***/ },
 /* 29 */
-/*!*********************************!*\
-  !*** ./~/querystring/encode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -18065,9 +18065,9 @@ var UI =
 
 /***/ },
 /* 50 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
+/*!****************************************!*\
+  !*** ./~/debounce/~/date-now/index.js ***!
+  \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -18090,6 +18090,16 @@ var UI =
 	//
 	//   - publishes an event when a list item is clicked 'selected'
 	//
+	//
+	// Object expects 4 things in the options:
+	//  @param {Function} fetch - a function to pull new data
+	//  @param {Object} listItemOpts - an object containing options specifically for each item in listView
+	//  @param {Function} renderItem - determines how each listElement will be displayed in DOM
+	//  @param {Array} results - prefill the component with data
+	
+	// listItemOpts has the following properties:
+	//  @param {Boolean} stopPropagation - prevents the click handler from bubbling the event upwards
+	//  @param {Object} attrs - a list of CSS attributes to put on each ListItem
 	
 	// css
 	
@@ -18136,6 +18146,10 @@ var UI =
 	    this.$el.find('li.ui-list-item').attr(this.listItemOpts.attrs || {});
 	    this.$el.find('li.ui-list-item').click(function (evt) {
 	      _this2.set(_this2.results[$(evt.currentTarget).attr('data-index')]);
+	
+	      if (_this2.listItemOpts.stopPropagation) {
+	        evt.stopPropagation();
+	      }
 	    });
 	    return this.$el.html();
 	  };
@@ -19895,8 +19909,8 @@ var UI =
 	  **    {
 	  **      fragment: {String}  - part of the sentence with a ${} where the value should be interpolated
 	  **      required: {Boolean} - whether the fragment is necessary for the string to exist
-	  **      default: {String}   - a fallback string in case the value inside ${} is falsey
-	  **      ordinality: {Number} [optional] - the order of the sentence fragment in the entire string
+	  **      default: {String} [optional]  - a fallback string in case the value inside ${} is falsey
+	  **      order: {Number} [optional] - the order of the sentence fragment in the entire string
 	  **    }
 	  **
 	  **  @param {Boolean} [optional] opts.ordinality - whether the fragment objects have explicit arrangement
@@ -19922,7 +19936,7 @@ var UI =
 	    // sort the array by the ordinality of sentence fragments
 	    if (_this.ordinality) {
 	      _this.structure = opts.structure.sort(function (a, b) {
-	        return a - b;
+	        return a.order - b.order;
 	      });
 	    }
 	    return _this;
