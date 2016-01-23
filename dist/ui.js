@@ -71,17 +71,17 @@ var UI =
 	  InfiniteScroll: __webpack_require__(/*! ./InfiniteScroll */ 48),
 	  ListView: __webpack_require__(/*! ./ListView */ 51),
 	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 55),
-	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 73),
-	  Pagination: __webpack_require__(/*! ./Pagination */ 77),
-	  RadioButtons: __webpack_require__(/*! ./RadioButtons */ 80),
-	  SentenceGenerator: __webpack_require__(/*! ./SentenceGenerator */ 82),
-	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 86),
+	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 72),
+	  Pagination: __webpack_require__(/*! ./Pagination */ 76),
+	  RadioButtons: __webpack_require__(/*! ./RadioButtons */ 79),
+	  SentenceGenerator: __webpack_require__(/*! ./SentenceGenerator */ 81),
+	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 85),
 	  TextInput: __webpack_require__(/*! ./TextInput */ 65),
 	  Toggle: __webpack_require__(/*! ./Toggle */ 46),
 	  Typeahead: __webpack_require__(/*! ./Typeahead */ 59),
 	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 55),
-	  SentenceGenerator: __webpack_require__(/*! ./SentenceGenerator */ 82),
-	  Spinner: __webpack_require__(/*! ./Spinner */ 90)
+	  SentenceGenerator: __webpack_require__(/*! ./SentenceGenerator */ 81),
+	  Spinner: __webpack_require__(/*! ./Spinner */ 89)
 	};
 	
 	UIComponents.init = function init() {
@@ -18904,7 +18904,13 @@ var UI =
 	**    behaviors, such as:
 	**      - publishes a nicely throttled text input event
 	**      - firing event listeners when the enter key is pressed
-	**      - adds a clearing x icon
+	**      - adds a clearing x iconi
+	**
+	**  @param {String} el - the DOM element to attach to
+	**  @param {Object} opts - the options to configure this element
+	**  @param {String} opts.icon - the string for the icon to show up 
+	**  @param {Number} opts.wait - how long to debounce the input onKeyUp event
+	**  @param {Function} opts.submitHandler - if the enter key is pressed, run this function
 	**
 	**  @author: Robbie Wagner
 	*/
@@ -18920,12 +18926,11 @@ var UI =
 	__webpack_require__(/*! ./styles.css */ 66);
 	
 	// html
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 68);
-	var iconTmpl = __webpack_require__(/*! ./icon.tmpl */ 69);
-	var iconWrapper = __webpack_require__(/*! ./iconWrapper.html */ 70);
+	var iconTmpl = __webpack_require__(/*! ./icon.tmpl */ 68);
+	var iconWrapper = __webpack_require__(/*! ./iconWrapper.html */ 69);
 	
 	// scripts
-	var BaseTextInput = __webpack_require__(/*! ./BaseTextInput */ 71);
+	var BaseTextInput = __webpack_require__(/*! ./BaseTextInput */ 70);
 	var debounce = __webpack_require__(/*! debounce */ 49);
 	
 	var TextInput = function (_BaseTextInput) {
@@ -18942,7 +18947,8 @@ var UI =
 	
 	    Object.assign(_this, {
 	      icon: opts.icon || 'x',
-	      wait: opts.wait || 300
+	      wait: opts.wait || 300,
+	      submitHandler: opts.submitHandler || function (v) {}
 	    });
 	
 	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
@@ -18950,7 +18956,6 @@ var UI =
 	
 	  TextInput.prototype.set = function set(v) {
 	    _BaseTextInput.prototype.set.call(this, v);
-	    this.$input.val(this.value);
 	    this.showHideIcon();
 	    return this;
 	  };
@@ -18958,40 +18963,33 @@ var UI =
 	  TextInput.prototype.render = function render() {
 	    var _this2 = this;
 	
-	    debugger;
 	    _BaseTextInput.prototype.render.call(this);
 	
-	    this.$input.keyup(this.keyUpHandler); // debounced slightly for ux
-	
 	    // Part 1: Dom Manipulation
-	    // the wrapper to place a clearing icon (X)
-	    this.$input.wrap(iconWrapper);
+	    this.$input.wrap(iconWrapper); // set up the clearing icon (X) wrapper
 	    this.$wrapper = this.$el.find('.ui-text-input-icon-wrapper');
 	
-	    // the clearing icon itself (absolute positioned within wrapper to be on the right)
-	    this.$wrapper.append(iconTmpl(this));
+	    this.$wrapper.append(iconTmpl(this)); // set up the clearing icon itself
 	    this.$icon = this.$el.find('.ui-text-input-icon');
-	
 	    this.showHideIcon();
 	
 	    // Part 2: set up various event handlers
+	    var onKeyup = debounce(function (e) {
+	      _this2.get() !== _this2.$input.val() ? _this2.set(_this2.$input.val()) : '';
+	
+	      if (e.keyCode == _this2.keyEvents.ENTER) {
+	        _this2.$input.blur();
+	        _this2.submitHandler(_this2.get());
+	      }
+	    }, this.wait);
+	
+	    this.$input.keyup(onKeyup);
+	
 	    this.$icon.click(function () {
 	      _this2.set('');
 	    });
 	
 	    return this.$el.html();
-	  };
-	
-	  TextInput.prototype.keyUpHandler = function keyUpHandler() {
-	    var _this3 = this;
-	
-	    debounce(function (e) {
-	      _this3.get() !== _this3.$input.val() ? _this3.set(_this3.$input.val()) : '';
-	
-	      if (e.keyCode == _this3.keyEvents.ENTER) {
-	        _this3.$input.blur();
-	      }
-	    }, this.wait);
 	  };
 	
 	  TextInput.prototype.showHideIcon = function showHideIcon() {
@@ -19051,17 +19049,6 @@ var UI =
 
 /***/ },
 /* 68 */
-/*!**********************************!*\
-  !*** ./src/TextInput/input.tmpl ***!
-  \**********************************/
-/***/ function(module, exports) {
-
-	module.exports = function (scope) {
-	  return "<input type='text' id='" + scope.id + "'\nclass='ui-text-input form-control'\nplaceholder='" + scope.placeholder + "'\nvalue='" + scope.get() + "'/>\n";
-	};
-
-/***/ },
-/* 69 */
 /*!*********************************!*\
   !*** ./src/TextInput/icon.tmpl ***!
   \*********************************/
@@ -19072,7 +19059,7 @@ var UI =
 	};
 
 /***/ },
-/* 70 */
+/* 69 */
 /*!****************************************!*\
   !*** ./src/TextInput/iconWrapper.html ***!
   \****************************************/
@@ -19081,7 +19068,7 @@ var UI =
 	module.exports = "<div class='ui-text-input-icon-wrapper'></div>";
 
 /***/ },
-/* 71 */
+/* 70 */
 /*!**********************************************!*\
   !*** ./src/TextInput/BaseTextInput/index.js ***!
   \**********************************************/
@@ -19095,10 +19082,16 @@ var UI =
 	**    This class provides a template for JUICE textInput Implementations. It is 
 	**    designed to function as an Abstract class. Do not instantiate Objects of 
 	**    this type -- instantiate a child component instead
+	**
+	**  @param {String} el - the DOM element to attach to
+	**  @param {Object} opts - the options to configure this element
+	**  @param {String} opts.placeholder - the html placeholder attribute for the component
+	**  @param {String} opts.value - preset the value for the component to this string
+	**
 	**  @author: Robbie Wagner
 	*/
 	
-	// css
+	// html
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -19106,10 +19099,7 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ../styles.css */ 66);
-	
-	// html
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 72);
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 71);
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../../BaseComponent */ 36);
@@ -19139,17 +19129,20 @@ var UI =
 	    return typeof this.value === 'undefined' ? '' : this.value;
 	  };
 	
-	  BaseTextInput.prototype.render = function render() {
-	    var _this2 = this;
+	  BaseTextInput.prototype.set = function set(v) {
+	    this.value = v;
 	
+	    if (this.$input) {
+	      this.$input.val(v);
+	    }
+	
+	    this.publish(this.get());
+	  };
+	
+	  BaseTextInput.prototype.render = function render() {
 	    // the base input
 	    this.$el.html(inputTmpl(this));
 	    this.$input = this.$el.find('input');
-	
-	    // set up basic input event handler
-	    this.$input.on('input', function (e) {
-	      _this2.set(_this2.$input.val());
-	    });
 	
 	    return this.$el.html();
 	  };
@@ -19160,7 +19153,7 @@ var UI =
 	module.exports = BaseTextInput;
 
 /***/ },
-/* 72 */
+/* 71 */
 /*!************************************************!*\
   !*** ./src/TextInput/BaseTextInput/input.tmpl ***!
   \************************************************/
@@ -19171,7 +19164,7 @@ var UI =
 	};
 
 /***/ },
-/* 73 */
+/* 72 */
 /*!**********************************!*\
   !*** ./src/MultiSelect/index.js ***!
   \**********************************/
@@ -19189,10 +19182,10 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.scss */ 74);
+	__webpack_require__(/*! ./styles.scss */ 73);
 	
 	// html
-	var multiSelectTmpl = __webpack_require__(/*! ./multiSelect.dot */ 76);
+	var multiSelectTmpl = __webpack_require__(/*! ./multiSelect.dot */ 75);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
@@ -19283,7 +19276,7 @@ var UI =
 	module.exports = MultiSelect;
 
 /***/ },
-/* 74 */
+/* 73 */
 /*!*************************************!*\
   !*** ./src/MultiSelect/styles.scss ***!
   \*************************************/
@@ -19292,7 +19285,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./../../~/jsontosass-loader?path=./sassvars.json!./styles.scss */ 75);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./../../~/jsontosass-loader?path=./sassvars.json!./styles.scss */ 74);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
@@ -19312,7 +19305,7 @@ var UI =
 	}
 
 /***/ },
-/* 75 */
+/* 74 */
 /*!***************************************************************************************************************!*\
   !*** ./~/css-loader!./~/sass-loader!./~/jsontosass-loader?path=./sassvars.json!./src/MultiSelect/styles.scss ***!
   \***************************************************************************************************************/
@@ -19329,7 +19322,7 @@ var UI =
 
 
 /***/ },
-/* 76 */
+/* 75 */
 /*!*****************************************!*\
   !*** ./src/MultiSelect/multiSelect.dot ***!
   \*****************************************/
@@ -19341,7 +19334,7 @@ var UI =
 	}
 
 /***/ },
-/* 77 */
+/* 76 */
 /*!*********************************!*\
   !*** ./src/Pagination/index.js ***!
   \*********************************/
@@ -19357,8 +19350,8 @@ var UI =
 	
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
 	var $ = __webpack_require__(/*! jquery */ 4);
-	var simplePagination = __webpack_require__(/*! imports?jQuery=jquery!../../~/simplePagination/jquery.simplePagination.js */ 78);
-	var paginationTmpl = __webpack_require__(/*! ./pagination.dot */ 79);
+	var simplePagination = __webpack_require__(/*! imports?jQuery=jquery!../../~/simplePagination/jquery.simplePagination.js */ 77);
+	var paginationTmpl = __webpack_require__(/*! ./pagination.dot */ 78);
 	
 	var Pagination = function (_BaseComponent) {
 	  _inherits(Pagination, _BaseComponent);
@@ -19414,7 +19407,7 @@ var UI =
 	module.exports = Pagination;
 
 /***/ },
-/* 78 */
+/* 77 */
 /*!****************************************************************************************!*\
   !*** ./~/imports-loader?jQuery=jquery!./~/simplePagination/jquery.simplePagination.js ***!
   \****************************************************************************************/
@@ -19820,7 +19813,7 @@ var UI =
 
 
 /***/ },
-/* 79 */
+/* 78 */
 /*!***************************************!*\
   !*** ./src/Pagination/pagination.dot ***!
   \***************************************/
@@ -19832,7 +19825,7 @@ var UI =
 	}
 
 /***/ },
-/* 80 */
+/* 79 */
 /*!***********************************!*\
   !*** ./src/RadioButtons/index.js ***!
   \***********************************/
@@ -19850,7 +19843,7 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var radioButtonsTmpl = __webpack_require__(/*! ./radioButtons.dot */ 81);
+	var radioButtonsTmpl = __webpack_require__(/*! ./radioButtons.dot */ 80);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
@@ -19945,7 +19938,7 @@ var UI =
 	module.exports = RadioButtons;
 
 /***/ },
-/* 81 */
+/* 80 */
 /*!*******************************************!*\
   !*** ./src/RadioButtons/radioButtons.dot ***!
   \*******************************************/
@@ -19957,7 +19950,7 @@ var UI =
 	}
 
 /***/ },
-/* 82 */
+/* 81 */
 /*!****************************************!*\
   !*** ./src/SentenceGenerator/index.js ***!
   \****************************************/
@@ -19977,11 +19970,11 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 83);
+	__webpack_require__(/*! ./styles.css */ 82);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
-	var dotty = __webpack_require__(/*! dotty */ 85);
+	var dotty = __webpack_require__(/*! dotty */ 84);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
 	
 	var SentenceGenerator = function (_BaseComponent) {
@@ -20101,7 +20094,7 @@ var UI =
 	module.exports = SentenceGenerator;
 
 /***/ },
-/* 83 */
+/* 82 */
 /*!******************************************!*\
   !*** ./src/SentenceGenerator/styles.css ***!
   \******************************************/
@@ -20110,7 +20103,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 84);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 83);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
@@ -20130,7 +20123,7 @@ var UI =
 	}
 
 /***/ },
-/* 84 */
+/* 83 */
 /*!*************************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SentenceGenerator/styles.css ***!
   \*************************************************************************************/
@@ -20147,7 +20140,7 @@ var UI =
 
 
 /***/ },
-/* 85 */
+/* 84 */
 /*!******************************!*\
   !*** ./~/dotty/lib/index.js ***!
   \******************************/
@@ -20389,7 +20382,7 @@ var UI =
 
 
 /***/ },
-/* 86 */
+/* 85 */
 /*!***********************************!*\
   !*** ./src/SingleSelect/index.js ***!
   \***********************************/
@@ -20412,10 +20405,10 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 87);
+	__webpack_require__(/*! ./styles.css */ 86);
 	
 	// html
-	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 89);
+	var selectTmpl = __webpack_require__(/*! ./select.tmpl */ 88);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
@@ -20523,7 +20516,7 @@ var UI =
 	module.exports = SingleSelect;
 
 /***/ },
-/* 87 */
+/* 86 */
 /*!*************************************!*\
   !*** ./src/SingleSelect/styles.css ***!
   \*************************************/
@@ -20532,7 +20525,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 88);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 87);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
@@ -20552,7 +20545,7 @@ var UI =
 	}
 
 /***/ },
-/* 88 */
+/* 87 */
 /*!********************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SingleSelect/styles.css ***!
   \********************************************************************************/
@@ -20569,7 +20562,7 @@ var UI =
 
 
 /***/ },
-/* 89 */
+/* 88 */
 /*!**************************************!*\
   !*** ./src/SingleSelect/select.tmpl ***!
   \**************************************/
@@ -20594,7 +20587,7 @@ var UI =
 	};
 
 /***/ },
-/* 90 */
+/* 89 */
 /*!******************************!*\
   !*** ./src/Spinner/index.js ***!
   \******************************/
@@ -20612,11 +20605,11 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 91);
+	__webpack_require__(/*! ./styles.css */ 90);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
-	var BaseSpinner = __webpack_require__(/*! ./spin.js */ 93);
+	var BaseSpinner = __webpack_require__(/*! ./spin.js */ 92);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 36);
 	
 	/**
@@ -20725,7 +20718,7 @@ var UI =
 	module.exports = Spinner;
 
 /***/ },
-/* 91 */
+/* 90 */
 /*!********************************!*\
   !*** ./src/Spinner/styles.css ***!
   \********************************/
@@ -20734,7 +20727,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 92);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 91);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 34)(content, {});
@@ -20754,7 +20747,7 @@ var UI =
 	}
 
 /***/ },
-/* 92 */
+/* 91 */
 /*!***************************************************************************!*\
   !*** ./~/css-loader!./~/cssnext-loader?compress!./src/Spinner/styles.css ***!
   \***************************************************************************/
@@ -20771,7 +20764,7 @@ var UI =
 
 
 /***/ },
-/* 93 */
+/* 92 */
 /*!*****************************!*\
   !*** ./src/Spinner/spin.js ***!
   \*****************************/
