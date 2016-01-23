@@ -6,11 +6,14 @@
 **    This class provides a template for JUICE textInput Implementations. It is 
 **    designed to function as an Abstract class. Do not instantiate Objects of 
 **    this type -- instantiate a child component instead
+**
+**  @param {String} el - the DOM element to attach to
+**  @param {Object} opts - the options to configure this element
+**  @param {String} opts.placeholder - the html placeholder attribute for the component
+**  @param {String} opts.value - preset the value for the component to this string
+**
 **  @author: Robbie Wagner
 */
-
-// css
-require('../styles.css');
 
 // html
 const inputTmpl = require('./input.tmpl');
@@ -26,7 +29,7 @@ class BaseTextInput extends BaseComponent {
     Object.assign(this, {
       $input: null,
       placeholder: opts.placeholder || '',
-      value: opts.value || '',
+      value: opts.value || ''
     });
 
     return this;
@@ -36,15 +39,20 @@ class BaseTextInput extends BaseComponent {
     return (typeof this.value === 'undefined') ? '' : this.value;
   }
 
+  set(v) {
+    this.value = v;
+
+    if (this.$input) {
+      this.$input.val(v);
+    }
+
+    this.publish(this.get());
+  }
+
   render() {
     // the base input
     this.$el.html(inputTmpl(this));
     this.$input = this.$el.find('input');
-
-    // set up basic input event handler
-    this.$input.on('input', (e) =>{
-      this.set(this.$input.val());
-    });
 
     return this.$el.html();
   }

@@ -11,6 +11,9 @@
       <script>
         var c = new UI.TextInput('.ui-text-input-example', {
           placeholder: 'What up?',
+          submitHandler: function () {
+            console.log('the enter key has been pressed!');
+          }
         });
 
         c.subscribe(function (value) {

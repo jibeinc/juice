@@ -8,7 +8,13 @@
 **    behaviors, such as:
 **      - publishes a nicely throttled text input event
 **      - firing event listeners when the enter key is pressed
-**      - adds a clearing x icon
+**      - adds a clearing x iconi
+**
+**  @param {String} el - the DOM element to attach to
+**  @param {Object} opts - the options to configure this element
+**  @param {String} opts.icon - the string for the icon to show up 
+**  @param {Number} opts.wait - how long to debounce the input onKeyUp event
+**  @param {Function} opts.submitHandler - if the enter key is pressed, run this function
 **
 **  @author: Robbie Wagner
 */
@@ -17,14 +23,12 @@
 require('./styles.css');
 
 // html
-const inputTmpl = require('./input.tmpl');
 const iconTmpl = require('./icon.tmpl');
 const iconWrapper = require('./iconWrapper.html');
 
 // scripts
 const BaseTextInput = require('./BaseTextInput');
-const debounce = require('debounce');
-
+const debounce      = require('debounce');
 
 class TextInput extends BaseTextInput {
   constructor(el, opts = {}) {
@@ -32,7 +36,8 @@ class TextInput extends BaseTextInput {
 
     Object.assign(this, {
       icon: opts.icon || 'x',
-      wait: opts.wait || 300
+      wait: opts.wait || 300,
+      submitHandler: opts.submitHandler || ((v) => {})
     });
 
     return this;
@@ -40,44 +45,38 @@ class TextInput extends BaseTextInput {
 
   set(v) {
     super.set(v);
-    this.$input.val(this.value);
     this.showHideIcon();
     return this;
   }
 
   render() {
-    debugger;
     super.render();
 
-    this.$input.keyup(this.keyUpHandler); // debounced slightly for ux
-
     // Part 1: Dom Manipulation
-    // the wrapper to place a clearing icon (X)
-    this.$input.wrap(iconWrapper);
+    this.$input.wrap(iconWrapper); // set up the clearing icon (X) wrapper
     this.$wrapper = this.$el.find('.ui-text-input-icon-wrapper');
 
-    // the clearing icon itself (absolute positioned within wrapper to be on the right)
-    this.$wrapper.append(iconTmpl(this));
+    this.$wrapper.append(iconTmpl(this)); // set up the clearing icon itself
     this.$icon = this.$el.find('.ui-text-input-icon');
-
     this.showHideIcon();
 
     // Part 2: set up various event handlers
+    const onKeyup = debounce((e) => {
+      this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
+
+      if (e.keyCode == this.keyEvents.ENTER) {
+        this.$input.blur();
+        this.submitHandler(this.get());
+      }
+    }, this.wait);
+
+    this.$input.keyup(onKeyup);
+
     this.$icon.click(() => {
       this.set('');
     });
 
     return this.$el.html();
-  }
-
-  keyUpHandler() {
-    debounce((e) => {
-      this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
-
-      if (e.keyCode == this.keyEvents.ENTER) {
-        this.$input.blur();
-      }
-    }, this.wait);
   }
 
   showHideIcon() {
