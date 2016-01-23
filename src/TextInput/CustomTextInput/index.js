@@ -5,12 +5,12 @@
 // adds a clearing x icon
 
 // css
-require('./styles.css');
+require('../styles.css');
 
 // html
-const inputTmpl = require('./input.tmpl');
+const inputTmpl = require('../BaseTextInput/input.tmpl');
 const iconTmpl = require('./icon.tmpl');
-const iconWrapper = require('./iconWrapper.html');
+const iconWrapper = require('../iconWrapper.html');
 
 // scripts
 const BaseComponent = require('../BaseComponent');
