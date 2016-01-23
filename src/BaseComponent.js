@@ -1,5 +1,23 @@
 'use strict'
 
+/*
+** @description
+**  The root class of all UI components. This component is meant to function as an
+**  abstract class. DO NOT try and instantiate this, only one of its child components.
+**  The purpose of this class is to:
+**    - to handle the publish() and subscribe() methods (for communication with pubSub)
+**    - to create the DOM element for the UI component
+**    - default implementations of get() and set()
+**
+** @param {String} el - the DOM element associated with this UI component
+** @param {Object} opts - the set of options to configure this component
+** @param {String} opts.parentElement - the parent node to attach this component to
+** @param {Boolean} opts.preserveChildElements - whether or not to remove DOM nodes that are
+** child elements of the current el passed in
+**
+** @author: John Hatcher
+*/
+
 const $ = require('jquery');
 const uuid = require('uuid');
 const PSHub = require('./PubSubHub');
