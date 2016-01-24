@@ -17980,11 +17980,10 @@ var UI =
 	
 	    $(window).scroll(debounce(function () {
 	      var scrollTop = $(window).scrollTop();
-	      var elementHeight = $scrollTarget.height();
 	      var elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
 	      var scrollTrigger = opts.scrollTrigger || 0.95;
 	
-	      if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
+	      if (scrollTop / elementScrollHeight > scrollTrigger) {
 	        _this.onScrollToBottom();
 	      }
 	    }, debounceWait, false));

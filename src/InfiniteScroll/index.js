@@ -21,11 +21,10 @@ class InfiniteScroll extends BaseComponent {
 
     $(window).scroll(debounce(() => {
       const scrollTop = $(window).scrollTop();
-      const elementHeight = $scrollTarget.height();
       const elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
       const scrollTrigger = opts.scrollTrigger || 0.95;
-      
-      if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
+
+      if (scrollTop / elementScrollHeight > scrollTrigger) {
         this.onScrollToBottom();
       }
     }, debounceWait, false));
