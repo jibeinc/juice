@@ -116,6 +116,11 @@ class SentenceGenerator extends BaseComponent {
       }
     }
 
+    // strip trailing delimiter
+    if (this.delimiter) {
+      templateString = templateString.replace(new RegExp(this.delimiter + '$'), '');
+    }
+
     this.$el.html('<span>' + templateString + '</span');
   }
 };
