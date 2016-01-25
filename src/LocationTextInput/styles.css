@@ -1,3 +1,4 @@
+
 .ui-text-input {
   width: 100%;
 }
@@ -10,8 +11,16 @@
   font-size: 16px;
   position: absolute;
   top: 5px;
-  right: 15px;
+  right: 5px;
   cursor: pointer;
   padding: 0 5px;
   margin: 0 5px;
+}
+
+.ui-location-icon {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }

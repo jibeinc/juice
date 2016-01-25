@@ -14,6 +14,7 @@ const currentLocationTemplate = require('./useMyCurrentLocation.tmpl');
 // scripts
 const $ = require('jquery');
 const Typeahead = require('../Typeahead');
+const LocationTextInput = require('../LocationTextInput');
 const FragFactory = require('../BaseFragmentFactory');
 const CurrentLocation = require('../CurrentLocation');
 
@@ -46,12 +47,7 @@ class LocationTypeahead extends Typeahead {
     opts.textInputOpts = opts.textInputOpts || {};
 
     // setup the input icon to be a "use current location" component
-    Object.assign(opts.textInputOpts, {
-      iconClearsValue: false,
-      icon: iconFactory.make({
-        name: 'icon'
-      })
-    });
+    Object.assign(opts.textInputOpts, {});
 
     // setup "current location" fixed result
     opts.fixedResults = (opts.fixedResults || []).concat([{
@@ -64,6 +60,7 @@ class LocationTypeahead extends Typeahead {
 
     super(el, opts);
 
+    this.textInput = new LocationTextInput(this.$el.find('.input-container'), this.textInputOpts);
     this.iconFactory = iconFactory;
     this.$el.addClass('ui-location-typeahead');
   }

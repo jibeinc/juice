@@ -1,109 +1,98 @@
 'use strict';
 
-// # TextInput
-// publishes a nicely throttled text input event
-// adds a clearing x icon
+/*
+**  @class: TextInput
+**  @description:
+**    This class is the main JUICE textInput Implementation. This class
+**    enhances the BaseTextInput class by providing nice UI interaction
+**    behaviors, such as:
+**      - publishes a nicely throttled text input event
+**      - firing event listeners when the enter key is pressed
+**      - adds a clearing x icon
+**
+**    If you plan on extending the textInput class, you can override the
+**    iconClickHandler(), keyUpHandler(), showHideIcon(), and renderDom()
+**    methods to override the default behavior of the render method
+**
+**  @param {String} el - the DOM element to attach to
+**  @param {Object} opts - the options to configure this element
+**  @param {String} opts.icon - the string for the icon to show up 
+**  @param {Number} opts.wait - how long to debounce the input onKeyUp event
+**  @param {Function} opts.submitHandler - if the enter key is pressed, run this function
+**
+**  @author: Robbie Wagner
+*/
 
 // css
 require('./styles.css');
 
 // html
 const inputTmpl = require('./input.tmpl');
-const iconTmpl = require('./icon.tmpl');
-const iconWrapper = require('./iconWrapper.html');
 
 // scripts
-const BaseComponent = require('../BaseComponent');
-const debounce = require('debounce');
+const BaseTextInput = require('./BaseTextInput');
+const debounce      = require('debounce');
 
-class TextInput extends BaseComponent {
+class TextInput extends BaseTextInput {
   constructor(el, opts = {}) {
-    super(el);
+    super(el, opts);
+
     Object.assign(this, {
-      $input: null,
+      $icon: null,
       icon: opts.icon || 'x',
-      onEnterPressed: opts.onEnterPressed || null,
-      onIconClick: opts.onIconClick || null,
-      iconClearsValue: typeof opts.iconClearsValue === 'undefined' ? true : opts.iconClearsValue,
-      placeholder: opts.placeholder || '',
-      showIconOnNotEmpty: opts.showIconOnNotEmpty || false,
-      value: opts.value || '',
-      wait: opts.wait || 300
+      wait: opts.wait || 150,
+      submitHandler: opts.submitHandler || ((v) => {})
     });
 
     return this;
   }
 
+  set(v) {
+    super.set(v);
+    this.showHideIcon();
+    return this;
+  }
+
   render() {
-    // the base input
-    this.$el.addClass('ui-text-input');
-    this.$el.html(inputTmpl(this));
-    this.$input = this.$el.find('input');
+    this.renderDom();
 
-    const onKeyup = debounce((e) => {
-      this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
-      if (e.keyCode == 13) {
-        this.$input.blur();
-        if (this.onEnterPressed) {
-          this.onEnterPressed(this.get());
-        }
-      }
-    }, this.wait);
-
-    this.$input.keyup(onKeyup); // debounced slightly for ux
-
-    if (this.icon) {
-      // the wrapper to place a clearing icon (X)
-      this.$input.wrap(iconWrapper);
-      this.$wrapper = this.$el.find('.ui-text-input-icon-wrapper');
-
-      // the clearing icon itself (absolute positioned within wrapper to be on the right)
-      this.$wrapper.append(iconTmpl(this));
-      this.$icon = this.$el.find('.ui-text-input-icon');
-
-      this.showHideIcon();
-
-      if (this.iconClearsValue || this.onIconClick) {
-        this.$icon.click(() => {
-          if (this.iconClearsValue) {
-            this.set('');
-          }
-          if (this.onIconClick) {
-            this.onIconClick();
-          }
-        });
-      }
-    }
+    // set up various event handlers
+    this.keyUpHandler();
+    this.iconClickHandler();
+    this.showHideIcon();
 
     return this.$el.html();
   }
 
-  showHideIcon() {
-    if (this.showIconOnNotEmpty) {
-      if (this.get()) {
-        this.$icon.show();
-      }
-      else {
-        this.$icon.hide();
-      }
-    }
+  renderDom() {
+    // the base input
+    this.$el.html(inputTmpl(this));
+    this.$input = this.$el.find('input');
+
+    this.$icon = this.$el.find('.ui-text-input-icon');
   }
 
-  get() {
-    return (typeof this.value === 'undefined') ? '' : this.value;
-  };
+  keyUpHandler() {
+    const onKeyup = debounce((e) => {
+      this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
 
-  set(v) {
-    this.value = v;
-    if (this.$input) {
-      this.$input.val(this.value); // user will lose focus if we do a full render
-    } else {
-      this.render(); // first time
-    }
+      if (e.keyCode == this.keyEvents.ENTER) {
+        this.$input.blur();
+        this.submitHandler(this.get());
+      }
+    }, this.wait);
 
-    this.showHideIcon();
-    this.publish(this.get());
-    return this;
+    this.$input.keyup(onKeyup);
+  }
+
+  iconClickHandler() {
+    this.$icon.click(() => {
+      this.set('');
+    });
+  }
+
+  showHideIcon() {
+    this.get() ? this.$icon.show() :  this.$icon.hide();
   }
 }
 

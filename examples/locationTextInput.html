@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Text Input Example</title>
+    <title>Location Text Input Example</title>
     <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
     <script src='../dist/ui.js'></script>
   </head>
   <body>
-    <div class='ui-text-input-example'></div>
+    <div class='ui-location-text-input-example'></div>
       <script>
-        var c = new UI.TextInput('.ui-text-input-example', {
+        var c = new UI.LocationTextInput('.ui-location-text-input-example', {
+          placeholder: 'What up?',
           submitHandler: function () {
             console.log('the enter key has been pressed!');
-          },
-          placeholder: 'What up?',
+          }
         });
 
         c.subscribe(function (value) {

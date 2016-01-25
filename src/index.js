@@ -17,9 +17,11 @@ const UIComponents = {
   // components
   Button: require('./Button'),
   CurrentLocation: require('./CurrentLocation'),
+  CustomTextInput: require('./TextInput/CustomTextInput'),
   ExpandCollapse: require('./ExpandCollapse/'),
   InfiniteScroll: require('./InfiniteScroll'),
   ListView: require('./ListView'),
+  LocationTextInput: require('./LocationTextInput'),
   LocationTypeahead: require('./LocationTypeahead'),
   MultiSelect: require('./MultiSelect'),
   Pagination: require('./Pagination'),
