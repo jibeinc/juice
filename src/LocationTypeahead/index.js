@@ -61,6 +61,14 @@ class LocationTypeahead extends Typeahead {
     super(el, opts);
 
     this.textInput = new LocationTextInput(this.$el.find('.input-container'), this.textInputOpts);
+
+    // when text input gets a new value, update typeahead:
+    this.textInput.subscribe((data) => {
+      if (data.isLocation) {
+        this.set(data);
+      }
+    });
+
     this.iconFactory = iconFactory;
     this.$el.addClass('ui-location-typeahead');
   }

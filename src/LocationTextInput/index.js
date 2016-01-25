@@ -42,13 +42,10 @@ class LocationTextInput extends TextInput {
     return this.$location || '';
   }
 
-  setLocation (coords) {    
-    this.$location = coords;
+  setLocation (data) {
+    data.displayProperty = 'Use the Current Location';
 
-    if (this.$input) {
-      this.$input.val('Use the Current Location');
-    }
-
+    this.$location = data;
     this.publish(this.getLocation());
   }
 
