@@ -8,7 +8,11 @@
 **    behaviors, such as:
 **      - publishes a nicely throttled text input event
 **      - firing event listeners when the enter key is pressed
-**      - adds a clearing x iconi
+**      - adds a clearing x icon
+**
+**    If you plan on extending the textInput class, you can override the
+**    iconClickHandler(), keyUpHandler(), showHideIcon(), and renderDom()
+**    methods to override the default behavior of the render method
 **
 **  @param {String} el - the DOM element to attach to
 **  @param {Object} opts - the options to configure this element
@@ -23,8 +27,7 @@
 require('./styles.css');
 
 // html
-const iconTmpl = require('./icon.tmpl');
-const iconWrapper = require('./iconWrapper.html');
+const inputTmpl = require('./input.tmpl');
 
 // scripts
 const BaseTextInput = require('./BaseTextInput');
@@ -35,8 +38,9 @@ class TextInput extends BaseTextInput {
     super(el, opts);
 
     Object.assign(this, {
+      $icon: null,
       icon: opts.icon || 'x',
-      wait: opts.wait || 300,
+      wait: opts.wait || 150,
       submitHandler: opts.submitHandler || ((v) => {})
     });
 
@@ -50,17 +54,25 @@ class TextInput extends BaseTextInput {
   }
 
   render() {
-    super.render();
-
-    // Part 1: Dom Manipulation
-    this.$input.wrap(iconWrapper); // set up the clearing icon (X) wrapper
-    this.$wrapper = this.$el.find('.ui-text-input-icon-wrapper');
-
-    this.$wrapper.append(iconTmpl(this)); // set up the clearing icon itself
-    this.$icon = this.$el.find('.ui-text-input-icon');
+    this.renderDom();
     this.showHideIcon();
 
-    // Part 2: set up various event handlers
+    // set up various event handlers
+    this.keyUpHandler();
+    this.iconClickHandler();
+
+    return this.$el.html();
+  }
+
+  renderDom() {
+    // the base input
+    this.$el.html(inputTmpl(this));
+    this.$input = this.$el.find('input');
+
+    this.$icon = this.$el.find('.ui-text-input-icon');
+  }
+
+  keyUpHandler() {
     const onKeyup = debounce((e) => {
       this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
 
@@ -71,12 +83,12 @@ class TextInput extends BaseTextInput {
     }, this.wait);
 
     this.$input.keyup(onKeyup);
+  }
 
+  iconClickHandler() {
     this.$icon.click(() => {
       this.set('');
     });
-
-    return this.$el.html();
   }
 
   showHideIcon() {

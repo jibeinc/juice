@@ -1,42 +1,26 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Text Input Example</title>
+    <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <script src='../dist/ui.js'></script>
+  </head>
+  <body>
+    <div class='ui-text-input-example'></div>
+      <script>
+        var c = new UI.TextInput('.ui-text-input-example', {
+          submitHandler: function () {
+            console.log('the enter key has been pressed!');
+          },
+          placeholder: 'What up?',
+        });
 
-<head>
-  <title>Text Input Example</title>
-  <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script src='../dist/ui.js'></script>
-</head>
+        c.subscribe(function (value) {
+          console.log("the current value is: ", value);
+        });
 
-<body>
-
-<div class='ui-text-input'></div>
-
-<style>
-  .ui-text-input {
-    width: 100%;
-  }
-</style>
-
-<script>
-  var c = new UI.TextInput('.ui-text-input', {
-    onEnterPressed: function () {
-      console.log('Press dat shizz');
-    },
-    onIconClick: function () {
-      console.log('Clicked the icon!');
-    },
-    placeholder: 'What up?',
-    showIconOnNotEmpty: true
-  });
-
-  c.subscribe(function (msg) {
-    console.log(msg);
-  });
-
-  c.set('Hello World!');
-</script>
-
-</body>
-
+        c.render();
+      </script>
+  </body>
 </html>
