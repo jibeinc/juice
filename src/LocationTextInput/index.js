@@ -74,8 +74,8 @@ class LocationTextInput extends TextInput {
 
   showHideIcon() {
     if (this.get()) {
-     this.$icon.show();
-     this.$locationIcon.hide();
+      this.$icon.show();
+      this.$locationIcon.hide();
     }
     else {
       this.$icon.hide();
