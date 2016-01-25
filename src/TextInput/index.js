@@ -55,11 +55,11 @@ class TextInput extends BaseTextInput {
 
   render() {
     this.renderDom();
-    this.showHideIcon();
 
     // set up various event handlers
     this.keyUpHandler();
     this.iconClickHandler();
+    this.showHideIcon();
 
     return this.$el.html();
   }
