@@ -18904,6 +18904,7 @@ var UI =
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 4);
 	var Typeahead = __webpack_require__(/*! ../Typeahead */ 73);
+	var LocationTextInput = __webpack_require__(/*! ../LocationTextInput */ 61);
 	var FragFactory = __webpack_require__(/*! ../BaseFragmentFactory */ 9);
 	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 39);
 	
@@ -18941,12 +18942,7 @@ var UI =
 	    opts.textInputOpts = opts.textInputOpts || {};
 	
 	    // setup the input icon to be a "use current location" component
-	    Object.assign(opts.textInputOpts, {
-	      iconClearsValue: false,
-	      icon: iconFactory.make({
-	        name: 'icon'
-	      })
-	    });
+	    Object.assign(opts.textInputOpts, {});
 	
 	    // setup "current location" fixed result
 	    opts.fixedResults = (opts.fixedResults || []).concat([{
@@ -18959,6 +18955,7 @@ var UI =
 	
 	    var _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
 	
+	    _this.textInput = new LocationTextInput(_this.$el.find('.input-container'), _this.textInputOpts);
 	    _this.iconFactory = iconFactory;
 	    _this.$el.addClass('ui-location-typeahead');
 	    return _this;
