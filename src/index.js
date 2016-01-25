@@ -26,7 +26,6 @@ const UIComponents = {
   MultiSelect: require('./MultiSelect'),
   Pagination: require('./Pagination'),
   RadioButtons: require('./RadioButtons'),
-  SentenceGenerator: require('./SentenceGenerator'),
   SingleSelect: require('./SingleSelect'),
   TextInput: require('./TextInput'),
   Toggle: require('./Toggle'),
