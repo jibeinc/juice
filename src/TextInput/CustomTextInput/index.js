@@ -8,12 +8,12 @@
 require('../styles.css');
 
 // html
-const inputTmpl = require('../BaseTextInput/input.tmpl');
+const inputTmpl = require('./input.tmpl');
 const iconTmpl = require('./icon.tmpl');
-const iconWrapper = require('../iconWrapper.html');
+const iconWrapper = require('./iconWrapper.html');
 
 // scripts
-const BaseComponent = require('../BaseComponent');
+const BaseComponent = require('../../BaseComponent');
 const debounce = require('debounce');
 
 class TextInput extends BaseComponent {
