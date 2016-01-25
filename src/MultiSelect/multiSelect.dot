@@ -2,7 +2,7 @@
   {{~it.options :opt:index}}
   <div class="select-option">
     <label>
-      <input type='checkbox' name='{{= it.id }}' value='{{= opt.value }}' {{? opt.checked }}checked=true{{?}}/>
+      <input type='checkbox' name='{{= it.id }}' value='{{!opt.value}}' {{? opt.checked }}checked=true{{?}}/>
       <span>{{=it.renderItem(opt)}}</span>
     </label>
   </div>
