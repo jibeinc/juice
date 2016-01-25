@@ -32,7 +32,7 @@ const debounce      = require('debounce');
 
 class TextInput extends BaseTextInput {
   constructor(el, opts = {}) {
-    super(el);
+    super(el, opts);
 
     Object.assign(this, {
       icon: opts.icon || 'x',

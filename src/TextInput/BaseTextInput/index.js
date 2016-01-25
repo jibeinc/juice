@@ -24,7 +24,7 @@ const BaseComponent = require('../../BaseComponent');
 class BaseTextInput extends BaseComponent {
 
   constructor(el, opts = {}) {
-    super(el);
+    super(el, opts);
 
     Object.assign(this, {
       $input: null,
