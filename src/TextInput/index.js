@@ -16,7 +16,7 @@
 **
 **  @param {String} el - the DOM element to attach to
 **  @param {Object} opts - the options to configure this element
-**  @param {String} opts.icon - the string for the icon to show up 
+**  @param {String} opts.icon - the string for the icon to show up
 **  @param {Number} opts.wait - how long to debounce the input onKeyUp event
 **  @param {Function} opts.submitHandler - if the enter key is pressed, run this function
 **
@@ -30,6 +30,7 @@ require('./styles.css');
 const inputTmpl = require('./input.tmpl');
 
 // scripts
+const $             = require('jquery');
 const BaseTextInput = require('./BaseTextInput');
 const debounce      = require('debounce');
 
@@ -92,7 +93,9 @@ class TextInput extends BaseTextInput {
   }
 
   showHideIcon() {
-    this.get() ? this.$icon.show() :  this.$icon.hide();
+    if (this.$icon) {
+      this.get() ? this.$icon.show() :  this.$icon.hide();
+    }
   }
 }
 

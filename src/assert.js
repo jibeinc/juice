@@ -1,5 +1,5 @@
-module.exports = (condition) => {
+module.exports = (condition, message) => {
   if (!condition) {
-    throw new Error('Assertion failure')
+    throw new Error(message || 'Assertion failure');
   }
 };

@@ -27,7 +27,7 @@ class BaseTypeahead extends BaseComponent {
       results: [],
       textInputOpts: opts.textInputOpts || {}
     });
-    assert(typeof this.fetch === 'function');
+    assert(typeof this.fetch === 'function', 'typeahead requires a fetch method');
 
     this.$el.append(containerHTML);
 
