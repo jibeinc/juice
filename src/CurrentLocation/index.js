@@ -14,7 +14,7 @@ class CurrentLocation extends BaseComponent {
   constructor(el, opts={}) {
     super(el);
     this.iconURL = opts.iconURL || iconURL;
-    this.geolocationAPI = opts.geolocationAPI;
+    this.geolocationAPI = opts.geolocationAPI || window.navigator.geolocation;
     return this;
   }
 
