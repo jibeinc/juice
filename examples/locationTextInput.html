@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Location Text Input Example</title>
+    <link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <script src='../dist/ui.js'></script>
+  </head>
+  <body>
+    <div class='ui-location-text-input-example'></div>
+      <script>
+        var c = new UI.LocationTextInput('.ui-location-text-input-example', {
+          placeholder: 'What up?',
+          submitHandler: function () {
+            console.log('the enter key has been pressed!');
+          }
+        });
+
+        c.subscribe(function (value) {
+          console.log("the current value is: ", value);
+        });
+
+        c.render();
+      </script>
+  </body>
+</html>

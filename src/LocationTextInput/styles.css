@@ -1,0 +1,24 @@
+
+.ui-text-input {
+  width: 100%;
+}
+
+.ui-text-input-wrapper {
+  position: relative;
+}
+
+.ui-text-input-icon {
+  font-size: 16px;
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.ui-location-icon {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
