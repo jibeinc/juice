@@ -17760,9 +17760,13 @@ var UI =
 
 	'use strict';
 	
+	// @deprecated
 	// # TextInput
 	// publishes a nicely throttled text input event
 	// adds a clearing x icon
+	//
+	// Please do not use this class anymore. It has been kept around for legacy reasons, but will
+	// be deleted soon
 	
 	// css
 	
@@ -18288,13 +18292,12 @@ var UI =
 	    var debounceWait = opts.debounceWait || 500;
 	    var $scrollTarget = opts.windowScroll ? $(window) : _this.$el;
 	
-	    $scrollTarget.scroll(debounce(function () {
-	      var scrollTop = $scrollTarget.scrollTop();
-	      var elementHeight = $scrollTarget.height();
+	    $(window).scroll(debounce(function () {
+	      var scrollTop = $(window).scrollTop();
 	      var elementScrollHeight = $scrollTarget[0].scrollHeight || $(document).height();
 	      var scrollTrigger = opts.scrollTrigger || 0.95;
 	
-	      if (scrollTop / (elementScrollHeight - elementHeight) > scrollTrigger) {
+	      if (scrollTop / elementScrollHeight > scrollTrigger) {
 	        _this.onScrollToBottom();
 	      }
 	    }, debounceWait, false));
