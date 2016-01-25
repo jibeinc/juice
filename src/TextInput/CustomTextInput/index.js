@@ -1,8 +1,12 @@
 'use strict';
 
+// @deprecated
 // # TextInput
 // publishes a nicely throttled text input event
 // adds a clearing x icon
+//
+// Please do not use this class anymore. It has been kept around for legacy reasons, but will
+// be deleted soon
 
 // css
 require('../styles.css');
