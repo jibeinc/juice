@@ -31,7 +31,6 @@ const UIComponents = {
   TextInput: require('./TextInput'),
   Toggle: require('./Toggle'),
   Typeahead: require('./Typeahead'),
-  LocationTypeahead: require('./LocationTypeahead'),
   SentenceGenerator: require('./SentenceGenerator'),
   Spinner: require('./Spinner')
 };
