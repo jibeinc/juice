@@ -18,6 +18,8 @@ const LocationTextInput = require('../LocationTextInput');
 const FragFactory = require('../BaseFragmentFactory');
 const CurrentLocation = require('../CurrentLocation');
 
+const LOCATION_STRING = 'Use the Current Location';
+
 class LocationTypeahead extends Typeahead {
   constructor(el, opts = {}) {
 
@@ -29,25 +31,16 @@ class LocationTypeahead extends Typeahead {
       },
 
       controller: (data) => {
-        const currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name, {
-          geolocationAPI: opts.geolocationAPI
-        });
+        const currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name);
 
         currentLocationIcon.subscribe((event) => {
           if (event.isLocation) {
             this.set(event);
-            this.textInput.$input.val('Your current location'); // just for display
           }
         });
         currentLocationIcon.render();
       }
     });
-
-    //Ensure we have an opts.textInputOpts object
-    opts.textInputOpts = opts.textInputOpts || {};
-
-    // setup the input icon to be a "use current location" component
-    Object.assign(opts.textInputOpts, {});
 
     // setup "current location" fixed result
     opts.fixedResults = (opts.fixedResults || []).concat([{
@@ -60,17 +53,27 @@ class LocationTypeahead extends Typeahead {
 
     super(el, opts);
 
-    this.textInput = new LocationTextInput(this.$el.find('.input-container'), this.textInputOpts);
-
-    // when text input gets a new value, update typeahead:
-    this.textInput.subscribe((data) => {
-      if (data.isLocation) {
-        this.set(data);
-      }
-    });
-
     this.iconFactory = iconFactory;
     this.$el.addClass('ui-location-typeahead');
+  }
+
+  setupTextInput(textInputOpts) {
+    return new LocationTextInput(this.$el.find('.input-container'), textInputOpts);
+  }
+
+  handleTextInputUpdates() {
+    // when text input gets a new value, update typeahead:
+    this.textInput.subscribe((v) => {
+
+      if (v === '') {
+        this.value = {};
+        this.publish(this.get());
+      }
+
+      else {
+        super.handleTextInputUpdates();
+      }
+    });
   }
 
   renderItem(item) {
@@ -81,7 +84,14 @@ class LocationTypeahead extends Typeahead {
     } else {
       return super.renderItem(item);
     }
-  };
+  }
+
+  set(v) {
+    this.textInput.set(v);
+    this.value = v;
+    this.publish(this.get());
+    return this;
+  }
 }
 
 module.exports = LocationTypeahead;
