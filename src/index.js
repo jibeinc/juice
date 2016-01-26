@@ -1,5 +1,6 @@
 'use strict';
 
+require('babel-polyfill');
 const initFunc = require('./init');
 
 const UIComponents = {
