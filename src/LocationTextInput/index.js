@@ -42,11 +42,23 @@ class LocationTextInput extends TextInput {
     return this.value || '';
   }
 
-  set(data) {
-    data.displayValue = 'Use the Current Location';
+  set(v) {
 
-    this.value = data;
-    this.publish(this.get());
+    // If the textInput contains location data
+    if (typeof v === 'object') {
+      this.value = v;
+
+      if (this.$input) {
+          this.$input.val(v.isLocation ? 'Use the Current Location' : v.displayName);
+      }
+
+      this.publish(this.get());
+      this.showHideIcon();
+    }
+
+    else {
+      super.set(v);
+    }
   }
 
   renderDom() {
