@@ -86,6 +86,13 @@ class BaseTypeahead extends BaseComponent {
     return item;
   }
 
+  // small aux function that should be used instead of set when textInput does not
+  // need to be updated
+  setInternal (v) {
+    this.value = v;
+    this.publish(this.get());
+  }
+
   set(v) {
     this.textInput.set(this.getDisplayValue(v));
     this.value = v;
