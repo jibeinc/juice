@@ -18575,12 +18575,14 @@ var UI =
 	  };
 	
 	  LocationTextInput.prototype.showHideIcon = function showHideIcon() {
-	    if (this.get()) {
-	      this.$icon.show();
-	      this.$locationIcon.hide();
-	    } else {
-	      this.$icon.hide();
-	      this.$locationIcon.show();
+	    if (this.$icon) {
+	      if (this.get()) {
+	        this.$icon.show();
+	        this.$locationIcon.hide();
+	      } else {
+	        this.$icon.hide();
+	        this.$locationIcon.show();
+	      }
 	    }
 	  };
 	
