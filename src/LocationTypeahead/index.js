@@ -29,25 +29,17 @@ class LocationTypeahead extends Typeahead {
       },
 
       controller: (data) => {
-        const currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name, {
-          geolocationAPI: opts.geolocationAPI
-        });
+        const currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name);
 
         currentLocationIcon.subscribe((event) => {
           if (event.isLocation) {
+            event.listItem = true; // set this to prevent repeating
             this.set(event);
-            this.textInput.$input.val('Your current location'); // just for display
           }
         });
         currentLocationIcon.render();
       }
     });
-
-    //Ensure we have an opts.textInputOpts object
-    opts.textInputOpts = opts.textInputOpts || {};
-
-    // setup the input icon to be a "use current location" component
-    Object.assign(opts.textInputOpts, {});
 
     // setup "current location" fixed result
     opts.fixedResults = (opts.fixedResults || []).concat([{
@@ -60,17 +52,30 @@ class LocationTypeahead extends Typeahead {
 
     super(el, opts);
 
-    this.textInput = new LocationTextInput(this.$el.find('.input-container'), this.textInputOpts);
-
-    // when text input gets a new value, update typeahead:
-    this.textInput.subscribe((data) => {
-      if (data.isLocation) {
-        this.set(data);
-      }
-    });
-
     this.iconFactory = iconFactory;
     this.$el.addClass('ui-location-typeahead');
+  }
+
+  setupTextInput(textInputOpts) {
+    return new LocationTextInput(this.$el.find('.input-container'), textInputOpts);
+  }
+
+  handleTextInputUpdates() {
+    // when text input gets a new value, update typeahead:
+    this.textInput.subscribe((v) => {
+
+      if (v === '') {
+        this.setInternal({});
+      }
+
+      else if ($.isPlainObject(v) && v.isLocation && !v.listItem) {
+        this.setInternal(v);
+      }
+
+      else {
+        super.handleTextInputUpdates();
+      }
+    });
   }
 
   renderItem(item) {
@@ -81,7 +86,20 @@ class LocationTypeahead extends Typeahead {
     } else {
       return super.renderItem(item);
     }
-  };
+  }
+
+  // small aux function that should be used instead of set when textInput does not
+  // need to be updated
+  setInternal (v) {
+    this.value = v;
+    this.publish(this.get());
+  }
+
+  set(v) {
+    this.textInput.set(v);
+    this.setInternal(v);
+    return this;
+  }
 }
 
 module.exports = LocationTypeahead;

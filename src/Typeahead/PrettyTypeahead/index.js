@@ -30,7 +30,12 @@ class PrettyTypeahead extends BaseTypeahead {
     };
 
     super(el, opts);
+  }
 
+  handleTextInputUpdates() {
+    super.handleTextInputUpdates();
+
+    // layer on the new behavior
     this.textInput.subscribe(() => {
       this.highlightIndex = null;
     });
@@ -115,7 +120,7 @@ class PrettyTypeahead extends BaseTypeahead {
   attachKeyEvents() {
     this.highlightIndex;
 
-    $(document).on('keydown', (evt) => {
+    $(document).on('keyup', (evt) => {
       if (!this.active()) {
         return;
       }

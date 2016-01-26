@@ -31,7 +31,7 @@ class ListView extends BaseComponent {
     super(el, opts);
 
     Object.assign(this, {
-      fetch: opts.fetch,
+      fetch: opts.fetch || $.noop,
       listItemOpts: opts.listItemOpts || {},
       renderItem: opts.renderItem || this.renderItem,
       results: opts.results || []
