@@ -18,8 +18,6 @@ const LocationTextInput = require('../LocationTextInput');
 const FragFactory = require('../BaseFragmentFactory');
 const CurrentLocation = require('../CurrentLocation');
 
-const LOCATION_STRING = 'Use the Current Location';
-
 class LocationTypeahead extends Typeahead {
   constructor(el, opts = {}) {
 
@@ -35,6 +33,7 @@ class LocationTypeahead extends Typeahead {
 
         currentLocationIcon.subscribe((event) => {
           if (event.isLocation) {
+            event.listItem = true; // set this to prevent repeating
             this.set(event);
           }
         });
@@ -66,8 +65,11 @@ class LocationTypeahead extends Typeahead {
     this.textInput.subscribe((v) => {
 
       if (v === '') {
-        this.value = {};
-        this.publish(this.get());
+        this.setInternal({});
+      }
+
+      else if ($.isPlainObject(v) && v.isLocation && !v.listItem) {
+        this.setInternal(v);
       }
 
       else {
@@ -86,10 +88,16 @@ class LocationTypeahead extends Typeahead {
     }
   }
 
-  set(v) {
-    this.textInput.set(v);
+  // small aux function that should be used instead of set when textInput does not
+  // need to be updated
+  setInternal (v) {
     this.value = v;
     this.publish(this.get());
+  }
+
+  set(v) {
+    this.textInput.set(v);
+    this.setInternal(v);
     return this;
   }
 }
