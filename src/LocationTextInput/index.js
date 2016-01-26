@@ -49,7 +49,7 @@ class LocationTextInput extends TextInput {
       this.value = v;
 
       if (this.$input) {
-          this.$input.val(v.isLocation ? 'Use the Current Location' : v.displayName);
+        this.$input.val(v.isLocation ? 'Use the Current Location' : v.displayName);
       }
 
       this.publish(this.get());
@@ -82,13 +82,15 @@ class LocationTextInput extends TextInput {
   }
 
   showHideIcon() {
-    if (this.get()) {
-      this.$icon.show();
-      this.$locationIcon.hide();
-    }
-    else {
-      this.$icon.hide();
-      this.$locationIcon.show();
+    if (this.$icon) {
+      if (this.get()) {
+        this.$icon.show();
+        this.$locationIcon.hide();
+      }
+      else {
+        this.$icon.hide();
+        this.$locationIcon.show();
+      }      
     }
   }
 }

@@ -18587,12 +18587,14 @@ var UI =
 	  };
 	
 	  LocationTextInput.prototype.showHideIcon = function showHideIcon() {
-	    if (this.get()) {
-	      this.$icon.show();
-	      this.$locationIcon.hide();
-	    } else {
-	      this.$icon.hide();
-	      this.$locationIcon.show();
+	    if (this.$icon) {
+	      if (this.get()) {
+	        this.$icon.show();
+	        this.$locationIcon.hide();
+	      } else {
+	        this.$icon.hide();
+	        this.$locationIcon.show();
+	      }
 	    }
 	  };
 	
@@ -19752,7 +19754,13 @@ var UI =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<div class=\'ui-multi-select\'> ';var arr1=it.options;if(arr1){var opt,index=-1,l1=arr1.length-1;while(index<l1){opt=arr1[index+=1];out+=' <div class="select-option"> <label> <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <span>'+(it.renderItem(opt))+'</span> </label> </div> ';} } out+='</div>';return out;
+	var encodeHTML = typeof _encodeHTML !== 'undefined' ? _encodeHTML : (function (doNotSkipEncoded) {
+			var encodeHTMLRules = { "&": "&#38;", "<": "&#60;", ">": "&#62;", '"': "&#34;", "'": "&#39;", "/": "&#47;" },
+				matchHTML = doNotSkipEncoded ? /[&<>"'\/]/g : /&(?!#?\w+;)|<|>|"|'|\//g;
+			return function(code) {
+				return code ? code.toString().replace(matchHTML, function(m) {return encodeHTMLRules[m] || m;}) : "";
+			};
+		}());var out='<div class=\'ui-multi-select\'> ';var arr1=it.options;if(arr1){var opt,index=-1,l1=arr1.length-1;while(index<l1){opt=arr1[index+=1];out+=' <div class="select-option"> <label> <input type=\'checkbox\' name=\''+( it.id )+'\' value=\''+encodeHTML(opt.value)+'\' ';if(opt.checked){out+='checked=true';}out+='/> <span>'+(it.renderItem(opt))+'</span> </label> </div> ';} } out+='</div>';return out;
 	}
 
 /***/ },
@@ -20372,7 +20380,13 @@ var UI =
 
 	module.exports = function anonymous(it
 	/**/) {
-	var out='<div class=\'ui-radio-buttons\'> ';var arr1=it.options;if(arr1){var opt,index=-1,l1=arr1.length-1;while(index<l1){opt=arr1[index+=1];out+=' <div class="select-option"> <label> <input ';if(it.radioBoxes){out+='type=\'checkbox\'';}else{out+='type=\'radio\'';}out+=' name=\''+( it.id )+'\' value=\''+( opt.value )+'\' ';if(opt.checked){out+='checked=true';}out+='/> <span>'+(it.renderItem(opt))+'</span> </label> </div> ';} } out+='</div>';return out;
+	var encodeHTML = typeof _encodeHTML !== 'undefined' ? _encodeHTML : (function (doNotSkipEncoded) {
+			var encodeHTMLRules = { "&": "&#38;", "<": "&#60;", ">": "&#62;", '"': "&#34;", "'": "&#39;", "/": "&#47;" },
+				matchHTML = doNotSkipEncoded ? /[&<>"'\/]/g : /&(?!#?\w+;)|<|>|"|'|\//g;
+			return function(code) {
+				return code ? code.toString().replace(matchHTML, function(m) {return encodeHTMLRules[m] || m;}) : "";
+			};
+		}());var out='<div class=\'ui-radio-buttons\'> ';var arr1=it.options;if(arr1){var opt,index=-1,l1=arr1.length-1;while(index<l1){opt=arr1[index+=1];out+=' <div class="select-option"> <label> <input ';if(it.radioBoxes){out+='type=\'checkbox\'';}else{out+='type=\'radio\'';}out+=' name=\''+( it.id )+'\' value=\''+encodeHTML(opt.value)+'\' ';if(opt.checked){out+='checked=true';}out+='/> <span>'+(it.renderItem(opt))+'</span> </label> </div> ';} } out+='</div>';return out;
 	}
 
 /***/ },
