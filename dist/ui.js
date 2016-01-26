@@ -24831,14 +24831,6 @@ var UI =
 	    }
 	  };
 	
-	  // small aux function that should be used instead of set when textInput does not
-	  // need to be updated
-	
-	  LocationTypeahead.prototype.setInternal = function setInternal(v) {
-	    this.value = v;
-	    this.publish(this.get());
-	  };
-	
 	  LocationTypeahead.prototype.set = function set(v) {
 	    this.textInput.set(v);
 	    this.setInternal(v);
@@ -24981,6 +24973,20 @@ var UI =
 	    if (this.allowFreeForm && this.resultsListView.results.length === 0) {
 	      this.handleSelection(this.textInput.get());
 	    }
+	  };
+	
+	  Typeahead.prototype.handleTextInputUpdates = function handleTextInputUpdates() {
+	    var _this3 = this;
+	
+	    // when text input gets a new value, update typeahead:
+	    this.textInput.subscribe(function (v) {
+	
+	      if (v === '') {
+	        _this3.setInternal({});
+	      } else {
+	        _PrettyTypeahead.prototype.handleTextInputUpdates.call(_this3);
+	      }
+	    });
 	  };
 	
 	  return Typeahead;
@@ -25138,7 +25144,7 @@ var UI =
 	
 	    this.highlightIndex;
 	
-	    $(document).on('keyup', function (evt) {
+	    $(document).on('keydown', function (evt) {
 	      if (!_this4.active()) {
 	        return;
 	      }
@@ -25370,6 +25376,14 @@ var UI =
 	      item = item[this.displayProperty];
 	    }
 	    return item;
+	  };
+	
+	  // small aux function that should be used instead of set when textInput does not
+	  // need to be updated
+	
+	  BaseTypeahead.prototype.setInternal = function setInternal(v) {
+	    this.value = v;
+	    this.publish(this.get());
 	  };
 	
 	  BaseTypeahead.prototype.set = function set(v) {
