@@ -120,7 +120,7 @@ class PrettyTypeahead extends BaseTypeahead {
   attachKeyEvents() {
     this.highlightIndex;
 
-    $(document).on('keyup', (evt) => {
+    $(document).on('keydown', (evt) => {
       if (!this.active()) {
         return;
       }
