@@ -70,13 +70,15 @@ class LocationTextInput extends TextInput {
   }
 
   showHideIcon() {
-    if (this.get()) {
-      this.$icon.show();
-      this.$locationIcon.hide();
-    }
-    else {
-      this.$icon.hide();
-      this.$locationIcon.show();
+    if (this.$icon) {
+      if (this.get()) {
+        this.$icon.show();
+        this.$locationIcon.hide();
+      }
+      else {
+        this.$icon.hide();
+        this.$locationIcon.show();
+      }      
     }
   }
 }
