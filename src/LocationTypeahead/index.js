@@ -88,13 +88,6 @@ class LocationTypeahead extends Typeahead {
     }
   }
 
-  // small aux function that should be used instead of set when textInput does not
-  // need to be updated
-  setInternal (v) {
-    this.value = v;
-    this.publish(this.get());
-  }
-
   set(v) {
     this.textInput.set(v);
     this.setInternal(v);
