@@ -25,7 +25,6 @@
     "simplePagination": "flaviusmatis/simplePagination.js"
   },
   "dependencies": {
-    "babel-polyfill": "^6.2.0",
     "baobab": "^2.1.1",
     "debounce": "^1.0.0",
     "dot": "git+ssh://git@stash.internal.jibe.com/ja/client-dot-engine.git",
@@ -59,7 +58,6 @@
     "babel-plugin-transform-es2015-template-literals": "^6.1.18",
     "babel-plugin-transform-es2015-typeof-symbol": "^6.1.18",
     "babel-plugin-transform-es2015-unicode-regex": "^6.1.18",
-    "babel-plugin-transform-object-assign": "^6.3.13",
     "babel-polyfill": "^6.3.14",
     "css-loader": "^0.22.0",
     "cssnext-loader": "^1.0.1",
