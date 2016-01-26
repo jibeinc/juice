@@ -38,15 +38,27 @@ class LocationTextInput extends TextInput {
     return this;
   }
 
-  getLocation () {
-    return this.$location || '';
+  get() {
+    return this.value || '';
   }
 
-  setLocation (data) {
-    data.displayProperty = 'Use the Current Location';
+  set(v) {
 
-    this.$location = data;
-    this.publish(this.getLocation());
+    // If the textInput contains location data
+    if (typeof v === 'object') {
+      this.value = v;
+
+      if (this.$input) {
+        this.$input.val(v.isLocation ? 'Use the Current Location' : v.displayName);
+      }
+
+      this.publish(this.get());
+      this.showHideIcon();
+    }
+
+    else {
+      super.set(v);
+    }
   }
 
   renderDom() {
@@ -62,7 +74,7 @@ class LocationTextInput extends TextInput {
 
     this.locationIcon.subscribe((event) => {
       if (event.isLocation) {
-        this.setLocation(event);
+        this.set(event);
       }
     });
 

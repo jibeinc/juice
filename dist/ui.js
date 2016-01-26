@@ -11168,9 +11168,9 @@ var UI =
 
 /***/ },
 /* 14 */
-/*!****************************!*\
-  !*** ./~/emmett/emmett.js ***!
-  \****************************/
+/*!*************************************!*\
+  !*** ./~/baobab/~/emmett/emmett.js ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -15399,9 +15399,9 @@ var UI =
 
 /***/ },
 /* 25 */
-/*!**********************!*\
-  !*** ./~/url/url.js ***!
-  \**********************/
+/*!**************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/url.js ***!
+  \**************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16115,9 +16115,9 @@ var UI =
 
 /***/ },
 /* 26 */
-/*!**************************************!*\
-  !*** ./~/url/~/punycode/punycode.js ***!
-  \**************************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/punycode/punycode.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -16649,13 +16649,13 @@ var UI =
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../webpack/buildin/module.js */ 23)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./../../../../../../buildin/module.js */ 23)(module), (function() { return this; }())))
 
 /***/ },
 /* 27 */
-/*!********************************!*\
-  !*** ./~/querystring/index.js ***!
-  \********************************/
+/*!******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/index.js ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -16666,9 +16666,9 @@ var UI =
 
 /***/ },
 /* 28 */
-/*!*********************************!*\
-  !*** ./~/querystring/decode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/decode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -16755,9 +16755,9 @@ var UI =
 
 /***/ },
 /* 29 */
-/*!*********************************!*\
-  !*** ./~/querystring/encode.js ***!
-  \*********************************/
+/*!*******************************************************************!*\
+  !*** (webpack)/~/node-libs-browser/~/url/~/querystring/encode.js ***!
+  \*******************************************************************/
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -18035,9 +18035,9 @@ var UI =
 
 /***/ },
 /* 50 */
-/*!*****************************!*\
-  !*** ./~/date-now/index.js ***!
-  \*****************************/
+/*!****************************************!*\
+  !*** ./~/debounce/~/date-now/index.js ***!
+  \****************************************/
 /***/ function(module, exports) {
 
 	module.exports = Date.now || now
@@ -18372,7 +18372,7 @@ var UI =
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
 	    _extends(_this, {
-	      fetch: opts.fetch,
+	      fetch: opts.fetch || $.noop,
 	      listItemOpts: opts.listItemOpts || {},
 	      renderItem: opts.renderItem || _this.renderItem,
 	      results: opts.results || []
@@ -18503,6 +18503,8 @@ var UI =
 	
 	// css
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18541,15 +18543,25 @@ var UI =
 	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
 	  }
 	
-	  LocationTextInput.prototype.getLocation = function getLocation() {
-	    return this.$location || '';
+	  LocationTextInput.prototype.get = function get() {
+	    return this.value || '';
 	  };
 	
-	  LocationTextInput.prototype.setLocation = function setLocation(data) {
-	    data.displayProperty = 'Use the Current Location';
+	  LocationTextInput.prototype.set = function set(v) {
 	
-	    this.$location = data;
-	    this.publish(this.getLocation());
+	    // If the textInput contains location data
+	    if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object') {
+	      this.value = v;
+	
+	      if (this.$input) {
+	        this.$input.val(v.isLocation ? 'Use the Current Location' : v.displayName);
+	      }
+	
+	      this.publish(this.get());
+	      this.showHideIcon();
+	    } else {
+	      _TextInput.prototype.set.call(this, v);
+	    }
 	  };
 	
 	  LocationTextInput.prototype.renderDom = function renderDom() {
@@ -18567,7 +18579,7 @@ var UI =
 	
 	    this.locationIcon.subscribe(function (event) {
 	      if (event.isLocation) {
-	        _this2.setLocation(event);
+	        _this2.set(event);
 	      }
 	    });
 	
@@ -18899,8 +18911,6 @@ var UI =
 
 	'use strict';
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -18943,25 +18953,17 @@ var UI =
 	      },
 	
 	      controller: function controller(data) {
-	        var currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name, {
-	          geolocationAPI: opts.geolocationAPI
-	        });
+	        var currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name);
 	
 	        currentLocationIcon.subscribe(function (event) {
 	          if (event.isLocation) {
+	            event.listItem = true; // set this to prevent repeating
 	            _this.set(event);
-	            _this.textInput.$input.val('Your current location'); // just for display
 	          }
 	        });
 	        currentLocationIcon.render();
 	      }
 	    });
-	
-	    //Ensure we have an opts.textInputOpts object
-	    opts.textInputOpts = opts.textInputOpts || {};
-	
-	    // setup the input icon to be a "use current location" component
-	    _extends(opts.textInputOpts, {});
 	
 	    // setup "current location" fixed result
 	    opts.fixedResults = (opts.fixedResults || []).concat([{
@@ -18974,19 +18976,30 @@ var UI =
 	
 	    var _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
 	
-	    _this.textInput = new LocationTextInput(_this.$el.find('.input-container'), _this.textInputOpts);
-	
-	    // when text input gets a new value, update typeahead:
-	    _this.textInput.subscribe(function (data) {
-	      if (data.isLocation) {
-	        _this.set(data);
-	      }
-	    });
-	
 	    _this.iconFactory = iconFactory;
 	    _this.$el.addClass('ui-location-typeahead');
 	    return _this;
 	  }
+	
+	  LocationTypeahead.prototype.setupTextInput = function setupTextInput(textInputOpts) {
+	    return new LocationTextInput(this.$el.find('.input-container'), textInputOpts);
+	  };
+	
+	  LocationTypeahead.prototype.handleTextInputUpdates = function handleTextInputUpdates() {
+	    var _this2 = this;
+	
+	    // when text input gets a new value, update typeahead:
+	    this.textInput.subscribe(function (v) {
+	
+	      if (v === '') {
+	        _this2.setInternal({});
+	      } else if ($.isPlainObject(v) && v.isLocation && !v.listItem) {
+	        _this2.setInternal(v);
+	      } else {
+	        _Typeahead.prototype.handleTextInputUpdates.call(_this2);
+	      }
+	    });
+	  };
 	
 	  LocationTypeahead.prototype.renderItem = function renderItem(item) {
 	    if (item && item.useMyCurrentLocation) {
@@ -18996,6 +19009,20 @@ var UI =
 	    } else {
 	      return _Typeahead.prototype.renderItem.call(this, item);
 	    }
+	  };
+	
+	  // small aux function that should be used instead of set when textInput does not
+	  // need to be updated
+	
+	  LocationTypeahead.prototype.setInternal = function setInternal(v) {
+	    this.value = v;
+	    this.publish(this.get());
+	  };
+	
+	  LocationTypeahead.prototype.set = function set(v) {
+	    this.textInput.set(v);
+	    this.setInternal(v);
+	    return this;
 	  };
 	
 	  return LocationTypeahead;
@@ -19099,7 +19126,6 @@ var UI =
 	    var _this = _possibleConstructorReturn(this, _PrettyTypeahead.call(this, el, opts));
 	
 	    _this.fixedResults = opts.fixedResults || [];
-	    _this.results = _this.results.concat(_this.fixedResults);
 	    _this.allowFreeForm = opts.allowFreeForm || false;
 	    _this.displayProperty = opts.displayProperty || 'displayName';
 	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
@@ -19185,6 +19211,8 @@ var UI =
 	  _inherits(PrettyTypeahead, _BaseTypeahead);
 	
 	  function PrettyTypeahead(el) {
+	    var _this;
+	
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
 	    _classCallCheck(this, PrettyTypeahead);
@@ -19193,13 +19221,19 @@ var UI =
 	      return _this.renderItem(item);
 	    };
 	
-	    var _this = _possibleConstructorReturn(this, _BaseTypeahead.call(this, el, opts));
-	
-	    _this.textInput.subscribe(function () {
-	      _this.highlightIndex = null;
-	    });
-	    return _this;
+	    return _this = _possibleConstructorReturn(this, _BaseTypeahead.call(this, el, opts));
 	  }
+	
+	  PrettyTypeahead.prototype.handleTextInputUpdates = function handleTextInputUpdates() {
+	    var _this2 = this;
+	
+	    _BaseTypeahead.prototype.handleTextInputUpdates.call(this);
+	
+	    // layer on the new behavior
+	    this.textInput.subscribe(function () {
+	      _this2.highlightIndex = null;
+	    });
+	  };
 	
 	  PrettyTypeahead.prototype.render = function render() {
 	    _BaseTypeahead.prototype.render.call(this);
@@ -19238,16 +19272,16 @@ var UI =
 	  };
 	
 	  PrettyTypeahead.prototype.attachFocusEvents = function attachFocusEvents() {
-	    var _this2 = this;
+	    var _this3 = this;
 	
 	    this.textInput.$el.find('input').on('focus', function () {
-	      _this2.active(true);
+	      _this3.active(true);
 	    });
 	
 	    $(document).click(function (evt) {
-	      if (_this2.$el.find($(evt.target)).size() === 0 && $(evt.target)[0].tagName !== 'input') {
-	        _this2.active(false);
-	        _this2.textInput.$el.find('input').blur();
+	      if (_this3.$el.find($(evt.target)).size() === 0 && $(evt.target)[0].tagName !== 'input') {
+	        _this3.active(false);
+	        _this3.textInput.$el.find('input').blur();
 	      }
 	    });
 	  };
@@ -19280,32 +19314,32 @@ var UI =
 	  };
 	
 	  PrettyTypeahead.prototype.attachKeyEvents = function attachKeyEvents() {
-	    var _this3 = this;
+	    var _this4 = this;
 	
 	    this.highlightIndex;
 	
-	    $(document).on('keydown', function (evt) {
-	      if (!_this3.active()) {
+	    $(document).on('keyup', function (evt) {
+	      if (!_this4.active()) {
 	        return;
 	      }
 	
 	      switch (evt.which) {
-	        case _this3.keyEvents.UP:
-	          _this3.decrementHighlight();
+	        case _this4.keyEvents.UP:
+	          _this4.decrementHighlight();
 	          evt.preventDefault();
 	          break;
 	
-	        case _this3.keyEvents.DOWN:
-	          _this3.incrementHighlight();
+	        case _this4.keyEvents.DOWN:
+	          _this4.incrementHighlight();
 	          evt.preventDefault();
 	          break;
 	
-	        case _this3.keyEvents.ENTER:
-	          _this3.selectByIndex();
+	        case _this4.keyEvents.ENTER:
+	          _this4.selectByIndex();
 	          evt.preventDefault();
 	
-	        case _this3.keyEvents.ESC:
-	          _this3.active(false);
+	        case _this4.keyEvents.ESC:
+	          _this4.active(false);
 	          break;
 	
 	        default:
@@ -19452,39 +19486,62 @@ var UI =
 	
 	    _extends(_this, {
 	      fetch: opts.fetch,
-	      results: [],
 	      textInputOpts: opts.textInputOpts || {}
 	    });
+	
 	    assert(typeof _this.fetch === 'function', 'typeahead requires a fetch method');
 	
 	    _this.$el.append(containerHTML);
 	
-	    _this.textInput = new TextInput(_this.$el.find('.input-container'), _this.textInputOpts);
-	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), {
+	    // create sub-components
+	    _this.textInput = _this.setupTextInput(_this.textInputOpts);
+	    _this.resultsListView = _this.setupListView(opts);
+	
+	    // handle their subscribe methods
+	    _this.handleListViewUpdates();
+	    _this.handleTextInputUpdates();
+	    return _this;
+	  }
+	
+	  BaseTypeahead.prototype.setupTextInput = function setupTextInput(textInputOpts) {
+	    return new TextInput(this.$el.find('.input-container'), textInputOpts);
+	  };
+	
+	  BaseTypeahead.prototype.setupListView = function setupListView(opts) {
+	    var _this2 = this;
+	
+	    return new ListView(this.$el.find('.results-list-container'), {
 	      fetch: function fetch(cb) {
-	        _this.refreshResults(cb);
+	        _this2.refreshResults(cb);
 	      },
 	      renderItem: opts.renderItem || null
 	    });
+	  };
+	
+	  BaseTypeahead.prototype.handleListViewUpdates = function handleListViewUpdates() {
+	    var _this3 = this;
 	
 	    // when an item is picked from the list view:
-	    _this.resultsListView.subscribe(function (evt) {
+	    this.resultsListView.subscribe(function (evt) {
 	      if (evt === 'refresh') {
 	        return;
 	      }
 	
 	      // update text input with this value, set typeahead internal value
-	      _this.handleSelection(evt);
-	      _this.textInput.$el.find('input').focus();
+	      _this3.handleSelection(evt);
+	      _this3.textInput.$el.find('input').focus();
 	    });
+	  };
+	
+	  BaseTypeahead.prototype.handleTextInputUpdates = function handleTextInputUpdates() {
+	    var _this4 = this;
 	
 	    // when text input gets a new value:
-	    _this.textInput.subscribe(function (term) {
+	    this.textInput.subscribe(function (term) {
 	      // re render results list
-	      _this.resultsListView.refresh();
+	      _this4.resultsListView.refresh();
 	    });
-	    return _this;
-	  }
+	  };
 	
 	  BaseTypeahead.prototype.handleSelection = function handleSelection(selection) {
 	    this.set(selection);
@@ -19511,10 +19568,7 @@ var UI =
 	  };
 	
 	  BaseTypeahead.prototype.refreshResults = function refreshResults(cb) {
-	    var _this2 = this;
-	
 	    this.fetch(this.textInput.get(), function (results) {
-	      _this2.results = results;
 	      cb(results);
 	    });
 	  };

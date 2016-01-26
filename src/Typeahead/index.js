@@ -14,7 +14,6 @@ class Typeahead extends PrettyTypeahead {
   constructor(el, opts={}) {
     super(el, opts);
     this.fixedResults    = opts.fixedResults    || [];
-    this.results         = this.results.concat(this.fixedResults);
     this.allowFreeForm   = opts.allowFreeForm   || false;
     this.displayProperty = opts.displayProperty || 'displayName';
     return this;

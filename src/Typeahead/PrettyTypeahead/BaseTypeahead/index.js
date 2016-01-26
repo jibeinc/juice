@@ -22,23 +22,39 @@ const assert = require('../../../assert.js');
 class BaseTypeahead extends BaseComponent {
   constructor(el, opts = {}) {
     super(el, opts);
+
     Object.assign(this, {
       fetch: opts.fetch,
-      results: [],
       textInputOpts: opts.textInputOpts || {}
     });
+
     assert(typeof this.fetch === 'function', 'typeahead requires a fetch method');
 
     this.$el.append(containerHTML);
 
-    this.textInput = new TextInput(this.$el.find('.input-container'), this.textInputOpts);
-    this.resultsListView = new ListView(this.$el.find('.results-list-container'), {
+    // create sub-components
+    this.textInput       = this.setupTextInput(this.textInputOpts);
+    this.resultsListView = this.setupListView(opts);
+
+    // handle their subscribe methods
+    this.handleListViewUpdates();
+    this.handleTextInputUpdates();
+  }
+
+  setupTextInput(textInputOpts) {
+    return new TextInput(this.$el.find('.input-container'), textInputOpts);
+  }
+
+  setupListView(opts) {
+    return new ListView(this.$el.find('.results-list-container'), {
       fetch: (cb) => {
         this.refreshResults(cb);
       },
       renderItem: opts.renderItem || null
     });
+  }
 
+  handleListViewUpdates() {
     // when an item is picked from the list view:
     this.resultsListView.subscribe((evt) => {
       if (evt === 'refresh') {
@@ -49,7 +65,9 @@ class BaseTypeahead extends BaseComponent {
       this.handleSelection(evt);
       this.textInput.$el.find('input').focus();
     });
+  }
 
+  handleTextInputUpdates() {
     // when text input gets a new value:
     this.textInput.subscribe((term) => {
       // re render results list
@@ -83,7 +101,6 @@ class BaseTypeahead extends BaseComponent {
 
   refreshResults(cb) {
     this.fetch(this.textInput.get(), (results) => {
-      this.results = results;
       cb(results);
     });
   }
