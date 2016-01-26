@@ -22,11 +22,12 @@ const assert = require('../../../assert.js');
 class BaseTypeahead extends BaseComponent {
   constructor(el, opts = {}) {
     super(el, opts);
+
     Object.assign(this, {
       fetch: opts.fetch,
-      results: [],
       textInputOpts: opts.textInputOpts || {}
     });
+
     assert(typeof this.fetch === 'function', 'typeahead requires a fetch method');
 
     this.$el.append(containerHTML);
@@ -40,6 +41,13 @@ class BaseTypeahead extends BaseComponent {
     });
 
     // when an item is picked from the list view:
+    this.handleListViewUpdates();
+
+    // when text input gets a new value:
+    this.handleTextInputUpdates();
+  }
+
+  handleListViewUpdates() {
     this.resultsListView.subscribe((evt) => {
       if (evt === 'refresh') {
         return;
@@ -49,8 +57,9 @@ class BaseTypeahead extends BaseComponent {
       this.handleSelection(evt);
       this.textInput.$el.find('input').focus();
     });
+  }
 
-    // when text input gets a new value:
+  handleTextInputUpdates() {
     this.textInput.subscribe((term) => {
       // re render results list
       this.resultsListView.refresh();
@@ -83,7 +92,6 @@ class BaseTypeahead extends BaseComponent {
 
   refreshResults(cb) {
     this.fetch(this.textInput.get(), (results) => {
-      this.results = results;
       cb(results);
     });
   }
