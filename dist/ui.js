@@ -18372,7 +18372,7 @@ var UI =
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
 	    _extends(_this, {
-	      fetch: opts.fetch,
+	      fetch: opts.fetch || $.noop(),
 	      listItemOpts: opts.listItemOpts || {},
 	      renderItem: opts.renderItem || _this.renderItem,
 	      results: opts.results || []
@@ -18503,6 +18503,8 @@ var UI =
 	
 	// css
 	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18541,15 +18543,26 @@ var UI =
 	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
 	  }
 	
-	  LocationTextInput.prototype.getLocation = function getLocation() {
-	    return this.$location || '';
+	  LocationTextInput.prototype.get = function get() {
+	    return this.value || '';
 	  };
 	
-	  LocationTextInput.prototype.setLocation = function setLocation(data) {
-	    data.displayProperty = 'Use the Current Location';
+	  LocationTextInput.prototype.set = function set(v) {
+	    console.log('inside location textInput set ~ v is :', v);
 	
-	    this.$location = data;
-	    this.publish(this.getLocation());
+	    // If the textInput contains location data
+	    if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object') {
+	      this.value = v;
+	
+	      if (this.$input) {
+	        this.$input.val(v.isLocation ? 'Use the Current Location' : v.displayName);
+	      }
+	
+	      this.publish(this.get());
+	      this.showHideIcon();
+	    } else {
+	      _TextInput.prototype.set.call(this, v);
+	    }
 	  };
 	
 	  LocationTextInput.prototype.renderDom = function renderDom() {
@@ -18567,7 +18580,7 @@ var UI =
 	
 	    this.locationIcon.subscribe(function (event) {
 	      if (event.isLocation) {
-	        _this2.setLocation(event);
+	        _this2.set(event);
 	      }
 	    });
 	
@@ -18897,8 +18910,6 @@ var UI =
 
 	'use strict';
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -18925,6 +18936,8 @@ var UI =
 	var FragFactory = __webpack_require__(/*! ../BaseFragmentFactory */ 9);
 	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 39);
 	
+	var LOCATION_STRING = 'Use the Current Location';
+	
 	var LocationTypeahead = function (_Typeahead) {
 	  _inherits(LocationTypeahead, _Typeahead);
 	
@@ -18941,25 +18954,16 @@ var UI =
 	      },
 	
 	      controller: function controller(data) {
-	        var currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name, {
-	          geolocationAPI: opts.geolocationAPI
-	        });
+	        var currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name);
 	
 	        currentLocationIcon.subscribe(function (event) {
 	          if (event.isLocation) {
 	            _this.set(event);
-	            _this.textInput.$input.val('Your current location'); // just for display
 	          }
 	        });
 	        currentLocationIcon.render();
 	      }
 	    });
-	
-	    //Ensure we have an opts.textInputOpts object
-	    opts.textInputOpts = opts.textInputOpts || {};
-	
-	    // setup the input icon to be a "use current location" component
-	    _extends(opts.textInputOpts, {});
 	
 	    // setup "current location" fixed result
 	    opts.fixedResults = (opts.fixedResults || []).concat([{
@@ -18972,19 +18976,29 @@ var UI =
 	
 	    var _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
 	
-	    _this.textInput = new LocationTextInput(_this.$el.find('.input-container'), _this.textInputOpts);
-	
-	    // when text input gets a new value, update typeahead:
-	    _this.textInput.subscribe(function (data) {
-	      if (data.isLocation) {
-	        _this.set(data);
-	      }
-	    });
-	
 	    _this.iconFactory = iconFactory;
 	    _this.$el.addClass('ui-location-typeahead');
 	    return _this;
 	  }
+	
+	  LocationTypeahead.prototype.setupTextInput = function setupTextInput(textInputOpts) {
+	    return new LocationTextInput(this.$el.find('.input-container'), textInputOpts);
+	  };
+	
+	  LocationTypeahead.prototype.handleTextInputUpdates = function handleTextInputUpdates() {
+	    var _this2 = this;
+	
+	    // when text input gets a new value, update typeahead:
+	    this.textInput.subscribe(function (v) {
+	
+	      if (v === '') {
+	        _this2.value = {};
+	        _this2.publish(_this2.get());
+	      } else {
+	        _Typeahead.prototype.handleTextInputUpdates.call(_this2);
+	      }
+	    });
+	  };
 	
 	  LocationTypeahead.prototype.renderItem = function renderItem(item) {
 	    if (item && item.useMyCurrentLocation) {
@@ -18994,6 +19008,13 @@ var UI =
 	    } else {
 	      return _Typeahead.prototype.renderItem.call(this, item);
 	    }
+	  };
+	
+	  LocationTypeahead.prototype.set = function set(v) {
+	    this.textInput.set(v);
+	    this.value = v;
+	    this.publish(this.get());
+	    return this;
 	  };
 	
 	  return LocationTypeahead;
@@ -19464,42 +19485,53 @@ var UI =
 	
 	    _this.$el.append(containerHTML);
 	
-	    _this.textInput = new TextInput(_this.$el.find('.input-container'), _this.textInputOpts);
-	    _this.resultsListView = new ListView(_this.$el.find('.results-list-container'), {
-	      fetch: function fetch(cb) {
-	        _this.refreshResults(cb);
-	      },
-	      renderItem: opts.renderItem || null
-	    });
+	    // create sub-components
+	    _this.textInput = _this.setupTextInput(_this.textInputOpts);
+	    _this.resultsListView = _this.setupListView(opts);
 	
-	    // when an item is picked from the list view:
+	    // handle their subscribe methods
 	    _this.handleListViewUpdates();
-	
-	    // when text input gets a new value:
 	    _this.handleTextInputUpdates();
 	    return _this;
 	  }
 	
-	  BaseTypeahead.prototype.handleListViewUpdates = function handleListViewUpdates() {
+	  BaseTypeahead.prototype.setupTextInput = function setupTextInput(textInputOpts) {
+	    return new TextInput(this.$el.find('.input-container'), textInputOpts);
+	  };
+	
+	  BaseTypeahead.prototype.setupListView = function setupListView(opts) {
 	    var _this2 = this;
 	
+	    return new ListView(this.$el.find('.results-list-container'), {
+	      fetch: function fetch(cb) {
+	        _this2.refreshResults(cb);
+	      },
+	      renderItem: opts.renderItem || null
+	    });
+	  };
+	
+	  BaseTypeahead.prototype.handleListViewUpdates = function handleListViewUpdates() {
+	    var _this3 = this;
+	
+	    // when an item is picked from the list view:
 	    this.resultsListView.subscribe(function (evt) {
 	      if (evt === 'refresh') {
 	        return;
 	      }
 	
 	      // update text input with this value, set typeahead internal value
-	      _this2.handleSelection(evt);
-	      _this2.textInput.$el.find('input').focus();
+	      _this3.handleSelection(evt);
+	      _this3.textInput.$el.find('input').focus();
 	    });
 	  };
 	
 	  BaseTypeahead.prototype.handleTextInputUpdates = function handleTextInputUpdates() {
-	    var _this3 = this;
+	    var _this4 = this;
 	
+	    // when text input gets a new value:
 	    this.textInput.subscribe(function (term) {
 	      // re render results list
-	      _this3.resultsListView.refresh();
+	      _this4.resultsListView.refresh();
 	    });
 	  };
 	
