@@ -32,22 +32,30 @@ class BaseTypeahead extends BaseComponent {
 
     this.$el.append(containerHTML);
 
-    this.textInput = new TextInput(this.$el.find('.input-container'), this.textInputOpts);
-    this.resultsListView = new ListView(this.$el.find('.results-list-container'), {
+    // create sub-components
+    this.textInput       = this.setupTextInput(this.textInputOpts);
+    this.resultsListView = this.setupListView(opts);
+
+    // handle their subscribe methods
+    this.handleListViewUpdates();
+    this.handleTextInputUpdates();
+  }
+
+  setupTextInput(textInputOpts) {
+    return new TextInput(this.$el.find('.input-container'), textInputOpts);
+  }
+
+  setupListView(opts) {
+    return new ListView(this.$el.find('.results-list-container'), {
       fetch: (cb) => {
         this.refreshResults(cb);
       },
       renderItem: opts.renderItem || null
     });
-
-    // when an item is picked from the list view:
-    this.handleListViewUpdates();
-
-    // when text input gets a new value:
-    this.handleTextInputUpdates();
   }
 
   handleListViewUpdates() {
+    // when an item is picked from the list view:
     this.resultsListView.subscribe((evt) => {
       if (evt === 'refresh') {
         return;
@@ -60,6 +68,7 @@ class BaseTypeahead extends BaseComponent {
   }
 
   handleTextInputUpdates() {
+    // when text input gets a new value:
     this.textInput.subscribe((term) => {
       // re render results list
       this.resultsListView.refresh();
