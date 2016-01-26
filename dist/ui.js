@@ -18372,7 +18372,7 @@ var UI =
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
 	    _extends(_this, {
-	      fetch: opts.fetch || $.noop(),
+	      fetch: opts.fetch || $.noop,
 	      listItemOpts: opts.listItemOpts || {},
 	      renderItem: opts.renderItem || _this.renderItem,
 	      results: opts.results || []
@@ -18548,7 +18548,6 @@ var UI =
 	  };
 	
 	  LocationTextInput.prototype.set = function set(v) {
-	    console.log('inside location textInput set ~ v is :', v);
 	
 	    // If the textInput contains location data
 	    if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object') {
