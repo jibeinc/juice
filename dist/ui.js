@@ -18935,8 +18935,6 @@ var UI =
 	var FragFactory = __webpack_require__(/*! ../BaseFragmentFactory */ 9);
 	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 39);
 	
-	var LOCATION_STRING = 'Use the Current Location';
-	
 	var LocationTypeahead = function (_Typeahead) {
 	  _inherits(LocationTypeahead, _Typeahead);
 	
@@ -18957,6 +18955,7 @@ var UI =
 	
 	        currentLocationIcon.subscribe(function (event) {
 	          if (event.isLocation) {
+	            event.listItem = true; // set this to prevent repeating
 	            _this.set(event);
 	          }
 	        });
@@ -18991,8 +18990,9 @@ var UI =
 	    this.textInput.subscribe(function (v) {
 	
 	      if (v === '') {
-	        _this2.value = {};
-	        _this2.publish(_this2.get());
+	        _this2.setInternal({});
+	      } else if ($.isPlainObject(v) && v.isLocation && !v.listItem) {
+	        _this2.setInternal(v);
 	      } else {
 	        _Typeahead.prototype.handleTextInputUpdates.call(_this2);
 	      }
@@ -19009,10 +19009,17 @@ var UI =
 	    }
 	  };
 	
-	  LocationTypeahead.prototype.set = function set(v) {
-	    this.textInput.set(v);
+	  // small aux function that should be used instead of set when textInput does not
+	  // need to be updated
+	
+	  LocationTypeahead.prototype.setInternal = function setInternal(v) {
 	    this.value = v;
 	    this.publish(this.get());
+	  };
+	
+	  LocationTypeahead.prototype.set = function set(v) {
+	    this.textInput.set(v);
+	    this.setInternal(v);
 	    return this;
 	  };
 	
