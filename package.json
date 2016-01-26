@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "baobab": "^2.1.1",
+    "babel-polyfill": "^6.3.14",
     "debounce": "^1.0.0",
     "dot": "git+ssh://git@stash.internal.jibe.com/ja/client-dot-engine.git",
     "dotty": "0.0.2",
@@ -58,7 +59,6 @@
     "babel-plugin-transform-es2015-template-literals": "^6.1.18",
     "babel-plugin-transform-es2015-typeof-symbol": "^6.1.18",
     "babel-plugin-transform-es2015-unicode-regex": "^6.1.18",
-    "babel-polyfill": "^6.3.14",
     "css-loader": "^0.22.0",
     "cssnext-loader": "^1.0.1",
     "dot-loader": "^0.1.1",
