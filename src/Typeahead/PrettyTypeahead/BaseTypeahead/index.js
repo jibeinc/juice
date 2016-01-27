@@ -93,6 +93,10 @@ class BaseTypeahead extends BaseComponent {
     this.publish(this.get());
   }
 
+  get() {
+    return this.value || '';
+  }
+
   set(v) {
     this.textInput.set(this.getDisplayValue(v));
     this.value = v;
