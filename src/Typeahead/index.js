@@ -52,15 +52,12 @@ class Typeahead extends PrettyTypeahead {
   handleTextInputUpdates() {
     // when text input gets a new value, update typeahead:
     this.textInput.subscribe((v) => {
-
       if (v === '') {
         this.setInternal({});
       }
-
-      else {
-        super.handleTextInputUpdates();
-      }
     });
+
+    super.handleTextInputUpdates();
   }}
 
 module.exports = Typeahead;
