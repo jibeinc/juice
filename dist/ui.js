@@ -25394,6 +25394,10 @@ var UI =
 	    return this.value || '';
 	  };
 	
+	  BaseTypeahead.prototype.getTextInput = function getTextInput() {
+	    return this.textInput.get();
+	  };
+	
 	  BaseTypeahead.prototype.set = function set(v) {
 	    this.textInput.set(this.getDisplayValue(v));
 	    this.value = v;
