@@ -7,7 +7,7 @@ require('./styles.css');
 
 // scripts
 const $ = require('jquery');
-const BaseSpinner = require('./spin.js');
+const BaseSpinner = require('spin.js');
 const BaseComponent = require('../BaseComponent');
 
 /**

@@ -12,17 +12,17 @@
 //   to the controller in the DOM
 
 // scripts
-const $      = require('jquery');
+const $ = require('jquery');
 const assert = require('./assert');
 
 class BaseFragmentFactory {
-  constructor(opts={}) {
+  constructor(opts = {}) {
     assert(typeof opts.render === 'function');
     this.render = opts.render;
     this.controller = opts.controller || $.noop;
   }
 
-  make(data={}) {
+  make(data = {}) {
     // 1. get the generated html (consumer defines this)
     const itemHTML = this.render(data);
 
@@ -37,6 +37,6 @@ class BaseFragmentFactory {
     // 3. return the final html
     return $context.html();
   }
-};
+}
 
 module.exports = BaseFragmentFactory;

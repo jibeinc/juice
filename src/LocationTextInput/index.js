@@ -1,18 +1,18 @@
 'use strict';
 
 /*
-**  @class: LocationTextInput
-**  @description:
-**    This textInput Implementation provides additional UI behaviors to the icon element
-**    over the default textInput class.
-**      - If the icon is clicked while the value is empty, the browser's GeoLocation API
-**        will default the value with the user's current location
-**
-**  @param {String} el - the DOM element to attach to
-**  @param {Object} opts - the options to configure this element
-**
-**  @author: Naveed Nadjmabadi
-*/
+ **  @class: LocationTextInput
+ **  @description:
+ **    This textInput Implementation provides additional UI behaviors to the icon element
+ **    over the default textInput class.
+ **      - If the icon is clicked while the value is empty, the browser's GeoLocation API
+ **        will default the value with the user's current location
+ **
+ **  @param {String} el - the DOM element to attach to
+ **  @param {Object} opts - the options to configure this element
+ **
+ **  @author: Naveed Nadjmabadi
+ */
 
 // css
 require('./styles.css');
@@ -21,9 +21,8 @@ require('./styles.css');
 const inputTmpl = require('./input.tmpl');
 
 // scripts
-const TextInput       = require('../TextInput');
+const TextInput = require('../TextInput');
 const CurrentLocation = require('../CurrentLocation');
-const $               = require('jquery');
 
 class LocationTextInput extends TextInput {
 
@@ -67,7 +66,7 @@ class LocationTextInput extends TextInput {
     this.$input = this.$el.find('input');
 
     this.$icon = this.$el.find('.ui-text-input-icon');
-    
+
     // adding the CurrentLocation sub-component
     this.locationIcon = new CurrentLocation('.ui-location-icon');
     this.$locationIcon = this.$el.find('.ui-location-icon');
@@ -90,7 +89,7 @@ class LocationTextInput extends TextInput {
       else {
         this.$icon.hide();
         this.$locationIcon.show();
-      }      
+      }
     }
   }
 }

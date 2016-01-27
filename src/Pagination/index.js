@@ -1,9 +1,7 @@
 'use strict';
 
+require('imports?jQuery=jquery!../../node_modules/simplePagination/jquery.simplePagination.js');
 const BaseComponent = require('../BaseComponent');
-const $ = require('jquery');
-const simplePagination = require('imports?jQuery=jquery!../../node_modules/simplePagination/jquery.simplePagination.js');
-const paginationTmpl = require('./pagination.dot');
 
 class Pagination extends BaseComponent {
   constructor(el, opts = {}) {

@@ -14,7 +14,7 @@ require('./styles.css');
 const selectTmpl = require('./select.tmpl');
 
 // scripts
-const $             = require('jquery');
+const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 
 class SingleSelect extends BaseComponent {
@@ -26,7 +26,7 @@ class SingleSelect extends BaseComponent {
 //    @prop {String} [optional] display - the display to render for the option
 //    @prop {String} value - the data value to send to the server
 
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
     super(el);
     this.options = (opts.options || []).map((opt) => {
       if ($.isPlainObject(opt)) {
@@ -76,6 +76,6 @@ class SingleSelect extends BaseComponent {
     });
     return this.$el.html();
   }
-};
+}
 
 module.exports = SingleSelect;

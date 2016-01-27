@@ -19,6 +19,7 @@ const iconWrapper = require('./iconWrapper.html');
 // scripts
 const BaseComponent = require('../../BaseComponent');
 const debounce = require('debounce');
+const Utils = require('../../Utils');
 
 class TextInput extends BaseComponent {
   constructor(el, opts = {}) {
@@ -68,7 +69,7 @@ class TextInput extends BaseComponent {
       this.showHideIcon();
 
       if (this.iconClearsValue || this.onIconClick) {
-        this.$icon.click(() => {
+        Utils.bindClick(this.$icon, () => {
           if (this.iconClearsValue) {
             this.set('');
           }
@@ -95,7 +96,7 @@ class TextInput extends BaseComponent {
 
   get() {
     return (typeof this.value === 'undefined') ? '' : this.value;
-  };
+  }
 
   set(v) {
     this.value = v;

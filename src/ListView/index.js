@@ -25,6 +25,7 @@ const listViewTmpl = require('./listView.dot');
 // scripts
 const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
+const Utils = require('../Utils');
 
 class ListView extends BaseComponent {
   constructor(el, opts = {}) {
@@ -42,8 +43,8 @@ class ListView extends BaseComponent {
     this.$el.html(listViewTmpl(this));
 
     this.$el.find('ul.ui-list').attr(this.attrs);
-    this.$el.find('li.ui-list-item').attr(this.listItemOpts.attrs || {})
-    this.$el.find('li.ui-list-item').click((evt) => {
+    this.$el.find('li.ui-list-item').attr(this.listItemOpts.attrs || {});
+    Utils.bindClick(this.$el.find('li.ui-list-item'), (evt) => {
       this.set(this.results[$(evt.currentTarget).attr('data-index')]);
 
       if (this.listItemOpts.stopPropagation) {
@@ -65,6 +66,6 @@ class ListView extends BaseComponent {
       this.render();
     });
   }
-};
+}
 
 module.exports = ListView;
