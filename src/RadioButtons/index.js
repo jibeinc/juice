@@ -6,6 +6,7 @@ const radioButtonsTmpl = require('./radioButtons.dot');
 // scripts
 const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
+const Utils = require('../Utils');
 
 class RadioButtons extends BaseComponent {
   constructor(el, opts = {}) {
@@ -51,10 +52,10 @@ class RadioButtons extends BaseComponent {
 
   render() {
     this.$el.html(radioButtonsTmpl(this));
-    this.$el.find('label').click((evt) => {
+    Utils.bindClick(this.$el.find('label'), (evt) => {
       this.set($(evt.target.parentElement).find('input').val());
     });
-    this.$el.find('input').click((evt) => {
+    Utils.bindClick(this.$el.find('input'), (evt) => {
       this.set($(evt.target).val());
     });
     return this.$el.html();
