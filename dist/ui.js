@@ -24980,13 +24980,12 @@ var UI =
 	
 	    // when text input gets a new value, update typeahead:
 	    this.textInput.subscribe(function (v) {
-	
 	      if (v === '') {
 	        _this3.setInternal({});
-	      } else {
-	        _PrettyTypeahead.prototype.handleTextInputUpdates.call(_this3);
 	      }
 	    });
+	
+	    _PrettyTypeahead.prototype.handleTextInputUpdates.call(this);
 	  };
 	
 	  return Typeahead;
@@ -25384,6 +25383,10 @@ var UI =
 	  BaseTypeahead.prototype.setInternal = function setInternal(v) {
 	    this.value = v;
 	    this.publish(this.get());
+	  };
+	
+	  BaseTypeahead.prototype.get = function get() {
+	    return this.value || '';
 	  };
 	
 	  BaseTypeahead.prototype.set = function set(v) {
