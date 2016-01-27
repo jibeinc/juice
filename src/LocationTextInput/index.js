@@ -39,7 +39,12 @@ class LocationTextInput extends TextInput {
   }
 
   get() {
-    return this.value || '';
+
+    if ($.isPlainObject(this.value) && this.value.displayName) {
+      return this.value.displayName;
+    }
+
+    return super.get();
   }
 
   set(v) {

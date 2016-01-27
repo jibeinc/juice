@@ -24368,7 +24368,12 @@ var UI =
 	  }
 	
 	  LocationTextInput.prototype.get = function get() {
-	    return this.value || '';
+	
+	    if ($.isPlainObject(this.value) && this.value.displayName) {
+	      return this.value.displayName;
+	    }
+	
+	    return _TextInput.prototype.get.call(this);
 	  };
 	
 	  LocationTextInput.prototype.set = function set(v) {
@@ -24685,7 +24690,7 @@ var UI =
 	  }
 	
 	  BaseTextInput.prototype.get = function get() {
-	    return typeof this.value === 'undefined' ? '' : this.value;
+	    return this.value || '';
 	  };
 	
 	  BaseTextInput.prototype.set = function set(v) {
