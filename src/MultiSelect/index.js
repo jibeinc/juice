@@ -75,6 +75,5 @@ class MultiSelect extends BaseComponent {
     return this;
   }
 }
-;
 
 module.exports = MultiSelect;

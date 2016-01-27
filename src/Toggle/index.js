@@ -1,6 +1,7 @@
 'use strict';
 
 const BaseComponent = require('../BaseComponent');
+const Utils = require('../Utils');
 
 class Toggle extends BaseComponent {
   constructor(el, opts = {}) {
@@ -15,7 +16,7 @@ class Toggle extends BaseComponent {
       this.$el.addClass(opts.untoggledClass);
     }
 
-    this.$el.click((evt) => {
+    Utils.bindClick(this.$el, (evt) => {
       evt.stopPropagation();
       evt.preventDefault();
 

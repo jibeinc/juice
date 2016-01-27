@@ -11,9 +11,10 @@ const buttonTmpl = require('./button.tmpl');
 
 // scripts
 const BaseComponent = require('../BaseComponent');
+const Utils = require('../Utils');
 
 class Button extends BaseComponent {
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
     super(el);
     this.label = opts.label || 'ClickMe!';
     this.submit = opts.submit || false;
@@ -22,13 +23,14 @@ class Button extends BaseComponent {
 
   render() {
     this.$el.html(buttonTmpl(this));
-    this.$el.find('button').click((evt) => {
+    Utils.bindClick(this.$el.find('button'), (evt) => {
       evt.preventDefault();
-      this.preventPropagation? evt.stopPropagation() : $.noop;
+      this.preventPropagation ? evt.stopPropagation() : $.noop;
       this.publish('click', this.id);
     });
+
     return this.$el.html();
   }
-};
+}
 
 module.exports = Button;

@@ -1,7 +1,7 @@
 'use strict';
 
 const $ = require('jquery');
-const doT = require('dot');
+const doT = require('dot'); //eslint-disable-line no-unused-vars
 const i18n = require('./i18n');
 
 // Note: this just mimics apply current setup

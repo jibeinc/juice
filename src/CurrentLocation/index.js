@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 // css
 require('./styles.css');
@@ -7,11 +7,11 @@ require('./styles.css');
 const iconURL = require('./location.png');
 
 // scripts
-const $             = require('jquery');
 const BaseComponent = require('../BaseComponent');
+const Utils = require('../Utils');
 
 class CurrentLocation extends BaseComponent {
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
     super(el);
     this.iconURL = opts.iconURL || iconURL;
     this.geolocationAPI = opts.geolocationAPI || window.navigator.geolocation;
@@ -20,11 +20,12 @@ class CurrentLocation extends BaseComponent {
 
   render() {
     this.$el.addClass('ui-current-location');
-    this.$el.on('click', (evt) => {
+    Utils.bindClick(this.$el, (evt) => {
       evt.stopPropagation();
       this.getCurrentLocation();
     });
-    this.$el.css('background-image', `url(${ this.iconURL })` );
+
+    this.$el.css('background-image', `url(${ this.iconURL })`);
     return this.$el.html();
   }
 
@@ -53,6 +54,6 @@ class CurrentLocation extends BaseComponent {
     });
     return this;
   }
-};
+}
 
 module.exports = CurrentLocation;

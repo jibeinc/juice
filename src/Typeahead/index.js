@@ -7,14 +7,13 @@
 // - support for fixed result items
 
 // scripts
-const $               = require('jquery');
 const PrettyTypeahead = require('./PrettyTypeahead');
 
 class Typeahead extends PrettyTypeahead {
-  constructor(el, opts={}) {
+  constructor(el, opts = {}) {
     super(el, opts);
-    this.fixedResults    = opts.fixedResults    || [];
-    this.allowFreeForm   = opts.allowFreeForm   || false;
+    this.fixedResults = opts.fixedResults || [];
+    this.allowFreeForm = opts.allowFreeForm || false;
     this.displayProperty = opts.displayProperty || 'displayName';
     return this;
   }
@@ -58,6 +57,7 @@ class Typeahead extends PrettyTypeahead {
     });
 
     super.handleTextInputUpdates();
-  }}
+  }
+}
 
 module.exports = Typeahead;

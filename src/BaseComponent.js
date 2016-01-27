@@ -86,6 +86,6 @@ class BaseComponent {
   publish(msg) {
     PSHub.publish(this.id, msg);
   }
-};
+}
 
 module.exports = BaseComponent;
