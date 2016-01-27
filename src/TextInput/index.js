@@ -41,7 +41,7 @@ class TextInput extends BaseTextInput {
     Object.assign(this, {
       $icon: null,
       icon: opts.icon || 'x',
-      wait: opts.wait || 150,
+      wait: opts.wait || 300,
       submitHandler: opts.submitHandler || ((v) => {})
     });
 
