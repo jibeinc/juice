@@ -25,8 +25,8 @@
     "simplePagination": "flaviusmatis/simplePagination.js"
   },
   "dependencies": {
-    "baobab": "^2.1.1",
     "babel-polyfill": "^6.3.14",
+    "baobab": "^2.1.1",
     "debounce": "^1.0.0",
     "dot": "git+ssh://git@stash.internal.jibe.com/ja/client-dot-engine.git",
     "dotty": "0.0.2",
@@ -34,6 +34,7 @@
     "i18next": "^2.0.14",
     "jquery": "^2.1.4",
     "jsdom": "3.0.3",
+    "spin.js": "^2.3.2",
     "uuid": "^2.0.1"
   },
   "devDependencies": {

@@ -33,11 +33,16 @@
     "dateFormat": true
   },
   "rules": {
-    "indent": [1, 2, {
-      "SwitchCase": 1
-    }],
+    "camelcase": [1, {"properties": "always"}],
+    "comma-dangle": [1, "never"],
+    "indent": [1, 2, {"SwitchCase": 1}],
+    "no-debugger": 1,
+    "no-extra-semi": 1,
+    "no-multi-spaces": 1,
+    "no-undef": 2,
+    "no-unreachable": 1,
+    "no-unused-vars": 1,
     "yoda": [1, "never"],
-
     //ES6 Stuff
     "arrow-parens": 1,
     "arrow-spacing": 1,

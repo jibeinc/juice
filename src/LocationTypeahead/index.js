@@ -44,7 +44,7 @@ class LocationTypeahead extends Typeahead {
     // setup "current location" fixed result
     opts.fixedResults = (opts.fixedResults || []).concat([{
       useMyCurrentLocation: true,
-      preSelectHook: (item) => {
+      preSelectHook: () => {
         $('.ui-current-location-listItem').click(); // trigger 'use my location' icon
         return false; // don't run normal selection behavior
       }

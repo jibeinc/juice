@@ -9,6 +9,7 @@ const multiSelectTmpl = require('./multiSelect.dot');
 // scripts
 const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
+const Utils = require('../Utils');
 
 class MultiSelect extends BaseComponent {
   constructor(el, opts = {}) {
@@ -45,10 +46,10 @@ class MultiSelect extends BaseComponent {
 
   render() {
     this.$el.html(multiSelectTmpl(this));
-    this.$el.find('label').click((evt) => {
+    Utils.bindClick(this.$el.find('label'), (evt) => {
       this.set($(evt.target.parentElement).find('input').val());
     });
-    this.$el.find('input').click((evt) => {
+    Utils.bindClick(this.$el.find('input'), (evt) => {
       this.set($(evt.target).val());
     });
     return this.$el.html();
@@ -73,6 +74,6 @@ class MultiSelect extends BaseComponent {
     this.publish(this.get());
     return this;
   }
-};
+}
 
 module.exports = MultiSelect;

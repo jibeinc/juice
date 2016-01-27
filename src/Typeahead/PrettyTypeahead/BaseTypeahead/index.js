@@ -33,7 +33,7 @@ class BaseTypeahead extends BaseComponent {
     this.$el.append(containerHTML);
 
     // create sub-components
-    this.textInput       = this.setupTextInput(this.textInputOpts);
+    this.textInput = this.setupTextInput(this.textInputOpts);
     this.resultsListView = this.setupListView(opts);
 
     // handle their subscribe methods
@@ -69,7 +69,7 @@ class BaseTypeahead extends BaseComponent {
 
   handleTextInputUpdates() {
     // when text input gets a new value:
-    this.textInput.subscribe((term) => {
+    this.textInput.subscribe(() => {
       // re render results list
       this.resultsListView.refresh();
     });
@@ -88,7 +88,7 @@ class BaseTypeahead extends BaseComponent {
 
   // small aux function that should be used instead of set when textInput does not
   // need to be updated
-  setInternal (v) {
+  setInternal(v) {
     this.value = v;
     this.publish(this.get());
   }
