@@ -36,7 +36,7 @@ class BaseTextInput extends BaseComponent {
   }
 
   get() {
-    return (typeof this.value === 'undefined') ? '' : this.value;
+    return this.value || '';
   }
 
   set(v) {

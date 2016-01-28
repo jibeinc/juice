@@ -21,6 +21,7 @@ require('./styles.css');
 const inputTmpl = require('./input.tmpl');
 
 // scripts
+const $ = require('jquery');
 const TextInput = require('../TextInput');
 const CurrentLocation = require('../CurrentLocation');
 
@@ -38,7 +39,12 @@ class LocationTextInput extends TextInput {
   }
 
   get() {
-    return this.value || '';
+
+    if ($.isPlainObject(this.value) && this.value.displayName) {
+      return this.value.displayName;
+    }
+
+    return super.get();
   }
 
   set(v) {
