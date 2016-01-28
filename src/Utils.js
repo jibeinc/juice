@@ -15,7 +15,7 @@ class Utils {
       clickHandler = 'touchstart';
     }
 
-    element.bind(clickHandler, onClickFunction);
+    element.on(clickHandler, onClickFunction);
   }
 }
 
