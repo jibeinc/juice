@@ -24376,6 +24376,7 @@ var UI =
 	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 255);
 	
 	// scripts
+	var $ = __webpack_require__(/*! jquery */ 194);
 	var TextInput = __webpack_require__(/*! ../TextInput */ 256);
 	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 230);
 	

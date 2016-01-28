@@ -21,6 +21,7 @@ require('./styles.css');
 const inputTmpl = require('./input.tmpl');
 
 // scripts
+const $ = require('jquery');
 const TextInput = require('../TextInput');
 const CurrentLocation = require('../CurrentLocation');
 
