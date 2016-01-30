@@ -1,26 +1,31 @@
 'use strict';
 
+const $ = require('jquery');
 const history = require('html5-history-api');
 const url = require('url');
 
 class URL {
-  constructor(locationAPI) {
-    this.location = locationAPI;
+  constructor(window) {
+    this.window = window;
   }
 
   updateQueryParams(queryObj) {
-    const currentURL = url.parse(window.location.href);
+    const currentURL = url.parse(this.window.location.href);
     currentURL.query = queryObj;
     currentURL.search = null;
     history.pushState(null, null, url.format(currentURL));
   }
 
+  onHistoryChange(cb) {
+    $(this.window).on('popstate', cb);
+  }
+
   redirect(href) {
-    this.location.href = href;
+    this.window.location.href = href;
   }
 
   getQueryParams() {
-    return url.parse(this.location.search, true).query;
+    return url.parse(this.window.location.search, true).query;
   }
 }
 

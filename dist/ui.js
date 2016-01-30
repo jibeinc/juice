@@ -20083,29 +20083,34 @@ var UI =
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
+	var $ = __webpack_require__(/*! jquery */ 194);
 	var history = __webpack_require__(/*! html5-history-api */ 212);
 	var url = __webpack_require__(/*! url */ 215);
 	
 	var URL = function () {
-	  function URL(locationAPI) {
+	  function URL(window) {
 	    _classCallCheck(this, URL);
 	
-	    this.location = locationAPI;
+	    this.window = window;
 	  }
 	
 	  URL.prototype.updateQueryParams = function updateQueryParams(queryObj) {
-	    var currentURL = url.parse(window.location.href);
+	    var currentURL = url.parse(this.window.location.href);
 	    currentURL.query = queryObj;
 	    currentURL.search = null;
 	    history.pushState(null, null, url.format(currentURL));
 	  };
 	
+	  URL.prototype.onHistoryChange = function onHistoryChange(cb) {
+	    $(this.window).on('popstate', cb);
+	  };
+	
 	  URL.prototype.redirect = function redirect(href) {
-	    this.location.href = href;
+	    this.window.location.href = href;
 	  };
 	
 	  URL.prototype.getQueryParams = function getQueryParams() {
-	    return url.parse(this.location.search, true).query;
+	    return url.parse(this.window.location.search, true).query;
 	  };
 	
 	  return URL;
