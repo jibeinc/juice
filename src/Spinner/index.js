@@ -41,6 +41,8 @@ const BaseComponent = require('../BaseComponent');
 
 class Spinner extends BaseComponent {
   constructor(el, opts = {}) {
+    $('.juicy-spinner').remove();
+    $('.juicy-spinner-container').remove();
 
     // determine if global
     if (!el) {
