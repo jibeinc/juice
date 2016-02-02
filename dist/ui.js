@@ -24626,13 +24626,18 @@ var UI =
 	   */
 	
 	  Utils.bindClick = function bindClick(element, onClickFunction) {
-	    var clickHandler = 'click';
+	
+	    element.on('click', onClickFunction);
 	
 	    if ('ontouchstart' in document.documentElement) {
-	      clickHandler = 'touchstart';
+	      element.on('touchstart', function (e) {
+	        e.preventDefault();
+	      });
+	      element.on('touchend', function (e) {
+	        e.preventDefault();
+	        return element.trigger('click');
+	      });
 	    }
-	
-	    element.on(clickHandler, onClickFunction);
 	  };
 	
 	  return Utils;
