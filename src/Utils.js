@@ -1,3 +1,5 @@
+const $ = require('jquery');
+
 class Utils {
   constructor() {
 
@@ -13,14 +15,15 @@ class Utils {
     element.on('click', onClickFunction);
 
     if ('ontouchstart' in document.documentElement) {
-      element.on('touchstart', (e) => {
-        e.preventDefault();
+      element.on('touchstart', () => {
+        $(this).on('touchend', () => {
+          $(this).trigger('click');
+          $(this).off('touchend');
+        });
+        $(this).on('touchmove', () => {
+          $(this).off('touchend');
+        });
       });
-      element.on('touchend', (e) => {
-        e.preventDefault();
-        return element.trigger('click');
-      });
-
     }
   }
 }
