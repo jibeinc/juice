@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const history = require('html5-history'); // requires us to `npm i console`
 const url = require('url');
 const uuid = require('uuid');
@@ -23,7 +22,7 @@ class URL {
 
   onHistoryChange(cb) {
     // hacky unbind
-    var uid = history.Adapter.uid(this.window);
+    const uid = history.Adapter.uid(this.window);
     history.Adapter.handlers[uid]['statechange'] = [];
 
     // bind
