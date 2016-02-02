@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Example</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src='../dist/ui.js'></script>
+</head>
+<body>
+
+  <script>
+    var urlManager = new UI.URL(window);
+
+    urlManager.updateQueryParams({
+      paramA: 'a',
+      paramB: 'b'
+    });
+
+    alert('open the console, and hit the browser back button');
+
+    urlManager.onHistoryChange(function () {
+      console.log('back button triggered, move to', window.location.href);
+    });
+
+  </script>
+
+</body>
+</html>
