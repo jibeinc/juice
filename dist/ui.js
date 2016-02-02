@@ -20083,7 +20083,6 @@ var UI =
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var $ = __webpack_require__(/*! jquery */ 194);
 	var history = __webpack_require__(/*! html5-history */ 212); // requires us to `npm i console`
 	var url = __webpack_require__(/*! url */ 219);
 	var uuid = __webpack_require__(/*! uuid */ 224);
@@ -20098,8 +20097,6 @@ var UI =
 	  }
 	
 	  URL.prototype.updateQueryParams = function updateQueryParams(queryObj) {
-	    console.log('update queryobj', queryObj, this.id);
-	
 	    var currentURL = url.parse(this.window.location.href);
 	    currentURL.query = queryObj;
 	    currentURL.search = null;
@@ -20115,10 +20112,9 @@ var UI =
 	    var uid = history.Adapter.uid(this.window);
 	    history.Adapter.handlers[uid]['statechange'] = [];
 	
-	    // and rebind
+	    // bind
 	    history.Adapter.bind(this.window, 'statechange', function () {
 	      // Note: We are using statechange instead of popstate
-	      console.log('statechange', _this.pushing);
 	      if (_this.pushing) {
 	        _this.pushing = false;
 	      } else {
@@ -26787,7 +26783,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, "@media (max-width: 768px) {\n  label {\n    position: relative;\n    cursor: pointer; }\n    label input[type=\"checkbox\"] {\n      display: none; }\n  label input[type=\"checkbox\"] + span {\n    display: inline-block;\n    line-height: normal;\n    cursor: pointer;\n    padding: 8px 14px;\n    background-color: #ffffff;\n    border: 1px solid #D0D0D0; }\n  label input[type=\"checkbox\"] + span:hover {\n    border-color: #000;\n    background-color: #105b63;\n    color: #fff; }\n  label input[type=\"checkbox\"]:checked + span {\n    border-color: #000;\n    background-color: #105b63;\n    color: #fff; } }\n", ""]);
+	exports.push([module.id, "@media (max-width: 767px) {\n  label {\n    position: relative;\n    cursor: pointer; }\n    label input[type=\"checkbox\"] {\n      display: none; }\n  label input[type=\"checkbox\"] + span {\n    display: inline-block;\n    line-height: normal;\n    cursor: pointer;\n    padding: 8px 14px;\n    background-color: #ffffff;\n    border: 1px solid #D0D0D0; }\n  label input[type=\"checkbox\"] + span:hover {\n    border-color: #000;\n    background-color: #105b63;\n    color: #fff; }\n  label input[type=\"checkbox\"]:checked + span {\n    border-color: #000;\n    background-color: #105b63;\n    color: #fff; } }\n", ""]);
 	
 	// exports
 
