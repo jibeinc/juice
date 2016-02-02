@@ -9,13 +9,19 @@ class Utils {
    * @param onClickFunction The function to call on click or touch
    */
   static bindClick(element, onClickFunction) {
-    let clickHandler = 'click';
+
+    element.on('click', onClickFunction);
 
     if ('ontouchstart' in document.documentElement) {
-      clickHandler = 'touchstart';
-    }
+      element.on('touchstart', (e) => {
+        e.preventDefault();
+      });
+      element.on('touchend', (e) => {
+        e.preventDefault();
+        return element.trigger('click');
+      });
 
-    element.on(clickHandler, onClickFunction);
+    }
   }
 }
 
