@@ -22364,11 +22364,13 @@ var UI =
 /*!**********************!*\
   !*** ./src/Utils.js ***!
   \**********************/
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var $ = __webpack_require__(/*! jquery */ 194);
 	
 	var Utils = function () {
 	  function Utils() {
@@ -22382,16 +22384,19 @@ var UI =
 	   */
 	
 	  Utils.bindClick = function bindClick(element, onClickFunction) {
+	    var _this = this;
 	
 	    element.on('click', onClickFunction);
 	
 	    if ('ontouchstart' in document.documentElement) {
-	      element.on('touchstart', function (e) {
-	        e.preventDefault();
-	      });
-	      element.on('touchend', function (e) {
-	        e.preventDefault();
-	        return element.trigger('click');
+	      element.on('touchstart', function () {
+	        $(_this).on('touchend', function () {
+	          $(_this).trigger('click');
+	          $(_this).off('touchend');
+	        });
+	        $(_this).on('touchmove', function () {
+	          $(_this).off('touchend');
+	        });
 	      });
 	    }
 	  };
