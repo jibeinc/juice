@@ -34,7 +34,7 @@ describe('radioButtons functionality', () => {
     categories.render();
   });
 
-  afterEach(()=> {
+  afterEach(() => {
     $('body').empty();
   });
 
@@ -90,7 +90,7 @@ describe('radioBoxes functionality', () => {
     categories.render();
   });
 
-  afterEach(()=> {
+  afterEach(() => {
     $('body').empty();
   });
 

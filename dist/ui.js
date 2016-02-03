@@ -10266,7 +10266,7 @@ var UI =
 	    this.pushing = false;
 	  }
 	
-	  URL.prototype.updateQueryParams = function updateQueryParams(queryObj) {
+	  URL.prototype.updateQueryParams = function updateQueryParams() /*queryObj*/{
 	    // const currentURL = url.parse(this.window.location.href);
 	    // currentURL.query = queryObj;
 	    // currentURL.search = null;
@@ -10275,7 +10275,7 @@ var UI =
 	    // history.pushState(null, null, url.format(currentURL));
 	  };
 	
-	  URL.prototype.onHistoryChange = function onHistoryChange(cb) {
+	  URL.prototype.onHistoryChange = function onHistoryChange() /*cb*/{
 	    // // hacky unbind
 	    // const uid = history.Adapter.uid(this.window);
 	    // history.Adapter.handlers[uid]['statechange'] = [];

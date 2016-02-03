@@ -11,7 +11,7 @@ class URL {
     this.pushing = false;
   }
 
-  updateQueryParams(queryObj) {
+  updateQueryParams(/*queryObj*/) {
     // const currentURL = url.parse(this.window.location.href);
     // currentURL.query = queryObj;
     // currentURL.search = null;
@@ -20,7 +20,7 @@ class URL {
     // history.pushState(null, null, url.format(currentURL));
   }
 
-  onHistoryChange(cb) {
+  onHistoryChange(/*cb*/) {
     // // hacky unbind
     // const uid = history.Adapter.uid(this.window);
     // history.Adapter.handlers[uid]['statechange'] = [];

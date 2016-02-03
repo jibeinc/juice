@@ -4,10 +4,10 @@ const Pagination = require('./index.js');
 
 describe('pagination functionality', () => {
   let pagination;
-  let liSelector = '.pagination-test.pagination li';
+  const liSelector = '.pagination-test.pagination li';
   let testOnPageClickCalled = false;
 
-  beforeEach(()=> {
+  beforeEach(() => {
     $('body').append('<div class="pagination-test"></div>');
     pagination = new Pagination('.pagination-test', {
       cssStyle: 'pagination',
@@ -15,7 +15,7 @@ describe('pagination functionality', () => {
       hrefTextPrefix: '#?page=',
       itemsOnPage: 10,
       nextText: '<span class="icon icon-arrow_forward icon-arrow"></span>',
-      onPageClick(pageNumber, event) {
+      onPageClick() {
         testOnPageClickCalled = true;
       },
       prevText: '<span class="icon icon-arrow_back icon-arrow"></span>'
@@ -23,7 +23,7 @@ describe('pagination functionality', () => {
     pagination.render();
   });
 
-  afterEach(()=> {
+  afterEach(() => {
     $('body').empty();
   });
 

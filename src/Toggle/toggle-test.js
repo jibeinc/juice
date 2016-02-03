@@ -5,7 +5,7 @@ const toggle = require('./index.js');
 describe('toggle', () => {
   let toggleTest;
 
-  beforeEach(()=> {
+  beforeEach(() => {
     $('body').append('<div class="toggle-test"></div>');
     toggleTest = new toggle('.toggle-test', {
       toggledClass: 'toggled-class',
@@ -14,7 +14,7 @@ describe('toggle', () => {
     toggleTest.render();
   });
 
-  afterEach(()=> {
+  afterEach(() => {
     $('body').empty();
   });
 

@@ -1,11 +1,8 @@
+/* globals MouseEvent */
+
 const $ = require('jquery');
 const expect = require('expect');
 const MultiSelect = require('./index.js');
-
-const clickElement = (el) => {
-  const ev = new MouseEvent('click');
-  el.dispatchEvent(ev);
-};
 
 describe('multiSelect functionality', () => {
   let categories;
@@ -31,14 +28,14 @@ describe('multiSelect functionality', () => {
       }
     });
 
-    categories.subscribe((choice) => {
+    categories.subscribe(() => {
       categories.render();
     });
 
     categories.render();
   });
 
-  afterEach(()=> {
+  afterEach(() => {
     $('body').empty();
   });
 
@@ -54,7 +51,7 @@ describe('multiSelect functionality', () => {
     expect(selected[0].value).toBe('mrkt01');
     expect(selected[1].value).toBe('sales');
     const elementToClick = $($('.multiSelect-test .ui-multi-select .select-option input')[0]);
-    clickElement(elementToClick);
+    elementToClick.click();
     selected = categories.get();
     expect(selected.length).toBe(1);
     expect(selected[0].value).toBe('sales');
