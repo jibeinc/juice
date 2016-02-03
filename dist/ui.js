@@ -12557,8 +12557,10 @@ var UI =
 	    element.on('click', onClickFunction);
 	
 	    if ('ontouchstart' in document.documentElement) {
-	      element.on('touchstart', function () {
-	        $(_this).on('touchend', function () {
+	      element.on('touchstart', function (e) {
+	        e.preventDefault();
+	        $(_this).on('touchend', function (e) {
+	          e.preventDefault();
 	          $(_this).trigger('click');
 	          $(_this).off('touchend');
 	        });
