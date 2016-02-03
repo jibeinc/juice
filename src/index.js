@@ -14,6 +14,7 @@ const UIComponents = {
   PubSubHub: require('./PubSubHub'),
   State: require('./State'),
   URL: require('./URL'),
+  url: require('url'),
 
   // components
   Button: require('./Button'),
