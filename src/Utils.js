@@ -12,20 +12,19 @@ class Utils {
    */
   static bindClick(element, onClickFunction) {
 
-    element.on('click', onClickFunction);
-
     if ('ontouchstart' in document.documentElement) {
-      element.on('touchstart', (e) => {
-        e.stopPropagation();
-        $(this).on('touchend', (e) => {
-          e.stopPropagation();
-          $(this).trigger('click');
-          $(this).off('touchend');
+      element.on('touchstart', () => {
+        element.on('touchend', () => {
+          onClickFunction();
+          element.off('touchend');
         });
-        $(this).on('touchmove', () => {
-          $(this).off('touchend');
+        element.on('touchmove', () => {
+          element.off('touchend');
         });
       });
+    }
+    else {
+      element.on('click', onClickFunction);
     }
   }
 }

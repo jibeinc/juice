@@ -12552,22 +12552,19 @@ var UI =
 	   */
 	
 	  Utils.bindClick = function bindClick(element, onClickFunction) {
-	    var _this = this;
-	
-	    element.on('click', onClickFunction);
 	
 	    if ('ontouchstart' in document.documentElement) {
-	      element.on('touchstart', function (e) {
-	        e.stopPropagation();
-	        $(_this).on('touchend', function (e) {
-	          e.stopPropagation();
-	          $(_this).trigger('click');
-	          $(_this).off('touchend');
+	      element.on('touchstart', function () {
+	        element.on('touchend', function () {
+	          onClickFunction();
+	          element.off('touchend');
 	        });
-	        $(_this).on('touchmove', function () {
-	          $(_this).off('touchend');
+	        element.on('touchmove', function () {
+	          element.off('touchend');
 	        });
 	      });
+	    } else {
+	      element.on('click', onClickFunction);
 	    }
 	  };
 	
