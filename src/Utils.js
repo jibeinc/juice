@@ -1,3 +1,5 @@
+const $ = require('jquery');
+
 class Utils {
   constructor() {
 
@@ -11,7 +13,22 @@ class Utils {
   static bindClick(element, onClickFunction) {
 
     if ('ontouchstart' in document.documentElement) {
-      element.on('touchend', onClickFunction);
+      let dragging = false;
+      $('body').on('touchstart', () => {
+        dragging = false;
+      });
+      $('body').on('touchmove', () => {
+        dragging = true;
+      });
+
+      element.on('touchend', (evt) => {
+        if (dragging) {
+          dragging = false;
+        }
+        else {
+          onClickFunction(evt);
+        }
+      });
     }
     else {
       element.on('click', onClickFunction);
