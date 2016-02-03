@@ -12554,18 +12554,18 @@ var UI =
 	  Utils.bindClick = function bindClick(element, onClickFunction) {
 	    var _this = this;
 	
-	    element.on('click', onClickFunction);
-	
 	    if ('ontouchstart' in document.documentElement) {
 	      element.on('touchstart', function () {
-	        $(_this).on('touchend', function () {
-	          $(_this).trigger('click');
+	        $(_this).on('touchend', function (evt) {
+	          onClickFunction(evt);
 	          $(_this).off('touchend');
 	        });
 	        $(_this).on('touchmove', function () {
 	          $(_this).off('touchend');
 	        });
 	      });
+	    } else {
+	      element.on('click', onClickFunction);
 	    }
 	  };
 	
