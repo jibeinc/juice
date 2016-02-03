@@ -16,9 +16,9 @@ class Utils {
 
     if ('ontouchstart' in document.documentElement) {
       element.on('touchstart', (e) => {
-        e.preventDefault();
+        e.stopPropagation();
         $(this).on('touchend', (e) => {
-          e.preventDefault();
+          e.stopPropagation();
           $(this).trigger('click');
           $(this).off('touchend');
         });

@@ -12558,9 +12558,9 @@ var UI =
 	
 	    if ('ontouchstart' in document.documentElement) {
 	      element.on('touchstart', function (e) {
-	        e.preventDefault();
+	        e.stopPropagation();
 	        $(_this).on('touchend', function (e) {
-	          e.preventDefault();
+	          e.stopPropagation();
 	          $(_this).trigger('click');
 	          $(_this).off('touchend');
 	        });
