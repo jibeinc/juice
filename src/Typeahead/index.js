@@ -33,18 +33,19 @@ class Typeahead extends BaseTypeahead {
   }
 
   /**
-   * Call onActive when active or onInactive when active is false, set isActive
+   * Show of hide the listView depending on if active is true or false, set isActive
    * @param v The boolean for whether active or not
    * @returns {boolean|*}
    */
   active(v) {
-    if (typeof v === 'boolean') {
+    if (_.isBoolean(v)) {
       this.isActive = v;
 
       if (this.isActive) {
-        this.onActive();
+        this.resultsListView.$el.show();
       } else {
-        this.onInactive();
+        this.resultsListView.$el.hide();
+        delete this.highlightIndex;
       }
     }
 
@@ -60,16 +61,17 @@ class Typeahead extends BaseTypeahead {
     });
 
     $(document).click((evt) => {
-      if (this.$el.find($(evt.target)).size() === 0 && $(evt.target)[0].tagName !== 'input') {
+      if (this.$el.find($(evt.target)).length === 0 && $(evt.target)[0].tagName !== 'input') {
         this.active(false);
         this.textInput.$el.find('input').blur();
       }
     });
   }
 
+  /**
+   * Set up events for pressing up, down, enter and escape
+   */
   attachKeyEvents() {
-    this.highlightIndex;
-
     $(document).on('keydown', (evt) => {
       if (!this.active()) {
         return;
@@ -89,6 +91,7 @@ class Typeahead extends BaseTypeahead {
         case this.keyEvents.ENTER:
           this.selectByIndex();
           evt.preventDefault();
+          break;
 
         case this.keyEvents.ESC:
           this.active(false);
@@ -101,7 +104,7 @@ class Typeahead extends BaseTypeahead {
   }
 
   decrementHighlight() {
-    this.highlightIndex = !_.isFinite(this.highlightIndex) ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
+    this.highlightIndex = !_.isFinite(this.highlightIndex) ? this.resultsListView.$el.find('li').length - 1 : this.highlightIndex - 1;
     this.normalizeHighlightIndex();
     this.renderHighlight();
   }
@@ -137,17 +140,8 @@ class Typeahead extends BaseTypeahead {
   }
 
   normalizeHighlightIndex() {
-    const length = this.resultsListView.$el.find('li').size();
+    const length = this.resultsListView.$el.find('li').length;
     this.highlightIndex = (this.highlightIndex + length) % length;
-  }
-
-  onActive() {
-    this.resultsListView.$el.show();
-  }
-
-  onInactive() {
-    this.resultsListView.$el.hide();
-    delete this.highlightIndex;
   }
 
   refreshResults(cb) {

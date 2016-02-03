@@ -46,7 +46,7 @@ class BaseComponent {
 
     // ...when DOM aint there,
     // just do it in memory, to support server-side rendering
-    if (this.$el.size() === 0) {
+    if (this.$el.length === 0) {
       this.$el = $('<div></div>');
     }
 

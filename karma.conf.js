@@ -9,6 +9,8 @@ module.exports = function (config) {
     singleRun: true, //just run once by default
     frameworks: ['mocha'], //use the mocha test framework
     files: [
+      'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.2.1/lodash.min.js',
       'node_modules/babel-polyfill/dist/polyfill.js',
       'tests.webpack.js'
     ],
