@@ -13,11 +13,11 @@
 const containerHTML = require('./baseTypeahead.html');
 
 // scripts
-const BaseComponent = require('../../../BaseComponent');
+const BaseComponent = require('../../BaseComponent');
 const $ = require('jquery');
-const TextInput = require('../../../TextInput');
-const ListView = require('../../../ListView');
-const assert = require('../../../assert.js');
+const TextInput = require('../../TextInput');
+const ListView = require('../../ListView');
+const assert = require('../../assert.js');
 
 class BaseTypeahead extends BaseComponent {
   constructor(el, opts = {}) {
@@ -115,9 +115,16 @@ class BaseTypeahead extends BaseComponent {
   }
 
   refreshResults(cb) {
-    this.fetch(this.textInput.get(), (results) => {
-      cb(results);
-    });
+    const textInputVal = this.textInput.get();
+    if (textInputVal) {
+      this.fetch(textInputVal, (results) => {
+        cb(results);
+      });
+    }
+    else {
+      cb([]);
+    }
+
   }
 }
 
