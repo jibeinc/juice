@@ -12532,13 +12532,11 @@ var UI =
 /*!**********************!*\
   !*** ./src/Utils.js ***!
   \**********************/
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var $ = __webpack_require__(/*! jquery */ 195);
 	
 	var Utils = function () {
 	  function Utils() {
@@ -12554,15 +12552,7 @@ var UI =
 	  Utils.bindClick = function bindClick(element, onClickFunction) {
 	
 	    if ('ontouchstart' in document.documentElement) {
-	      element.on('touchstart', function () {
-	        element.on('touchend', function () {
-	          onClickFunction();
-	          element.off('touchend');
-	        });
-	        element.on('touchmove', function () {
-	          element.off('touchend');
-	        });
-	      });
+	      element.on('touchend', onClickFunction);
 	    } else {
 	      element.on('click', onClickFunction);
 	    }
