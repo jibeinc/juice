@@ -1,16 +1,29 @@
 'use strict';
 
-// Extends PrettyTypeahead by adding:
+// Extends BaseTypeahead by adding:
 //
-// - support for results as objects instead of just simple values (selection value isn't just display string)
-// - option to force user to pick from dropdown or to let them type in freely also
-// - support for fixed result items
+// - the concept of "active"
+// - the use of arrow keys/enter to pick from the results list
+// - blur/focus events to close/open the results list
+// - add highlights for partial matches
+// - ESC key forces blur
+// - point to click from results list and hover highlight
+// - hover highlight renders list view results on top of page instead of pushing elements down
+
+// less
+require('./styles.less');
 
 // scripts
-const PrettyTypeahead = require('./PrettyTypeahead');
+const $ = require('jquery');
+const BaseTypeahead = require('./BaseTypeahead');
 
-class Typeahead extends PrettyTypeahead {
+const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
+
+class Typeahead extends BaseTypeahead {
   constructor(el, opts = {}) {
+    opts.renderItem = (item) => {
+      return this.renderItem(item);
+    };
     super(el, opts);
     this.fixedResults = opts.fixedResults || [];
     this.allowFreeForm = opts.allowFreeForm || false;
@@ -18,10 +31,70 @@ class Typeahead extends PrettyTypeahead {
     return this;
   }
 
-  refreshResults(cb) {
-    return super.refreshResults((results) => {
-      return cb(results.concat(this.fixedResults));
+  active(v) {
+    if (typeof v === 'boolean') {
+      this.isActive = v;
+
+      if (this.isActive) {
+        this.onActive();
+      } else {
+        this.onInactive();
+      }
+    }
+
+    return this.isActive;
+  }
+
+  attachFocusEvents() {
+    this.textInput.$el.find('input').on('focus', () => {
+      this.active(true);
     });
+
+    $(document).click((evt) => {
+      if (this.$el.find($(evt.target)).size() === 0 && $(evt.target)[0].tagName !== 'input') {
+        this.active(false);
+        this.textInput.$el.find('input').blur();
+      }
+    });
+  }
+
+  attachKeyEvents() {
+    this.highlightIndex;
+
+    $(document).on('keydown', (evt) => {
+      if (!this.active()) {
+        return;
+      }
+
+      switch (evt.which) {
+        case this.keyEvents.UP:
+          this.decrementHighlight();
+          evt.preventDefault();
+          break;
+
+        case this.keyEvents.DOWN:
+          this.incrementHighlight();
+          evt.preventDefault();
+          break;
+
+        case this.keyEvents.ENTER:
+          this.selectByIndex();
+          evt.preventDefault();
+
+        case this.keyEvents.ESC:
+          this.active(false);
+          break;
+
+        default:
+          break;
+      }
+    });
+  }
+
+  decrementHighlight() {
+    this.highlightIndex = (typeof this.highlightIndex === 'undefined' || this.highlightIndex === null) ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
+    this.normalizeHighlightIndex();
+    this.renderHighlight();
   }
 
   handleSelection(selection) {
@@ -36,18 +109,6 @@ class Typeahead extends PrettyTypeahead {
     }
   }
 
-  selectByIndex() {
-    if (!this.active()) {
-      return;
-    }
-
-    super.selectByIndex();
-
-    if (this.allowFreeForm && this.resultsListView.results.length === 0) {
-      this.handleSelection(this.textInput.get());
-    }
-  }
-
   handleTextInputUpdates() {
     // when text input gets a new value, update typeahead:
     this.textInput.subscribe((v) => {
@@ -57,6 +118,108 @@ class Typeahead extends PrettyTypeahead {
     });
 
     super.handleTextInputUpdates();
+
+    // layer on the new behavior
+    this.textInput.subscribe(() => {
+      this.highlightIndex = null;
+    });
+  }
+
+  incrementHighlight() {
+    this.highlightIndex = (typeof this.highlightIndex === 'undefined' || this.highlightIndex === null) ? 0 : this.highlightIndex + 1;
+    this.normalizeHighlightIndex();
+    this.renderHighlight();
+  }
+
+  normalizeHighlightIndex() {
+    const length = this.resultsListView.$el.find('li').size();
+    this.highlightIndex = (this.highlightIndex + length) % length;
+  }
+
+  onActive() {
+    this.resultsListView.$el.show();
+  }
+
+  onInactive() {
+    this.resultsListView.$el.hide();
+    delete this.highlightIndex;
+  }
+
+  refreshResults(cb) {
+    return super.refreshResults((results) => {
+      return cb(results.concat(this.fixedResults));
+    });
+  }
+
+  render() {
+    super.render();
+
+    // layer on our new behavior - hiding/showing results when user blurs/focuses
+    this.resultsListView.$el.hide();
+    this.attachFocusEvents();
+
+    // we also want to let you pick results from just the keyboard
+    this.attachKeyEvents();
+
+    return this.$el.html();
+  }
+
+  renderHighlight() {
+    // remove the highlight
+    this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).removeClass(HIGHLIGHT_CLASS);
+
+    // add it to the right index
+    this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass(HIGHLIGHT_CLASS);
+  }
+
+  renderItem(item) {
+    // bold the matching part
+    const originalText = String(this.getDisplayValue(item));
+    const searchTerm = this.textInput.get() || '';
+    let matchIndex = -1;
+
+    if (searchTerm.length !== 0) {
+      matchIndex = originalText.indexOf(searchTerm);
+    }
+
+    if (matchIndex >= 0) {
+      const start = matchIndex;
+      const end = start + searchTerm.length;
+
+      item = originalText.substring(0, start);
+      item += '<b>';
+      item += originalText.substring(start, end);
+      item += '</b>';
+
+      if (end < originalText.length) {
+        item += originalText.substring(end);
+      }
+    }
+
+    return this.getDisplayValue(item);
+  }
+
+  selectByIndex() {
+    if (!this.active()) {
+      return;
+    }
+
+    if (this.active()) {
+      const highlighted = this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS);
+      if (highlighted.length) {
+        highlighted.click();
+      }
+      else {
+        const valueToSet = this.textInput.get();
+        if (valueToSet)
+          this.set(valueToSet);
+      }
+    }
+    this.textInput.$el.find('input').blur();
+
+    if (this.allowFreeForm && this.resultsListView.results.length === 0) {
+      this.handleSelection(this.textInput.get());
+    }
   }
 }
 
