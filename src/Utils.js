@@ -13,14 +13,21 @@ class Utils {
   static bindClick(element, onClickFunction) {
 
     if ('ontouchstart' in document.documentElement) {
-      element.on('touchstart', () => {
-        $(this).on('touchend', (evt) => {
+      let dragging = false;
+      $('body').on('touchstart', () => {
+        dragging = false;
+      });
+      $('body').on('touchmove', () => {
+        dragging = true;
+      });
+
+      element.on('touchend', (evt) => {
+        if (dragging) {
+          dragging = false;
+        }
+        else {
           onClickFunction(evt);
-          $(this).off('touchend');
-        });
-        $(this).on('touchmove', () => {
-          $(this).off('touchend');
-        });
+        }
       });
     }
     else {
