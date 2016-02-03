@@ -14,6 +14,7 @@
 require('./styles.less');
 
 // scripts
+const _ = require('lodash');
 const $ = require('jquery');
 const BaseTypeahead = require('./BaseTypeahead');
 
@@ -31,6 +32,11 @@ class Typeahead extends BaseTypeahead {
     return this;
   }
 
+  /**
+   * Call onActive when active or onInactive when active is false, set isActive
+   * @param v The boolean for whether active or not
+   * @returns {boolean|*}
+   */
   active(v) {
     if (typeof v === 'boolean') {
       this.isActive = v;
@@ -45,6 +51,9 @@ class Typeahead extends BaseTypeahead {
     return this.isActive;
   }
 
+  /**
+   * Setup focus events to set active to true when focused, and false when blurred
+   */
   attachFocusEvents() {
     this.textInput.$el.find('input').on('focus', () => {
       this.active(true);
@@ -92,7 +101,7 @@ class Typeahead extends BaseTypeahead {
   }
 
   decrementHighlight() {
-    this.highlightIndex = (typeof this.highlightIndex === 'undefined' || this.highlightIndex === null) ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
+    this.highlightIndex = !_.isFinite(this.highlightIndex) ? this.resultsListView.$el.find('li').size() - 1 : this.highlightIndex - 1;
     this.normalizeHighlightIndex();
     this.renderHighlight();
   }
@@ -112,21 +121,17 @@ class Typeahead extends BaseTypeahead {
   handleTextInputUpdates() {
     // when text input gets a new value, update typeahead:
     this.textInput.subscribe((v) => {
+      this.highlightIndex = null;
       if (v === '') {
         this.setInternal({});
       }
     });
 
     super.handleTextInputUpdates();
-
-    // layer on the new behavior
-    this.textInput.subscribe(() => {
-      this.highlightIndex = null;
-    });
   }
 
   incrementHighlight() {
-    this.highlightIndex = (typeof this.highlightIndex === 'undefined' || this.highlightIndex === null) ? 0 : this.highlightIndex + 1;
+    this.highlightIndex = !_.isFinite(this.highlightIndex) ? 0 : this.highlightIndex + 1;
     this.normalizeHighlightIndex();
     this.renderHighlight();
   }

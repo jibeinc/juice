@@ -2,6 +2,10 @@ var sassVars = './sassvars.json';
 
 module.exports = {
   entry: './src/index.js',
+  externals: {
+    'jquery': 'jQuery',
+    'lodash': '_'
+  },
   output: {
     library: 'UI',
     path: __dirname + '/dist',
