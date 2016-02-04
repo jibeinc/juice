@@ -59,10 +59,12 @@ class Typeahead extends BaseTypeahead {
     this.textInput.$el.find('input').on('focus', () => {
       this.active(true);
     });
+    this.textInput.$el.find('input').on('blur', () => {
+      this.active(false);
+    });
 
     $(document).click((evt) => {
       if (this.$el.find($(evt.target)).length === 0 && $(evt.target)[0].tagName !== 'input') {
-        this.active(false);
         this.textInput.$el.find('input').blur();
       }
     });
@@ -214,7 +216,6 @@ class Typeahead extends BaseTypeahead {
           this.set(valueToSet);
       }
     }
-    this.textInput.$el.find('input').blur();
 
     if (this.allowFreeForm && this.resultsListView.results.length === 0) {
       this.handleSelection(this.textInput.get());
