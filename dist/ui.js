@@ -14135,10 +14135,12 @@ var UI =
 	    this.textInput.$el.find('input').on('focus', function () {
 	      _this2.active(true);
 	    });
+	    this.textInput.$el.find('input').on('blur', function () {
+	      _this2.active(false);
+	    });
 	
 	    $(document).click(function (evt) {
 	      if (_this2.$el.find($(evt.target)).length === 0 && $(evt.target)[0].tagName !== 'input') {
-	        _this2.active(false);
 	        _this2.textInput.$el.find('input').blur();
 	      }
 	    });
@@ -14295,7 +14297,6 @@ var UI =
 	        if (valueToSet) this.set(valueToSet);
 	      }
 	    }
-	    this.textInput.$el.find('input').blur();
 	
 	    if (this.allowFreeForm && this.resultsListView.results.length === 0) {
 	      this.handleSelection(this.textInput.get());
@@ -14392,6 +14393,7 @@ var UI =
 	
 	// scripts
 	var BaseComponent = __webpack_require__(/*! ../../BaseComponent */ 226);
+	var _ = __webpack_require__(/*! lodash */ 265);
 	var $ = __webpack_require__(/*! jquery */ 195);
 	var TextInput = __webpack_require__(/*! ../../TextInput */ 254);
 	var ListView = __webpack_require__(/*! ../../ListView */ 246);
@@ -14412,7 +14414,7 @@ var UI =
 	      textInputOpts: opts.textInputOpts || {}
 	    });
 	
-	    assert(typeof _this.fetch === 'function', 'typeahead requires a fetch method');
+	    assert(_.isFunction(_this.fetch), 'typeahead requires a fetch method');
 	
 	    _this.$el.append(containerHTML);
 	
@@ -14452,7 +14454,6 @@ var UI =
 	
 	      // update text input with this value, set typeahead internal value
 	      _this3.handleSelection(evt);
-	      _this3.textInput.$el.find('input').focus();
 	    });
 	  };
 	
@@ -14496,6 +14497,7 @@ var UI =
 	  BaseTypeahead.prototype.set = function set(v) {
 	    this.textInput.set(this.getDisplayValue(v));
 	    this.value = v;
+	    this.textInput.$el.find('input').blur();
 	    this.publish(this.get());
 	    return this;
 	  };

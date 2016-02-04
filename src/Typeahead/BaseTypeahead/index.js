@@ -14,6 +14,7 @@ const containerHTML = require('./baseTypeahead.html');
 
 // scripts
 const BaseComponent = require('../../BaseComponent');
+const _ = require('lodash');
 const $ = require('jquery');
 const TextInput = require('../../TextInput');
 const ListView = require('../../ListView');
@@ -28,7 +29,7 @@ class BaseTypeahead extends BaseComponent {
       textInputOpts: opts.textInputOpts || {}
     });
 
-    assert(typeof this.fetch === 'function', 'typeahead requires a fetch method');
+    assert(_.isFunction(this.fetch), 'typeahead requires a fetch method');
 
     this.$el.append(containerHTML);
 
@@ -63,7 +64,6 @@ class BaseTypeahead extends BaseComponent {
 
       // update text input with this value, set typeahead internal value
       this.handleSelection(evt);
-      this.textInput.$el.find('input').focus();
     });
   }
 
@@ -104,6 +104,7 @@ class BaseTypeahead extends BaseComponent {
   set(v) {
     this.textInput.set(this.getDisplayValue(v));
     this.value = v;
+    this.textInput.$el.find('input').blur();
     this.publish(this.get());
     return this;
   }
