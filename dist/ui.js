@@ -13359,8 +13359,6 @@ var UI =
 	    this.$el.find('ul.ui-list').attr(this.attrs);
 	    this.$el.find('li.ui-list-item').attr(this.listItemOpts.attrs || {});
 	    Utils.bindClick(this.$el.find('li.ui-list-item'), function (evt) {
-	      alert('bindClick');
-	
 	      _this2.set(_this2.results[$(evt.currentTarget).attr('data-index')]);
 	
 	      if (_this2.listItemOpts.stopPropagation) {
@@ -14138,16 +14136,8 @@ var UI =
 	      _this2.active(true);
 	    });
 	
-	    // JJT-2136
-	    this.textInput.$el.find('input').on('blur', function () {
-	      // setTimeout(() => {
-	      //   this.active(false);
-	      // });
-	    });
-	
 	    $(document).click(function (evt) {
 	      if (_this2.$el.find($(evt.target)).length === 0 && $(evt.target)[0].tagName !== 'input') {
-	        // this.textInput.$el.find('input').blur();
 	        _this2.active(false);
 	      }
 	    });
