@@ -14079,6 +14079,7 @@ var UI =
 	var _ = __webpack_require__(/*! lodash */ 265);
 	var $ = __webpack_require__(/*! jquery */ 195);
 	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 266);
+	var Utils = __webpack_require__(/*! ../Utils */ 227);
 	
 	var HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 	
@@ -14136,7 +14137,7 @@ var UI =
 	      _this2.active(true);
 	    });
 	
-	    $(document).click(function (evt) {
+	    Utils.bindClick($(document), function (evt) {
 	      if (_this2.$el.find($(evt.target)).length === 0 && $(evt.target)[0].tagName !== 'input') {
 	        _this2.active(false);
 	      }

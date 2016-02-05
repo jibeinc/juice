@@ -17,6 +17,7 @@ require('./styles.less');
 const _ = require('lodash');
 const $ = require('jquery');
 const BaseTypeahead = require('./BaseTypeahead');
+const Utils = require('../Utils');
 
 const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
@@ -61,7 +62,7 @@ class Typeahead extends BaseTypeahead {
     });
 
 
-    $(document).click((evt) => {
+    Utils.bindClick($(document), (evt) => {
       if (this.$el.find($(evt.target)).length === 0 && $(evt.target)[0].tagName !== 'input') {
         this.active(false);
       }
