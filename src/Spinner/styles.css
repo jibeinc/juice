@@ -11,13 +11,13 @@
 	left: 0;
   position: fixed;
   background-color: rgba(0,0,0,0.5);
-  z-index: 1001;
+  z-index: 9999;
   height: 100%;
   width: 100%;
 }
 
 .noScroll {
   overflow: hidden;
-  z-index: 1000;
+  z-index: 9998;
   display: block;
 }
