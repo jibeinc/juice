@@ -61,21 +61,13 @@ class LocationTypeahead extends Typeahead {
   }
 
   handleTextInputUpdates() {
-    // when text input gets a new value, update typeahead:
     this.textInput.subscribe((v) => {
-
-      if (v === '') {
-        this.setInternal({});
-      }
-
-      else if ($.isPlainObject(v) && v.isLocation && !v.listItem) {
+      if ($.isPlainObject(v) && v.isLocation && !v.listItem) {
         this.setInternal(v);
       }
-
-      else {
-        super.handleTextInputUpdates();
-      }
     });
+
+    super.handleTextInputUpdates();
   }
 
   renderItem(item) {

@@ -75,10 +75,13 @@
     var locationSearch = new UI.LocationTypeahead('.location-search', {
       fetch: function (term, cb) {
         var matches = db.filter(function (item) {
-          return (item.displayName + '').indexOf(term) !== -1;
+          return (item.displayName + '').toLowerCase().indexOf(term.toLowerCase()) !== -1;
         });
 
-        cb(matches);
+        // mimic ajax
+        setTimeout(function () {
+          cb(matches);
+        }, 50);
       },
       geolocationAPI: window.navigator.geolocation,
       textInputOpts: {
