@@ -15967,7 +15967,7 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 285);
+	__webpack_require__(/*! ./styles.scss */ 285);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 195);
@@ -16084,15 +16084,15 @@ var UI =
 
 /***/ },
 /* 285 */
-/*!********************************!*\
-  !*** ./src/Spinner/styles.css ***!
-  \********************************/
+/*!*********************************!*\
+  !*** ./src/Spinner/styles.scss ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 286);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./../../~/jsontosass-loader?path=./sassvars.json!./styles.scss */ 286);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -16101,8 +16101,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?path=./sassvars.json!./styles.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?path=./sassvars.json!./styles.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -16113,9 +16113,9 @@ var UI =
 
 /***/ },
 /* 286 */
-/*!***************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/Spinner/styles.css ***!
-  \***************************************************************************/
+/*!***********************************************************************************************************!*\
+  !*** ./~/css-loader!./~/sass-loader!./~/jsontosass-loader?path=./sassvars.json!./src/Spinner/styles.scss ***!
+  \***********************************************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -16123,7 +16123,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, "/* Transparent Overlay */\n.juicy-spinner:before {\n  content: '';\n  display: block;\n  position: fixed;\n\n}\n\n.juicy-spinner-container {\n\ttop: 0;\n\tleft: 0;\n  position: fixed;\n  background-color: rgba(0,0,0,0.5);\n  z-index: 9999;\n  height: 100%;\n  width: 100%;\n}\n\n.noScroll {\n  overflow: hidden;\n  z-index: 9998;\n  display: block;\n}", ""]);
+	exports.push([module.id, "/* Transparent Overlay */\n.juicy-spinner:before {\n  content: '';\n  display: block;\n  position: fixed; }\n\n.juicy-spinner-container {\n  top: 0;\n  left: 0;\n  position: fixed;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 9999;\n  height: 100%;\n  width: 100%; }\n\n.noScroll {\n  overflow: hidden;\n  z-index: 9998;\n  display: block; }\n", ""]);
 	
 	// exports
 
