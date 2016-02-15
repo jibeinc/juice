@@ -70,8 +70,12 @@ class MultiSelect extends BaseComponent {
       });
     }
 
-    this.render();
+    setTimeout(() => {
+      this.render();
+    });
+
     this.publish(this.get());
+
     return this;
   }
 }
