@@ -13,13 +13,17 @@ module.exports = {
     publicPath: '/dist/'
   },
   postcss: function (webpack) {
-    require('postcss-import')({addDependencyTo: webpack}),
+    return [
+      require('postcss-import')({
+        addDependencyTo: webpack
+      }),
       require('postcss-url')(),
       require('postcss-cssnext')({
         browsers: ['last 2 versions', 'ie >= 9'],
         compress: true
-      })
-    require('cssnano')({zindex: false})
+      }),
+      require('cssnano')({zindex: false})
+    ];
   },
   resolve: {
     modulesDirectories: ['node_modules', 'bower_components']
