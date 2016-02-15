@@ -12,8 +12,14 @@ module.exports = {
     filename: 'ui.js',
     publicPath: '/dist/'
   },
-  cssnext: {
-    browsers: ['last 2 versions', 'ie >= 9']
+  postcss: function (webpack) {
+    require('postcss-import')({addDependencyTo: webpack}),
+      require('postcss-url')(),
+      require('postcss-cssnext')({
+        browsers: ['last 2 versions', 'ie >= 9'],
+        compress: true
+      })
+    require('cssnano')({zindex: false})
   },
   resolve: {
     modulesDirectories: ['node_modules', 'bower_components']
@@ -27,14 +33,14 @@ module.exports = {
     loaders: [{
       // automatically load css into the DOM
       test: /\.css$/,
-      loader: 'style!css!cssnext?compress'
+      loader: 'style!css!postcss'
     }, {
       // automatically load less into the DOM
       test: /\.less$/,
-      loader: 'style!css!less'
+      loader: 'style!css!postcss!less'
     }, {
       test: /\.scss$/,
-      loader: "style!css!sass!jsontosass?path=" + sassVars
+      loader: "style!css!postcss!sass!jsontosass?path=" + sassVars
     }, {
       // compress and load images as embedded data-uri's
       test: /\.(jpe?g|png|gif|svg)$/,
