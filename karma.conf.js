@@ -28,7 +28,7 @@ module.exports = function (config) {
         loaders: [{
           // automatically load css into the DOM
           test: /\.css$/,
-          loader: 'style!css!cssnext?compress'
+          loader: 'style!css!postcss'
         }, {
           // automatically load less into the DOM
           test: /\.less$/,

@@ -3,7 +3,7 @@
 // # Render a spinner
 
 // css
-require('./styles.scss');
+require('./styles.css');
 
 // scripts
 const $ = require('jquery');

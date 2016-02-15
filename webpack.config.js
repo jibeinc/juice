@@ -1,3 +1,5 @@
+var cssnano = require('cssnano');
+var cssnext = require('postcss-cssnext');
 var sassVars = './sassvars.json';
 
 module.exports = {
@@ -12,9 +14,12 @@ module.exports = {
     filename: 'ui.js',
     publicPath: '/dist/'
   },
-  cssnext: {
-    browsers: ['last 2 versions', 'ie >= 9']
-  },
+  postcss: [
+    cssnext({
+      browsers: ['last 2 versions', 'ie >= 9']
+    }),
+    cssnano({zindex: false})
+  ],
   resolve: {
     modulesDirectories: ['node_modules', 'bower_components']
   },
@@ -27,7 +32,7 @@ module.exports = {
     loaders: [{
       // automatically load css into the DOM
       test: /\.css$/,
-      loader: 'style!css!cssnext?compress'
+      loader: 'style!css!postcss'
     }, {
       // automatically load less into the DOM
       test: /\.less$/,

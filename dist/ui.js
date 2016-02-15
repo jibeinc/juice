@@ -12057,7 +12057,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 222);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 222);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -12066,8 +12066,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -12078,9 +12078,9 @@ var UI =
 
 /***/ },
 /* 222 */
-/*!**************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/Button/styles.css ***!
-  \**************************************************************************/
+/*!*****************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/Button/styles.css ***!
+  \*****************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -12088,7 +12088,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-button {\n  cursor: pointer;\n}\n", ""]);
+	exports.push([module.id, ".ui-button{cursor:pointer}", ""]);
 	
 	// exports
 
@@ -12680,7 +12680,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 230);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 230);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -12689,8 +12689,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -12701,9 +12701,9 @@ var UI =
 
 /***/ },
 /* 230 */
-/*!***********************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/CurrentLocation/styles.css ***!
-  \***********************************************************************************/
+/*!**************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/CurrentLocation/styles.css ***!
+  \**************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -12711,7 +12711,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-current-location {\n  cursor: pointer;\n  background-size: contain;\n  background-repeat: no-repeat;\n}\n", ""]);
+	exports.push([module.id, ".ui-current-location{cursor:pointer;background-size:contain;background-repeat:no-repeat}", ""]);
 	
 	// exports
 
@@ -12877,7 +12877,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 234);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 234);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -12886,8 +12886,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -12898,9 +12898,9 @@ var UI =
 
 /***/ },
 /* 234 */
-/*!*****************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/TextInput/styles.css ***!
-  \*****************************************************************************/
+/*!********************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/TextInput/styles.css ***!
+  \********************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -12908,7 +12908,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-text-input {\n  width: 100%;\n}\n\n.ui-text-input-wrapper {\n  position: relative;\n}\n\n.ui-text-input-icon {\n  font-size: 16px;\n  position: absolute;\n  top: 5px;\n  right: 15px;\n  cursor: pointer;\n  padding: 0 5px;\n  margin: 0 5px;\n}\n", ""]);
+	exports.push([module.id, ".ui-text-input{width:100%}.ui-text-input-wrapper{position:relative}.ui-text-input-icon{font-size:16px;position:absolute;top:5px;right:15px;cursor:pointer;padding:0 5px;margin:0 5px}", ""]);
 	
 	// exports
 
@@ -13102,7 +13102,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 242);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 242);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -13111,8 +13111,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -13123,9 +13123,9 @@ var UI =
 
 /***/ },
 /* 242 */
-/*!**********************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/ExpandCollapse/styles.css ***!
-  \**********************************************************************************/
+/*!*************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/ExpandCollapse/styles.css ***!
+  \*************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -13133,7 +13133,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".grow {\n    transition: height .5s;\n    height: 0;\n    overflow: hidden;\n}", ""]);
+	exports.push([module.id, ".grow{transition:height .5s;height:0;overflow:hidden}", ""]);
 	
 	// exports
 
@@ -13399,7 +13399,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 248);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 248);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -13408,8 +13408,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -13420,9 +13420,9 @@ var UI =
 
 /***/ },
 /* 248 */
-/*!****************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/ListView/styles.css ***!
-  \****************************************************************************/
+/*!*******************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/ListView/styles.css ***!
+  \*******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -13585,7 +13585,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 252);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 252);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -13594,8 +13594,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -13606,9 +13606,9 @@ var UI =
 
 /***/ },
 /* 252 */
-/*!*************************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/LocationTextInput/styles.css ***!
-  \*************************************************************************************/
+/*!****************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/LocationTextInput/styles.css ***!
+  \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -13616,7 +13616,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, "\n.ui-text-input {\n  width: 100%;\n}\n\n.ui-text-input-wrapper {\n  position: relative;\n}\n\n.ui-text-input-icon {\n  font-size: 16px;\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  cursor: pointer;\n  padding: 0 5px;\n  margin: 0 5px;\n}\n\n.ui-location-icon {\n  width: 22px;\n  height: 22px;\n  position: absolute;\n  top: 5px;\n  right: 5px;\n}", ""]);
+	exports.push([module.id, ".ui-text-input{width:100%}.ui-text-input-wrapper{position:relative}.ui-text-input-icon{font-size:16px;position:absolute;top:5px;right:5px;cursor:pointer;padding:0 5px;margin:0 5px}.ui-location-icon{width:22px;height:22px;position:absolute;top:5px;right:5px}", ""]);
 	
 	// exports
 
@@ -13995,7 +13995,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 260);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 260);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -14004,8 +14004,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -14016,9 +14016,9 @@ var UI =
 
 /***/ },
 /* 260 */
-/*!*************************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/LocationTypeahead/styles.css ***!
-  \*************************************************************************************/
+/*!****************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/LocationTypeahead/styles.css ***!
+  \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -14026,7 +14026,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, ".ui-curr-loc {\n  display: inline-block;\n  width: 22px;\n  height: 22px;\n}\n\n.ui-location-typeahead .ui-text-input-icon {\n  right: 0;\n}\n", ""]);
+	exports.push([module.id, ".ui-curr-loc{display:inline-block;width:22px;height:22px}.ui-location-typeahead .ui-text-input-icon{right:0}", ""]);
 	
 	// exports
 
@@ -15453,7 +15453,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 278);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 278);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -15462,8 +15462,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -15474,9 +15474,9 @@ var UI =
 
 /***/ },
 /* 278 */
-/*!********************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SingleSelect/styles.css ***!
-  \********************************************************************************/
+/*!***********************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/SingleSelect/styles.css ***!
+  \***********************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -15670,7 +15670,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/cssnext-loader?compress!./styles.css */ 282);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 282);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -15679,8 +15679,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/cssnext-loader/index.js?compress!./styles.css");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -15691,9 +15691,9 @@ var UI =
 
 /***/ },
 /* 282 */
-/*!*************************************************************************************!*\
-  !*** ./~/css-loader!./~/cssnext-loader?compress!./src/SentenceGenerator/styles.css ***!
-  \*************************************************************************************/
+/*!****************************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/SentenceGenerator/styles.css ***!
+  \****************************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -15967,7 +15967,7 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.scss */ 285);
+	__webpack_require__(/*! ./styles.css */ 285);
 	
 	// scripts
 	var $ = __webpack_require__(/*! jquery */ 195);
@@ -16084,15 +16084,15 @@ var UI =
 
 /***/ },
 /* 285 */
-/*!*********************************!*\
-  !*** ./src/Spinner/styles.scss ***!
-  \*********************************/
+/*!********************************!*\
+  !*** ./src/Spinner/styles.css ***!
+  \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./../../~/jsontosass-loader?path=./sassvars.json!./styles.scss */ 286);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 286);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 224)(content, {});
@@ -16101,8 +16101,8 @@ var UI =
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?path=./sassvars.json!./styles.scss", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./../../node_modules/jsontosass-loader/index.js?path=./sassvars.json!./styles.scss");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/postcss-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -16113,9 +16113,9 @@ var UI =
 
 /***/ },
 /* 286 */
-/*!***********************************************************************************************************!*\
-  !*** ./~/css-loader!./~/sass-loader!./~/jsontosass-loader?path=./sassvars.json!./src/Spinner/styles.scss ***!
-  \***********************************************************************************************************/
+/*!******************************************************************!*\
+  !*** ./~/css-loader!./~/postcss-loader!./src/Spinner/styles.css ***!
+  \******************************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 223)();
@@ -16123,7 +16123,7 @@ var UI =
 	
 	
 	// module
-	exports.push([module.id, "/* Transparent Overlay */\n.juicy-spinner:before {\n  content: '';\n  display: block;\n  position: fixed; }\n\n.juicy-spinner-container {\n  top: 0;\n  left: 0;\n  position: fixed;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 9999;\n  height: 100%;\n  width: 100%; }\n\n.noScroll {\n  overflow: hidden;\n  z-index: 9998;\n  display: block; }\n", ""]);
+	exports.push([module.id, ".juicy-spinner:before{content:'';display:block;position:fixed}.juicy-spinner-container{top:0;left:0;position:fixed;background-color:rgba(0,0,0,.5);z-index:9999;height:100%;width:100%}.noScroll{overflow:hidden;z-index:9998;display:block}", ""]);
 	
 	// exports
 
