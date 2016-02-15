@@ -1,4 +1,4 @@
-var cssnano = require('cssnano');
+//var cssnano = require('cssnano');
 var cssnext = require('postcss-cssnext');
 var sassVars = './sassvars.json';
 
@@ -17,8 +17,8 @@ module.exports = {
   postcss: [
     cssnext({
       browsers: ['last 2 versions', 'ie >= 9']
-    }),
-    cssnano({zindex: false})
+    })
+    //cssnano({zindex: false})
   ],
   resolve: {
     modulesDirectories: ['node_modules', 'bower_components']
