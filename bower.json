@@ -1,0 +1,31 @@
+{
+  "name": "jibe-ui-components",
+  "description": "General JavaScript classes for common UI components",
+  "main": [
+    "dist/ui.js",
+    "dist/ui.js.map"
+  ],
+  "authors": [
+    {
+      "name": "John Hatcher"
+    },
+    {
+      "name": "Robert Wagner",
+      "email": "rwwagner90@gmail.com",
+      "url": "https://github.com/rwwagner90"
+    },
+    {
+      "name": "Naveed Nadjmabadi"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
