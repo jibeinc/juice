@@ -55,6 +55,7 @@
     "uuid": "^2.0.1"
   },
   "devDependencies": {
+    "autoprefixer": "^6.3.3",
     "babel-core": "^6.1.21",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.1.0",
@@ -78,7 +79,7 @@
     "babel-plugin-transform-es2015-typeof-symbol": "^6.1.18",
     "babel-plugin-transform-es2015-unicode-regex": "^6.1.18",
     "css-loader": "^0.22.0",
-    "cssnext-loader": "^1.0.1",
+    "cssnano": "^3.5.2",
     "dot-loader": "^0.1.1",
     "eslint": "^1.10.3",
     "eslint-loader": "^1.1.1",
@@ -103,6 +104,8 @@
     "mocha": "^2.3.4",
     "napa": "^2.0.2",
     "node-sass": "^3.4.2",
+    "postcss-cssnext": "^2.4.0",
+    "postcss-loader": "^0.8.1",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "template-string-loader": "0.0.3",
