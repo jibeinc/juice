@@ -47,8 +47,9 @@ class MultiSelect extends BaseComponent {
   render() {
     this.$el.html(multiSelectTmpl(this));
 
-    Utils.bindClick(this.$el.find('input'), (evt) => {
-      this.set($(evt.target).val());
+    Utils.bindClick(this.$el.find('.ms-label'), (evt) => {
+      evt.stopPropagation();
+      this.set($(evt.target).parent().find('input').val());
     });
 
     return this.$el.html();
@@ -69,9 +70,7 @@ class MultiSelect extends BaseComponent {
       });
     }
 
-    setTimeout(() => {
-      this.render();
-    });
+    this.render();
 
     this.publish(this.get());
 

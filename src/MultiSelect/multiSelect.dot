@@ -1,7 +1,7 @@
 <div class='ui-multi-select'>
   {{~it.options :opt:index}}
   <div class="select-option">
-    <label>
+    <label class='ms-label'>
       <input type='checkbox' name='{{= it.id }}' value='{{!opt.value}}' {{? opt.checked }}checked=true{{?}}/>
       <span>{{=it.renderItem(opt)}}</span>
     </label>
