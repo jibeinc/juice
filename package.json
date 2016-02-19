@@ -44,6 +44,7 @@
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "baobab": "^2.1.1",
+    "bowser": "^1.0.0",
     "console": "^0.5.2",
     "debounce": "^1.0.0",
     "dot": "git+ssh://git@stash.internal.jibe.com/ja/client-dot-engine.git",

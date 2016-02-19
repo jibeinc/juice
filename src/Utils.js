@@ -1,4 +1,5 @@
 const $ = require('jquery');
+const bowser = require('bowser');
 
 class Utils {
   constructor() {
@@ -12,7 +13,15 @@ class Utils {
    */
   static bindClick(element, onClickFunction) {
 
-    if ('ontouchstart' in document.documentElement) {
+    // JJT-2261
+    // detect windows8+chrome48 for touchstart bug
+    var isBadChrome48 = bowser.chrome && bowser.version >= 48
+      && !bowser.android
+      && !bowser.windowsphone
+      && !bowser.ios
+      && !bowser.blackberry;
+
+    if ('ontouchstart' in document.documentElement && !isBadChrome48) {
       let dragging = false;
       $('body').on('touchstart', () => {
         dragging = false;
