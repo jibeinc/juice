@@ -1,6 +1,6 @@
 {
   "name": "jibe-ui-components",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "General JavaScript classes for common UI components",
   "engines": {
     "node": ">=5.0.0"
@@ -11,7 +11,6 @@
     "build-dev": "npm run clean && ./node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
     "watch": "./node_modules/.bin/webpack --watch",
     "clean": "rm -rf dist",
-    "postinstall": "./node_modules/.bin/napa",
     "test": "karma start",
     "lint": "./node_modules/.bin/eslint ./src/*"
   },
@@ -37,9 +36,6 @@
     "scripts": {
       "pre-commit": "npm run lint"
     }
-  },
-  "napa": {
-    "simplePagination": "flaviusmatis/simplePagination.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
@@ -103,7 +99,6 @@
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "mocha": "^2.3.4",
-    "napa": "^2.0.2",
     "node-sass": "^3.4.2",
     "postcss-cssnext": "^2.4.0",
     "postcss-import": "^8.0.2",
