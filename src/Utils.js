@@ -15,7 +15,7 @@ class Utils {
 
     // JJT-2261
     // detect windows8+chrome48 for touchstart bug
-    var isBadChrome48 = bowser.chrome && bowser.version >= 48
+    const isBadChrome48 = bowser.chrome && bowser.version >= 48
       && !bowser.android
       && !bowser.windowsphone
       && !bowser.ios
