@@ -1,3 +1,5 @@
+'use strict';
+
 const i18next = require('i18next');
 
 let instance = null;
