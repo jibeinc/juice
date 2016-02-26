@@ -1,6 +1,6 @@
 {
   "name": "jibe-ui-components",
-  "version": "0.1.7",
+  "version": "0.2.1",
   "description": "General JavaScript classes for common UI components",
   "main": [
     "dist/ui.js",
