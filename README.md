@@ -6,11 +6,10 @@ Framework agnostic UI components built with ES6 and WebPack
 
 ## Runbook:
 
-    - `npm install `, install all dependencies
+    - `npm install`, install all dependencies
     - `npm run build`, run the production build
     - `npm run build-dev`, run the dev build (prod build w/out minification and w/verbose logging)
-    - To run the examples: start any http server (`python -m SimpleHTTPServer`) then navigate to your localhost
-      and go to `/examples`
+    - `npm run examples`, run the examples:
 
 ## Working with Jibe-apply:
 
