@@ -52,7 +52,6 @@
     "dotty": "0.0.2",
     "html5-history": "^0.1.5",
     "i18next": "^2.0.14",
-    "jsdom": "3.0.3",
     "postcss-import": "^8.0.2",
     "postcss-url": "^5.1.1",
     "spin.js": "^2.3.2",
