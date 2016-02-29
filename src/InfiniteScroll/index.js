@@ -6,6 +6,7 @@ const debounce = require('debounce');
 
 /**
  * Class for implementing infinite scroll triggers and logic
+ * @author Robbie Wagner
  */
 class InfiniteScroll extends BaseComponent {
   /**

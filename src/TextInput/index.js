@@ -1,18 +1,6 @@
 'use strict';
 
 /*
- **  @class: TextInput
- **  @description:
- **    This class is the main JUICE textInput Implementation. This class
- **    enhances the BaseTextInput class by providing nice UI interaction
- **    behaviors, such as:
- **      - publishes a nicely throttled text input event
- **      - firing event listeners when the enter key is pressed
- **      - adds a clearing x icon
- **
- **    If you plan on extending the textInput class, you can override the
- **    iconClickHandler(), keyUpHandler(), showHideIcon(), and renderDom()
- **    methods to override the default behavior of the render method
  **
  **  @param {String} el - the DOM element to attach to
  **  @param {Object} opts - the options to configure this element
@@ -20,19 +8,28 @@
  **  @param {Number} opts.wait - how long to debounce the input onKeyUp event
  **  @param {Function} opts.submitHandler - if the enter key is pressed, run this function
  **
- **  @author: Robbie Wagner
+ **
  */
 
-// css
 require('./styles.css');
-
-// html
 const inputTmpl = require('./input.tmpl');
-
-// scripts
 const BaseTextInput = require('./BaseTextInput');
 const debounce = require('debounce');
 
+/**
+ * This class is the main JUICE textInput Implementation. This class
+ * enhances the BaseTextInput class by providing nice UI interaction
+ * behaviors, such as:
+ *   - publishes a nicely throttled text input event
+ *   - firing event listeners when the enter key is pressed
+ *   - adds a clearing x icon
+ *
+ * If you plan on extending the textInput class, you can override the
+ * iconClickHandler(), keyUpHandler(), showHideIcon(), and renderDom()
+ * methods to override the default behavior of the render method
+ *
+ * @author John Hatcher
+ */
 class TextInput extends BaseTextInput {
   constructor(el, opts = {}) {
     super(el, opts);

@@ -47,6 +47,9 @@ class BaseTypeahead extends BaseComponent {
     this.handleTextInputUpdates();
   }
 
+  /**
+   * Watch the list view, and set the textInput and Typeahead when a selection is made in the list
+   */
   handleListViewUpdates() {
     // when an item is picked from the list view:
     this.resultsListView.subscribe((evt) => {
@@ -104,8 +107,37 @@ class BaseTypeahead extends BaseComponent {
     return this.textInput.get();
   }
 
-  // small aux function that should be used instead of set when textInput does not
-  // need to be updated
+  /**
+   * Fetches new results based on the current value of the TextInput
+   * @param {function} cb - The callback to pass the results to
+   */
+  refreshResults(cb) {
+    const textInputVal = this.textInput.get();
+    if (textInputVal) {
+      this.fetch(textInputVal, (results) => {
+        cb(results);
+      });
+    }
+    else {
+      cb([]);
+    }
+  }
+
+  /**
+   * Renders the TextInput and refreshes the ListView
+   * @returns {string} The html for the BaseTypeahead
+   */
+  render() {
+    this.textInput.render();
+    this.resultsListView.refresh();
+    return this.$el.html();
+  }
+
+  /**
+   * Small aux function that should be used instead of set when textInput does not
+   * need to be updated
+   * @param {string} v - The value to set
+   */
   setInternal(v) {
     this.value = v;
     this.publish(this.get());
@@ -145,32 +177,6 @@ class BaseTypeahead extends BaseComponent {
     this.textInput.$el.find('input').blur();
     this.publish(this.get());
     return this;
-  }
-
-  /**
-   * Fetches new results based on the current value of the TextInput
-   * @param {function} cb - The callback to pass the results to
-   */
-  refreshResults(cb) {
-    const textInputVal = this.textInput.get();
-    if (textInputVal) {
-      this.fetch(textInputVal, (results) => {
-        cb(results);
-      });
-    }
-    else {
-      cb([]);
-    }
-  }
-
-  /**
-   * Renders the TextInput and refreshes the ListView
-   * @returns {string} The html for the BaseTypeahead
-   */
-  render() {
-    this.textInput.render();
-    this.resultsListView.refresh();
-    return this.$el.html();
   }
 }
 

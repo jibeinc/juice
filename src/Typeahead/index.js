@@ -112,12 +112,19 @@ class Typeahead extends BaseTypeahead {
     });
   }
 
+  /**
+   * Called when navigating with the arrow keys to decrease the index of which list item is highlighted
+   */
   decrementHighlight() {
-    this.highlightIndex = !_.isFinite(this.highlightIndex) ? this.resultsListView.$el.find('li').length - 1 : this.highlightIndex - 1;
-    this.normalizeHighlightIndex();
+    const highlightIndex = !_.isFinite(this.highlightIndex) ? this.resultsListView.$el.find('li').length - 1 : this.highlightIndex - 1;
+    this.normalizeHighlightIndex(highlightIndex);
     this.renderHighlight();
   }
 
+  /**
+   * Handle selection and call preSelectHook if it is defined
+   * @param {*} selection - The selected item
+   */
   handleSelection(selection) {
     let runSelection = true;
     if (selection && selection.preSelectHook) {
@@ -130,8 +137,10 @@ class Typeahead extends BaseTypeahead {
     }
   }
 
+  /**
+   * When text input gets a new value, update typeahead
+   */
   handleTextInputUpdates() {
-    // when text input gets a new value, update typeahead:
     this.textInput.subscribe((v) => {
       this.highlightIndex = null;
       if (v === '') {
@@ -142,23 +151,39 @@ class Typeahead extends BaseTypeahead {
     super.handleTextInputUpdates();
   }
 
+  /**
+   * Called when navigating with the arrow keys to increase the index of which list item is highlighted
+   */
   incrementHighlight() {
-    this.highlightIndex = !_.isFinite(this.highlightIndex) ? 0 : this.highlightIndex + 1;
-    this.normalizeHighlightIndex();
+    const highlightIndex = !_.isFinite(this.highlightIndex) ? 0 : this.highlightIndex + 1;
+    this.normalizeHighlightIndex(highlightIndex);
     this.renderHighlight();
   }
 
-  normalizeHighlightIndex() {
+  /**
+   * Ensure that highlight index is reset back to beginning if you exceed the number in the list
+   * @param {number} highlightIndex - The index of the current highlighted item
+   */
+  normalizeHighlightIndex(highlightIndex) {
     const length = this.resultsListView.$el.find('li').length;
-    this.highlightIndex = (this.highlightIndex + length) % length;
+    this.highlightIndex = (highlightIndex + length) % length;
   }
 
+  /**
+   * Grabs new results from the data source
+   * @param {function} cb - the callback to pass the results to
+   * @returns {Promise} Return the promise
+   */
   refreshResults(cb) {
     return super.refreshResults((results) => {
       return cb(results.concat(this.fixedResults));
     });
   }
 
+  /**
+   * Apply event listeners and render html for the component
+   * @returns {string} The html for the component
+   */
   render() {
     super.render();
 
@@ -172,6 +197,9 @@ class Typeahead extends BaseTypeahead {
     return this.$el.html();
   }
 
+  /**
+   * Apply highlight to correct element in the list based on the current highlightIndex
+   */
   renderHighlight() {
     // remove the highlight
     this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS).removeClass(HIGHLIGHT_CLASS);
@@ -180,6 +208,11 @@ class Typeahead extends BaseTypeahead {
     this.resultsListView.$el.find('li').eq(this.highlightIndex).addClass(HIGHLIGHT_CLASS);
   }
 
+  /**
+   * Handles the rendering of a single item
+   * @param {string|object} item - The item to render
+   * @returns {string} The display value of the item
+   */
   renderItem(item) {
     // bold the matching part
     const originalText = String(this.getDisplayValue(item));
@@ -207,6 +240,9 @@ class Typeahead extends BaseTypeahead {
     return this.getDisplayValue(item);
   }
 
+  /**
+   * Make a selection based on the index that is highlighted
+   */
   selectByIndex() {
     if (!this.active()) {
       return;

@@ -12,7 +12,6 @@ const UIComponents = {
   BaseFragmentFactory: require('./BaseFragmentFactory'),
   PubSubHub: require('./PubSubHub'),
   State: require('./State'),
-  URL: require('./URL'),
   url: require('url'),
 
   // components

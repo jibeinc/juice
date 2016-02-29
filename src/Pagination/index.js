@@ -3,7 +3,24 @@
 require('imports?jQuery=jquery!../../node_modules/simplePagination/jquery.simplePagination.js');
 const BaseComponent = require('../BaseComponent');
 
+/**
+ * Class for creating a Pagination component
+ * @author Robbie Wagner
+ */
 class Pagination extends BaseComponent {
+  /**
+   * Create a new Pagination component
+   * @param {string} el - The selector for the element to put the Pagination component in
+   * @param {object} opts - The options for the component
+   * @param {number} opts.currentPage - The page we are currently on
+   * @param {number} opts.edges - How many page numbers are visible at the beginning and ending of pagination
+   * @param {string} opts.hrefTextPrefix - A string to prefix to the front of all hrefs
+   * @param {number} opts.items - The total number of items in the list
+   * @param {number} opts.itemsOnPage - The number of items to display per page
+   * @param {string} opts.nextText - The text to display in the next button
+   * @param {function} opts.onPageClick - A function to call when the page is changed
+   * @param {string} opts.prevText - The text to display in the previous button
+   */
   constructor(el, opts = {}) {
     super(el);
 
@@ -20,6 +37,11 @@ class Pagination extends BaseComponent {
     });
   }
 
+  /**
+   * Sets the value of the Pagination component to the given page number, and calls onPageClick, if it is defined
+   * @param {number} pageNumber - The page number transitioned to
+   * @param {event} event - The event fired
+   */
   pageChange(pageNumber, event) {
     this.set(pageNumber);
     if (this.onPageClick) {
@@ -29,6 +51,10 @@ class Pagination extends BaseComponent {
     }
   }
 
+  /**
+   * Initializes a simplePagination instance, and returns the html for the Pagination component
+   * @returns {string} The html to render for the Pagination component
+   */
   render() {
     this.$el.pagination({
       currentPage: this.get(),

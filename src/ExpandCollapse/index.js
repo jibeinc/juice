@@ -8,6 +8,7 @@ const collapseTmpl = require('./expandCollapseContent.tmpl');
 
 /**
  * Class for creating an expandable/collapsible component
+ * @author Robbie Wagner
  */
 class ExpandCollapse extends BaseComponent {
   /**
