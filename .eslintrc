@@ -42,6 +42,14 @@
     "no-undef": 2,
     "no-unreachable": 1,
     "no-unused-vars": 1,
+    "require-jsdoc": [1, {
+      "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": true
+      }
+    }],
+    "valid-jsdoc": 1,
     "yoda": [1, "never"],
     //ES6 Stuff
     "arrow-parens": 1,
