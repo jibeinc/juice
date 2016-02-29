@@ -38,13 +38,12 @@ const keyEvents = {
  */
 class BaseComponent {
   /**
-   *
+   * Creates a new BaseComponent
    * @param {string} el - The selector for the element to put the component in
    * @param {object} opts - The options for the component
    * @param {jQuery} opts.parentElement - A jQuery wrapped parent element, to find this child in
    * @param {boolean} opts.preserveChildElements - A boolean for whether or not to clear out the innerHTML
    * of the element when the component is created
-   * @returns {BaseComponent} A new instance of BaseComponent
    */
   constructor(el, opts = {}) {
     assert(el);
@@ -72,8 +71,6 @@ class BaseComponent {
       id: uuid.v4(),
       value: null
     });
-
-    return this;
   }
 
   /**
@@ -94,7 +91,6 @@ class BaseComponent {
 
   /**
    * Render must be overridden by the child component
-   * @returns {void}
    */
   render() {
     throw new Error('BaseComponent::render must be defined by child');

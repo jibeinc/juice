@@ -15,13 +15,11 @@ class CurrentLocation extends BaseComponent {
    * @param {object} opts - The options for the component
    * @param {string} opts.iconURL - The path to the icon image to use
    * @param {*} opts.geolocationAPI - The api to call to get the current location
-   * @returns {CurrentLocation} The CurrentLocation instance
    */
   constructor(el, opts = {}) {
     super(el);
     this.iconURL = opts.iconURL || iconURL;
     this.geolocationAPI = opts.geolocationAPI || window.navigator.geolocation;
-    return this;
   }
 
   /**

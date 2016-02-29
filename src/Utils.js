@@ -7,7 +7,6 @@ const bowser = require('bowser');
 class Utils {
   /**
    * Empty constructor
-   * @returns {void}
    */
   constructor() {
   }
@@ -16,7 +15,6 @@ class Utils {
    * Binds to either click or touch, based on what is available
    * @param {jQuery} element The jquery wrapped element to bind to
    * @param {function} onClickFunction The function to call on click or touch
-   * @returns {void}
    */
   static bindClick(element, onClickFunction) {
     // JJT-2261

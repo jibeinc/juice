@@ -1,19 +1,6 @@
 'use strict';
 
-// Extends BaseTypeahead by adding:
-//
-// - the concept of "active"
-// - the use of arrow keys/enter to pick from the results list
-// - blur/focus events to close/open the results list
-// - add highlights for partial matches
-// - ESC key forces blur
-// - point to click from results list and hover highlight
-// - hover highlight renders list view results on top of page instead of pushing elements down
-
-// less
 require('./styles.less');
-
-// scripts
 const _ = require('lodash');
 const $ = require('jquery');
 const BaseTypeahead = require('./BaseTypeahead');
@@ -21,22 +8,43 @@ const Utils = require('../Utils');
 
 const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
+/**
+ * Extends BaseTypeahead by adding:
+ * - the concept of "active"
+ * - the use of arrow keys/enter to pick from the results list
+ * - blur/focus events to close/open the results list
+ * - add highlights for partial matches
+ * - ESC key forces blur
+ * - point to click from results list and hover highlight
+ * - hover highlight renders list view results on top of page instead of pushing elements down
+ */
 class Typeahead extends BaseTypeahead {
+  /**
+   * Creates a new Typeahead component
+   * @param {string} el - The selector for the element to put the Typeahead in
+   * @param {object} opts - The options for the component
+   * @param {boolean} opts.allowFreeForm - A boolean indicating if free form input will be accepted
+   * @param {string} opts.displayProperty - A string indicating the property name of the property to display
+   * @param {*[]} opts.fixedResults - An array of results to always display
+   */
   constructor(el, opts = {}) {
     opts.renderItem = (item) => {
       return this.renderItem(item);
     };
+
     super(el, opts);
-    this.fixedResults = opts.fixedResults || [];
-    this.allowFreeForm = opts.allowFreeForm || false;
-    this.displayProperty = opts.displayProperty || 'displayName';
-    return this;
+
+    Object.assign(this, {
+      allowFreeForm: opts.allowFreeForm || false,
+      displayProperty: opts.displayProperty || 'displayName',
+      fixedResults: opts.fixedResults || []
+    });
   }
 
   /**
-   * Show of hide the listView depending on if active is true or false, set isActive
-   * @param v The boolean for whether active or not
-   * @returns {boolean|*}
+   * Show or hide the listView depending on if active is true or false, set isActive
+   * @param {boolean} v - Active or not
+   * @returns {boolean|*} if active is true or false
    */
   active(v) {
     if (_.isBoolean(v)) {

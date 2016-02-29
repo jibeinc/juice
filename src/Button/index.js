@@ -17,14 +17,12 @@ class Button extends BaseComponent {
    * @param {string} opts.label - The text to display in the button
    * @param {boolean} opts.submit - A boolean indicating if this is of type submit or not
    * @param {boolean} opts.preventPropogation - A boolean to enable preventPropogation
-   * @returns {Button} The Button instance
    */
   constructor(el, opts = {}) {
     super(el);
     this.label = opts.label || 'ClickMe!';
     this.submit = opts.submit || false;
     this.preventPropagation = opts.preventPropagation || false;
-    return this;
   }
 
   /**

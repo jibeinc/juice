@@ -15,7 +15,6 @@ class ExpandCollapse extends BaseComponent {
    * @param {string} el - The selector for the element wrapping the content you want to expand/collapse
    * @param {object} opts - The options for the component
    * @param {string} opts.toggleSelector - The selector for the element to click to expand/collapse the content
-   * @returns {ExpandCollapse} The ExpandCollapse instance
    */
   constructor(el, opts = {}) {
     super(el, {
@@ -28,14 +27,11 @@ class ExpandCollapse extends BaseComponent {
     } else {
       this.opts = opts;
     }
-
-    return this;
   }
 
   /**
    * Expand/collapse the content
    * @param {boolean} isToggled - A boolean indicating toggled or not
-   * @returns {void}
    */
   expandCollapse(isToggled) {
     if (isToggled) {

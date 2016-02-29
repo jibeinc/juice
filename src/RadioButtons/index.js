@@ -30,7 +30,7 @@ class RadioButtons extends BaseComponent {
   /**
    * The render function for each individual radio button
    * @param {object} item The item to display
-   * @returns {void}
+   * @returns {string} The string of the item object
    */
   renderItem(item) {
     return JSON.stringify(item[this.displayNameKey]);
@@ -39,7 +39,6 @@ class RadioButtons extends BaseComponent {
   /**
    * Set the possible radio button options for the component
    * @param {string[]|object[]} options - An array of options representing each radio button
-   * @returns {void}
    */
   setOptions(options) {
     const selection = this.get();

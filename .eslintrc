@@ -49,7 +49,9 @@
         "ClassDeclaration": true
       }
     }],
-    "valid-jsdoc": 1,
+    "valid-jsdoc": [1, {
+      "requireReturn": false
+    }],
     "yoda": [1, "never"],
     //ES6 Stuff
     "arrow-parens": 1,
