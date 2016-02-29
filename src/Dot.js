@@ -38,6 +38,16 @@ class DotService {
   }
 
   /**
+   * Compile the passed dot template with the passed data
+   * @param {string} template - The dot template we want to compile
+   * @param {object} data - The model storing the data to insert into the dot template
+   * @returns {string} The compiled html to display
+   */
+  compile(template, data) {
+    return this.doT.template(template, dotConfigOverrides, globalTemplateMap)(data);
+  }
+
+  /**
    * Gets a doT template, interpolates the model into it, converts it into a jQuery DOM,
    * then appends it to the DOM based on the given css selector
    * @param {string} template - The template string
@@ -55,10 +65,6 @@ class DotService {
 
     const renderIntoDOMWith = this.doT.template(template, dotConfigOverrides, globalTemplateMap);
     $(cssSelector).html(renderIntoDOMWith(viewModel));
-  }
-
-  compile(template, data) {
-    return this.doT.template(template, dotConfigOverrides, globalTemplateMap)(data);
   }
 }
 

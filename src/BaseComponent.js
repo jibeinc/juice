@@ -83,7 +83,7 @@ class BaseComponent {
 
   /**
    * Call the PSHub publish
-   * @param msg
+   * @param {*} msg - The message to publish
    */
   publish(msg) {
     PSHub.publish(this.id, msg);

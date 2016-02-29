@@ -1,24 +1,46 @@
 const Baobab = require('baobab');
 
-// centralized state
+/**
+ * Class representing centralized baobab state
+ */
 class State {
-  constructor(initialState={}, opts={}) {
-    this.state = new Baobab(initialState, opts);
-
-    this.cursors = {};
-    this.modifiers = {};
+  /**
+   * Creates a new State instance
+   * @param {object} initialState - The initial state
+   * @param {object} opts - The opts for the state
+   */
+  constructor(initialState = {}, opts = {}) {
+    Object.assign(this, {
+      cursors: {},
+      modifiers: {},
+      state: new Baobab(initialState, opts)
+    });
   }
 
-  commit () {
+  /**
+   * Commit the changes to the state synchronously
+   * @returns {*} The commit
+   */
+  commit() {
     return this.state.commit();
   }
 
-  curse (selector) {
+  /**
+   * Create a new cursor
+   * @param {string} selector - The key to store a cursor at
+   * @returns {*} The new cursor
+   */
+  curse(selector) {
     this.cursors[selector] = this.state.select(selector);
     return this.cursors[selector];
   }
 
-  define (name, customFn) {
+  /**
+   * Define a modifier for the given name
+   * @param {string} name - the name of the modifier
+   * @param {function} customFn - The function to store in modifiers
+   */
+  define(name, customFn) {
     this.modifiers[name] = customFn.bind(this);
   }
 }
