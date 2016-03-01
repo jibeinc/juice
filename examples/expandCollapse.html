@@ -31,9 +31,8 @@
   </div>
 
   <script>
-    var container = new UI.ExpandCollapse('.expand-collapse-test-container', {
+    var container = new UI.ExpandCollapse('.expand-collapse-test-container', '.toggle', {
       toggledClass: 'i-am-toggled',
-      toggleSelector: '.toggle',
       untoggledClass: 'i-am-NOT-toggled'
     });
     container.render();

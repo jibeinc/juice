@@ -72,17 +72,18 @@
       }
     ];
 
-    var locationSearch = new UI.LocationTypeahead('.location-search', {
-      fetch: function (term, cb) {
-        var matches = db.filter(function (item) {
-          return (item.displayName + '').toLowerCase().indexOf(term.toLowerCase()) !== -1;
-        });
+    var fetch = function (term, cb) {
+      var matches = db.filter(function (item) {
+        return (item.displayName + '').toLowerCase().indexOf(term.toLowerCase()) !== -1;
+      });
 
-        // mimic ajax
-        setTimeout(function () {
-          cb(matches);
-        }, 50);
-      },
+      // mimic ajax
+      setTimeout(function () {
+        cb(matches);
+      }, 50);
+    };
+
+    var locationSearch = new UI.LocationTypeahead('.location-search', fetch, {
       geolocationAPI: window.navigator.geolocation,
       textInputOpts: {
         placeholder: 'Try "New York"'

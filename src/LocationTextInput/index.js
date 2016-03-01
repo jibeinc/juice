@@ -1,32 +1,25 @@
 'use strict';
 
-/*
- **  @class: LocationTextInput
- **  @description:
- **    This textInput Implementation provides additional UI behaviors to the icon element
- **    over the default textInput class.
- **      - If the icon is clicked while the value is empty, the browser's GeoLocation API
- **        will default the value with the user's current location
- **
- **  @param {String} el - the DOM element to attach to
- **  @param {Object} opts - the options to configure this element
- **
- **  @author: Naveed Nadjmabadi
- */
-
-// css
 require('./styles.css');
-
-// html
 const inputTmpl = require('./input.tmpl');
-
-// scripts
 const $ = require('jquery');
 const TextInput = require('../TextInput');
 const CurrentLocation = require('../CurrentLocation');
 
+/**
+ * This TextInput Implementation provides additional UI behaviors to the icon element
+ * over the default TextInput class.
+ * - If the icon is clicked while the value is empty, the browser's GeoLocation API
+ * will default the value with the user's current location
+ *
+ * @author: Naveed Nadjmabadi
+ */
 class LocationTextInput extends TextInput {
-
+  /**
+   * Creates a new LocationTextInput
+   * @param {string} el - the selector for the element to attach to
+   * @param {object} opts - The options for the component
+   */
   constructor(el, opts = {}) {
     super(el, opts);
 
@@ -34,12 +27,13 @@ class LocationTextInput extends TextInput {
       locationIcon: null,
       $location: null
     });
-
-    return this;
   }
 
+  /**
+   * Gets the current value, and is it has a displayName, finds that
+   * @returns {string} The current value
+   */
   get() {
-
     if ($.isPlainObject(this.value) && this.value.displayName) {
       return this.value.displayName;
     }
@@ -47,6 +41,10 @@ class LocationTextInput extends TextInput {
     return super.get();
   }
 
+  /**
+   * Sets the value of the LocationTextInput
+   * @param {string|object} v - the value to set
+   */
   set(v) {
 
     // If the textInput contains location data
@@ -60,12 +58,14 @@ class LocationTextInput extends TextInput {
       this.publish(this.get());
       this.showHideIcon();
     }
-
     else {
       super.set(v);
     }
   }
 
+  /**
+   * Renders the html for the LocationTextInput and its CurrentLocation icon
+   */
   renderDom() {
     // the base input
     this.$el.html(inputTmpl(this));
@@ -86,6 +86,9 @@ class LocationTextInput extends TextInput {
     this.locationIcon.render();
   }
 
+  /**
+   * Shows or hides the icon
+   */
   showHideIcon() {
     if (this.$icon) {
       if (this.get()) {

@@ -1,27 +1,28 @@
 'use strict';
 
-// @deprecated
-// # TextInput
-// publishes a nicely throttled text input event
-// adds a clearing x icon
-//
-// Please do not use this class anymore. It has been kept around for legacy reasons, but will
-// be deleted soon
-
-// css
 require('../styles.css');
-
-// html
 const inputTmpl = require('./input.tmpl');
 const iconTmpl = require('./icon.tmpl');
 const iconWrapper = require('./iconWrapper.html');
-
-// scripts
 const BaseComponent = require('../../BaseComponent');
 const debounce = require('debounce');
 const Utils = require('../../Utils');
 
+/**
+ * @deprecated
+ *
+ * publishes a nicely throttled text input event
+ * adds a clearing x icon
+ *
+ * Please do not use this class anymore. It has been kept around for legacy reasons, but will
+ * be deleted soon
+ */
 class TextInput extends BaseComponent {
+  /**
+   * Creates a new TextInput
+   * @param {string} el - The selector for the element to put the TextInput in
+   * @param {object} opts - The options for the component
+   */
   constructor(el, opts = {}) {
     super(el);
     Object.assign(this, {
@@ -35,10 +36,12 @@ class TextInput extends BaseComponent {
       value: opts.value || '',
       wait: opts.wait || 300
     });
-
-    return this;
   }
 
+  /**
+   * Renders the html for the component and sets up event listeners
+   * @returns {string} The html for the component
+   */
   render() {
     // the base input
     this.$el.addClass('ui-text-input');
@@ -83,6 +86,9 @@ class TextInput extends BaseComponent {
     return this.$el.html();
   }
 
+  /**
+   * Shows/hides the icon
+   */
   showHideIcon() {
     if (this.showIconOnNotEmpty) {
       if (this.get()) {
@@ -94,10 +100,19 @@ class TextInput extends BaseComponent {
     }
   }
 
+  /**
+   * Gets the current value
+   * @returns {string} The current value
+   */
   get() {
     return (typeof this.value === 'undefined') ? '' : this.value;
   }
 
+  /**
+   * Sets the current value
+   * @param {string} v - the new value
+   * @returns {TextInput} the instance of TextInput
+   */
   set(v) {
     this.value = v;
     if (this.$input) {

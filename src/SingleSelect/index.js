@@ -1,31 +1,25 @@
 'use strict';
 
-//  @title: SingleSelect
-//  @author: jhatcher
-//  @description:
-//    Simple dropdown list with the ability to choose one option
-//  @todo:
-//    - styles
-
-// css
 require('./styles.css');
-
-// html
 const selectTmpl = require('./select.tmpl');
-
-// scripts
 const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 
+/**
+ * Simple dropdown list with the ability to choose one option
+ * @todo
+ * - styles
+ * @author John Hatcher
+ */
 class SingleSelect extends BaseComponent {
-
-// @constructor
-// @param {String} el   - The dom element to attach to
-// @param {Object} opts - The options passed in to configure this component
-// @param {Array} opts.options - each option to be rendered, containing 3 attributes (2 are passed in):
-//    @prop {String} [optional] display - the display to render for the option
-//    @prop {String} value - the data value to send to the server
-
+  /**
+   * Create a new SingleSelect
+   * @param {string} el - The dom element to attach to
+   * @param {object} opts - The options passed in to configure this component
+   * @param {*[]} opts.options - each option to be rendered, containing 3 attributes (2 are passed in):
+   *        {string} [display] - the display to render for the option
+   *        {string} value - the data value to send to the server
+   */
   constructor(el, opts = {}) {
     super(el);
     this.options = (opts.options || []).map((opt) => {
@@ -43,8 +37,10 @@ class SingleSelect extends BaseComponent {
     });
   }
 
-// @method
-// @returns the display attribute of the option if it exists, fallback to the value
+  /**
+   * Get the display value
+   * @returns {*} the display attribute of the option if it exists, fallback to the value
+   */
   getDisplayValue() {
     let display;
 
@@ -56,8 +52,23 @@ class SingleSelect extends BaseComponent {
     return display;
   }
 
-// @method
-// @param {Object} v - the Option Object (display,value,selected) to set
+  /**
+   * Renders the html for the component and applies event listeners
+   * @returns {string} The html for the component
+   */
+  render() {
+    this.$el.html(selectTmpl(this));
+    this.$el.find('select').change((evt) => {
+      this.set($(evt.target).val());
+    });
+    return this.$el.html();
+  }
+
+  /**
+   * Set the selected value
+   * @param {object} v - the Option Object (display,value,selected) to set
+   * @returns {string} The html for the component
+   */
   set(v) {
     this.options = this.options.map((opt) => {
       opt.selected = opt.value === v;
@@ -65,16 +76,6 @@ class SingleSelect extends BaseComponent {
     });
 
     return super.set(v);
-  }
-
-// @method
-// @returns the HTML of the element
-  render() {
-    this.$el.html(selectTmpl(this));
-    this.$el.find('select').change((evt) => {
-      this.set($(evt.target).val());
-    });
-    return this.$el.html();
   }
 }
 

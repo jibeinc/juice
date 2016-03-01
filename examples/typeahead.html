@@ -41,15 +41,15 @@
       displayName: 2000100000
     }];
 
-    var searchNumbers = new UI.Typeahead('.search', {
-      fetch: function(term, cb) {
-        var matches = db.filter(function(item) {
-          return (item.displayName + '').indexOf(term) !== -1;
-        });
+    var fetch = function(term, cb) {
+      var matches = db.filter(function(item) {
+        return (item.displayName + '').indexOf(term) !== -1;
+      });
 
-        cb(matches);
-      },
+      cb(matches);
+    };
 
+    var searchNumbers = new UI.Typeahead('.search', fetch, {
       allowFreeForm: true,
       fixedResults: [{
         displayName: '-- use my membership id --'

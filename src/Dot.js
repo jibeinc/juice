@@ -25,19 +25,34 @@ const globalTemplateMap = {
   }
 };
 
+/**
+ * Class for working with dot and rendering DOM
+ */
 class DotService {
-
+  /**
+   * Creates a new Dot instance
+   * @param {object} doT The doT object
+   */
   constructor(doT) {
     this.doT = doT;
   }
 
   /**
-   * gets a doT template, interpolates the model into it,
-   * converts it into a jQuery DOM, then appends it to the DOM
-   * based on the given css selector
-   * @param {String} template
-   * @param {String} cssSelector
-   * @param {Object} viewModel
+   * Compile the passed dot template with the passed data
+   * @param {string} template - The dot template we want to compile
+   * @param {object} data - The model storing the data to insert into the dot template
+   * @returns {string} The compiled html to display
+   */
+  compile(template, data) {
+    return this.doT.template(template, dotConfigOverrides, globalTemplateMap)(data);
+  }
+
+  /**
+   * Gets a doT template, interpolates the model into it, converts it into a jQuery DOM,
+   * then appends it to the DOM based on the given css selector
+   * @param {string} template - The template string
+   * @param {string} cssSelector - The selector of the element to render the template into
+   * @param {object} viewModel - The model with the data to fill in the template
    */
   renderIntoDOM(template, cssSelector, viewModel) {
     if (!template) {
@@ -49,11 +64,7 @@ class DotService {
     }
 
     const renderIntoDOMWith = this.doT.template(template, dotConfigOverrides, globalTemplateMap);
-    return $(cssSelector).html(renderIntoDOMWith(viewModel));
-  }
-
-  compile(template, data) {
-    return this.doT.template(template, dotConfigOverrides, globalTemplateMap)(data);
+    $(cssSelector).html(renderIntoDOMWith(viewModel));
   }
 }
 
