@@ -1,6 +1,6 @@
 {
   "name": "jibe-ui-components",
-  "version": "0.1.11",
+  "version": "0.2.2",
   "description": "General JavaScript classes for common UI components",
   "engines": {
     "node": ">=5.0.0"
