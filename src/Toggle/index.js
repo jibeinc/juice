@@ -11,9 +11,8 @@ class Toggle extends BaseComponent {
    * Create a new Toggle component
    * @param {string} el - The selector for the element to make into a toggle
    * @param {object} opts - The options for the component
-   * @param {string} opts.toggledClass - A class to apply when the toggle is true
-   * @param {string} opts.untoggledClass - A class to apply when the toggle is false
-   * @returns {Toggle} The Toggle component
+   * @param {string} [opts.toggledClass] - A class to apply when the toggle is true
+   * @param {string} [opts.untoggledClass] - A class to apply when the toggle is false
    */
   constructor(el, opts = {}) {
     super(el, {
@@ -51,8 +50,6 @@ class Toggle extends BaseComponent {
       }
       this.set(!this.value);
     });
-
-    return this;
   }
 
   /**

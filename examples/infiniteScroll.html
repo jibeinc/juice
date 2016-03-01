@@ -74,10 +74,9 @@
 
   list.render();
 
-  var infiniteScroll = new UI.InfiniteScroll('.infinite-scroll-test', {
+  var infiniteScroll = new UI.InfiniteScroll('.infinite-scroll-test', list.refresh.bind(list), {
     debounceWait: 250,
-    onScrollToBottom: list.refresh.bind(list),
-    scrollTrigger: 0.9,
+    scrollTrigger: 0.65,
     windowScroll: false
   });
 

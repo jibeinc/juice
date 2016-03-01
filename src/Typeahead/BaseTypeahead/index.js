@@ -22,15 +22,15 @@ class BaseTypeahead extends BaseComponent {
   /**
    * Creates a new BaseTypeahead component
    * @param {string} el - The selector for the element to put the BaseTypeahead in
+   * @param {function} fetch - The function to call to fetch/refresh results
    * @param {object} opts - The options for the component
-   * @param {function} opts.fetch - The function to call to fetch/refresh results
    * @param {object} opts.textInputOpts - The options to pass to the TextInput
    */
-  constructor(el, opts = {}) {
+  constructor(el, fetch, opts = {}) {
     super(el, opts);
 
     Object.assign(this, {
-      fetch: opts.fetch,
+      fetch,
       textInputOpts: opts.textInputOpts || {}
     });
 

@@ -14,8 +14,8 @@ class MultiSelect extends BaseComponent {
    * Creates a new MultiSelect component
    * @param {string} el - The selector for the element to put the MultiSelect in
    * @param {object} opts - The options for the component
-   * @param {string} opts.displayNameKey - A string indicating the index of the displayName property
-   * @param {function} opts.renderItem - A function to render each item
+   * @param {string} [opts.displayNameKey] - A string indicating the index of the displayName property
+   * @param {function} [opts.renderItem] - A function to render each item
    */
   constructor(el, opts = {}) {
     super(el);

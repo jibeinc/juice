@@ -2,6 +2,7 @@
 
 require('./styles.css');
 
+const _ = require('lodash');
 const BaseComponent = require('../BaseComponent');
 const Toggle = require('../Toggle/');
 const collapseTmpl = require('./expandCollapseContent.tmpl');
@@ -14,19 +15,21 @@ class ExpandCollapse extends BaseComponent {
   /**
    * Create an ExpandCollapse component
    * @param {string} el - The selector for the element wrapping the content you want to expand/collapse
+   * @param {string} toggleSelector - The selector for the element to click to expand/collapse the content
    * @param {object} opts - The options for the component
-   * @param {string} opts.toggleSelector - The selector for the element to click to expand/collapse the content
    */
-  constructor(el, opts = {}) {
+  constructor(el, toggleSelector, opts = {}) {
     super(el, {
       parentElement: opts.parentElement,
       preserveChildElements: true
     });
 
-    if (!opts.toggleSelector) {
-      throw new Error('You must provide a toggleSelector');
-    } else {
+    if (_.isString(toggleSelector)) {
+      this.toggleSelector = toggleSelector;
       this.opts = opts;
+    }
+    else {
+      throw new Error('You must provide a toggleSelector');
     }
   }
 
@@ -53,7 +56,7 @@ class ExpandCollapse extends BaseComponent {
       this.$el.html(collapseTmpl(innerContent));
     }
 
-    const toggle = new Toggle(this.opts.toggleSelector, this.opts);
+    const toggle = new Toggle(this.toggleSelector, this.opts);
     toggle.render();
 
     toggle.subscribe((isToggled) => {
