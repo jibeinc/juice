@@ -1,22 +1,22 @@
 'use strict'
 
 /*
-** @description
-**  The root class of all UI components. This component is meant to function as an
-**  abstract class. DO NOT try and instantiate this, only one of its child components.
-**  The purpose of this class is to:
-**    - to handle the publish() and subscribe() methods (for communication with pubSub)
-**    - to create the DOM element for the UI component
-**    - default implementations of get() and set()
-**
-** @param {String} el - the DOM element associated with this UI component
-** @param {Object} opts - the set of options to configure this component
-** @param {String} opts.parentElement - the parent node to attach this component to
-** @param {Boolean} opts.preserveChildElements - whether or not to remove DOM nodes that are
-** child elements of the current el passed in
-**
-** @author: John Hatcher
-*/
+ ** @description
+ **  The root class of all UI components. This component is meant to function as an
+ **  abstract class. DO NOT try and instantiate this, only one of its child components.
+ **  The purpose of this class is to:
+ **    - to handle the publish() and subscribe() methods (for communication with pubSub)
+ **    - to create the DOM element for the UI component
+ **    - default implementations of get() and set()
+ **
+ ** @param {String} el - the DOM element associated with this UI component
+ ** @param {Object} opts - the set of options to configure this component
+ ** @param {String} opts.parentElement - the parent node to attach this component to
+ ** @param {Boolean} opts.preserveChildElements - whether or not to remove DOM nodes that are
+ ** child elements of the current el passed in
+ **
+ ** @author: John Hatcher
+ */
 
 const $ = require('jquery');
 const uuid = require('uuid');
@@ -33,7 +33,18 @@ const keyEvents = {
   DOWN: 40
 };
 
+/**
+ * Class for base component functionality that all components will inherit from
+ */
 class BaseComponent {
+  /**
+   * Creates a new BaseComponent
+   * @param {string} el - The selector for the element to put the component in
+   * @param {object} opts - The options for the component
+   * @param {jQuery} opts.parentElement - A jQuery wrapped parent element, to find this child in
+   * @param {boolean} opts.preserveChildElements - A boolean for whether or not to clear out the innerHTML
+   * of the element when the component is created
+   */
   constructor(el, opts = {}) {
     assert(el);
 
@@ -60,31 +71,50 @@ class BaseComponent {
       id: uuid.v4(),
       value: null
     });
-
-    return this;
   }
 
-  render() {
-    throw new Error('BaseComponent::render must be defined by child');
-  }
-
+  /**
+   * Gets the component's current value
+   * @returns {*} The currently set value of the component
+   */
   get() {
     return this.value;
   }
 
+  /**
+   * Call the PSHub publish
+   * @param {*} msg - The message to publish
+   */
+  publish(msg) {
+    PSHub.publish(this.id, msg);
+  }
+
+  /**
+   * Render must be overridden by the child component
+   */
+  render() {
+    throw new Error('BaseComponent::render must be defined by child');
+  }
+
+  /**
+   * Sets the component's value
+   * @param {*} v - The new value for the component
+   * @returns {string} The newly updated html
+   */
   set(v) {
     this.value = v;
     this.publish(this.get());
     return this.render();
   }
 
+  /**
+   * Subscribes the PSHub to the supplied listener
+   * @param {function} listener - The listener to call when the component's value changes
+   * @returns {BaseComponent} The component instance
+   */
   subscribe(listener) {
     PSHub.subscribe(this.id, listener);
     return this;
-  }
-
-  publish(msg) {
-    PSHub.publish(this.id, msg);
   }
 }
 

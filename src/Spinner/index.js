@@ -1,18 +1,13 @@
 'use strict';
 
-// # Render a spinner
-
-// css
 require('./styles.css');
-
-// scripts
 const $ = require('jquery');
 const BaseSpinner = require('spin.js');
 const BaseComponent = require('../BaseComponent');
 
 /**
  * Example:
-    var opts = {
+ var opts = {
       lines: 12,             // The number of lines to draw
       length: 7,             // The length of each line
       width: 5,              // The line thickness
@@ -35,11 +30,19 @@ const BaseComponent = require('../BaseComponent');
       position: 'absolute'   // Element positioning
     }
 
-    var target = document.getElementById('foo')
-    var spinner = new Spinner(opts).spin(target)
+ var target = document.getElementById('foo')
+ var spinner = new Spinner(opts).spin(target)
  */
 
+/**
+ * Class to render a loading spinner
+ */
 class Spinner extends BaseComponent {
+  /**
+   * Create a new spinner
+   * @param {string} el - The selector for the element to put the spinner in
+   * @param {object} opts - The options for the component
+   */
   constructor(el, opts = {}) {
     $('.juicy-spinner').remove();
     $('.juicy-spinner-container').remove();
@@ -65,6 +68,10 @@ class Spinner extends BaseComponent {
     this.spinner = new BaseSpinner(opts);
   }
 
+  /**
+   * Add the overlay and start the spinner
+   * @returns {Promise} The spinner spin Promise
+   */
   start() {
     this.toggleOverlay(true);
     this.publish();
@@ -74,19 +81,35 @@ class Spinner extends BaseComponent {
     return this.spinner.spin(target);
   }
 
+  /**
+   * Remove the overlay and stop the spinner
+   * @returns {Promise} The spinner stop Promise
+   */
   stop() {
     this.toggleOverlay(false);
     return this.spinner.stop();
   }
 
+  /**
+   * Starts the spinner on render
+   * @returns {Promise} The spinner start promise
+   */
   render() {
     return this.start();
   }
 
-  get () {
+  /**
+   * Get the spinner
+   * @returns {object|null} The spinner or null
+   */
+  get() {
     return this.spinner || null;
   }
 
+  /**
+   * Shows/hides the greyed out overlay
+   * @param {boolean} toggle Whether to display the overlay or not
+   */
   toggleOverlay(toggle) {
 
     if (toggle) {
@@ -99,7 +122,11 @@ class Spinner extends BaseComponent {
     }
   }
 
-  set (opts) {
+  /**
+   * Set the options and create a new spinner
+   * @param {object} opts - The options for the spinner
+   */
+  set(opts) {
     const newOpts = $.extend({}, this.opts, opts);
 
     // destroy reference to spinner & recreate w/ newOpts

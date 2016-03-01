@@ -1,14 +1,20 @@
 'use strict';
 
-// html
-const radioButtonsTmpl = require('./radioButtons.dot');
-
-// scripts
 const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
+const radioButtonsTmpl = require('./radioButtons.dot');
 const Utils = require('../Utils');
 
+/**
+ * Class for creating a RadioButtons component
+ */
 class RadioButtons extends BaseComponent {
+  /**
+   * Create a new RadioButtons component
+   * @param {string} el - The selector for the element to put the radio buttons in
+   * @param {object} opts - The options for the component
+   * @returns {RadioButtons} The new instance of RadioButtons
+   */
   constructor(el, opts = {}) {
     super(el);
     Object.assign(this, {
@@ -18,12 +24,22 @@ class RadioButtons extends BaseComponent {
     });
 
     this.setOptions(opts.options || []);
+    return this;
   }
 
+  /**
+   * The render function for each individual radio button
+   * @param {object} item The item to display
+   * @returns {string} The string of the item object
+   */
   renderItem(item) {
     return JSON.stringify(item[this.displayNameKey]);
   }
 
+  /**
+   * Set the possible radio button options for the component
+   * @param {string[]|object[]} options - An array of options representing each radio button
+   */
   setOptions(options) {
     const selection = this.get();
     this.options = options.map((opt) => {
@@ -42,6 +58,10 @@ class RadioButtons extends BaseComponent {
     });
   }
 
+  /**
+   * Get the selected option
+   * @returns {object|null} The selected option
+   */
   get() {
     this.options = this.options || [];
     const selected = this.options.filter((opt) => {
@@ -50,6 +70,10 @@ class RadioButtons extends BaseComponent {
     return selected[0] || null;
   }
 
+  /**
+   * Render the html for the RadioButtons component and apply event listeners
+   * @returns {string} The html for the RadioButtons component
+   */
   render() {
     this.$el.html(radioButtonsTmpl(this));
     Utils.bindClick(this.$el.find('label'), (evt) => {
@@ -63,7 +87,8 @@ class RadioButtons extends BaseComponent {
 
   /**
    * Check the options against the value passed
-   * @param selected a value to select
+   * @param {*} selected a value to select
+   * @returns {RadioButtons} The RadioButtons instance
    */
   set(selected) {
     this.options.forEach((option) => {

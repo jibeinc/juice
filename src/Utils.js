@@ -1,18 +1,22 @@
 const $ = require('jquery');
 const bowser = require('bowser');
 
+/**
+ * A class to hold utils methods
+ */
 class Utils {
+  /**
+   * Empty constructor
+   */
   constructor() {
-
   }
 
   /**
    * Binds to either click or touch, based on what is available
-   * @param element The jquery wrapped element to bind to
-   * @param onClickFunction The function to call on click or touch
+   * @param {jQuery} element The jquery wrapped element to bind to
+   * @param {function} onClickFunction The function to call on click or touch
    */
   static bindClick(element, onClickFunction) {
-
     // JJT-2261
     // detect windows8+chrome48 for touchstart bug
     const isBadChrome48 = bowser.chrome && bowser.version >= 48

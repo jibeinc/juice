@@ -4,7 +4,16 @@ const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 const debounce = require('debounce');
 
+/**
+ * Class for implementing infinite scroll triggers and logic
+ * @author Robbie Wagner
+ */
 class InfiniteScroll extends BaseComponent {
+  /**
+   * Creates a new InfiniteScroll component
+   * @param {string} el - The selector for the element to apply InfiniteScroll to
+   * @param {object} opts - The options for the component
+   */
   constructor(el, opts = {}) {
     super(el, {
       preserveChildElements: true
@@ -28,11 +37,12 @@ class InfiniteScroll extends BaseComponent {
         this.onScrollToBottom();
       }
     }, debounceWait, false));
-
-    return this;
   }
 
-
+  /**
+   * Renders the html for infinite scroll
+   * @returns {string} The html for the component
+   */
   render() {
     return this.$el.html();
   }
