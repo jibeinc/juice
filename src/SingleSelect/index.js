@@ -17,7 +17,7 @@ class SingleSelect extends BaseComponent {
    * @param {string} el - The dom element to attach to
    * @param {object} opts - The options passed in to configure this component
    * @param {*[]} opts.options - each option to be rendered, containing 3 attributes (2 are passed in):
-   *        {string} [optional] display - the display to render for the option
+   *        {string} [display] - the display to render for the option
    *        {string} value - the data value to send to the server
    */
   constructor(el, opts = {}) {

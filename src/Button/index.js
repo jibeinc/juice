@@ -14,9 +14,9 @@ class Button extends BaseComponent {
    * Create a button
    * @param {string} el - The selector for the element to put the button in
    * @param {object} opts - The options for the component
-   * @param {string} opts.label - The text to display in the button
-   * @param {boolean} opts.submit - A boolean indicating if this is of type submit or not
-   * @param {boolean} opts.preventPropogation - A boolean to enable preventPropogation
+   * @param {string} [opts.label] - The text to display in the button
+   * @param {boolean} [opts.submit] - A boolean indicating if this is of type submit or not
+   * @param {boolean} [opts.preventPropogation] - A boolean to enable preventPropogation
    */
   constructor(el, opts = {}) {
     super(el);

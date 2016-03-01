@@ -19,12 +19,12 @@ class ListView extends BaseComponent {
    * Creates a new ListView component
    * @param {string} el - The selector for the element to put the ListView in
    * @param {object} opts - The options for the component
-   * @param {function} opts.fetch - A function to pull new data
-   * @param {object} opts.listItemOpts - An object containing options specifically for each item in listView
-   * @param {object} opts.listItemOpts.attrs - a list of CSS attributes to put on each ListItem
-   * @param {boolean} opts.listItemOpts.stopPropogation - prevents the click handler from bubbling the event upwards
-   * @param {function} opts.renderItem - Determines how each listElement will be displayed in DOM
-   * @param {*[]} opts.results - Prefill the component with data
+   * @param {function} [opts.fetch] - A function to pull new data
+   * @param {object} [opts.listItemOpts] - An object containing options specifically for each item in listView
+   * @param {object} [opts.listItemOpts.attrs] - a list of CSS attributes to put on each ListItem
+   * @param {boolean} [opts.listItemOpts.stopPropogation] - prevents the click handler from bubbling the event upwards
+   * @param {function} [opts.renderItem] - Determines how each listElement will be displayed in DOM
+   * @param {*[]} [opts.results] - Prefill the component with data
    */
   constructor(el, opts = {}) {
     super(el, opts);

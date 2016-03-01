@@ -16,10 +16,11 @@ class LocationTypeahead extends Typeahead {
   /**
    * Create a new LocationTypeahead
    * @param {string} el - The selector for the element to put the LocationTypeahed in
+   * @param {function} fetch - The function to call to fetch/refresh results
    * @param {object} opts - The options for the component
-   * @param {*[]} opts.fixedResults - An array of results to always display
+   * @param {*[]} [opts.fixedResults] - An array of results to always display
    */
-  constructor(el, opts = {}) {
+  constructor(el, fetch, opts = {}) {
     // define the "current location" icon DOM fragment
     const iconFactory = new FragFactory({
       render: (data) => {
@@ -49,7 +50,7 @@ class LocationTypeahead extends Typeahead {
       }
     }]);
 
-    super(el, opts);
+    super(el, fetch, opts);
 
     this.iconFactory = iconFactory;
     this.$el.addClass('ui-location-typeahead');

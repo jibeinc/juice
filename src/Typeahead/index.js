@@ -22,17 +22,18 @@ class Typeahead extends BaseTypeahead {
   /**
    * Creates a new Typeahead component
    * @param {string} el - The selector for the element to put the Typeahead in
+   * @param {function} fetch - The function to call to fetch/refresh results
    * @param {object} opts - The options for the component
-   * @param {boolean} opts.allowFreeForm - A boolean indicating if free form input will be accepted
-   * @param {string} opts.displayProperty - A string indicating the property name of the property to display
-   * @param {*[]} opts.fixedResults - An array of results to always display
+   * @param {boolean} [opts.allowFreeForm] - A boolean indicating if free form input will be accepted
+   * @param {string} [opts.displayProperty] - A string indicating the property name of the property to display
+   * @param {*[]} [opts.fixedResults] - An array of results to always display
    */
-  constructor(el, opts = {}) {
+  constructor(el, fetch, opts = {}) {
     opts.renderItem = (item) => {
       return this.renderItem(item);
     };
 
-    super(el, opts);
+    super(el, fetch, opts);
 
     Object.assign(this, {
       allowFreeForm: opts.allowFreeForm || false,

@@ -1,6 +1,7 @@
 'use strict';
 
 require('imports?jQuery=jquery!../../node_modules/simplePagination/jquery.simplePagination.js');
+const _ = require('lodash');
 const BaseComponent = require('../BaseComponent');
 
 /**
@@ -12,14 +13,14 @@ class Pagination extends BaseComponent {
    * Create a new Pagination component
    * @param {string} el - The selector for the element to put the Pagination component in
    * @param {object} opts - The options for the component
-   * @param {number} opts.currentPage - The page we are currently on
-   * @param {number} opts.edges - How many page numbers are visible at the beginning and ending of pagination
-   * @param {string} opts.hrefTextPrefix - A string to prefix to the front of all hrefs
-   * @param {number} opts.items - The total number of items in the list
-   * @param {number} opts.itemsOnPage - The number of items to display per page
-   * @param {string} opts.nextText - The text to display in the next button
-   * @param {function} opts.onPageClick - A function to call when the page is changed
-   * @param {string} opts.prevText - The text to display in the previous button
+   * @param {number} [opts.currentPage] - The page we are currently on
+   * @param {number} [opts.edges] - How many page numbers are visible at the beginning and ending of pagination
+   * @param {string} [opts.hrefTextPrefix] - A string to prefix to the front of all hrefs
+   * @param {number} [opts.items] - The total number of items in the list
+   * @param {number} [opts.itemsOnPage] - The number of items to display per page
+   * @param {string} [opts.nextText] - The text to display in the next button
+   * @param {function} [opts.onPageClick] - A function to call when the page is changed
+   * @param {string} [opts.prevText] - The text to display in the previous button
    */
   constructor(el, opts = {}) {
     super(el);
@@ -44,7 +45,7 @@ class Pagination extends BaseComponent {
    */
   pageChange(pageNumber, event) {
     this.set(pageNumber);
-    if (this.onPageClick) {
+    if (_.isFunction(this.onPageClick)) {
       event.stopPropagation();
       event.preventDefault();
       this.onPageClick(pageNumber, event);

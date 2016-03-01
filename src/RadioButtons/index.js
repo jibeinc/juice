@@ -13,7 +13,6 @@ class RadioButtons extends BaseComponent {
    * Create a new RadioButtons component
    * @param {string} el - The selector for the element to put the radio buttons in
    * @param {object} opts - The options for the component
-   * @returns {RadioButtons} The new instance of RadioButtons
    */
   constructor(el, opts = {}) {
     super(el);
@@ -24,7 +23,6 @@ class RadioButtons extends BaseComponent {
     });
 
     this.setOptions(opts.options || []);
-    return this;
   }
 
   /**

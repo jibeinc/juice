@@ -69,17 +69,17 @@ var UI =
 	  CurrentLocation: __webpack_require__(/*! ./CurrentLocation */ 228),
 	  CustomTextInput: __webpack_require__(/*! ./TextInput/CustomTextInput */ 232),
 	  ExpandCollapse: __webpack_require__(/*! ./ExpandCollapse/ */ 240),
-	  InfiniteScroll: __webpack_require__(/*! ./InfiniteScroll */ 245),
-	  ListView: __webpack_require__(/*! ./ListView */ 246),
-	  LocationTextInput: __webpack_require__(/*! ./LocationTextInput */ 250),
-	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 258),
+	  InfiniteScroll: __webpack_require__(/*! ./InfiniteScroll */ 246),
+	  ListView: __webpack_require__(/*! ./ListView */ 247),
+	  LocationTextInput: __webpack_require__(/*! ./LocationTextInput */ 251),
+	  LocationTypeahead: __webpack_require__(/*! ./LocationTypeahead */ 259),
 	  MultiSelect: __webpack_require__(/*! ./MultiSelect */ 268),
 	  Pagination: __webpack_require__(/*! ./Pagination */ 272),
 	  RadioButtons: __webpack_require__(/*! ./RadioButtons */ 274),
 	  SingleSelect: __webpack_require__(/*! ./SingleSelect */ 276),
-	  TextInput: __webpack_require__(/*! ./TextInput */ 254),
-	  Toggle: __webpack_require__(/*! ./Toggle */ 243),
-	  Typeahead: __webpack_require__(/*! ./Typeahead */ 262),
+	  TextInput: __webpack_require__(/*! ./TextInput */ 255),
+	  Toggle: __webpack_require__(/*! ./Toggle */ 244),
+	  Typeahead: __webpack_require__(/*! ./Typeahead */ 263),
 	  SentenceGenerator: __webpack_require__(/*! ./SentenceGenerator */ 280),
 	  Spinner: __webpack_require__(/*! ./Spinner */ 284)
 	};
@@ -11811,9 +11811,9 @@ var UI =
 	   * Create a button
 	   * @param {string} el - The selector for the element to put the button in
 	   * @param {object} opts - The options for the component
-	   * @param {string} opts.label - The text to display in the button
-	   * @param {boolean} opts.submit - A boolean indicating if this is of type submit or not
-	   * @param {boolean} opts.preventPropogation - A boolean to enable preventPropogation
+	   * @param {string} [opts.label] - The text to display in the button
+	   * @param {boolean} [opts.submit] - A boolean indicating if this is of type submit or not
+	   * @param {boolean} [opts.preventPropogation] - A boolean to enable preventPropogation
 	   */
 	
 	  function Button(el) {
@@ -13006,8 +13006,8 @@ var UI =
 	   * Creates a CurrentLocation component
 	   * @param {string} el - The selector for the element to put the CurrentLocation component in
 	   * @param {object} opts - The options for the component
-	   * @param {string} opts.iconURL - The path to the icon image to use
-	   * @param {*} opts.geolocationAPI - The api to call to get the current location
+	   * @param {string} [opts.iconURL] - The path to the icon image to use
+	   * @param {*} [opts.geolocationAPI] - The api to call to get the current location
 	   */
 	
 	  function CurrentLocation(el) {
@@ -13484,9 +13484,10 @@ var UI =
 	
 	__webpack_require__(/*! ./styles.css */ 241);
 	
+	var _ = __webpack_require__(/*! lodash */ 243);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 223);
-	var Toggle = __webpack_require__(/*! ../Toggle/ */ 243);
-	var collapseTmpl = __webpack_require__(/*! ./expandCollapseContent.tmpl */ 244);
+	var Toggle = __webpack_require__(/*! ../Toggle/ */ 244);
+	var collapseTmpl = __webpack_require__(/*! ./expandCollapseContent.tmpl */ 245);
 	
 	/**
 	 * Class for creating an expandable/collapsible component
@@ -13499,12 +13500,12 @@ var UI =
 	  /**
 	   * Create an ExpandCollapse component
 	   * @param {string} el - The selector for the element wrapping the content you want to expand/collapse
+	   * @param {string} toggleSelector - The selector for the element to click to expand/collapse the content
 	   * @param {object} opts - The options for the component
-	   * @param {string} opts.toggleSelector - The selector for the element to click to expand/collapse the content
 	   */
 	
-	  function ExpandCollapse(el) {
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  function ExpandCollapse(el, toggleSelector) {
+	    var opts = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 	
 	    _classCallCheck(this, ExpandCollapse);
 	
@@ -13513,10 +13514,11 @@ var UI =
 	      preserveChildElements: true
 	    }));
 	
-	    if (!opts.toggleSelector) {
-	      throw new Error('You must provide a toggleSelector');
-	    } else {
+	    if (_.isString(toggleSelector)) {
+	      _this.toggleSelector = toggleSelector;
 	      _this.opts = opts;
+	    } else {
+	      throw new Error('You must provide a toggleSelector');
 	    }
 	    return _this;
 	  }
@@ -13550,7 +13552,7 @@ var UI =
 	      this.$el.html(collapseTmpl(innerContent));
 	    }
 	
-	    var toggle = new Toggle(this.opts.toggleSelector, this.opts);
+	    var toggle = new Toggle(this.toggleSelector, this.opts);
 	    toggle.render();
 	
 	    toggle.subscribe(function (isToggled) {
@@ -13612,6 +13614,15 @@ var UI =
 
 /***/ },
 /* 243 */
+/*!********************!*\
+  !*** external "_" ***!
+  \********************/
+/***/ function(module, exports) {
+
+	module.exports = _;
+
+/***/ },
+/* 244 */
 /*!*****************************!*\
   !*** ./src/Toggle/index.js ***!
   \*****************************/
@@ -13639,14 +13650,11 @@ var UI =
 	   * Create a new Toggle component
 	   * @param {string} el - The selector for the element to make into a toggle
 	   * @param {object} opts - The options for the component
-	   * @param {string} opts.toggledClass - A class to apply when the toggle is true
-	   * @param {string} opts.untoggledClass - A class to apply when the toggle is false
-	   * @returns {Toggle} The Toggle component
+	   * @param {string} [opts.toggledClass] - A class to apply when the toggle is true
+	   * @param {string} [opts.untoggledClass] - A class to apply when the toggle is false
 	   */
 	
 	  function Toggle(el) {
-	    var _ret;
-	
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
 	    _classCallCheck(this, Toggle);
@@ -13687,8 +13695,7 @@ var UI =
 	        }
 	      _this.set(!_this.value);
 	    });
-	
-	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
+	    return _this;
 	  }
 	
 	  /**
@@ -13707,7 +13714,7 @@ var UI =
 	module.exports = Toggle;
 
 /***/ },
-/* 244 */
+/* 245 */
 /*!*******************************************************!*\
   !*** ./src/ExpandCollapse/expandCollapseContent.tmpl ***!
   \*******************************************************/
@@ -13718,7 +13725,7 @@ var UI =
 	};
 
 /***/ },
-/* 245 */
+/* 246 */
 /*!*************************************!*\
   !*** ./src/InfiniteScroll/index.js ***!
   \*************************************/
@@ -13733,6 +13740,7 @@ var UI =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var $ = __webpack_require__(/*! jquery */ 195);
+	var _ = __webpack_require__(/*! lodash */ 243);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 223);
 	var debounce = __webpack_require__(/*! debounce */ 238);
 	
@@ -13747,11 +13755,12 @@ var UI =
 	  /**
 	   * Creates a new InfiniteScroll component
 	   * @param {string} el - The selector for the element to apply InfiniteScroll to
+	   * @param {function} onScrollToBottom - The function to call when you have scrolled to the bottom of the container
 	   * @param {object} opts - The options for the component
 	   */
 	
-	  function InfiniteScroll(el) {
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  function InfiniteScroll(el, onScrollToBottom) {
+	    var opts = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 	
 	    _classCallCheck(this, InfiniteScroll);
 	
@@ -13759,10 +13768,10 @@ var UI =
 	      preserveChildElements: true
 	    }));
 	
-	    if (!opts.onScrollToBottom) {
-	      throw new Error('You must provide an onScrollToBottom function');
+	    if (_.isFunction(onScrollToBottom)) {
+	      _this.onScrollToBottom = onScrollToBottom;
 	    } else {
-	      _this.onScrollToBottom = opts.onScrollToBottom;
+	      throw new Error('You must provide an onScrollToBottom function');
 	    }
 	
 	    var debounceWait = opts.debounceWait || 500;
@@ -13796,7 +13805,7 @@ var UI =
 	module.exports = InfiniteScroll;
 
 /***/ },
-/* 246 */
+/* 247 */
 /*!*******************************!*\
   !*** ./src/ListView/index.js ***!
   \*******************************/
@@ -13814,8 +13823,8 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 247);
-	var listViewTmpl = __webpack_require__(/*! ./listView.dot */ 249);
+	__webpack_require__(/*! ./styles.css */ 248);
+	var listViewTmpl = __webpack_require__(/*! ./listView.dot */ 250);
 	var $ = __webpack_require__(/*! jquery */ 195);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 223);
 	var Utils = __webpack_require__(/*! ../Utils */ 226);
@@ -13832,12 +13841,12 @@ var UI =
 	   * Creates a new ListView component
 	   * @param {string} el - The selector for the element to put the ListView in
 	   * @param {object} opts - The options for the component
-	   * @param {function} opts.fetch - A function to pull new data
-	   * @param {object} opts.listItemOpts - An object containing options specifically for each item in listView
-	   * @param {object} opts.listItemOpts.attrs - a list of CSS attributes to put on each ListItem
-	   * @param {boolean} opts.listItemOpts.stopPropogation - prevents the click handler from bubbling the event upwards
-	   * @param {function} opts.renderItem - Determines how each listElement will be displayed in DOM
-	   * @param {*[]} opts.results - Prefill the component with data
+	   * @param {function} [opts.fetch] - A function to pull new data
+	   * @param {object} [opts.listItemOpts] - An object containing options specifically for each item in listView
+	   * @param {object} [opts.listItemOpts.attrs] - a list of CSS attributes to put on each ListItem
+	   * @param {boolean} [opts.listItemOpts.stopPropogation] - prevents the click handler from bubbling the event upwards
+	   * @param {function} [opts.renderItem] - Determines how each listElement will be displayed in DOM
+	   * @param {*[]} [opts.results] - Prefill the component with data
 	   */
 	
 	  function ListView(el) {
@@ -13912,7 +13921,7 @@ var UI =
 	module.exports = ListView;
 
 /***/ },
-/* 247 */
+/* 248 */
 /*!*********************************!*\
   !*** ./src/ListView/styles.css ***!
   \*********************************/
@@ -13921,7 +13930,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 248);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 249);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 221)(content, {});
@@ -13941,7 +13950,7 @@ var UI =
 	}
 
 /***/ },
-/* 248 */
+/* 249 */
 /*!*******************************************************************!*\
   !*** ./~/css-loader!./~/postcss-loader!./src/ListView/styles.css ***!
   \*******************************************************************/
@@ -13958,7 +13967,7 @@ var UI =
 
 
 /***/ },
-/* 249 */
+/* 250 */
 /*!***********************************!*\
   !*** ./src/ListView/listView.dot ***!
   \***********************************/
@@ -13970,7 +13979,7 @@ var UI =
 	}
 
 /***/ },
-/* 250 */
+/* 251 */
 /*!****************************************!*\
   !*** ./src/LocationTextInput/index.js ***!
   \****************************************/
@@ -13986,10 +13995,10 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 251);
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 253);
+	__webpack_require__(/*! ./styles.css */ 252);
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 254);
 	var $ = __webpack_require__(/*! jquery */ 195);
-	var TextInput = __webpack_require__(/*! ../TextInput */ 254);
+	var TextInput = __webpack_require__(/*! ../TextInput */ 255);
 	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 228);
 	
 	/**
@@ -14111,7 +14120,7 @@ var UI =
 	module.exports = LocationTextInput;
 
 /***/ },
-/* 251 */
+/* 252 */
 /*!******************************************!*\
   !*** ./src/LocationTextInput/styles.css ***!
   \******************************************/
@@ -14120,7 +14129,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 252);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 253);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 221)(content, {});
@@ -14140,7 +14149,7 @@ var UI =
 	}
 
 /***/ },
-/* 252 */
+/* 253 */
 /*!****************************************************************************!*\
   !*** ./~/css-loader!./~/postcss-loader!./src/LocationTextInput/styles.css ***!
   \****************************************************************************/
@@ -14157,7 +14166,7 @@ var UI =
 
 
 /***/ },
-/* 253 */
+/* 254 */
 /*!******************************************!*\
   !*** ./src/LocationTextInput/input.tmpl ***!
   \******************************************/
@@ -14168,7 +14177,7 @@ var UI =
 	};
 
 /***/ },
-/* 254 */
+/* 255 */
 /*!********************************!*\
   !*** ./src/TextInput/index.js ***!
   \********************************/
@@ -14194,8 +14203,8 @@ var UI =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	__webpack_require__(/*! ./styles.css */ 233);
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 255);
-	var BaseTextInput = __webpack_require__(/*! ./BaseTextInput */ 256);
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 256);
+	var BaseTextInput = __webpack_require__(/*! ./BaseTextInput */ 257);
 	var debounce = __webpack_require__(/*! debounce */ 238);
 	
 	/**
@@ -14334,7 +14343,7 @@ var UI =
 	module.exports = TextInput;
 
 /***/ },
-/* 255 */
+/* 256 */
 /*!**********************************!*\
   !*** ./src/TextInput/input.tmpl ***!
   \**********************************/
@@ -14345,7 +14354,7 @@ var UI =
 	};
 
 /***/ },
-/* 256 */
+/* 257 */
 /*!**********************************************!*\
   !*** ./src/TextInput/BaseTextInput/index.js ***!
   \**********************************************/
@@ -14359,7 +14368,7 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 257);
+	var inputTmpl = __webpack_require__(/*! ./input.tmpl */ 258);
 	var BaseComponent = __webpack_require__(/*! ../../BaseComponent */ 223);
 	
 	/**
@@ -14442,7 +14451,7 @@ var UI =
 	module.exports = BaseTextInput;
 
 /***/ },
-/* 257 */
+/* 258 */
 /*!************************************************!*\
   !*** ./src/TextInput/BaseTextInput/input.tmpl ***!
   \************************************************/
@@ -14453,7 +14462,7 @@ var UI =
 	};
 
 /***/ },
-/* 258 */
+/* 259 */
 /*!****************************************!*\
   !*** ./src/LocationTypeahead/index.js ***!
   \****************************************/
@@ -14467,11 +14476,11 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.css */ 259);
-	var currentLocationTemplate = __webpack_require__(/*! ./useMyCurrentLocation.tmpl */ 261);
+	__webpack_require__(/*! ./styles.css */ 260);
+	var currentLocationTemplate = __webpack_require__(/*! ./useMyCurrentLocation.tmpl */ 262);
 	var $ = __webpack_require__(/*! jquery */ 195);
-	var Typeahead = __webpack_require__(/*! ../Typeahead */ 262);
-	var LocationTextInput = __webpack_require__(/*! ../LocationTextInput */ 250);
+	var Typeahead = __webpack_require__(/*! ../Typeahead */ 263);
+	var LocationTextInput = __webpack_require__(/*! ../LocationTextInput */ 251);
 	var FragFactory = __webpack_require__(/*! ../BaseFragmentFactory */ 199);
 	var CurrentLocation = __webpack_require__(/*! ../CurrentLocation */ 228);
 	
@@ -14488,12 +14497,13 @@ var UI =
 	  /**
 	   * Create a new LocationTypeahead
 	   * @param {string} el - The selector for the element to put the LocationTypeahed in
+	   * @param {function} fetch - The function to call to fetch/refresh results
 	   * @param {object} opts - The options for the component
-	   * @param {*[]} opts.fixedResults - An array of results to always display
+	   * @param {*[]} [opts.fixedResults] - An array of results to always display
 	   */
 	
-	  function LocationTypeahead(el) {
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  function LocationTypeahead(el, fetch) {
+	    var opts = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 	
 	    _classCallCheck(this, LocationTypeahead);
 	
@@ -14526,7 +14536,7 @@ var UI =
 	      }
 	    }]);
 	
-	    var _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, opts));
+	    var _this = _possibleConstructorReturn(this, _Typeahead.call(this, el, fetch, opts));
 	
 	    _this.iconFactory = iconFactory;
 	    _this.$el.addClass('ui-location-typeahead');
@@ -14597,7 +14607,7 @@ var UI =
 	module.exports = LocationTypeahead;
 
 /***/ },
-/* 259 */
+/* 260 */
 /*!******************************************!*\
   !*** ./src/LocationTypeahead/styles.css ***!
   \******************************************/
@@ -14606,7 +14616,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 260);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./styles.css */ 261);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 221)(content, {});
@@ -14626,7 +14636,7 @@ var UI =
 	}
 
 /***/ },
-/* 260 */
+/* 261 */
 /*!****************************************************************************!*\
   !*** ./~/css-loader!./~/postcss-loader!./src/LocationTypeahead/styles.css ***!
   \****************************************************************************/
@@ -14643,7 +14653,7 @@ var UI =
 
 
 /***/ },
-/* 261 */
+/* 262 */
 /*!*********************************************************!*\
   !*** ./src/LocationTypeahead/useMyCurrentLocation.tmpl ***!
   \*********************************************************/
@@ -14654,7 +14664,7 @@ var UI =
 	};
 
 /***/ },
-/* 262 */
+/* 263 */
 /*!********************************!*\
   !*** ./src/Typeahead/index.js ***!
   \********************************/
@@ -14668,8 +14678,8 @@ var UI =
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	__webpack_require__(/*! ./styles.less */ 263);
-	var _ = __webpack_require__(/*! lodash */ 265);
+	__webpack_require__(/*! ./styles.less */ 264);
+	var _ = __webpack_require__(/*! lodash */ 243);
 	var $ = __webpack_require__(/*! jquery */ 195);
 	var BaseTypeahead = __webpack_require__(/*! ./BaseTypeahead */ 266);
 	var Utils = __webpack_require__(/*! ../Utils */ 226);
@@ -14693,14 +14703,15 @@ var UI =
 	  /**
 	   * Creates a new Typeahead component
 	   * @param {string} el - The selector for the element to put the Typeahead in
+	   * @param {function} fetch - The function to call to fetch/refresh results
 	   * @param {object} opts - The options for the component
-	   * @param {boolean} opts.allowFreeForm - A boolean indicating if free form input will be accepted
-	   * @param {string} opts.displayProperty - A string indicating the property name of the property to display
-	   * @param {*[]} opts.fixedResults - An array of results to always display
+	   * @param {boolean} [opts.allowFreeForm] - A boolean indicating if free form input will be accepted
+	   * @param {string} [opts.displayProperty] - A string indicating the property name of the property to display
+	   * @param {*[]} [opts.fixedResults] - An array of results to always display
 	   */
 	
-	  function Typeahead(el) {
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  function Typeahead(el, fetch) {
+	    var opts = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 	
 	    _classCallCheck(this, Typeahead);
 	
@@ -14708,7 +14719,7 @@ var UI =
 	      return _this.renderItem(item);
 	    };
 	
-	    var _this = _possibleConstructorReturn(this, _BaseTypeahead.call(this, el, opts));
+	    var _this = _possibleConstructorReturn(this, _BaseTypeahead.call(this, el, fetch, opts));
 	
 	    Object.assign(_this, {
 	      allowFreeForm: opts.allowFreeForm || false,
@@ -14979,7 +14990,7 @@ var UI =
 	module.exports = Typeahead;
 
 /***/ },
-/* 263 */
+/* 264 */
 /*!***********************************!*\
   !*** ./src/Typeahead/styles.less ***!
   \***********************************/
@@ -14988,7 +14999,7 @@ var UI =
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/less-loader!./styles.less */ 264);
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/postcss-loader!./../../~/less-loader!./styles.less */ 265);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 221)(content, {});
@@ -15008,7 +15019,7 @@ var UI =
 	}
 
 /***/ },
-/* 264 */
+/* 265 */
 /*!*************************************************************************************!*\
   !*** ./~/css-loader!./~/postcss-loader!./~/less-loader!./src/Typeahead/styles.less ***!
   \*************************************************************************************/
@@ -15023,15 +15034,6 @@ var UI =
 	
 	// exports
 
-
-/***/ },
-/* 265 */
-/*!********************!*\
-  !*** external "_" ***!
-  \********************/
-/***/ function(module, exports) {
-
-	module.exports = _;
 
 /***/ },
 /* 266 */
@@ -15050,10 +15052,10 @@ var UI =
 	
 	var containerHTML = __webpack_require__(/*! ./baseTypeahead.html */ 267);
 	var BaseComponent = __webpack_require__(/*! ../../BaseComponent */ 223);
-	var _ = __webpack_require__(/*! lodash */ 265);
+	var _ = __webpack_require__(/*! lodash */ 243);
 	var $ = __webpack_require__(/*! jquery */ 195);
-	var TextInput = __webpack_require__(/*! ../../TextInput */ 254);
-	var ListView = __webpack_require__(/*! ../../ListView */ 246);
+	var TextInput = __webpack_require__(/*! ../../TextInput */ 255);
+	var ListView = __webpack_require__(/*! ../../ListView */ 247);
 	var assert = __webpack_require__(/*! ../../assert.js */ 200);
 	
 	/**
@@ -15073,20 +15075,20 @@ var UI =
 	  /**
 	   * Creates a new BaseTypeahead component
 	   * @param {string} el - The selector for the element to put the BaseTypeahead in
+	   * @param {function} fetch - The function to call to fetch/refresh results
 	   * @param {object} opts - The options for the component
-	   * @param {function} opts.fetch - The function to call to fetch/refresh results
 	   * @param {object} opts.textInputOpts - The options to pass to the TextInput
 	   */
 	
-	  function BaseTypeahead(el) {
-	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	  function BaseTypeahead(el, fetch) {
+	    var opts = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
 	
 	    _classCallCheck(this, BaseTypeahead);
 	
 	    var _this = _possibleConstructorReturn(this, _BaseComponent.call(this, el, opts));
 	
 	    Object.assign(_this, {
-	      fetch: opts.fetch,
+	      fetch: fetch,
 	      textInputOpts: opts.textInputOpts || {}
 	    });
 	
@@ -15313,8 +15315,8 @@ var UI =
 	   * Creates a new MultiSelect component
 	   * @param {string} el - The selector for the element to put the MultiSelect in
 	   * @param {object} opts - The options for the component
-	   * @param {string} opts.displayNameKey - A string indicating the index of the displayName property
-	   * @param {function} opts.renderItem - A function to render each item
+	   * @param {string} [opts.displayNameKey] - A string indicating the index of the displayName property
+	   * @param {function} [opts.renderItem] - A function to render each item
 	   */
 	
 	  function MultiSelect(el) {
@@ -15505,6 +15507,7 @@ var UI =
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	__webpack_require__(/*! imports?jQuery=jquery!../../~/simplePagination/jquery.simplePagination.js */ 273);
+	var _ = __webpack_require__(/*! lodash */ 243);
 	var BaseComponent = __webpack_require__(/*! ../BaseComponent */ 223);
 	
 	/**
@@ -15519,14 +15522,14 @@ var UI =
 	   * Create a new Pagination component
 	   * @param {string} el - The selector for the element to put the Pagination component in
 	   * @param {object} opts - The options for the component
-	   * @param {number} opts.currentPage - The page we are currently on
-	   * @param {number} opts.edges - How many page numbers are visible at the beginning and ending of pagination
-	   * @param {string} opts.hrefTextPrefix - A string to prefix to the front of all hrefs
-	   * @param {number} opts.items - The total number of items in the list
-	   * @param {number} opts.itemsOnPage - The number of items to display per page
-	   * @param {string} opts.nextText - The text to display in the next button
-	   * @param {function} opts.onPageClick - A function to call when the page is changed
-	   * @param {string} opts.prevText - The text to display in the previous button
+	   * @param {number} [opts.currentPage] - The page we are currently on
+	   * @param {number} [opts.edges] - How many page numbers are visible at the beginning and ending of pagination
+	   * @param {string} [opts.hrefTextPrefix] - A string to prefix to the front of all hrefs
+	   * @param {number} [opts.items] - The total number of items in the list
+	   * @param {number} [opts.itemsOnPage] - The number of items to display per page
+	   * @param {string} [opts.nextText] - The text to display in the next button
+	   * @param {function} [opts.onPageClick] - A function to call when the page is changed
+	   * @param {string} [opts.prevText] - The text to display in the previous button
 	   */
 	
 	  function Pagination(el) {
@@ -15559,7 +15562,7 @@ var UI =
 	
 	  Pagination.prototype.pageChange = function pageChange(pageNumber, event) {
 	    this.set(pageNumber);
-	    if (this.onPageClick) {
+	    if (_.isFunction(this.onPageClick)) {
 	      event.stopPropagation();
 	      event.preventDefault();
 	      this.onPageClick(pageNumber, event);
@@ -16031,12 +16034,9 @@ var UI =
 	   * Create a new RadioButtons component
 	   * @param {string} el - The selector for the element to put the radio buttons in
 	   * @param {object} opts - The options for the component
-	   * @returns {RadioButtons} The new instance of RadioButtons
 	   */
 	
 	  function RadioButtons(el) {
-	    var _ret;
-	
 	    var opts = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 	
 	    _classCallCheck(this, RadioButtons);
@@ -16050,7 +16050,7 @@ var UI =
 	    });
 	
 	    _this.setOptions(opts.options || []);
-	    return _ret = _this, _possibleConstructorReturn(_this, _ret);
+	    return _this;
 	  }
 	
 	  /**
@@ -16201,7 +16201,7 @@ var UI =
 	   * @param {string} el - The dom element to attach to
 	   * @param {object} opts - The options passed in to configure this component
 	   * @param {*[]} opts.options - each option to be rendered, containing 3 attributes (2 are passed in):
-	   *        {string} [optional] display - the display to render for the option
+	   *        {string} [display] - the display to render for the option
 	   *        {string} value - the data value to send to the server
 	   */
 	
