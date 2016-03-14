@@ -9,20 +9,21 @@
     <script src='../dist/ui.js'></script>
   </head>
   <body>
-    <div class='ui-text-input-example'></div>
-      <script>
-        var c = new UI.TextInput('.ui-text-input-example', {
-          submitHandler: function () {
-            console.log('the enter key has been pressed!');
-          },
-          placeholder: 'What up?',
-        });
+    <div class='ui-text-input-example' style='width: 200px;'></div>
+    <script>
+      var c = new UI.TextInput('.ui-text-input-example', {
+        submitHandler: function () {
+          console.log('the enter key has been pressed!');
+        },
+        placeholder: 'What up?',
+        icon: 'X'
+      });
 
-        c.subscribe(function (value) {
-          console.log("the current value is: ", value);
-        });
+      c.subscribe(function (value) {
+        console.log("the current value is: ", value);
+      });
 
-        c.render();
-      </script>
+      c.render();
+    </script>
   </body>
 </html>

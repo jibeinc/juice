@@ -1,5 +1,6 @@
 .ui-text-input {
   width: 100%;
+  padding-right: 30px;
 }
 
 .ui-text-input-wrapper {
@@ -15,3 +16,4 @@
   padding: 0 5px;
   margin: 0 5px;
 }
+
