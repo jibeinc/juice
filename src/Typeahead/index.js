@@ -100,6 +100,7 @@ class Typeahead extends BaseTypeahead {
 
         case this.keyEvents.ENTER:
           this.selectByIndex();
+          this.active(false);
           evt.preventDefault();
           break;
 
