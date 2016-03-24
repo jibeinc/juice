@@ -1,5 +1,6 @@
-UI Components
+JUICE
 ==================
+**J**ibe **UI** **C**ommon **E**lements = JUICE
 
 Framework agnostic UI components built with ES6 and WebPack
 -----------------------------------------------------------
