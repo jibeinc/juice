@@ -38,3 +38,12 @@ Framework agnostic UI components built with ES6 and WebPack
     - support for [doT](https://olado.github.io/doT/index.html) templates
     - support for ES6 [templates string](https://github.com/bradbenvenuti/template-string-loader) partials
     - support for [LESS](https://github.com/webpack/less-loader)
+
+## Roadmap
+
+    - Add unit tests to each component
+    - Remove the State.js, URL.js, and SentenceGenerator components
+    - Architect the CSS to be more easily configurable
+    - Pull out required parameters out of opts object
+    - Rebrand the spinner
+    - Split out functionality of baseFragment Factory into ListItemFactory + BaseComponent
