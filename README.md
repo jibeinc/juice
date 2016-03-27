@@ -12,12 +12,6 @@ Framework agnostic UI components built with ES6 and WebPack
     - `npm run build-dev`, run the dev build (prod build w/out minification and w/verbose logging)
     - `npm run examples`, run the examples:
 
-## Working with Jibe-apply:
-
- Realistically, there isn't a clean way to do this. The current method is to execute `npm run build-dev` and then copying over the dist file to Jibe-apply-app's dist/js directory, i.e.:
-
-    - `npm run build-dev && cp dist/ui.js ../jibe-apply-app/dist/js/jibe-ui.js`
-
 ## Dependencies:
 
     - jQuery
