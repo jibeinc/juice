@@ -7,10 +7,11 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean && ./node_modules/.bin/webpack --progress --colors --display-chunks -p",
-    "build-dev": "npm run clean && ./node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
+    "make": "npm run clean && npm install && npm run build",
+    "build": "./node_modules/.bin/webpack --progress --colors --display-chunks -p",
+    "build-dev": "./node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
     "watch": "./node_modules/.bin/webpack --watch",
-    "clean": "rm -rf dist",
+    "clean": "npm cache clean && rm -rf dist && rm -rf node_modules && rm -f npm-debug.log",
     "test": "karma start",
     "lint": "./node_modules/.bin/eslint ./src/*",
     "examples": "node staticServer"
@@ -30,7 +31,9 @@
       "url": "https://github.com/rwwagner90"
     },
     {
-      "name": "Naveed Nadjmabadi"
+      "name": "Naveed Nadjmabadi",
+      "email": "naveed.nadjmabadi@gmail.com",
+      "url": "https://github.com/naveedn"
     }
   ],
   "git": {
@@ -44,7 +47,7 @@
     "bowser": "^1.0.0",
     "console": "^0.5.2",
     "debounce": "^1.0.0",
-    "dot": "git+ssh://git@stash.internal.jibe.com/ja/client-dot-engine.git",
+    "dot": "^1.0.3",
     "dotty": "0.0.2",
     "html5-history": "^0.1.5",
     "i18next": "^2.0.14",
