@@ -1,5 +1,7 @@
 JUICE
 ==================
+[![Build Status](https://travis-ci.org/jibeinc/juice.svg?branch=master)](https://travis-ci.org/jibeinc/juice)
+
 **J**ibe **UI** **C**ommon **E**lements = JUICE
 
 Framework agnostic UI components built with ES6 and WebPack
