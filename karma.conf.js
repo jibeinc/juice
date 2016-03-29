@@ -4,7 +4,7 @@ var sassVars = './sassvars.json';
 module.exports = function (config) {
   config.set({
     browsers: [
-      'Chrome'
+      'Firefox'
     ],
     singleRun: true, //just run once by default
     frameworks: ['mocha'], //use the mocha test framework
