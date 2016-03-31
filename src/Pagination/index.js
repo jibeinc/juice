@@ -1,6 +1,6 @@
 'use strict';
 
-require('imports?jQuery=jquery!./jquery.simplePagination.js');
+require('imports?jQuery=jquery!../../node_modules/simplePagination/jquery.simplePagination.js');
 const _ = require('lodash');
 const BaseComponent = require('../BaseComponent');
 

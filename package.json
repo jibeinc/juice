@@ -6,15 +6,19 @@
     "node": ">=5.0.0"
   },
   "main": "index.js",
+  "napa": {
+    "simplePagination": "flaviusmatis/simplePagination.js"
+  },
   "scripts": {
     "make": "npm run clean && npm install && npm run build",
     "build": "./node_modules/.bin/webpack --progress --colors --display-chunks -p",
     "build-dev": "./node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
-    "watch": "./node_modules/.bin/webpack --watch",
     "clean": "npm cache clean && rm -rf dist && rm -rf node_modules && rm -f npm-debug.log",
+    "examples": "node staticServer",
+    "install": "napa",
     "test": "karma start",
     "lint": "./node_modules/.bin/eslint ./src/*",
-    "examples": "node staticServer"
+    "watch": "./node_modules/.bin/webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -109,6 +113,7 @@
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
     "mocha": "^2.3.4",
+    "napa": "^2.3.0",
     "node-sass": "^3.4.2",
     "postcss-cssnext": "^2.4.0",
     "postcss-import": "^8.0.2",
