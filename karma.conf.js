@@ -1,11 +1,17 @@
 const webpack = require('webpack');
-var sassVars = './sassvars.json';
+const sassVars = './sassvars.json';
+const path = require('path');
 
 module.exports = function (config) {
   config.set({
     browsers: [
       'Firefox'
     ],
+    coverageReporter: {
+      reporters: [
+        {type: 'lcov', subdir: 'report-lcov'}
+      ]
+    },
     singleRun: true, //just run once by default
     frameworks: ['mocha'], //use the mocha test framework
     files: [
@@ -30,7 +36,7 @@ module.exports = function (config) {
     preprocessors: {
       'tests.webpack.js': ['webpack', 'sourcemap'] //preprocess with webpack and our sourcemap loader
     },
-    reporters: ['dots'], //report results in this format
+    reporters: ['dots', 'coverage'], //report results in this format
     webpack: { //kind of a copy of your webpack config
       externals: {
         'jquery': 'jQuery',
@@ -38,6 +44,18 @@ module.exports = function (config) {
       },
       devtool: 'inline-source-map', //just do inline source maps instead of the default
       module: {
+        preLoaders: [
+          // transpile and instrument only testing sources with babel-istanbul
+          {
+            test: /\.js$/,
+            include: path.resolve('src'),
+            loader: 'babel-istanbul',
+            query: {
+              cacheDirectory: true
+              // see below for possible options
+            }
+          }
+        ],
         loaders: [{
           // automatically load css into the DOM
           test: /\.css$/,

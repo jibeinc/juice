@@ -24,3 +24,6 @@ install:
 
 script:
   - npm test
+
+  after_script:
+    - codeclimate-test-reporter < /coverage/report-lcov/lcov.info
