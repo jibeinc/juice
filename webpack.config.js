@@ -1,7 +1,7 @@
-var sassVars = './sassvars.json';
+const sassVars = './sassvars.json';
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/juice.js',
   externals: {
     'jquery': 'jQuery',
     'lodash': '_'

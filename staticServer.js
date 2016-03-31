@@ -6,8 +6,12 @@ const path = require("path");
 const fs = require("fs");
 const port = process.argv[2] || 8000;
 
-//  @description
-//    get the directory listing and convert them into links
+/**
+ * Get the directory listing and convert them into links
+ * @param filesArr
+ * @param baseDir
+ * @returns {string}
+ */
 function formatDirToHTML (filesArr, baseDir) {
   filesArr = filesArr.map((currVal) => {
     return `<li><a href=${path.basename(baseDir)}/${currVal}>${currVal}</a></li>`;

@@ -1,2 +1,7 @@
-var context = require.context('./src', true, /-test\.js$/); //make sure you have your directory and regex test set correctly!
-context.keys().forEach(context);
+//Tests
+const testsContext = require.context('./src', true, /-test\.js$/);
+testsContext.keys().forEach(testsContext);
+
+//Components
+const componentsContext = require.context('./src', true, /index\.js$/);
+componentsContext.keys().forEach(componentsContext);
