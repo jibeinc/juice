@@ -24,7 +24,6 @@
     "type": "git",
     "url": "ssh://git@stash.internal.jibe.com/js/jibe-ui-components.git"
   },
-  "private": true,
   "author": {
     "name": "John Hatcher"
   },
