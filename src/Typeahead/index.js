@@ -38,7 +38,8 @@ class Typeahead extends BaseTypeahead {
     Object.assign(this, {
       allowFreeForm: opts.allowFreeForm || false,
       displayProperty: opts.displayProperty || 'displayName',
-      fixedResults: opts.fixedResults || []
+      fixedResults: opts.fixedResults || [],
+      isActive: false
     });
   }
 

@@ -3,14 +3,20 @@ const sassVars = './sassvars.json';
 const path = require('path');
 
 module.exports = function (config) {
-  config.set({
+  var configuration = {
     browsers: [
-      'Firefox'
+      'Chrome'
     ],
     coverageReporter: {
       reporters: [
         {type: 'lcov', subdir: 'report-lcov'}
       ]
+    },
+    customLaunchers: {
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
     },
     singleRun: true, //just run once by default
     frameworks: ['mocha'], //use the mocha test framework
@@ -36,7 +42,7 @@ module.exports = function (config) {
     preprocessors: {
       'tests.webpack.js': ['webpack', 'sourcemap'] //preprocess with webpack and our sourcemap loader
     },
-    reporters: ['dots', 'coverage'], //report results in this format
+    reporters: ['spec', 'coverage'], //report results in this format
     webpack: { //kind of a copy of your webpack config
       externals: {
         'jquery': 'jQuery',
@@ -44,18 +50,18 @@ module.exports = function (config) {
       },
       devtool: 'inline-source-map', //just do inline source maps instead of the default
       module: {
-        preLoaders: [
-          // transpile and instrument only testing sources with babel-istanbul
-          {
-            test: /\.js$/,
-            include: path.resolve('src'),
-            loader: 'babel-istanbul',
-            query: {
-              cacheDirectory: true
-              // see below for possible options
-            }
-          }
-        ],
+        /*preLoaders: [
+         // transpile and instrument only testing sources with babel-istanbul
+         {
+         test: /\.js$/,
+         include: path.resolve('src'),
+         loader: 'babel-istanbul',
+         query: {
+         cacheDirectory: true
+         // see below for possible options
+         }
+         }
+         ],*/
         loaders: [{
           // automatically load css into the DOM
           test: /\.css$/,
@@ -123,5 +129,11 @@ module.exports = function (config) {
     webpackServer: {
       noInfo: true //please don't spam the console when running in karma!
     }
-  });
+  };
+
+  if (process.env.TRAVIS) {
+    configuration.browsers = ['Chrome_travis_ci'];
+  }
+
+  config.set(configuration);
 };
