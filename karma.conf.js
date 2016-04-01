@@ -50,18 +50,18 @@ module.exports = function (config) {
       },
       devtool: 'inline-source-map', //just do inline source maps instead of the default
       module: {
-        /*preLoaders: [
-         // transpile and instrument only testing sources with babel-istanbul
-         {
-         test: /\.js$/,
-         include: path.resolve('src'),
-         loader: 'babel-istanbul',
-         query: {
-         cacheDirectory: true
-         // see below for possible options
-         }
-         }
-         ],*/
+        preLoaders: [
+          // transpile and instrument only testing sources with babel-istanbul
+          {
+            test: /\.js$/,
+            include: path.resolve('src'),
+            loader: 'babel-istanbul',
+            query: {
+              cacheDirectory: true
+              // see below for possible options
+            }
+          }
+        ],
         loaders: [{
           // automatically load css into the DOM
           test: /\.css$/,
