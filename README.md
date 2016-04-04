@@ -10,6 +10,14 @@ JUICE
 Framework agnostic UI components built with ES6 and WebPack
 -----------------------------------------------------------
 
+##Installation 
+
+`npm install jibe-juice`
+
+or
+
+`bower install jibe-juice`
+
 ## Purpose:
 JUICE is a framework-agnostic and isomorphic library of UI components that contain specific interaction behaviors necessary for Jibe's use cases. This library has set out to solve some of the problems experienced on the front-end:
 
