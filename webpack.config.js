@@ -2,6 +2,10 @@ const sassVars = './sassvars.json';
 
 module.exports = {
   entry: './src/juice.js',
+  eslint: {
+    failOnWarning: true,
+    failOnError: true
+  },
   externals: {
     'jquery': 'jQuery',
     'lodash': '_'

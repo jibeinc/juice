@@ -25,7 +25,7 @@ describe('typeahead functionality', () => {
     }];
 
     const fetch = function (term, cb) {
-      var matches = db.filter(function (item) {
+      const matches = db.filter((item) => {
         return (item.displayName + '').indexOf(term) !== -1;
       });
 
@@ -39,7 +39,7 @@ describe('typeahead functionality', () => {
       }]
     });
 
-    searchNumbers.subscribe(function (choice) {
+    searchNumbers.subscribe((choice) => {
       console.log('new numba', choice);
     });
 
