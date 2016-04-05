@@ -1,11 +1,12 @@
 {
   "name": "jibe-juice",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "description": "General JavaScript classes for common UI components",
   "engines": {
     "node": ">=5.0.0"
   },
   "main": "dist/ui.js",
+  "license": "MIT",
   "napa": {
     "simplePagination": "flaviusmatis/simplePagination.js"
   },
@@ -64,7 +65,7 @@
   "devDependencies": {
     "autoprefixer": "^6.3.3",
     "babel-core": "^6.1.21",
-    "babel-eslint": "^5.0.0",
+    "babel-eslint": "^6.0.2",
     "babel-istanbul-loader": "^0.1.0",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-es2015-arrow-functions": "^6.5.2",
