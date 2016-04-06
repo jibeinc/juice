@@ -1,5 +1,4 @@
 const $ = require('jquery');
-const expect = require('expect');
 const Typeahead = require('./index.js');
 const {simulateKeyPress} = require('../testHelpers.js');
 

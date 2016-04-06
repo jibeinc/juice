@@ -1,5 +1,4 @@
 const $ = require('jquery');
-const expect = require('expect');
 const RadioButtons = require('./index.js');
 
 const inputSelector = '.radio-buttons-test .ui-radio-buttons .select-option input';

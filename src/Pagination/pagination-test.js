@@ -1,5 +1,4 @@
 const $ = require('jquery');
-const expect = require('expect');
 const Pagination = require('./index.js');
 
 describe('pagination functionality', () => {

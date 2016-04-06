@@ -1,5 +1,4 @@
 const $ = require('jquery');
-const expect = require('expect');
 const MultiSelect = require('./index.js');
 
 describe('multiSelect functionality', () => {

@@ -1,5 +1,4 @@
 const $ = require('jquery');
-const expect = require('expect');
 const toggle = require('./index.js');
 
 describe('toggle', () => {
