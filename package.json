@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=5.0.0"
   },
-  "main": "dist/ui.js",
+  "main": "index.js",
   "license": "MIT",
   "napa": {
     "simplePagination": "flaviusmatis/simplePagination.js"
