@@ -17,8 +17,7 @@ describe('toggle', () => {
     $('body').empty();
   });
 
-  it('test initially untoggled', () => {
-
+  it('test initially untoggled and toggled after click', () => {
     expect(toggleTest.get()).toBe(null);
     toggleTest.$el.click();
     expect(toggleTest.get()).toBe(true);
