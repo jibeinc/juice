@@ -8,9 +8,9 @@ const port = process.argv[2] || 8000;
 
 /**
  * Get the directory listing and convert them into links
- * @param {string[]} filesArr
- * @param {string} baseDir
- * @returns {string}
+ * @param {string[]} filesArr The array of example names
+ * @param {string} baseDir The base directory
+ * @returns {string} The html item linking to the example
  */
 function formatDirToHTML (filesArr, baseDir) {
   filesArr = filesArr.map((currVal) => {
