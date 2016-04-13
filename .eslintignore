@@ -1,1 +1,2 @@
-src/Pagination/jquery.simplePagination.js
+karma.conf.js
+webpack.config.js
