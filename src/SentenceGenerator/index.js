@@ -1,6 +1,5 @@
 'use strict';
 
-require('./styles.css');
 const dotty = require('dotty');
 const BaseComponent = require('../BaseComponent');
 
