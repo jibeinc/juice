@@ -73,6 +73,10 @@ class Typeahead extends BaseTypeahead {
     this.textInput.$el.find('input').on('blur', () => {
       this.active(false);
     });
+
+    this.resultsListView.$el.mousedown((evt) => {
+      evt.preventDefault();
+    });
   }
 
   /**

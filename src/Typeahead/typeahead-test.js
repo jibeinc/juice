@@ -69,4 +69,11 @@ describe('typeahead functionality', () => {
     simulateKeyPress(13, $(document));
     expect(searchNumbers.get().displayName).toBe(18045972508);
   });
+  it('test click selection', () => {
+    expect(searchNumbers.get()).toBe('');
+    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.set('1');
+    searchNumbers.resultsListView.$el.find('li').first().click();
+    expect(searchNumbers.get().displayName).toBe(18045972508);
+  });
 });
