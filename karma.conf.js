@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const sassVars = './sassvars.json';
 const path = require('path');
 

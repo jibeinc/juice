@@ -1,6 +1,5 @@
 'use strict';
 
-require('./styles.css');
 const selectTmpl = require('./select.tmpl');
 const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');

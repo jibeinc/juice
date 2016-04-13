@@ -66,13 +66,13 @@ class Typeahead extends BaseTypeahead {
    * Setup focus events to set active to true when focused, and false when blurred
    */
   attachFocusEvents() {
-    this.textInput.$el.find('input').on('focus', () => {
-      this.active(true);
-    });
-
-    this.textInput.$el.find('input').on('blur', () => {
-      this.active(false);
-    });
+    this.textInput.$el.find('input')
+      .on('focus', () => {
+        this.active(true);
+      })
+      .on('blur', () => {
+        this.active(false);
+      });
 
     this.resultsListView.$el.mousedown((evt) => {
       evt.preventDefault();

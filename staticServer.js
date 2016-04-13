@@ -8,8 +8,8 @@ const port = process.argv[2] || 8000;
 
 /**
  * Get the directory listing and convert them into links
- * @param filesArr
- * @param baseDir
+ * @param {string[]} filesArr
+ * @param {string} baseDir
  * @returns {string}
  */
 function formatDirToHTML (filesArr, baseDir) {

@@ -1,16 +1,5 @@
 'use strict';
 
-/*
- **
- **  @param {String} el - the DOM element to attach to
- **  @param {Object} opts - the options to configure this element
- **  @param {String} opts.icon - the string for the icon to show up
- **  @param {Number} opts.wait - how long to debounce the input onKeyUp event
- **  @param {Function} opts.submitHandler - if the enter key is pressed, run this function
- **
- **
- */
-
 require('./styles.css');
 const inputTmpl = require('./input.tmpl');
 const BaseTextInput = require('./BaseTextInput');
@@ -36,8 +25,8 @@ class TextInput extends BaseTextInput {
    * @param {string} el - The selector for the element to put the TextInput in
    * @param {object} opts - The options for the component
    * @param {string} opts.icon - The markup for the icon to display
-   * @param {number} opts.wait - The delay to debounce
-   * @param {function} opts.submitHandler - The function to call on submit
+   * @param {number} opts.wait - how long to debounce the input onKeyUp event
+   * @param {function} opts.submitHandler - if the enter key is pressed, run this function
    */
   constructor(el, opts = {}) {
     super(el, opts);
