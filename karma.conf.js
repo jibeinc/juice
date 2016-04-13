@@ -1,4 +1,4 @@
-const config = require('./common.config.babel');
+const config = require('./common.config');
 const path = require('path');
 
 const webpackModule = config.webpackModule;

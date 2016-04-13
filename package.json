@@ -87,7 +87,6 @@
     "babel-plugin-transform-es2015-template-literals": "^6.6.0",
     "babel-plugin-transform-es2015-typeof-symbol": "^6.6.0",
     "babel-plugin-transform-es2015-unicode-regex": "^6.5.0",
-    "babel-register": "^6.7.2",
     "codeclimate-test-reporter": "^0.3.1",
     "concat-map": "0.0.1",
     "css-loader": "^0.23.1",

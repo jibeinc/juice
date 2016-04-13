@@ -1,4 +1,4 @@
-const config = require('./common.config.babel');
+const config = require('./common.config');
 
 module.exports = {
   entry: './src/juice.js',
