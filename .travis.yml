@@ -1,9 +1,10 @@
 ---
 language: node_js
 node_js:
-  - "0.12"
+  - "5.10.1"
 
-sudo: false
+sudo: true
+dist: trusty
 
 cache:
   directories:
@@ -15,7 +16,7 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - export PATH=/usr/local/phantomjs-2.0.0/bin:$PATH
   - "npm config set spin false"
-  - "npm install -g npm@^2"
+  - "npm install -g npm@^3"
 
 install:
   - npm install -g bower
