@@ -74,7 +74,7 @@ module.exports = {
         }
       }]
   },
-  postcss: function (webpack) {
+  postcss(webpack) {
     return [
       require('postcss-import')({
         addDependencyTo: webpack
@@ -86,5 +86,5 @@ module.exports = {
       }),
       require('cssnano')({zindex: false})
     ];
-  },
+  }
 }
