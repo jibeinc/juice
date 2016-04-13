@@ -2,25 +2,27 @@ const $ = require('jquery');
 const RadioButtons = require('./index.js');
 
 const inputSelector = '.radio-buttons-test .ui-radio-buttons .select-option input';
+const testOptions = [{
+  count: 5,
+  displayName: 'Marketing',
+  value: 'mrkt01'
+}, {
+  count: 9,
+  displayName: 'Sales',
+  value: 'sales'
+}, {
+  count: 43,
+  displayName: 'Engineering',
+  value: 'eng-2015'
+}];
+
 describe('radioButtons functionality', () => {
   let categories;
 
   beforeEach(() => {
     $('body').append('<div class="radio-buttons-test"></div>');
     categories = new RadioButtons('.radio-buttons-test', {
-      options: [{
-        count: 5,
-        displayName: 'Marketing',
-        value: 'mrkt01'
-      }, {
-        count: 9,
-        displayName: 'Sales',
-        value: 'sales'
-      }, {
-        count: 43,
-        displayName: 'Engineering',
-        value: 'eng-2015'
-      }],
+      options: testOptions,
       renderItem(item) {
         return item.displayName + ' (' + item.count + ')';
       }
@@ -63,19 +65,7 @@ describe('radioBoxes functionality', () => {
   beforeEach(() => {
     $('body').append('<div class="radio-buttons-test"></div>');
     categories = new RadioButtons('.radio-buttons-test', {
-      options: [{
-        count: 5,
-        displayName: 'Marketing',
-        value: 'mrkt01'
-      }, {
-        count: 9,
-        displayName: 'Sales',
-        value: 'sales'
-      }, {
-        count: 43,
-        displayName: 'Engineering',
-        value: 'eng-2015'
-      }],
+      options: testOptions,
       radioBoxes: true,
       renderItem(item) {
         return item.displayName + ' (' + item.count + ')';
