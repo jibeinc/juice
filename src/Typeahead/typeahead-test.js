@@ -61,19 +61,41 @@ describe('typeahead functionality', () => {
     expect(searchNumbers.resultsListView.results[0].displayName).toBe('-- use my membership id --');
   });
   it('test up/down arrows and enter', () => {
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
     searchNumbers.textInput.$el.find('input').focus();
     searchNumbers.textInput.set('1');
+    expect(searchNumbers.resultsListView.$el).toBeVisible();
     //Press down to highlight an option
     simulateKeyPress(40, $(document));
     //Press enter to choose the highlighted option
     simulateKeyPress(13, $(document));
     expect(searchNumbers.get().displayName).toBe(18045972508);
+    //Blur after selection
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
+    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.set('1');
+    //Down, down, down, up, down, up
+    simulateKeyPress(40, $(document));
+    simulateKeyPress(40, $(document));
+    simulateKeyPress(40, $(document));
+    simulateKeyPress(38, $(document));
+    simulateKeyPress(40, $(document));
+    simulateKeyPress(38, $(document));
+    //Press enter to choose the highlighted option
+    simulateKeyPress(13, $(document));
+    expect(searchNumbers.get().displayName).toBe('11234rrwer4');
+    //Blur after selection
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
   });
   it('test click selection', () => {
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get()).toBe('');
     searchNumbers.textInput.$el.find('input').focus();
     searchNumbers.textInput.set('1');
+    expect(searchNumbers.resultsListView.$el).toBeVisible();
     searchNumbers.resultsListView.$el.find('li').first().click();
+    //Blur after selection
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get().displayName).toBe(18045972508);
   });
 });
