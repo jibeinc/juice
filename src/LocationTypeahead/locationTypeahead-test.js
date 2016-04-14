@@ -68,11 +68,14 @@ describe('locationTypeahead functionality', () => {
     ];
 
     const fetch = (term, cb) => {
-      const matches = db.filter((item) => {
-        return (item.displayName + '').toLowerCase().indexOf(term.toLowerCase()) !== -1;
-      });
+      //We only want to fetch if it's not current location, so check for lat
+      if (!term.lat) {
+        const matches = db.filter((item) => {
+          return (item.displayName + '').toLowerCase().indexOf(term.toLowerCase()) !== -1;
+        });
 
-      cb(matches);
+        cb(matches);
+      }
     };
 
     locationSearch = new LocationTypeahead('.location-typeahead-test', fetch, {
