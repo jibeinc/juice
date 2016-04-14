@@ -92,6 +92,7 @@ class LocationTypeahead extends Typeahead {
   set(v) {
     this.textInput.set(v);
     this.setInternal(v);
+    this.textInput.$el.find('input').blur();
     return this;
   }
 
