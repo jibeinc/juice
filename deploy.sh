@@ -16,4 +16,4 @@ git add --force dist/
 # bump bower.json and package.json
 mversion patch -m 'Bumped to %s'
 
-git push --quiet "https://${GH_TOKEN}@${GH_REF}" master > /dev/null 2>&1
+git push "https://${GH_TOKEN}@${GH_REF}" master > /dev/null 2>&1
