@@ -21,6 +21,7 @@ before_install:
   - npm install -g npm@^3
 install:
   - npm install -g mversion
+  - npm install
 
 before_script:
   - npm run test
