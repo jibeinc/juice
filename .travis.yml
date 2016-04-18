@@ -9,9 +9,7 @@ env:
   global:
   - GH_REF: github.com/jibeinc/juice.git
   - secure: FzfsJL+JKN7dhnDHqqv63smGUk0WELry5bwyPn9xS9dnnAdAueZwSly6s/U1HLSYheny3F8i9nqhCHGRNOGugowK8kbO+Gf3P9AoYw/ko9E6Uqh9CSQlGM1mn8likqV1MPpT3a0qAuUBWLojAa3yMH42UmF7jmU1P/NZgnAUKjNPM2D6iHlWwWmZCq/r9R1nvNESVhekewa0YweNEzxLeiwCqijQx+IYU6shY5zKBPgZct/OwVGBfq/qALdL/3G1b48f9hqnqdC2/VAPX29UKFjQSvvci3N0ILQkDRHHQgLD5INAsLiMnRt08AuE9sqgytuyZoI1EcfUOuY4zqYF4/x7407cpiLazPMZElqlHeD2TnjrVpJEvGl6YLzQMSKnrIZKxHFhdJVWusGJ+go7YeZKzo8mCbVGZRDXUr9Md4onyUaaAQElloO8mHTeDEsYLI3tbtW9nc7Yu7+JlbT53wTjOFctNlob0obyo9oLXHxAzrRxIkyQ1qoLsFowiNfTV9aofZYOcOkzmxC0gyKQmYpXFqMPHdEJN/uH0g2MfsGNVj+Enlu7sB5LZz3FjYbNrnHM2Bg/C17g//65LFXhlTdZ3q9DEShbiGwTZgvD5kN0XsSpQIw5HHXhaA/Z8IGmMUWSCLnJPMg8yc8X3CevrWiTxtq+fT97ALfGiT3xUiU=
-cache:
-  directories:
-  - node_modules
+
 before_install:
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
