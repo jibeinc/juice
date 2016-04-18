@@ -24,7 +24,7 @@ before_script:
   - npm run test
 
 script:
-  - if [[ $TRAVIS_BRANCH == 'master' ]]; then bash ./deploy.sh; fi
+  - if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false']]; then bash ./deploy.sh; fi
 
 after_script:
   - codeclimate-test-reporter < coverage/report-lcov/lcov.info
