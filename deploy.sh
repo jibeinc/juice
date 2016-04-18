@@ -16,8 +16,4 @@ git add --force dist/
 # bump bower.json and package.json
 mversion patch -m 'Bumped to %s'
 
-# Force push from the current repo's master branch to the remote
-# repo's gh-pages branch. (All previous history on the gh-pages branch
-# will be lost, since we are overwriting it.) We redirect any output to
-# /dev/null to hide any sensitive credential data that might otherwise be exposed.
-git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master > /dev/null 2>&1
+git push --quiet "https://${GH_TOKEN}@${GH_REF}" master > /dev/null 2>&1
