@@ -13,7 +13,7 @@ npm run build
 git config user.name "Travis CI"
 git config user.email "rwwagner90@gmail.com"
 
-git add .
+git add --force dist/
 git commit -m "Auto-deploy dist"
 
 # Force push from the current repo's master branch to the remote
