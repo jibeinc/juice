@@ -35,7 +35,7 @@ after_script:
   - codeclimate-test-reporter < coverage/report-lcov/lcov.info
 
 deploy:
-  - provider: npm
+  -provider: npm
   email: rwwagner90@gmail.com
   api_key:
     secure: g+VDEhxch6qdTIeIGMtKIm1N4+yqvgfhF6inRCs8WehwcRgNX+Gnh2XLMtXEVk0OVVx+M/Y1ulnkcOqDCDALmplAXjJE2k8wBbX2XvGZ9amPUDy9RX84OwY8etiEtOhc7BkeAvEH6PoRjv0O0S2Yl967JXqk1EHt4K6kJN1gVLukURexvN85HJFd4jXS39LLA8r+v7kAG18/JRGSaODqKJwgXtbevEwpNhcfupXr8Mn20YkgOl0T2y2fitQCFIiEuCYysE8eWhdlGEhZKw2QqK8+CMLvdakldJgXq1y9K8Y30lzNu+OUzSxgboaR2PecHjrIECl7YgP1JbMnpBm5oj61eAoSDVtTxgOpmyXG/cVz2E2hNMhfobvqHqx2oqu8P4rwmSE2CR1gYZGYaBAmQnWN629g8xx2AKCuldvSM/llSlhwiAH6IAvmurRBEpqIiBTxnrndPqqotbj4sKdOkI07YzaL92f4Aay3E8WK08Qg1efhnI1DFO2qpG8yPVyTldasJuwjlW2Dd+l20NA/vZTceyaK2ggDulKUYcXA/8Qbzcg51pzSIY44VGZ3gzVpeoQZeXwTmiOhEIvK3AjlI7MmUKBaRIB0y9HUbuZqbRd0V8O3hyHX8dJnL2aDWCOD5Qtv7KYpCEzG9N7qHo137TUQFVjrZKXim8RZRDK+As0=
@@ -44,7 +44,7 @@ deploy:
     tags: true
     repo: jibeinc/juice
   skip_cleanup: true
-  - provider: releases
+  -provider: releases
   api_key:
     secure: "2lEz65Nny+pH7nkjXSR5jfPTFRjE9LFsMtiAVtYNmx4NVND3Z9GGRcFNKiT/nMZuCo7dlRw4xZvwgke2s9/EKjd5ZB5GT5QklaviIgXk/ndQcGZZRVgzRPV2BG9sLYVQyWw2iv58vHR1sQHc+Ewb/lU6s2FZdOJgb4+suctgdVo4lU2m+2kO3hNUNtFn3CulcRiNTWN5hM0ZkmCws1xnuLw54H/Yt5E7CuHXwzcgr12qHA/Kem5gnd3CQfVAMUZplvlzT93vxdLJsLyOaYNqj5g8u+wQvC913cgrKH14qWH5f6MqCWedqZzhUNV73PllUTW90Lbbiho7ygC71EMiH8BJ9/XHc4fwmO6OkIETtF6h2au2e3IN7eVyz7fBiZR/Yo8WZpdw8hsrO3oy2q8lbqDPNkxsFVq9O5CLGwFrJAQHCyQR2Q4MowIFbUv32x0gMLBedJ+ce6Zp1Ftm9XXoAKR5qq6Rpvx63Acw9rC6yn5pvqszBRRAEvu8X2F2DyuUpnhNySHRC4N4OT8JQZ8tZfm7+l7jCV2akJPMysIE8ulGRHK6ChA/b0L/ksl5eJhSpIyrrjOeBKr3xTOr0xN6Om5jzKi9QYsXRXZgABsZc3Ynwkw6WMhhPgQck5l0Rpol5usZCvju2p+mB9OD4ID3xY4DtEUA5fiNqmwE4LJk4YY="
   on:
