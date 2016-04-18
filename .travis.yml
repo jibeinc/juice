@@ -26,14 +26,7 @@ before_script:
 - npm run test
 
 script:
-- if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]
-  then
-    rm -rf dist
-    mkdir dist
-    npm run build
-    git add --force dist/
-    mversion patch -m 'Bumped to %s'
-  fi
+  - if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then bash ./deploy.sh; fi
 
 after_script:
 - codeclimate-test-reporter < coverage/report-lcov/lcov.info
