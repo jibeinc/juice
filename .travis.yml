@@ -47,8 +47,8 @@ after_success:
   - eval "$(ssh-agent -s)"
   - chmod 600 .travis/deploy_key.pem
   - ssh-add .travis/deploy_key.pem
-  - git remote add deploy git@github.com:jibeinc/juice.git
-  - git push deploy
+  - git remote add origin git@github.com:jibeinc/juice.git
+  - git push origin/master
 
 addons:
   code_climate:
