@@ -32,7 +32,7 @@ before_script:
   - npm run test
 
 script:
-  - bash ./deploy.sh
+  - if [[ $TRAVIS_BRANCH == 'master' ]] bash ./deploy.sh fi
 
 after_script:
   - codeclimate-test-reporter < coverage/report-lcov/lcov.info
