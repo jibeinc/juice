@@ -25,6 +25,7 @@ before_install:
 
 install:
   - npm install -g bower
+  - npm install -g mversion
   - npm install
   - bower install
 

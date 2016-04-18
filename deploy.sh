@@ -14,7 +14,8 @@ git config user.name "Travis CI"
 git config user.email "rwwagner90@gmail.com"
 
 git add --force dist/
-git commit -m "Auto-deploy dist"
+# bump bower.json and package.json
+mversion patch -m 'Bumped to %s'
 
 # Force push from the current repo's master branch to the remote
 # repo's gh-pages branch. (All previous history on the gh-pages branch
