@@ -20,10 +20,7 @@ before_install:
   - npm config set spin false
   - npm install -g npm@^3
 install:
-  - npm install -g bower
   - npm install -g mversion
-  - npm install
-  - bower install
 
 before_script:
   - npm run test

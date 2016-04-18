@@ -1,13 +1,8 @@
 #!/bin/bash
 set -e # exit with nonzero exit code if anything fails
 
-# clear and re-create the out directory
-rm -rf dist || exit 0;
-mkdir dist;
-
 # run our compile script, discussed above
-npm run build
-
+npm run make
 
 # inside this git repo we'll pretend to be a new user
 git config user.name "Travis CI"
