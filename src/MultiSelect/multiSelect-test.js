@@ -1,3 +1,5 @@
+'use strict';
+
 const $ = require('jquery');
 const MultiSelect = require('./index.js');
 

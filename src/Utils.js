@@ -1,3 +1,5 @@
+'use strict';
+
 const $ = require('jquery');
 const bowser = require('bowser');
 
@@ -5,12 +7,6 @@ const bowser = require('bowser');
  * A class to hold utils methods
  */
 class Utils {
-  /**
-   * Empty constructor
-   */
-  constructor() {
-  }
-
   /**
    * Binds to either click or touch, based on what is available
    * @param {jQuery} element The jquery wrapped element to bind to

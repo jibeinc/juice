@@ -1,3 +1,5 @@
+'use strict';
+
 const $ = require('jquery');
 const LocationTypeahead = require('./index.js');
 const {simulateKeyPress} = require('../testHelpers.js');
@@ -71,7 +73,7 @@ describe('locationTypeahead functionality', () => {
       //We only want to fetch if it's not current location, so check for lat
       if (!term.lat) {
         const matches = db.filter((item) => {
-          return (item.displayName + '').toLowerCase().indexOf(term.toLowerCase()) !== -1;
+          return (String(item.displayName)).toLowerCase().indexOf(term.toLowerCase()) !== -1;
         });
 
         cb(matches);

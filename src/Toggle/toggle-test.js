@@ -1,3 +1,5 @@
+'use strict';
+
 const $ = require('jquery');
 const toggle = require('./index.js');
 

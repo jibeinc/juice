@@ -1,3 +1,5 @@
+'use strict';
+
 const $ = require('jquery');
 const RadioButtons = require('./index.js');
 

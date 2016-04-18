@@ -48,6 +48,7 @@ after_success:
   - chmod 600 .travis/deploy_key.pem
   - ssh-add .travis/deploy_key.pem
   - git remote add origin git@github.com:jibeinc/juice.git
+  - git status
   - git push origin/master
 
 addons:

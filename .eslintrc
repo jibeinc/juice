@@ -34,14 +34,107 @@
     "dateFormat": true
   },
   "rules": {
+    "comma-dangle": ["error", "never"],
+    "no-cond-assign": "error",
+    "no-constant-condition": "error",
+    "no-control-regex": "error",
+    "no-debugger": "error",
+    "no-dupe-args": "error",
+    "no-dupe-keys": "error",
+    "no-duplicate-case": "error",
+    "no-empty": "warn",
+    "no-empty-character-class": "error",
+    "no-ex-assign": "error",
+    //no-extra-boolean-cast
+    "no-extra-parens": ["error", "functions"],
+    "no-extra-semi": "error",
+    "no-func-assign": "error",
+    //no-inner-declarations
+    "no-invalid-regexp": "error",
+    "no-irregular-whitespace": "error",
+    "no-negated-in-lhs": "error",
+    "no-obj-calls": "error",
+    "no-regex-spaces": "error",
+    "no-sparse-arrays": "error",
+    "no-unexpected-multiline": "error",
+    "no-unreachable": "error",
+    "use-isnan": "error",
+    "valid-jsdoc": ["warn", {
+      "requireReturn": false
+    }],
+    "valid-typeof": "error",
+    //accessor-pairs
+    "array-callback-return": "error",
+    "block-scoped-var": "warn",
+    //complexity
+    //consistent-return
+    "curly": "error",
+    "default-case": "error",
+    //dot-location
+    //dot-notation
+    "eqeqeq": "error",
+    //guard-for-in
+    "no-alert": "error",
+    "no-caller": "error",
+    //no-case-declarations
+    "no-div-regex": "error",
+    //no-else-return
+    "no-empty-function": "error",
+    "no-empty-pattern": "error",
+    "no-eq-null": "error",
+    //no-eval
+    "no-extend-native": "error",
+    "no-extra-bind": "error",
+    "no-extra-label": "error",
+    //no-fallthrough
+    "no-floating-decimal": "error",
+    "no-implicit-coercion": ["error", { "allow": ["!!"] } ],
+    //no-implicit-globals
+    "no-implied-eval": "error",
+    "no-invalid-this": "error",
+    "no-iterator": "error",
+    "no-labels": "error",
+    "no-lone-blocks": "error",
+    "no-loop-func": "warn",
+    //no-magic-numbers
+    "no-multi-spaces": "error",
+    "no-multi-str": "warn",
+    "no-native-reassign": "error",
+    "no-new": "error",
+    "no-new-func": "error",
+    "no-new-wrappers": "error",
+    "no-octal": "error",
+    "no-octal-escape": "error",
+    //no-param-reassign
+    "no-proto": "warn",
+    "no-redeclare": "error",
+    "no-return-assign": "warn",
+    //no-script-url
+    "no-self-assign": "error",
+    "no-self-compare": "error",
+    "no-sequences": "error",
+    "no-throw-literal": "error",
+    //no-unmodified-loop-condition
+    "no-unused-expressions": "error",
+    "no-unused-labels": "error",
+    "no-useless-call": "error",
+    "no-useless-concat": "error",
+    //"no-useless-escape": "error",
+    "no-void": "error",
+    //no-warning-comments
+    "no-with": "error",
+    "radix": "error",
+    "vars-on-top": "warn",
+    "wrap-iife": ["error", "inside"],
+    "yoda": "error",
+    "strict": ["error", "global"],
+
+
+    //END
+
     "camelcase": [1, {"properties": "always"}],
-    "comma-dangle": [1, "never"],
     "indent": [1, 2, {"SwitchCase": 1}],
-    "no-debugger": 1,
-    "no-extra-semi": 1,
-    "no-multi-spaces": 1,
     "no-undef": 2,
-    "no-unreachable": 1,
     "no-unused-vars": 1,
     "require-jsdoc": [1, {
       "require": {
@@ -50,10 +143,6 @@
         "ClassDeclaration": true
       }
     }],
-    "valid-jsdoc": [1, {
-      "requireReturn": false
-    }],
-    "yoda": [1, "never"],
     //ES6 Stuff
     "arrow-parens": 1,
     "arrow-spacing": 1,

@@ -1,3 +1,5 @@
+'use strict';
+
 const Baobab = require('baobab');
 
 /**

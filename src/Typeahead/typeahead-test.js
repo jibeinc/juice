@@ -1,3 +1,5 @@
+'use strict';
+
 const $ = require('jquery');
 const Typeahead = require('./index.js');
 const {simulateKeyPress} = require('../testHelpers.js');
@@ -25,7 +27,7 @@ describe('typeahead functionality', () => {
 
     const fetch = function (term, cb) {
       const matches = db.filter((item) => {
-        return (item.displayName + '').indexOf(term) !== -1;
+        return (String(item.displayName)).indexOf(term) !== -1;
       });
 
       cb(matches);
