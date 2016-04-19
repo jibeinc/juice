@@ -7,6 +7,7 @@ const bowser = require('bowser');
  * A class to hold utils methods
  */
 class Utils {
+
   /**
    * Binds to either click or touch, based on what is available
    * @param {jQuery} element The jquery wrapped element to bind to
@@ -33,13 +34,11 @@ class Utils {
       element.on('touchend', (evt) => {
         if (dragging) {
           dragging = false;
-        }
-        else {
+        } else {
           onClickFunction(evt);
         }
       });
-    }
-    else {
+    } else {
       element.on('click', onClickFunction);
     }
   }

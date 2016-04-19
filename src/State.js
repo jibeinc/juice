@@ -6,6 +6,7 @@ const Baobab = require('baobab');
  * Class representing centralized baobab state
  */
 class State {
+  
   /**
    * Creates a new State instance
    * @param {object} initialState - The initial state

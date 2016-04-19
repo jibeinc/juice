@@ -4,7 +4,6 @@ const $ = require('jquery');
 const LocationTypeahead = require('./index.js');
 const {simulateKeyPress} = require('../testHelpers.js');
 
-
 describe('locationTypeahead functionality', () => {
   let locationSearch;
 
@@ -76,7 +75,7 @@ describe('locationTypeahead functionality', () => {
           return (String(item.displayName)).toLowerCase().indexOf(term.toLowerCase()) !== -1;
         });
 
-        cb(matches);
+        return cb(matches);
       }
     };
 
@@ -111,7 +110,7 @@ describe('locationTypeahead functionality', () => {
     expect(locationSearch.resultsListView.results[0].displayName).toBe('Boston, MA');
     expect(locationSearch.resultsListView.results[1].displayName).toBe('New York, NY');
     locationSearch.textInput.set('');
-    expect(locationSearch.resultsListView.results[0].displayName).toBe(undefined);
+    expect(locationSearch.resultsListView.results[0].displayName).toBeUndefined();
   });
   it('test up/down arrows and enter', () => {
     expect(locationSearch.resultsListView.$el).toBeHidden();

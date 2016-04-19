@@ -3,34 +3,62 @@
 require('babel-polyfill');
 const initFunc = require('./init');
 
+// exposed dependences
+const Dot = require('./Dot');
+const i18n = require('./i18n');
+
+// services
+const BaseFragmentFactory = require('./BaseFragmentFactory');
+const PubSubHub = require('./PubSubHub');
+const State = require('./State');
+const url = require('url');
+
+// components
+const Button = require('./Button');
+const CurrentLocation = require('./CurrentLocation');
+const ExpandCollapse = require('./ExpandCollapse/');
+const InfiniteScroll = require('./InfiniteScroll');
+const ListView = require('./ListView');
+const LocationTextInput = require('./LocationTextInput');
+const LocationTypeahead = require('./LocationTypeahead');
+const MultiSelect = require('./MultiSelect');
+const Pagination = require('./Pagination');
+const RadioButtons = require('./RadioButtons');
+const SingleSelect = require('./SingleSelect');
+const TextInput = require('./TextInput');
+const Toggle = require('./Toggle');
+const Typeahead = require('./Typeahead');
+const SentenceGenerator = require('./SentenceGenerator');
+const Spinner = require('./Spinner');
+
 const UIComponents = {
   // exposed dependences
-  Dot: require('./Dot'),
-  i18n: require('./i18n'),
+  Dot,
+  i18n,
 
   // services
-  BaseFragmentFactory: require('./BaseFragmentFactory'),
-  PubSubHub: require('./PubSubHub'),
-  State: require('./State'),
-  url: require('url'),
+  BaseFragmentFactory,
+  PubSubHub,
+  State,
+  url,
 
   // components
-  Button: require('./Button'),
-  CurrentLocation: require('./CurrentLocation'),
-  ExpandCollapse: require('./ExpandCollapse/'),
-  InfiniteScroll: require('./InfiniteScroll'),
-  ListView: require('./ListView'),
-  LocationTextInput: require('./LocationTextInput'),
-  LocationTypeahead: require('./LocationTypeahead'),
-  MultiSelect: require('./MultiSelect'),
-  Pagination: require('./Pagination'),
-  RadioButtons: require('./RadioButtons'),
-  SingleSelect: require('./SingleSelect'),
-  TextInput: require('./TextInput'),
-  Toggle: require('./Toggle'),
-  Typeahead: require('./Typeahead'),
-  SentenceGenerator: require('./SentenceGenerator'),
-  Spinner: require('./Spinner')
+  Button,
+  CurrentLocation,
+  ExpandCollapse,
+  InfiniteScroll,
+  ListView,
+  LocationTextInput,
+  LocationTypeahead,
+  MultiSelect,
+  Pagination,
+  RadioButtons,
+  SingleSelect,
+  TextInput,
+  Toggle,
+  Typeahead,
+  SentenceGenerator,
+  Spinner
 };
 
 UIComponents.init = function init() {

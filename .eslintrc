@@ -128,14 +128,74 @@
     "wrap-iife": ["error", "inside"],
     "yoda": "error",
     "strict": ["error", "global"],
+    //init-declarations
+    "no-catch-shadow": "error",
+    "no-delete-var": "error",
+    "no-label-var": "error",
+    //no-restricted-globals
+    "no-shadow": "warn",
+    "no-shadow-restricted-names": "error",
+    "no-undef": "error",
+    "no-undef-init": "error",
+    "no-undefined": "error",
+    "no-unused-vars": "error",
+    "no-use-before-define": "error",
+    "callback-return": "warn",
+    "global-require": "error",
+    "handle-callback-err": "error",
+    "no-mixed-requires": "error",
+    "no-new-require": "error",
+    "no-path-concat": "error",
+    //no-process-env
+    //Enable after amnesia is gone
+    "no-process-exit": "error",
+    //no-restricted-modules
+    //Enable after Naveed's refactor
+    //"no-sync": "error",
+    "array-bracket-spacing": ["error", "never"],
+    //block-spacing
+    "brace-style": "error",
+    "camelcase": "error",
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "comma-style": ["error", "last"],
+    "computed-property-spacing": ["error", "never"],
+    //consistent-this
+    "eol-last": "error",
+    //func-names
+    //func-style
+    //id-blacklist
+    //id-length
+    //id-match
+    "indent": ["error", 2, {"SwitchCase": 1}],
+    //jsx-quotes
+    "key-spacing": ["error", {"beforeColon": false, "afterColon": true}],
+    "keyword-spacing": "error",
+    "linebreak-style": ["error", "unix"],
+    "lines-around-comment": "error",
+    "max-depth": ["error", 10],
+    "max-len": ["error", 160, 4],
+    "max-nested-callbacks": ["error", 3],
+    //max-params
+    //max-statements
+    "max-statements-per-line": ["error", { "max": 1 }],
+    "new-cap": "error",
+    "new-parens": "error",
+    //newline-after-var
+    //newline-before-return
+    "newline-per-chained-call": ["error", {"ignoreChainWithDepth": 3}],
+    "no-array-constructor": "error",
+    "no-bitwise": "error",
+    "no-continue": "error",
+    //no-inline-comments
+    "no-lonely-if": "error",
+    "no-mixed-spaces-and-tabs": "error",
+    "no-multiple-empty-lines": ["error", {"max": 1}],
+    //no-negated-condition
+    "no-nested-ternary": "error",
+    "no-new-object": "error",
+    //no-plusplus
 
 
-    //END
-
-    "camelcase": [1, {"properties": "always"}],
-    "indent": [1, 2, {"SwitchCase": 1}],
-    "no-undef": 2,
-    "no-unused-vars": 1,
     "require-jsdoc": [1, {
       "require": {
         "FunctionDeclaration": true,

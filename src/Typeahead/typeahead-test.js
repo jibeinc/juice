@@ -4,7 +4,6 @@ const $ = require('jquery');
 const Typeahead = require('./index.js');
 const {simulateKeyPress} = require('../testHelpers.js');
 
-
 describe('typeahead functionality', () => {
   let searchNumbers;
 

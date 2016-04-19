@@ -29,12 +29,13 @@ const globalTemplateMap = {
  * Class for working with dot and rendering DOM
  */
 class DotService {
+
   /**
    * Creates a new Dot instance
-   * @param {object} doT The doT object
+   * @param {object} doTRef The doT object
    */
-  constructor(doT) {
-    this.doT = doT;
+  constructor(doTRef) {
+    this.doT = doTRef;
   }
 
   /**

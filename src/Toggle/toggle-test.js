@@ -1,14 +1,14 @@
 'use strict';
 
 const $ = require('jquery');
-const toggle = require('./index.js');
+const Toggle = require('./index.js');
 
 describe('toggle', () => {
   let toggleTest;
 
   beforeEach(() => {
     $('body').append('<div class="toggle-test"></div>');
-    toggleTest = new toggle('.toggle-test', {
+    toggleTest = new Toggle('.toggle-test', {
       toggledClass: 'toggled-class',
       untoggledClass: 'untoggled-class'
     });

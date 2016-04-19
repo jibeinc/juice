@@ -42,7 +42,7 @@ describe('pagination functionality', () => {
   });
   it('test clicking page number', () => {
     $('body').append('<div class="pagination-test"></div>');
-    const pagination = new Pagination('.pagination-test', {
+    pagination = new Pagination('.pagination-test', {
       cssStyle: 'pagination',
       edges: 0,
       hrefTextPrefix: '#?page=',

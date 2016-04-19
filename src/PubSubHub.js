@@ -7,6 +7,7 @@
  * each component getting a single unique 2-way stream
  */
 class PubSubHub {
+  
   /**
    * Creates a new PubSubHub
    */

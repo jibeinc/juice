@@ -14,6 +14,7 @@ const assert = require('./assert');
  *   to the controller in the DOM
  */
 class BaseFragmentFactory {
+  
   /**
    * Creates a new BaseFragmentFactory
    * @param {object} opts - The options for the component
