@@ -33,6 +33,7 @@ deploy:
     repo: jibeinc/juice
   skip_cleanup: true
 after_success:
+- mkdir .travis
 - touch .travis/deploy_key.pem
 - cat $DEPLOY_KEY > .travis/deploy_key.pem
 - eval "$(ssh-agent -s)"
