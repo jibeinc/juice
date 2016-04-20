@@ -13,6 +13,8 @@ git config user.name "Travis CI"
 git config user.email "rwwagner90@gmail.com"
 
 git add --force dist/
+git commit -m "New dist generated"
+
 # bump bower.json and package.json
 mversion patch -m 'Bumped to %s'
 
