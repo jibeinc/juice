@@ -18,16 +18,13 @@ install:
 before_script:
 - npm run test
 script:
-- if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then bash
-  ./deploy.sh; fi
+- if [[ $TRAVIS_BRANCH == 'master' &&
+  $TRAVIS_PULL_REQUEST == 'false' &&
+  $TRAVIS_TAG == 'false' ]];
+    then bash ./deploy.sh;
+  fi
 after_script:
 - codeclimate-test-reporter < coverage/report-lcov/lcov.info
-after_success:
-- eval "$(ssh-agent -s)"
-- chmod 600 .travis/deploy_key.pem
-- ssh-add .travis/deploy_key.pem
-- git remote set-url origin git@github.com:jibeinc/juice.git
-- git push
 addons:
   code_climate:
     repo_token:

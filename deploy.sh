@@ -24,3 +24,9 @@ git add bower.json
 git add package.json
 
 git commit -m "New dist generated [ci skip]"
+
+eval "$(ssh-agent -s)"
+chmod 600 .travis/deploy_key.pem
+ssh-add .travis/deploy_key.pem
+git remote set-url origin git@github.com:jibeinc/juice.git
+git push
