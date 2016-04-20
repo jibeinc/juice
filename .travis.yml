@@ -45,7 +45,11 @@ deploy:
   skip_cleanup: true
 
 after_success:
-  - git push --quiet "https://${GH_USER}:${GH_PASSWORD}@${GH_REF}" > /dev/null 2>&1
+  - cat $DEPLOY_KEY > .travis/deploy_key.pem
+  - eval "$(ssh-agent -s)"
+  - chmod 600 .travis/deploy_key.pem
+  - ssh-add .travis/deploy_key.pem
+  - git push origin/master
 
 addons:
   code_climate:
