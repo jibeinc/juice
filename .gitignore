@@ -49,6 +49,7 @@ bower_components
 # OS generated files #
 ######################
 .idea/
+.travis/
 .DS_Store
 .DS_Store?
 ._*
