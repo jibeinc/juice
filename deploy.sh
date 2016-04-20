@@ -5,7 +5,8 @@ set -e # exit with nonzero exit code if anything fails
 git config user.name "Travis CI"
 git config user.email "rwwagner90@gmail.com"
 
-git checkout -t origin/master
+git checkout master
+git pull
 
 # clear and re-create the dist directory
 rm -rf dist || exit 0;
