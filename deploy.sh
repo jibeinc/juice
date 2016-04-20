@@ -12,11 +12,15 @@ npm run build
 git config user.name "Travis CI"
 git config user.email "rwwagner90@gmail.com"
 
+git checkout https://${GH_USER}:${GH_PASSWORD}@${GH_REF}
+
 git add --force dist/
 git commit -m "New dist generated"
 
 # bump bower.json and package.json
 mversion patch -m 'Bumped to %s'
+
+git status
 
 # We redirect any output to /dev/null to hide any sensitive credential
 # data that might otherwise be exposed.
