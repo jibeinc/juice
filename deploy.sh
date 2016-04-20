@@ -5,7 +5,6 @@ set -e # exit with nonzero exit code if anything fails
 git config user.name "Travis CI"
 git config user.email "rwwagner90@gmail.com"
 
-git remote add origin https://github.com/jibeinc/juice.git
 git checkout origin/master
 
 # clear and re-create the dist directory
