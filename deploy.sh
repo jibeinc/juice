@@ -21,10 +21,5 @@ mkdir dist
 npm run build
 
 git add --force dist/
-# bump bower.json and package.json
-mversion patch
-git add .
 git commit -m "New dist generated [ci skip]"
-
-echo "Push new dist"
 git push --quiet
