@@ -8,6 +8,11 @@ git config user.email "jjt@jibe.com"
 git checkout master
 git pull
 
+eval "$(ssh-agent -s)"
+chmod 600 .travis/deploy_key.pem
+ssh-add .travis/deploy_key.pem
+git remote set-url origin git@github.com:jibeinc/juice.git
+
 # clear and re-create the dist directory
 rm -rf dist || exit 0;
 mkdir dist;
@@ -16,17 +21,10 @@ mkdir dist;
 npm run build
 
 git add --force dist/
+git commit -m "New dist generated [ci skip]"
+git push --quiet
 
 # bump bower.json and package.json
-mversion patch
+mversion patch -m "Bump version to %s"
 
-git add bower.json
-git add package.json
-
-git commit -m "New dist generated [ci skip]"
-
-eval "$(ssh-agent -s)"
-chmod 600 .travis/deploy_key.pem
-ssh-add .travis/deploy_key.pem
-git remote set-url origin git@github.com:jibeinc/juice.git
-git push
+git push --quiet --tags
