@@ -4,6 +4,7 @@ node_js:
 sudo: true
 dist: trusty
 before_install:
+- mkdir .travis
 - openssl aes-256-cbc -K $encrypted_9dfd91a21fad_key -iv $encrypted_9dfd91a21fad_iv
   -in deploy_key.pem.enc -out .travis/deploy_key.pem -d
 - export CHROME_BIN=chromium-browser
@@ -32,7 +33,6 @@ deploy:
     repo: jibeinc/juice
   skip_cleanup: true
 after_success:
-- mkdir .travis
 - eval "$(ssh-agent -s)"
 - chmod 600 .travis/deploy_key.pem
 - ssh-add .travis/deploy_key.pem
