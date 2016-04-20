@@ -4,6 +4,8 @@ node_js:
 sudo: true
 dist: trusty
 before_install:
+- openssl aes-256-cbc -K $encrypted_9dfd91a21fad_key -iv $encrypted_9dfd91a21fad_iv
+  -in deploy_key.pem.enc -out .travis/deploy_key.pem -d
 - export CHROME_BIN=chromium-browser
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
@@ -30,18 +32,13 @@ deploy:
     repo: jibeinc/juice
   skip_cleanup: true
 after_success:
-- mkdir .travis
-- touch .travis/deploy_key.pem
-- cat $DEPLOY_KEY > .travis/deploy_key.pem
 - eval "$(ssh-agent -s)"
 - chmod 600 .travis/deploy_key.pem
-- ssh-add .travis/deploy_key.pem -k </dev/null &>/dev/null
+- ssh-add .travis/deploy_key.pem
 - git remote set-url origin git@github.com:jibeinc/juice.git
 - git push
 addons:
   code_climate:
     repo_token:
       secure: e3wmwqbVykJ9hICJE963fX2QAqu7+ujunvkZ7Z/oncZ0Ltwwp+z3VEOqjSD4Y+JRKKWOqGk9GlNBjAQa9dgmaZhfLmXHSzZrQAbuXgPX8wh6+n276dr0U9ArSOj2xuJgm2c2QoS0ckzBE9CEitwI4VZGOMkDUXFa+T18ljRxC3hZSbr/NssYza4aA3k8Dpc1vv9Ee9U8qNql1KJ6nUlmBVnk6djUdLsHzCe50MhxizQSJ1hrToeGDypUnwOs9UPcap13OmUOMQ0teViW76U6n5F3xABNnojSH0LD+kY4X16tXabeQvstegzvVNUhJUu2YNYv9RC7njFszKpCTvrW29oFMvJ70O/H14+f0Irhewf4CS/cETE3o/J6CdyecS6s+KhFgVNag8AmrfpaUuJN+pGTSL5gs0hglLG+Ajfbuv3jTRTWHI35jTA/WLbk0vgwLmXCaNWk4+1Ufa60HlMGVaL+d6svj0i6Q7wJQcBs9YZMZJB6IgqYGxugQv1MqrMrfvG1yBW9xLlb+CBpyi7m1elnJPp3NPU8YQO45UWTN9mxMBLieHCtlHYkZc/w2t+MJCa0q4xpHPWrnZ2suYmx81iJwoRdudBMdx2e+aYbdsW2vhWESyAmWLOFaKwpUWnJ7b513CgVHHCOAZnyk0HBPp0AXBXH8OKPeuaKyfY1+Io=
-env:
-  matrix:
-    secure: O2L/KDpTF+vly/wZ8qQBFVges1/lXEuD5teWR+pE94Bp5Z0mRZOf6+yE/B12/R2fn+3/mC2YDhbdkzYmZ0SW4ENxuJrowzTg04jDjHYSESKQ4OXBGr5d7JO9eX3rU+phnPmb58CUFUkiOyz2Ju3A8Hrbd9pMWQKtLHJ+wF/8M7LEwHb3Luod6UuFGaWO2E/mjNy1APmW8XqLXTuG6S9k9JO5RPyQl6Uq1JVNtk1IGaH2oGaCCJcrJv2XKxE7U1njcVJOUFaojkRs3RhGEEmw5EAN1N5ohcBABRdQcP8PaK1/MNg1WAElQ/tJ36tUmGyEA71rCHu4znI3YWK3j89B0Z9hHgTiSx1rQNwFY8IYouq3K0SKFXYvJiQNSO9tVDu3JRAgAjJYqHWwkwJCTEV03ga4mX21INyT2go8Q0hPdvQ93wTKZqsXT3Vaz4CygIA3gUZfT3IS2HqPC2o6gDZc3oiZ/8F/4ldx4eR/V5N0LPNm/zlvXSd3PFDNp8odXZHGbwvkPR1ZNIuZnOTo5TQGizBFx63i+BbP4NaoXPbrqKcDwBX6y1ffE/X3YNay1G334zCR1SsYRbNFAeSIGSYQSObYXwIkzKR5Kc9GN1O7BQzfDMmtSdFSFXvROuJXZittM79MQuPKlfkLBXeMgBacBzQSEU74Inr2bt4LRocfJDk=
+      
