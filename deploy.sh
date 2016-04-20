@@ -2,11 +2,11 @@
 set -e # exit with nonzero exit code if anything fails
 
 # inside this git repo we'll pretend to be a new user
-git config user.name "Travis CI"
-git config user.email "jjt@jibe.com"
+git config user.name "Travis CI";
+git config user.email "jjt@jibe.com";
 
-git checkout master
-git pull
+git checkout master;
+git pull;
 
 eval "$(ssh-agent -s)"
 chmod 600 .travis/deploy_key.pem
@@ -18,13 +18,15 @@ rm -rf dist || exit 0;
 mkdir dist;
 
 # run our compile script, discussed above
-npm run build
+npm run build;
 
-git add --force dist/
-git commit -m "New dist generated [ci skip]"
-git push --quiet
+git add --force dist/;
+git commit -m "New dist generated [ci skip]";
+echo "Push new dist";
+git push --quiet;
 
 # bump bower.json and package.json
-mversion patch -m "Bump version to %s"
-
-git push --quiet --tags
+echo "Bump version";
+mversion patch -m "Bumped version to %s";
+echo "Push new tags";
+git push --quiet --tags;
