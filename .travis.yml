@@ -31,15 +31,13 @@ after_script:
 - codeclimate-test-reporter < coverage/report-lcov/lcov.info
 after_success:
 # bump bower.json and package.json and push tags
-- if [[ ! $TRAVIS_TAG ]]
-  then
-    if ! git diff-index --quiet HEAD --;
-    then
-      git add --force dist/
-      git commit -m "New dist generated [ci skip]"
-      git push --quiet
-    fi
-    mversion patch -m "Bump version to %s" && git push --quiet --tags
+- echo "$TRAVIS_TAG"
+- echo "$(git diff --exit-code)"
+- if [ ! "$TRAVIS_TAG" ] && [ "$(git diff --exit-code)" -eq 0 ]; then
+    git add --force dist/;
+    git commit -m "New dist generated [ci skip]";
+    git push --quiet;
+    mversion patch -m "Bump version to %s" && git push --quiet --tags;
   fi
 addons:
   code_climate:
