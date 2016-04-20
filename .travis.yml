@@ -38,7 +38,7 @@ after_success:
 - cat $DEPLOY_KEY > .travis/deploy_key.pem
 - eval "$(ssh-agent -s)"
 - chmod 600 .travis/deploy_key.pem
-- ssh-add .travis/deploy_key.pem
+- ssh-add .travis/deploy_key.pem -k </dev/null &>/dev/null
 - git remote set-url origin git@github.com:jibeinc/juice.git
 - git push
 addons:
