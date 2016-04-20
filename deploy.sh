@@ -18,14 +18,9 @@ npm run build
 git add --force dist/
 
 # bump bower.json and package.json
+mversion patch
 
 git add bower.json
 git add package.json
 
-mversion patch -m "Bump to version %s"
-
-echo "Pushing changes"
-
-# We redirect any output to /dev/null to hide any sensitive credential
-# data that might otherwise be exposed.
-git push --quiet "https://${GH_USER}:${GH_PASSWORD}@${GH_REF}" master > /dev/null 2>&1
+git commit -m "New dist generated"

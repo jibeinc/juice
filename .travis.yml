@@ -44,6 +44,9 @@ deploy:
     repo: jibeinc/juice
   skip_cleanup: true
 
+after_success:
+  - git push --quiet "https://${GH_USER}:${GH_PASSWORD}@${GH_REF}" > /dev/null 2>&1
+
 addons:
   code_climate:
     repo_token:
