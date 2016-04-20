@@ -20,9 +20,16 @@ git add --force dist/
 # bump bower.json and package.json
 mversion patch
 
+git add bower.json
+git add package.json
+
 git commit -m "New dist generated"
 
+echo "Checking Status"
+
 git status
+
+echo "Pushing changes"
 
 # We redirect any output to /dev/null to hide any sensitive credential
 # data that might otherwise be exposed.
