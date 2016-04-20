@@ -33,7 +33,7 @@ after_success:
 # bump bower.json and package.json and push tags
 - if [[ ! $TRAVIS_TAG ]]
   then
-    if [[ ! git diff-index --quiet HEAD -- ]]
+    if ! git diff-index --quiet HEAD --;
     then
       git add --force dist/
       git commit -m "New dist generated [ci skip]"
