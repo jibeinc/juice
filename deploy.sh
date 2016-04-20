@@ -3,7 +3,7 @@ set -e # exit with nonzero exit code if anything fails
 
 # inside this git repo we'll pretend to be a new user
 git config user.name "Travis CI"
-git config user.email "rwwagner90@gmail.com"
+git config user.email "jjt@jibe.com"
 
 git checkout master
 git pull

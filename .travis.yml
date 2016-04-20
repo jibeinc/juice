@@ -3,36 +3,25 @@ node_js:
 - 5.10.1
 sudo: true
 dist: trusty
-
 env:
-  global:
-  - GH_REF: github.com/jibeinc/juice.git
-  - GH_USER: rwwagner90
-  - GH_PASSWORD:
-      secure: "cAVUlZd/xpnhMW4Njknoj1155IBn/aWdbUr6C/6sz6lyGfDdQHJPUR7BrpfiJgRfO1HLSFm1+pEqF3j2F374rl7XTi/A0xB5Jv1CWXU3WoDf0oLS9QTqRQ4qLJ4T/vm6OPEmoBR+4cG5mx1QY2FibXdWI7jkFOnI5sg6iOCnd9E94vlH2pSXx+yHWqC+yhQ/abe6D4RwQ81Ab/Q5nCcvrBxQqvqQCPzZmEcL/uw1hWtSGaChBs+NkjZKQd4nTQGOFpS62WlX/uItULkDV4kP2x9GbsCf/5Llr+sQj4SuVOFeIj8z46oGlsS2VSO9y6AOA/EtKZfSaoYmIKsGCu/5MawhJV9OrnrBPX7vf5uwDgrN8MOLZI5MoSZPJXN/9AzoAJBHWapbgAXzBLVuvHZs62c1YVlbqueYVKsOTkiCA/IYr0zAC677deeMekxojE7rgOqXjJEtGR30kYZEEN5P2oVc1UmXNX1n3mPplfyPbvSAA/40wzbwVJDZoh9eiDEoRSFiYCR8E2vq2QgTGBRJ1DriBzk5MG9ODaBE9VQDfbwIyuT2aYm+fGnuHzUO8mCjVfaSZM5QYvNsO1XSX90ITQCm5EvB3VWKXh6IZc8xzkva4EMVVsv9vtA6JnpvZbptkI1v47dQq6gt+uWfcG6F/ttLgbZCV5ShAMnKky3pHCg="
   matrix:
-    secure: IrmxFpdKlul8RHNIZbB7vbMVUEa5VeQC99Is99ACR0HUhBaGIN5xcGjWX93GJ3lKdy71iEpwBEAc/jiR4XQnLFXV1hB8+upDHsvNxlRvwq9ayuMK2OK3CoPdfXRfMa0YAutUK5i8SKWxpkq2V0B48P2U3QlIoD7Po7yFNPFGuGGAneIhwmfy5VIvC7AvuMmW23+56fY9yVG6+/+SzcQylBXOyATvWh//hV6kz2U4wiXYXYcHNAnhBDdZ76z+M0OT02+4QSeR2F8WHZhE5MHHXIXjUpSZBGtSSuyLtzc7LElh+FcDSk6TJxFsL6psEPi9Opnxh25g/Esm9s6+4sMJaws519LDQoWu0cDHIw38c9gKgQO+bCaXwsbs3FUjrKCPEaiOWPg2N8MBLZNR/wDmNLeOirzwopxiSFoJG5AtyxQqnS+uLgtZnacKwfqnVEezISwVfM0jzFDsrGb4Xj5AZE3l0Qk2hCjV/ZeB+7a3gnZgXS3ZT1Jgh33a/unboN/q2TwTxOKDQDGA6ewk7o2nmV7XJJ2hmqEZYwvv33u/2If8gGMGln2KqY7LmhrFfkU+KbVZRbJRRyehwSXQi0z5dfEPlhyOSefTBY0cKjzS5cmQkuLds6kvpVkAdE2zEYdp1mzxFhNBH07/t2EkElXWGUJDSJBpcahNVUIajKh8K24=
-
+    secure: 2TZsKpZnQnx4lZw6/iHaEmOv2QCT6GhOTFcN0TVl82yHP+YTWEQGgRyas6Zg97W2G6UKDoG46jDmw0z9kotEv86pUZul4xaRfmj/o/wz3YVS5zcU1lfZe5YkxiwsOj+CWohtyN3Usi7oa4bL1Rl5XyiXv6I3dOsScAFWFDcG3shRC6nOVGZ/5TMGPvj2QZcCyzvhyAgadIkjbSwoZ6KvLJe3ktCZfv9Nl9r61sYVtzlyEW/2Y183Tcfo3bUt7iEuttw4xNspwOc4sEzQ4m1UVtalnAiqEnjqC66d8WOBAJWJSbyBjSYAzFAAq0+SmcM7HE2EZS09kqrOcG26SPHEQPyZBlRIQTpkiC93I8M+g0OP0ZUb2GT/EkhxARlvzNRlgURCsfCy/qIu8rwG9OSrRQ0K3wwuAtibmKM5l8EC7RFDhW5yBAHL/UQJ2Um3G2GryLt4pAbnzCrUSI+MzmNrrLoeEG0p2MEVl+zmI5Kl5V2NjoMHGWNNykZ9SWVqHWbWm0eJhQnxl++WR9L0YAeabEVRJSBf+GTLhJwvexgJ8oMykzNz9joPdxGHyvIz2kxMuPUxhbsoIPF+QOg/3bO0UZtWSAyozLidiWnwJsbJu0Jzwk2LQUUT+AcUJeH4r2lsJFKuJzHaFPkppXHmHwq7sB8eGo86p8AwYao6wtKn7Vo=
 before_install:
 - export CHROME_BIN=chromium-browser
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - npm config set spin false
 - npm install -g npm@^3
-
 install:
 - npm install -g mversion
 - npm install
-
 before_script:
 - npm run test
-
 script:
-  - if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then bash ./deploy.sh; fi
-
+- if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then bash
+  ./deploy.sh; fi
 after_script:
 - codeclimate-test-reporter < coverage/report-lcov/lcov.info
-
 deploy:
   -provider: releases
   email: rwwagner90@gmail.com
@@ -43,15 +32,13 @@ deploy:
     tags: true
     repo: jibeinc/juice
   skip_cleanup: true
-
 after_success:
-  - cat $DEPLOY_KEY > .travis/deploy_key.pem
-  - eval "$(ssh-agent -s)"
-  - chmod 600 .travis/deploy_key.pem
-  - ssh-add .travis/deploy_key.pem
-  - git remote set-url origin git@github.com:jibeinc/juice.git
-  - git push
-
+- cat $DEPLOY_KEY > .travis/deploy_key.pem
+- eval "$(ssh-agent -s)"
+- chmod 600 .travis/deploy_key.pem
+- ssh-add .travis/deploy_key.pem
+- git remote set-url origin git@github.com:jibeinc/juice.git
+- git push
 addons:
   code_climate:
     repo_token:
