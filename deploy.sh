@@ -19,11 +19,3 @@ mkdir dist;
 
 # run our compile script, discussed above
 npm run build
-
-if ! git diff-index --quiet HEAD --; then
-  git add --force dist/
-  git commit -m "New dist generated [ci skip]"
-  git push --quiet
-  else
-  exit 0
-fi
