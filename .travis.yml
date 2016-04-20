@@ -7,7 +7,9 @@ dist: trusty
 env:
   global:
   - GH_REF: github.com/jibeinc/juice.git
-  - secure: FzfsJL+JKN7dhnDHqqv63smGUk0WELry5bwyPn9xS9dnnAdAueZwSly6s/U1HLSYheny3F8i9nqhCHGRNOGugowK8kbO+Gf3P9AoYw/ko9E6Uqh9CSQlGM1mn8likqV1MPpT3a0qAuUBWLojAa3yMH42UmF7jmU1P/NZgnAUKjNPM2D6iHlWwWmZCq/r9R1nvNESVhekewa0YweNEzxLeiwCqijQx+IYU6shY5zKBPgZct/OwVGBfq/qALdL/3G1b48f9hqnqdC2/VAPX29UKFjQSvvci3N0ILQkDRHHQgLD5INAsLiMnRt08AuE9sqgytuyZoI1EcfUOuY4zqYF4/x7407cpiLazPMZElqlHeD2TnjrVpJEvGl6YLzQMSKnrIZKxHFhdJVWusGJ+go7YeZKzo8mCbVGZRDXUr9Md4onyUaaAQElloO8mHTeDEsYLI3tbtW9nc7Yu7+JlbT53wTjOFctNlob0obyo9oLXHxAzrRxIkyQ1qoLsFowiNfTV9aofZYOcOkzmxC0gyKQmYpXFqMPHdEJN/uH0g2MfsGNVj+Enlu7sB5LZz3FjYbNrnHM2Bg/C17g//65LFXhlTdZ3q9DEShbiGwTZgvD5kN0XsSpQIw5HHXhaA/Z8IGmMUWSCLnJPMg8yc8X3CevrWiTxtq+fT97ALfGiT3xUiU=
+  - GH_USER: rwwagner90
+  - GH_PASSWORD:
+      secure: "cAVUlZd/xpnhMW4Njknoj1155IBn/aWdbUr6C/6sz6lyGfDdQHJPUR7BrpfiJgRfO1HLSFm1+pEqF3j2F374rl7XTi/A0xB5Jv1CWXU3WoDf0oLS9QTqRQ4qLJ4T/vm6OPEmoBR+4cG5mx1QY2FibXdWI7jkFOnI5sg6iOCnd9E94vlH2pSXx+yHWqC+yhQ/abe6D4RwQ81Ab/Q5nCcvrBxQqvqQCPzZmEcL/uw1hWtSGaChBs+NkjZKQd4nTQGOFpS62WlX/uItULkDV4kP2x9GbsCf/5Llr+sQj4SuVOFeIj8z46oGlsS2VSO9y6AOA/EtKZfSaoYmIKsGCu/5MawhJV9OrnrBPX7vf5uwDgrN8MOLZI5MoSZPJXN/9AzoAJBHWapbgAXzBLVuvHZs62c1YVlbqueYVKsOTkiCA/IYr0zAC677deeMekxojE7rgOqXjJEtGR30kYZEEN5P2oVc1UmXNX1n3mPplfyPbvSAA/40wzbwVJDZoh9eiDEoRSFiYCR8E2vq2QgTGBRJ1DriBzk5MG9ODaBE9VQDfbwIyuT2aYm+fGnuHzUO8mCjVfaSZM5QYvNsO1XSX90ITQCm5EvB3VWKXh6IZc8xzkva4EMVVsv9vtA6JnpvZbptkI1v47dQq6gt+uWfcG6F/ttLgbZCV5ShAMnKky3pHCg="
   matrix:
     secure: IrmxFpdKlul8RHNIZbB7vbMVUEa5VeQC99Is99ACR0HUhBaGIN5xcGjWX93GJ3lKdy71iEpwBEAc/jiR4XQnLFXV1hB8+upDHsvNxlRvwq9ayuMK2OK3CoPdfXRfMa0YAutUK5i8SKWxpkq2V0B48P2U3QlIoD7Po7yFNPFGuGGAneIhwmfy5VIvC7AvuMmW23+56fY9yVG6+/+SzcQylBXOyATvWh//hV6kz2U4wiXYXYcHNAnhBDdZ76z+M0OT02+4QSeR2F8WHZhE5MHHXIXjUpSZBGtSSuyLtzc7LElh+FcDSk6TJxFsL6psEPi9Opnxh25g/Esm9s6+4sMJaws519LDQoWu0cDHIw38c9gKgQO+bCaXwsbs3FUjrKCPEaiOWPg2N8MBLZNR/wDmNLeOirzwopxiSFoJG5AtyxQqnS+uLgtZnacKwfqnVEezISwVfM0jzFDsrGb4Xj5AZE3l0Qk2hCjV/ZeB+7a3gnZgXS3ZT1Jgh33a/unboN/q2TwTxOKDQDGA6ewk7o2nmV7XJJ2hmqEZYwvv33u/2If8gGMGln2KqY7LmhrFfkU+KbVZRbJRRyehwSXQi0z5dfEPlhyOSefTBY0cKjzS5cmQkuLds6kvpVkAdE2zEYdp1mzxFhNBH07/t2EkElXWGUJDSJBpcahNVUIajKh8K24=
 
@@ -41,15 +43,6 @@ deploy:
     tags: true
     repo: jibeinc/juice
   skip_cleanup: true
-
-after_success:
-  - cat $DEPLOY_KEY > .travis/deploy_key.pem
-  - eval "$(ssh-agent -s)"
-  - chmod 600 .travis/deploy_key.pem
-  - ssh-add .travis/deploy_key.pem
-  - git remote add origin git@github.com:jibeinc/juice.git
-  - git status
-  - git push origin/master
 
 addons:
   code_climate:

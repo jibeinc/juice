@@ -8,6 +8,14 @@ mkdir dist;
 # run our compile script, discussed above
 npm run build
 
+# inside this git repo we'll pretend to be a new user
+git config user.name "Travis CI"
+git config user.email "rwwagner90@gmail.com"
+
 git add --force dist/
 # bump bower.json and package.json
 mversion patch -m 'Bumped to %s'
+
+# We redirect any output to /dev/null to hide any sensitive credential
+# data that might otherwise be exposed.
+git push --quiet "https://${GH_USER}:${GH_PASSWORD}@${GH_REF}" > /dev/null 2>&1
