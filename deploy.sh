@@ -5,7 +5,7 @@ set -e # exit with nonzero exit code if anything fails
 git config user.name "Travis CI"
 git config user.email "rwwagner90@gmail.com"
 
-git checkout origin/master
+git checkout -t origin/master
 
 # clear and re-create the dist directory
 rm -rf dist || exit 0;
@@ -15,10 +15,11 @@ mkdir dist;
 npm run build
 
 git add --force dist/
-git commit -m "New dist generated"
 
 # bump bower.json and package.json
-mversion patch -m 'Bumped to %s'
+mversion patch
+
+git commit -m "New dist generated"
 
 git status
 
