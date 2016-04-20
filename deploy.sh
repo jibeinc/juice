@@ -23,4 +23,4 @@ mversion patch
 git add bower.json
 git add package.json
 
-git commit -m "New dist generated"
+git commit -m "New dist generated [ci skip]"
