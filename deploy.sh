@@ -18,16 +18,11 @@ npm run build
 git add --force dist/
 
 # bump bower.json and package.json
-mversion patch
 
 git add bower.json
 git add package.json
 
-git commit -m "New dist generated"
-
-echo "Checking Status"
-
-git status
+mversion patch -m "Bump to version %s"
 
 echo "Pushing changes"
 
