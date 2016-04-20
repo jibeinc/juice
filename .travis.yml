@@ -18,11 +18,9 @@ install:
 before_script:
 - npm run test
 script:
-- echo *****Travis Tag*****
-- echo $TRAVIS_TAG
 - if [[ $TRAVIS_BRANCH == 'master' &&
   $TRAVIS_PULL_REQUEST == 'false' &&
-  $TRAVIS_TAG == 'false' ]];
+  ! $TRAVIS_TAG ]];
     then bash ./deploy.sh;
   fi
 after_script:
