@@ -7,6 +7,10 @@ before_install:
 - mkdir .travis
 - openssl aes-256-cbc -K $encrypted_9dfd91a21fad_key -iv $encrypted_9dfd91a21fad_iv
   -in deploy_key.pem.enc -out .travis/deploy_key.pem -d
+- eval "$(ssh-agent -s)"
+- chmod 600 .travis/deploy_key.pem
+- ssh-add .travis/deploy_key.pem
+- git remote set-url origin git@github.com:jibeinc/juice.git
 - export CHROME_BIN=chromium-browser
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
@@ -27,7 +31,16 @@ after_script:
 - codeclimate-test-reporter < coverage/report-lcov/lcov.info
 after_success:
 # bump bower.json and package.json and push tags
-- if [[ ! $TRAVIS_TAG ]]; then mversion patch -m "Bump version to %s" && git push --quiet --tags; fi
+- if [[ ! $TRAVIS_TAG ]]
+  then
+    if [[ ! git diff-index --quiet HEAD -- ]]
+    then
+      git add --force dist/
+      git commit -m "New dist generated [ci skip]"
+      git push --quiet
+    fi
+    mversion patch -m "Bump version to %s" && git push --quiet --tags
+  fi
 addons:
   code_climate:
     repo_token:

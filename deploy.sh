@@ -8,11 +8,6 @@ git config user.email "jjt@jibe.com"
 git checkout master
 git pull
 
-eval "$(ssh-agent -s)"
-chmod 600 .travis/deploy_key.pem
-ssh-add .travis/deploy_key.pem
-git remote set-url origin git@github.com:jibeinc/juice.git
-
 # clear and re-create the dist directory
 rm -rf dist || exit 0;
 mkdir dist;
