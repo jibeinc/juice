@@ -33,10 +33,11 @@ after_success:
 # bump bower.json and package.json and push tags
 - if [ ! "$TRAVIS_TAG" ] && [ -n $(git status -s) ]; then
     git add --force dist/;
+    mversion patch;
+    git add .;
     git commit -m "New dist generated [ci skip]";
     git push --quiet;
-    mversion patch -m "Bump version to %s";
-    git push --quiet --follow-tags;
+    node travis/pushTags.js
   fi
 addons:
   code_climate:
