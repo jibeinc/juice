@@ -36,7 +36,7 @@ after_success:
     git commit -m "New dist generated [ci skip]";
     git push --quiet;
     mversion patch -m "Bump version to %s";
-    git push --quiet --tags;
+    git push --quiet --follow-tags;
   fi
 addons:
   code_climate:
