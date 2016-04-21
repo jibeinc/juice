@@ -194,6 +194,21 @@
     "no-nested-ternary": "error",
     "no-new-object": "error",
     //no-plusplus
+    //no-restricted-syntax
+    "no-spaced-func": "error",
+    //no-ternary
+    "no-trailing-spaces": "error",
+    //no-underscore-dangle
+    "no-unneeded-ternary": "error",
+    "no-whitespace-before-property": "error",
+    "object-curly-spacing": ["error", "never"],
+    "one-var": ["error", "never"],
+    "one-var-declaration-per-line": ["error", "always"],
+    //operator-assignment
+    "operator-linebreak": ["error", "after"],
+    "padded-blocks": ["error", "never"],
+    "quote-props": ["error", "as-needed"],
+
 
 
     "require-jsdoc": [1, {

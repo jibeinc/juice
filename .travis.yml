@@ -35,7 +35,8 @@ after_success:
     git add --force dist/;
     git commit -m "New dist generated [ci skip]";
     git push --quiet;
-    mversion patch -m "Bump version to %s" && git push --quiet --tags;
+    mversion patch -m "Bump version to %s";
+    git push --quiet --tags;
   fi
 addons:
   code_climate:

@@ -16,11 +16,11 @@ class Utils {
   static bindClick(element, onClickFunction) {
     // JJT-2261
     // detect windows8+chrome48 for touchstart bug
-    const isBadChrome48 = bowser.chrome && bowser.version >= 48
-      && !bowser.android
-      && !bowser.windowsphone
-      && !bowser.ios
-      && !bowser.blackberry;
+    const isBadChrome48 = bowser.chrome && bowser.version >= 48 &&
+      !bowser.android &&
+      !bowser.windowsphone &&
+      !bowser.ios &&
+      !bowser.blackberry;
 
     if ('ontouchstart' in document.documentElement && !isBadChrome48) {
       let dragging = false;

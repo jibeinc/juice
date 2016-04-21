@@ -25,7 +25,7 @@ const keyEvents = {
  * @author: John Hatcher
  */
 class BaseComponent {
-  
+
   /**
    * Creates a new BaseComponent
    * @param {string} el - The selector for the element to put the component in
