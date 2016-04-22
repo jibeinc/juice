@@ -39,9 +39,7 @@ after_script:
 - codeclimate-test-reporter < coverage/report-lcov/lcov.info
 after_success:
 # bump bower.json and package.json and push tags
-- if [[ ! $TRAVIS_TAG &&
-  -n $(git status -s) &&
-  $SHOULD_BUILD ]]; then
+- if [[ ! $TRAVIS_TAG && $SHOULD_BUILD ]]; then
     git add --force dist/;
     git commit -m "Update dist [ci skip]";
     git push;
