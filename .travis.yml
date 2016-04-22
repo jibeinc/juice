@@ -30,21 +30,14 @@ script:
 - if [[ $TRAVIS_BRANCH == 'master' &&
   $TRAVIS_PULL_REQUEST == 'false' &&
   ! $TRAVIS_TAG ]];
-    then bash ./deploy.sh;
+    then bash ./travis/build.sh;
   fi
 after_script:
 - codeclimate-test-reporter < coverage/report-lcov/lcov.info
 after_success:
 # bump bower.json and package.json and push tags
-- if [ ! "$TRAVIS_TAG" ] && [ -n $(git status -s) ]; then
-    git add --force dist/;
-    mversion patch;
-    git add .;
-    VERSION="$(grep version package.json | head -1 | awk -F: '{print $2}' | sed 's/[",]//g' | tr -d '[:space:]')";
-    echo $VERSION;
-    git tag -a "v${VERSION}" -m "Release v${VERSION} [ci skip]";
-    git tag;
-    git push --follow-tags;
+- if [ ! "$TRAVIS_TAG" ] && [ -n $(git status -s) ];
+    then bash ./travis/pushTags.sh
   fi
 addons:
   code_climate:
