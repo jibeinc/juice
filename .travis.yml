@@ -40,8 +40,6 @@ after_success:
     git add --force dist/;
     mversion patch;
     git add .;
-    git commit -m "New dist generated [ci skip]";
-    git push --quiet;
     node ./travis/pushTags.js;
   fi
 addons:
