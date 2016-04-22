@@ -37,7 +37,7 @@ after_script:
 after_success:
 # bump bower.json and package.json and push tags
 - if [ ! "$TRAVIS_TAG" ] && [ -n $(git status -s) ];
-    then bash ./travis/pushTags.sh
+    then node ./travis/pushTags.js
   fi
 addons:
   code_climate:
