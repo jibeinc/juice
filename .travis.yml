@@ -40,7 +40,11 @@ after_success:
     git add --force dist/;
     mversion patch;
     git add .;
-    node ./travis/pushTags.js;
+    VERSION="$(grep version package.json | head -1 | awk -F: '{print $2}' | sed 's/[",]//g' | tr -d '[:space:]')";
+    echo $VERSION;
+    git tag -a "v${VERSION}" -m "Release v${VERSION} [ci skip]";
+    git tag;
+    git push --follow-tags;
   fi
 addons:
   code_climate:
