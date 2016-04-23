@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * Implements a simple 2 way stream of events

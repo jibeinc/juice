@@ -208,9 +208,20 @@
     "operator-linebreak": ["error", "after"],
     "padded-blocks": ["error", "never"],
     "quote-props": ["error", "as-needed"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "semi-spacing": ["error", {"before": false, "after": true}],
+    "sort-imports": "error",
+    "sort-vars": "error",
+    "space-before-blocks": "error",
+    //space-before-function-paren
+    "space-in-parens": ["error", "never"],
+    "space-infix-ops": "error",
+    "space-unary-ops": "error",
+    "spaced-comment": ["error", "always"],
+    //wrap-regex
 
-
-
+    //-----JUICE specific for now, everything below this-----
     "require-jsdoc": [1, {
       "require": {
         "FunctionDeclaration": true,

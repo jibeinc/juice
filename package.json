@@ -18,7 +18,7 @@
     "examples": "node staticServer",
     "install": "napa",
     "test": "karma start",
-    "lint": "./node_modules/.bin/eslint ./src/*",
+    "lint": "./node_modules/.bin/eslint ./src/* --fix",
     "watch": "./node_modules/.bin/webpack --watch"
   },
   "repository": {

@@ -69,7 +69,7 @@ describe('locationTypeahead functionality', () => {
     ];
 
     const fetch = (term, cb) => {
-      //We only want to fetch if it's not current location, so check for lat
+      // We only want to fetch if it's not current location, so check for lat
       if (!term.lat) {
         const matches = db.filter((item) => {
           return (String(item.displayName)).toLowerCase().indexOf(term.toLowerCase()) !== -1;
@@ -117,24 +117,24 @@ describe('locationTypeahead functionality', () => {
     locationSearch.textInput.$el.find('input').focus();
     locationSearch.textInput.set('n');
     expect(locationSearch.resultsListView.$el).toBeVisible();
-    //Press down to highlight an option
+    // Press down to highlight an option
     simulateKeyPress(40, $(document));
-    //Press enter to choose the highlighted option
+    // Press enter to choose the highlighted option
     simulateKeyPress(13, $(document));
     expect(locationSearch.get().displayName).toBe('Boston, MA');
     locationSearch.textInput.$el.find('input').focus();
     locationSearch.textInput.set('n');
-    //Down, down, down, up, down, up
+    // Down, down, down, up, down, up
     simulateKeyPress(40, $(document));
     simulateKeyPress(40, $(document));
     simulateKeyPress(40, $(document));
     simulateKeyPress(38, $(document));
     simulateKeyPress(40, $(document));
     simulateKeyPress(38, $(document));
-    //Press enter to choose the highlighted option
+    // Press enter to choose the highlighted option
     simulateKeyPress(13, $(document));
     expect(locationSearch.get().displayName).toBe('New York, NY');
-    //Blur after selection
+    // Blur after selection
     expect(locationSearch.resultsListView.$el).toBeHidden();
   });
   it('test click selection', () => {

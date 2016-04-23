@@ -52,7 +52,7 @@ describe('radioButtons functionality', () => {
     $($(inputSelector)[0]).click();
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
-    //Ensure multiple clicks do not deselect the value, since it is a radio button
+    // Ensure multiple clicks do not deselect the value, since it is a radio button
     $($(inputSelector)[0]).click();
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
@@ -93,7 +93,7 @@ describe('radioBoxes functionality', () => {
     $($(inputSelector)[0]).click();
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
-    //Ensure multiple clicks deselect the value, since these are radioboxes and we are allowed to uncheck
+    // Ensure multiple clicks deselect the value, since these are radioboxes and we are allowed to uncheck
     $($(inputSelector)[0]).click();
     expect(categories.get()).toBe(null);
     $($(inputSelector)[1]).click();

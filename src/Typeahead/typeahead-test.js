@@ -66,26 +66,26 @@ describe('typeahead functionality', () => {
     searchNumbers.textInput.$el.find('input').focus();
     searchNumbers.textInput.set('1');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
-    //Press down to highlight an option
+    // Press down to highlight an option
     simulateKeyPress(40, $(document));
-    //Press enter to choose the highlighted option
+    // Press enter to choose the highlighted option
     simulateKeyPress(13, $(document));
     expect(searchNumbers.get().displayName).toBe(18045972508);
-    //Blur after selection
+    // Blur after selection
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     searchNumbers.textInput.$el.find('input').focus();
     searchNumbers.textInput.set('1');
-    //Down, down, down, up, down, up
+    // Down, down, down, up, down, up
     simulateKeyPress(40, $(document));
     simulateKeyPress(40, $(document));
     simulateKeyPress(40, $(document));
     simulateKeyPress(38, $(document));
     simulateKeyPress(40, $(document));
     simulateKeyPress(38, $(document));
-    //Press enter to choose the highlighted option
+    // Press enter to choose the highlighted option
     simulateKeyPress(13, $(document));
     expect(searchNumbers.get().displayName).toBe('11234rrwer4');
-    //Blur after selection
+    // Blur after selection
     expect(searchNumbers.resultsListView.$el).toBeHidden();
   });
   it('test click selection', () => {
@@ -95,7 +95,7 @@ describe('typeahead functionality', () => {
     searchNumbers.textInput.set('1');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     searchNumbers.resultsListView.$el.find('li').first().click();
-    //Blur after selection
+    // Blur after selection
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get().displayName).toBe(18045972508);
   });

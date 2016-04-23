@@ -5,7 +5,7 @@ const i18next = require('i18next');
 let instance = null;
 
 module.exports = {
-  createInstance: (locale='en-US', translations={}, cb) => {
+  createInstance: (locale = 'en-US', translations = {}, cb) => {
     const opts = {
       resources: {},
       lng: locale,
