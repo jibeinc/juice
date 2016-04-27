@@ -12,10 +12,11 @@
 
 <body>
 
-<!-- Uncomment to test infinite scrolling on a div, instead of relative to the whole page -->
-<!--div class="infinite-scroll-test" style="height:500px;overflow:scroll;"-->
+
 <div style="background-color: cadetblue; height: 400px;"></div>
-<div class="infinite-scroll-test">
+<!-- Uncomment to test infinite scrolling on a div, instead of relative to the whole page -->
+<div class="infinite-scroll-test" style="height:500px;overflow:scroll;>">
+<!--div class="infinite-scroll-test"-->
   <div class="container">
     <div class="row">
       <div class="search-results"></div>
@@ -76,7 +77,7 @@
 
   var infiniteScroll = new UI.InfiniteScroll('.infinite-scroll-test', list.refresh.bind(list), {
     debounceWait: 250,
-    scrollTrigger: 0.65,
+    scrollTrigger: 0.80,
     windowScroll: false
   });
 
