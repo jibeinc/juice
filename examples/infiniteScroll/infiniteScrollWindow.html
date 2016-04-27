@@ -7,13 +7,12 @@
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.2.1/lodash.min.js"></script>
-  <script src='../dist/ui.js'></script>
+  <script src='../../dist/ui.js'></script>
 </head>
 
 <body>
 
-<!-- Uncomment to test infinite scrolling on a div, instead of relative to the whole page -->
-<!--div class="infinite-scroll-test" style="height:500px;overflow:scroll;"-->
+
 <div style="background-color: cadetblue; height: 400px;"></div>
 <div class="infinite-scroll-test">
   <div class="container">
@@ -76,8 +75,8 @@
 
   var infiniteScroll = new UI.InfiniteScroll('.infinite-scroll-test', list.refresh.bind(list), {
     debounceWait: 250,
-    scrollTrigger: 0.65,
-    windowScroll: false
+    scrollTrigger: 0.80,
+    windowScroll: true
   });
 
   infiniteScroll.render();
