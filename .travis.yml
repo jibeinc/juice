@@ -34,12 +34,11 @@ script:
   $TRAVIS_PULL_REQUEST == 'false' &&
   $SHOULD_BUILD == 1 &&
   ! $TRAVIS_TAG ]]; then
-    set -e;
     git config user.name "Travis CI";
     git config user.email "jjt@jibe.com";
     git checkout master;
     git pull;
-    rm -rf dist || exit 0;
+    rm -rf dist;
     mkdir dist;
     npm run build;
   fi
