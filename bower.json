@@ -1,6 +1,6 @@
 {
   "name": "jibe-juice",
-  "version": "0.2.58",
+  "version": "0.2.59",
   "description": "General JavaScript classes for common UI components",
   "main": [
     "dist/ui.js",
