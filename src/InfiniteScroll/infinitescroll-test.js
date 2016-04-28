@@ -1,4 +1,6 @@
-/* const $ = require('jquery');
+'use strict';
+
+const $ = require('jquery');
 const InfiniteScroll = require('./index.js');
 
 describe('infiniteScroll', () => {
@@ -10,7 +12,7 @@ describe('infiniteScroll', () => {
     $('body').append('<div style="background-color: cadetblue; height: 1000px;"></div>');
 
     infiniteScroll = new InfiniteScroll('.infinite-scroll-test', () => {
-      console.log('scrolled to bottom')
+      console.log('scrolled to bottom');
     }, {
       debounceWait: 250,
       scrollTrigger: 0.65,
@@ -27,10 +29,9 @@ describe('infiniteScroll', () => {
   it('test scroll calls onScrollToBottom - windowScroll:true', (done) => {
     spyOn(infiniteScroll, 'onScrollToBottom');
     $(window).scrollTop(1500);
-    setTimeout(()=> {
-      //expect(infiniteScroll.onScrollToBottom).toHaveBeenCalled();
+    setTimeout(() => {
+      expect(infiniteScroll.onScrollToBottom).toHaveBeenCalled();
       done();
-    }, 500)
-
+    }, 500);
   });
-});*/
+});

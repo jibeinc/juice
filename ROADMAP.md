@@ -1,6 +1,5 @@
 ## Roadmap
-1. Step 1: Rewrite infinite scroll (we can't get to 100% code coverage until we can test infinite scroll)
-Using anchor elements visibility within the viewport to determine whether to scroll
+1. ~~Rewrite infinite scroll (we can't get to 100% code coverage until we can test infinite scroll)~~
 1. Strip deprecated components (State.js, URL.js, SentenceGenerator - already removed from JSM and JA)
 1. Get 100% test coverage
 1. Come up with a solution for browser vendor shimming ( Design patterns book: Addy Yosmani jQuery browser specific stuff) ~ make sure that the bind-click works for all browsers and environments.
