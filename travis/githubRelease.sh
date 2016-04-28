@@ -2,7 +2,7 @@
 
 # Test if we have an release commit
 msg=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
-if [[ "$msg" == Release* ]] || [[ "$msg" == release* ]] && [[ $TRAVIS_TAG ]]
+if [[ "$msg" == Release* ]] || [[ "$msg" == release* ]] && [[ $TRAVIS_TAG =~ ^v.*$ ]]
 then
     echo "Found tagged release"
 else

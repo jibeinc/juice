@@ -7,10 +7,6 @@ branches:
   only:
     - master
     - /^v[0-9]/
-env:
-  global:
-    - GH_TOKEN:
-        secure: "ahavtIXbQrcbIRprJXIwy4bMtSzS3eJWQQw8mEWHef1C6Xt0TglEwue1asYjk8LaaLZNdViQh5NJIfIEBZpRMSo4QDWEDjtMvB8PkQQKJhRQf/DGdfHyN0EchID2t1Gt2nOGWjQlRXMZg0VIty9PE6/SHY7a++mk3M2r1aiRzE53OXU2zftMgRuzQMWrPePDso8QrjIQKp6l7QYggUjmOBg3F9YUbULwJ/5jAVv3m5r7/uc4a4C1mshENYGMixeV9Xb+kLGXGslhYY7bhp0g0IoBcdxuxaYQFkYtPyvbiHo0PmfTcxd4LB5daTYhXwotqjpl+Uow5BOIqTGEpaefa9jWjXd9B9a2HYgeUvNu7M4RCadSr69xX+3xS0BJhLSCWPQxyc6KvF/SEkloXTjTTu9+itLx+8o/+K9yV6cvIxTb+t+JK2UwrEtWXVfBocKm7n72r/F0JA+Hju4BD6Cfz4knlu6KF4y2xYljwuKYECGcXoW4nqdXpHbcIJ0TuO6ivcOKnjLX4fw2QG5mwk6BCHP25dATwLuF6pR7i/SoCAzoIQ+ho8UbOyPKoda13dk9y0UW04aAsPKd0FORtJ7zOhpWylBQ2ECkmeNzAzLNl7fF0Ri2kNVUmqxdEM3dHTkDf+JrQZ/UheZ4TCZXNL2FZUeQGIr/yJmF0KjoAo9IcXs="
 before_install:
 - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B --no-merges -n 1)\""
 - echo "$TRAVIS_COMMIT_MSG" | grep '\[skip build\]'; export SHOULD_BUILD=$?; true
@@ -67,7 +63,7 @@ deploy:
     tags: true
     repo: jibeinc/juice
 after_success:
-  - if [[ $TRAVIS_TAG ]]; then
+  - if [[ $TRAVIS_TAG =~ ^v.*$ ]]; then
       bash ./travis/githubRelease.sh;
     fi
   #-provider: releases
