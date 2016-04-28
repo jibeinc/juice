@@ -37,12 +37,6 @@ class SingleSelect extends BaseComponent {
   }
 
   /**
-   * Handler for the event listener 'change'
-   */
-  onChange (evt) {
-    this.set($(evt.target).val());
-  }
-  /**
    * Get the display value
    * @returns {*} the display attribute of the option if it exists, fallback to the value
    */
@@ -63,7 +57,7 @@ class SingleSelect extends BaseComponent {
    */
   render() {
     this.$el.html(selectTmpl(this));
-    this.$el.find('select').change(this.onChange);
+    this.$el.find('select').change(this.changeEventHandler.bind(this));
     return this.$el.html();
   }
 
@@ -79,6 +73,13 @@ class SingleSelect extends BaseComponent {
     });
 
     return super.set(v);
+  }
+
+  /**
+   * Handler for the event listener 'change'
+   */
+  changeEventHandler (evt) {
+    this.set($(evt.target).val());
   }
 }
 
