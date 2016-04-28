@@ -1,7 +1,7 @@
 ## Roadmap
 1. ~~Rewrite infinite scroll (we can't get to 100% code coverage until we can test infinite scroll)~~
 1. ~~Strip deprecated components (State.js, URL.js, SentenceGenerator - already removed from JSM and JA)~~
-1. Draft GitHub release with Travis
+1. ~~Draft GitHub release with Travis~~
 1. Get 100% test coverage
 1. Come up with a solution for browser vendor shimming ( Design patterns book: Addy Yosmani jQuery browser specific stuff) ~ make sure that the bind-click works for all browsers and environments.
 Tests need to be spoofing each browser’s implementation or firing the vendor-specific behaviors and account for them.
