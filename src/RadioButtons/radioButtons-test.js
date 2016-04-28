@@ -101,3 +101,49 @@ describe('radioBoxes functionality', () => {
     expect(categories.get().checked).toBe(true);
   });
 });
+describe('string options functionality', () => {
+  let categories;
+  const stringOptions = [
+    'mrkt01',
+    'sales',
+    'eng-2015'
+  ];
+  beforeEach(() => {
+    $('body').append('<div class="radio-buttons-test"></div>');
+    categories = new RadioButtons('.radio-buttons-test', {
+      options: stringOptions,
+      radioBoxes: true,
+      renderItem(item) {
+        return item.displayName + ' (' + item.count + ')';
+      }
+    });
+
+    categories.subscribe(() => {
+      categories.render();
+    });
+
+    categories.render();
+  });
+
+  afterEach(() => {
+    $('body').empty();
+  });
+
+  it('test string opts', () => {
+    categories.subscribe(() => {
+      categories.render();
+    });
+
+    categories.render();
+
+    $($(inputSelector)[0]).click();
+    expect(categories.get().value).toBe('mrkt01');
+    expect(categories.get().checked).toBe(true);
+    // Ensure multiple clicks deselect the value, since these are radioboxes and we are allowed to uncheck
+    $($(inputSelector)[0]).click();
+    expect(categories.get()).toBe(null);
+    $($(inputSelector)[1]).click();
+    expect(categories.get().value).toBe('sales');
+    expect(categories.get().checked).toBe(true);
+  });
+});
