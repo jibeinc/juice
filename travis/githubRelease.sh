@@ -2,7 +2,7 @@
 
 # Test if we have an release commit
 msg=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
-if [[ $msg == Release* ]] || [[ $msg == release* ]] && [[$TRAVIS_TAG]]
+if [[ "$msg" == Release* ]] || [[ "$msg" == release* ]] && [[ $TRAVIS_TAG ]]
 then
     echo "Found tagged release"
 else
@@ -11,7 +11,7 @@ else
 fi
 
 # Get version from commit message
-version=$(echo $msg | awk '{print $2}')
+version=$(echo "$msg" | awk '{print $2}')
 echo "Releasing ${version} ..."
 
 data="{\
@@ -29,5 +29,5 @@ body=$(curl \
     https://api.github.com/repos/$TRAVIS_REPO_SLUG/releases)
 
 # Get release id
-release_id=$(echo $body | grep -oP "\"id\": \d+" | head -1 | awk '{print $2}')
+release_id=$(echo "$body" | grep -oP "\"id\": \d+" | head -1 | awk '{print $2}')
 echo "Created release ${release_id}"
