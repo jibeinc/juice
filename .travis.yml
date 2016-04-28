@@ -8,11 +8,13 @@ branches:
     - master
     - /^v[0-9]/
 before_install:
+- "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B --no-merges -n 1)\""
+- echo "$TRAVIS_COMMIT_MSG" | grep '\[skip build\]'; export SHOULD_BUILD=$?; true
+# If not a tag, and we should not build, go ahead and exit early
+- if [[ ! $TRAVIS_TAG && $SHOULD_BUILD == 0 ]]; then echo "No build needed, skipping" && exit; fi
 - mkdir .travis
 - openssl aes-256-cbc -K $encrypted_9dfd91a21fad_key -iv $encrypted_9dfd91a21fad_iv
   -in deploy_key.pem.enc -out .travis/deploy_key.pem -d
-- "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B --no-merges -n 1)\""
-- echo "$TRAVIS_COMMIT_MSG" | grep '\[skip build\]'; export SHOULD_BUILD=$?; true
 - eval "$(ssh-agent -s)"
 - chmod 600 .travis/deploy_key.pem
 - ssh-add .travis/deploy_key.pem
