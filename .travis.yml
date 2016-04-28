@@ -68,7 +68,7 @@ deploy:
     repo: jibeinc/juice
 after_success:
   - if [[ $TRAVIS_TAG ]]; then
-      bash ./travis/githubRelease.sh
+      bash ./travis/githubRelease.sh;
     fi
   #-provider: releases
   #api_key:
