@@ -1,3 +1,4 @@
+/* eslint-disable max-nested-callbacks */
 'use strict';
 
 const $ = require('jquery');
@@ -40,11 +41,23 @@ describe('expandCollapse', () => {
     expect(expandCollapse.$el.height()).toBe(0);
   });
 
-  it('test expand/collapse', () => {
+  it('test expand/collapse', (done) => {
     expect(expandCollapse.$el.height()).toBe(0);
     $('.toggle').click();
-    expect(expandCollapse.$el.height()).toBe(110);
-    $('.toggle').click();
-    expect(expandCollapse.$el.height()).toBe(0);
+    setTimeout(() => {
+      expect(expandCollapse.$el.height()).toBeGreaterThan(0);
+      $('.toggle').click();
+      setTimeout(() => {
+        expect(expandCollapse.$el.height()).toBe(0);
+        done();
+      }, 500);
+    }, 500);
+  });
+
+  it('throw error when no toggleSelector', () => {
+    expect(() => {
+      return new ExpandCollapse('.expand-collapse-test-container');
+    })
+      .toThrow(new Error('You must provide a toggleSelector'));
   });
 });
