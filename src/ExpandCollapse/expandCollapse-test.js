@@ -48,7 +48,7 @@ describe('expandCollapse', () => {
       expect(expandCollapse.$el.height()).toBeGreaterThan(0);
       $('.toggle').click();
       setTimeout(() => {
-        expect(expandCollapse.$el.height()).toBe(0);
+        expect(expandCollapse.$el.height()).toBeLessThan(1);
         done();
       }, 500);
     }, 500);
