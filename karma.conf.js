@@ -3,14 +3,12 @@ const path = require('path');
 
 const webpackModule = config.webpackModule;
 // transpile and instrument only testing sources with babel-istanbul
-webpackModule.loaders.unshift(
+webpackModule.preLoaders.unshift(
   {
-    test: /\.js$/,
-    include: path.resolve('src'),
-    loader: 'babel-istanbul',
-    query: {
-      cacheDirectory: true
-    }
+    test: /(\.js)$/,
+    // exclude this dirs from coverage
+    exclude: /(test|node_modules|bower_components)\//,
+    loader: 'isparta-instrumenter-loader'
   });
 
 module.exports = function (config) {

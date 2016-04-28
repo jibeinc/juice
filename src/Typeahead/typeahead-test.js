@@ -66,6 +66,11 @@ describe('typeahead functionality', () => {
     searchNumbers.textInput.$el.find('input').focus();
     searchNumbers.textInput.set('1');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
+    // Press ESC to close typeahead
+    simulateKeyPress(27, $(document));
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
+    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.set('1');
     // Press down to highlight an option
     simulateKeyPress(40, $(document));
     // Press enter to choose the highlighted option
@@ -94,9 +99,28 @@ describe('typeahead functionality', () => {
     searchNumbers.textInput.$el.find('input').focus();
     searchNumbers.textInput.set('1');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
+    searchNumbers.resultsListView.$el.find('li').first().mousedown();
     searchNumbers.resultsListView.$el.find('li').first().click();
     // Blur after selection
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get().displayName).toBe(18045972508);
+  });
+  it('test manual text entry', () => {
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
+    expect(searchNumbers.get()).toBe('');
+    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.set('custom value');
+    expect(searchNumbers.resultsListView.$el).toBeVisible();
+    // Press enter to set a custom value
+    simulateKeyPress(13, $(document));
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
+    expect(searchNumbers.get()).toBe('custom value');
+  });
+  it('ensure mousedown on results list does not blur', () => {
+    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.set('custom value');
+    expect(searchNumbers.resultsListView.$el).toBeVisible();
+    searchNumbers.resultsListView.$el.mousedown();
+    expect(searchNumbers.resultsListView.$el).toBeVisible();
   });
 });
