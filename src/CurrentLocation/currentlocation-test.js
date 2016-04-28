@@ -70,6 +70,8 @@ describe('CurrentLocation error handling', () => {
   });
 
   it('test getCurrentLocation failure', () => {
-    expect(() => {loc.getCurrentLocation()}).toThrowError('BLAH MOCK API FAILURE');
+    expect(() => {
+      loc.getCurrentLocation();
+    }).toThrowError('BLAH MOCK API FAILURE');
   });
 });
