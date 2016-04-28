@@ -93,6 +93,17 @@ describe('typeahead functionality', () => {
     // Blur after selection
     expect(searchNumbers.resultsListView.$el).toBeHidden();
   });
+  it('test "g" keydown does nothing', () => {
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
+    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.set('1');
+    expect(searchNumbers.resultsListView.$el).toBeVisible();
+    // Press down to highlight an option
+    simulateKeyPress(40, $(document));
+    // Press "g" which should do nothing
+    simulateKeyPress(71, $(document));
+    expect(searchNumbers.get().displayName).toBeUndefined();
+  });
   it('test click selection', () => {
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get()).toBe('');
