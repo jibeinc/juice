@@ -134,4 +134,49 @@ describe('typeahead functionality', () => {
     searchNumbers.resultsListView.$el.mousedown();
     expect(searchNumbers.resultsListView.$el).toBeVisible();
   });
+  it('no fixed results, allowFreeform', () => {
+    $('body').append('<div class="typeahead-test"></div>');
+
+    const db = [{
+      displayName: 18045972508
+    }, {
+      displayName: 22458484822
+    }, {
+      displayName: 44444449393
+    }, {
+      displayName: '11234rrwer4'
+    }, {
+      displayName: 324224 - 445
+    }, {
+      displayName: '94df-847s-f49'
+    }];
+
+    const fetch = function (term, cb) {
+      const matches = db.filter((item) => {
+        return (String(item.displayName)).indexOf(term) !== -1;
+      });
+
+      cb(matches);
+    };
+
+    searchNumbers = new Typeahead('.typeahead-test', fetch, {
+      allowFreeForm: true
+    });
+
+    searchNumbers.subscribe((choice) => {
+      console.log('new numba', choice);
+    });
+
+    searchNumbers.render();
+
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
+    expect(searchNumbers.get()).toBe('');
+    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.set('custom value');
+    expect(searchNumbers.resultsListView.$el).toBeVisible();
+    // Press enter to set a custom value
+    simulateKeyPress(13, $(document));
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
+    expect(searchNumbers.get()).toBe('custom value');
+  });
 });
