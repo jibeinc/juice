@@ -1,5 +1,3 @@
-const sassVars = './sassvars.json';
-
 module.exports = {
   webpackModule: {
     preLoaders: [{
@@ -18,7 +16,7 @@ module.exports = {
         loader: 'style!css!postcss!less'
       }, {
         test: /\.scss$/,
-        loader: "style!css!postcss!sass!jsontosass?path=" + sassVars
+        loader: 'style!css!postcss!sass'
       },
       {
         // compress and load images as embedded data-uri's
