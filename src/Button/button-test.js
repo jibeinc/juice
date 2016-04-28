@@ -12,10 +12,6 @@ describe('button functionality', () => {
       submit: true
     });
 
-    btn.subscribe(() => {
-      console.log('clicked!');
-    });
-
     btn.render();
   });
 
@@ -26,7 +22,6 @@ describe('button functionality', () => {
   it('test publish called on button click', () => {
     spyOn(btn, 'publish');
     btn.$el.find('button').click();
-
     expect(btn.publish).toHaveBeenCalled();
   });
 });
