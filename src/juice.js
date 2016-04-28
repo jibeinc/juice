@@ -10,7 +10,6 @@ const i18n = require('./i18n');
 // services
 const BaseFragmentFactory = require('./BaseFragmentFactory');
 const PubSubHub = require('./PubSubHub');
-const State = require('./State');
 const url = require('url');
 
 // components
@@ -28,7 +27,6 @@ const SingleSelect = require('./SingleSelect');
 const TextInput = require('./TextInput');
 const Toggle = require('./Toggle');
 const Typeahead = require('./Typeahead');
-const SentenceGenerator = require('./SentenceGenerator');
 const Spinner = require('./Spinner');
 
 const UIComponents = {
@@ -39,7 +37,6 @@ const UIComponents = {
   // services
   BaseFragmentFactory,
   PubSubHub,
-  State,
   url,
 
   // components
@@ -57,7 +54,6 @@ const UIComponents = {
   TextInput,
   Toggle,
   Typeahead,
-  SentenceGenerator,
   Spinner
 };
 
