@@ -49,6 +49,9 @@ after_success:
     git tag;
     git push --follow-tags;
   fi
+- if [[ $TRAVIS_TAG =~ ^v.*$ ]]; then
+    bash ./travis/githubRelease.sh;
+  fi
 addons:
   code_climate:
     repo_token:
@@ -62,14 +65,3 @@ deploy:
   on:
     tags: true
     repo: jibeinc/juice
-after_success:
-  - if [[ $TRAVIS_TAG =~ ^v.*$ ]]; then
-      bash ./travis/githubRelease.sh;
-    fi
-  #-provider: releases
-  #api_key:
-  #   secure: "hoZJGvyCcxJrdW3Eea3eJ3wGJnL7zMfUw/6o78mS/Q1snP6nHcW6YknQgAOO/2aAS/xaMnCRoLDs3VT1o9YqvYUEPsrymXGok5scuYlVSVdfqD4VPl5RAJM/RBatYuTSq0Qe0HT6vxJBOpcKrnqeaGpQDkIH8iXL5U1OdoAw8tA2KKSpKEJvyYEPLJMKpu24MNH4EWSJ5OY0lsBM+M5ycmIPBbB9NFcJ0ZBO2WvDvDsqmvkeMCzrsgjOV0gKUTTfjwo7NjfLz79m8UpKaH3JqQth+uWRKu5sAA/eyF6+dH8jlD/Iq+i/4ASX0FY2V8MkEnYmtSKleOl5W2AAetM1LlueVXDxkOHITeTgxpWjW8vZ7a68jZJHvr5ZxJucYOgIX89Wby9XL8zwmZnFH8DJtIWujfXZDhnkmO8WdwZYsDySNHWcHGncrx3t7hLrWlkIW3INOewR2vuut+YXbzxeGKM+QeR7NEK/4X8/AcvsbikqyGAQZ3GT9XjnssA+50fAhlt6pnyIh73X1B0OsOs2adjU8A52bte7CiIpch5Si8BFZ2evtX4NYJx8trL3WcDV+7yN4N0FiHewK2xPJzslRg2c7dqe7phUxy95c4y+oZ9CfcM6etzl66YaHkoZVNEnK6czZsvt3dxksuxetfxvAQxgI++NT7wCmPqAkoO2KwU="
-  #skip_cleanup: true
-  #on:
-  #  tags: true
-  #  repo: jibeinc/juice
