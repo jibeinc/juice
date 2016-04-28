@@ -18,6 +18,24 @@ const testOptions = [{
   value: 'eng-2015'
 }];
 
+const setupRadioBoxes = (options) => {
+  const categories = new RadioButtons('.radio-buttons-test', {
+    options,
+    radioBoxes: true,
+    renderItem(item) {
+      return item.displayName + ' (' + item.count + ')';
+    }
+  });
+
+  categories.subscribe(() => {
+    categories.render();
+  });
+
+  categories.render();
+
+  return categories;
+};
+
 describe('radioButtons functionality', () => {
   let categories;
 
@@ -66,19 +84,7 @@ describe('radioBoxes functionality', () => {
   let categories;
   beforeEach(() => {
     $('body').append('<div class="radio-buttons-test"></div>');
-    categories = new RadioButtons('.radio-buttons-test', {
-      options: testOptions,
-      radioBoxes: true,
-      renderItem(item) {
-        return item.displayName + ' (' + item.count + ')';
-      }
-    });
-
-    categories.subscribe(() => {
-      categories.render();
-    });
-
-    categories.render();
+    categories = setupRadioBoxes(testOptions);
   });
 
   afterEach(() => {
@@ -110,19 +116,7 @@ describe('string options functionality', () => {
   ];
   beforeEach(() => {
     $('body').append('<div class="radio-buttons-test"></div>');
-    categories = new RadioButtons('.radio-buttons-test', {
-      options: stringOptions,
-      radioBoxes: true,
-      renderItem(item) {
-        return item.displayName + ' (' + item.count + ')';
-      }
-    });
-
-    categories.subscribe(() => {
-      categories.render();
-    });
-
-    categories.render();
+    categories = setupRadioBoxes(stringOptions);
   });
 
   afterEach(() => {
@@ -130,12 +124,6 @@ describe('string options functionality', () => {
   });
 
   it('test string opts', () => {
-    categories.subscribe(() => {
-      categories.render();
-    });
-
-    categories.render();
-
     $($(inputSelector)[0]).click();
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);

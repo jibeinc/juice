@@ -3,34 +3,33 @@
 const $ = require('jquery');
 const Typeahead = require('./index.js');
 const {simulateKeyPress} = require('../testHelpers.js');
+const db = [{
+  displayName: 18045972508
+}, {
+  displayName: 22458484822
+}, {
+  displayName: 44444449393
+}, {
+  displayName: '11234rrwer4'
+}, {
+  displayName: 324224 - 445
+}, {
+  displayName: '94df-847s-f49'
+}];
+
+const fetch = function (term, cb) {
+  const matches = db.filter((item) => {
+    return (String(item.displayName)).indexOf(term) !== -1;
+  });
+
+  cb(matches);
+};
 
 describe('typeahead functionality', () => {
   let searchNumbers;
 
   beforeEach(() => {
     $('body').append('<div class="typeahead-test"></div>');
-
-    const db = [{
-      displayName: 18045972508
-    }, {
-      displayName: 22458484822
-    }, {
-      displayName: 44444449393
-    }, {
-      displayName: '11234rrwer4'
-    }, {
-      displayName: 324224 - 445
-    }, {
-      displayName: '94df-847s-f49'
-    }];
-
-    const fetch = function (term, cb) {
-      const matches = db.filter((item) => {
-        return (String(item.displayName)).indexOf(term) !== -1;
-      });
-
-      cb(matches);
-    };
 
     searchNumbers = new Typeahead('.typeahead-test', fetch, {
       allowFreeForm: true,
@@ -136,28 +135,6 @@ describe('typeahead functionality', () => {
   });
   it('no fixed results, allowFreeform', () => {
     $('body').append('<div class="typeahead-test"></div>');
-
-    const db = [{
-      displayName: 18045972508
-    }, {
-      displayName: 22458484822
-    }, {
-      displayName: 44444449393
-    }, {
-      displayName: '11234rrwer4'
-    }, {
-      displayName: 324224 - 445
-    }, {
-      displayName: '94df-847s-f49'
-    }];
-
-    const fetch = function (term, cb) {
-      const matches = db.filter((item) => {
-        return (String(item.displayName)).indexOf(term) !== -1;
-      });
-
-      cb(matches);
-    };
 
     searchNumbers = new Typeahead('.typeahead-test', fetch, {
       allowFreeForm: true
