@@ -7,6 +7,10 @@ branches:
   only:
     - master
     - /^v[0-9]/
+env:
+  global:
+    - GH_TOKEN:
+        secure: "ahavtIXbQrcbIRprJXIwy4bMtSzS3eJWQQw8mEWHef1C6Xt0TglEwue1asYjk8LaaLZNdViQh5NJIfIEBZpRMSo4QDWEDjtMvB8PkQQKJhRQf/DGdfHyN0EchID2t1Gt2nOGWjQlRXMZg0VIty9PE6/SHY7a++mk3M2r1aiRzE53OXU2zftMgRuzQMWrPePDso8QrjIQKp6l7QYggUjmOBg3F9YUbULwJ/5jAVv3m5r7/uc4a4C1mshENYGMixeV9Xb+kLGXGslhYY7bhp0g0IoBcdxuxaYQFkYtPyvbiHo0PmfTcxd4LB5daTYhXwotqjpl+Uow5BOIqTGEpaefa9jWjXd9B9a2HYgeUvNu7M4RCadSr69xX+3xS0BJhLSCWPQxyc6KvF/SEkloXTjTTu9+itLx+8o/+K9yV6cvIxTb+t+JK2UwrEtWXVfBocKm7n72r/F0JA+Hju4BD6Cfz4knlu6KF4y2xYljwuKYECGcXoW4nqdXpHbcIJ0TuO6ivcOKnjLX4fw2QG5mwk6BCHP25dATwLuF6pR7i/SoCAzoIQ+ho8UbOyPKoda13dk9y0UW04aAsPKd0FORtJ7zOhpWylBQ2ECkmeNzAzLNl7fF0Ri2kNVUmqxdEM3dHTkDf+JrQZ/UheZ4TCZXNL2FZUeQGIr/yJmF0KjoAo9IcXs="
 before_install:
 - "export TRAVIS_COMMIT_MSG=\"$(git log --format=%B --no-merges -n 1)\""
 - echo "$TRAVIS_COMMIT_MSG" | grep '\[skip build\]'; export SHOULD_BUILD=$?; true
@@ -45,7 +49,7 @@ after_success:
     git add --force dist/;
     git commit -m "Update dist [ci skip]";
     git push;
-    mversion patch -m "Release %s [skip build]";
+    mversion patch -m "Release v%s [skip build]";
     git tag;
     git push --follow-tags;
   fi
@@ -62,10 +66,14 @@ deploy:
   on:
     tags: true
     repo: jibeinc/juice
-  -provider: releases
-  api_key:
-     secure: "hoZJGvyCcxJrdW3Eea3eJ3wGJnL7zMfUw/6o78mS/Q1snP6nHcW6YknQgAOO/2aAS/xaMnCRoLDs3VT1o9YqvYUEPsrymXGok5scuYlVSVdfqD4VPl5RAJM/RBatYuTSq0Qe0HT6vxJBOpcKrnqeaGpQDkIH8iXL5U1OdoAw8tA2KKSpKEJvyYEPLJMKpu24MNH4EWSJ5OY0lsBM+M5ycmIPBbB9NFcJ0ZBO2WvDvDsqmvkeMCzrsgjOV0gKUTTfjwo7NjfLz79m8UpKaH3JqQth+uWRKu5sAA/eyF6+dH8jlD/Iq+i/4ASX0FY2V8MkEnYmtSKleOl5W2AAetM1LlueVXDxkOHITeTgxpWjW8vZ7a68jZJHvr5ZxJucYOgIX89Wby9XL8zwmZnFH8DJtIWujfXZDhnkmO8WdwZYsDySNHWcHGncrx3t7hLrWlkIW3INOewR2vuut+YXbzxeGKM+QeR7NEK/4X8/AcvsbikqyGAQZ3GT9XjnssA+50fAhlt6pnyIh73X1B0OsOs2adjU8A52bte7CiIpch5Si8BFZ2evtX4NYJx8trL3WcDV+7yN4N0FiHewK2xPJzslRg2c7dqe7phUxy95c4y+oZ9CfcM6etzl66YaHkoZVNEnK6czZsvt3dxksuxetfxvAQxgI++NT7wCmPqAkoO2KwU="
-  skip_cleanup: true
-  on:
-    tags: true
-    repo: jibeinc/juice
+after_success:
+  - if [[ $TRAVIS_TAG ]]; then
+      bash ./travis/githubRelease.sh
+    fi
+  #-provider: releases
+  #api_key:
+  #   secure: "hoZJGvyCcxJrdW3Eea3eJ3wGJnL7zMfUw/6o78mS/Q1snP6nHcW6YknQgAOO/2aAS/xaMnCRoLDs3VT1o9YqvYUEPsrymXGok5scuYlVSVdfqD4VPl5RAJM/RBatYuTSq0Qe0HT6vxJBOpcKrnqeaGpQDkIH8iXL5U1OdoAw8tA2KKSpKEJvyYEPLJMKpu24MNH4EWSJ5OY0lsBM+M5ycmIPBbB9NFcJ0ZBO2WvDvDsqmvkeMCzrsgjOV0gKUTTfjwo7NjfLz79m8UpKaH3JqQth+uWRKu5sAA/eyF6+dH8jlD/Iq+i/4ASX0FY2V8MkEnYmtSKleOl5W2AAetM1LlueVXDxkOHITeTgxpWjW8vZ7a68jZJHvr5ZxJucYOgIX89Wby9XL8zwmZnFH8DJtIWujfXZDhnkmO8WdwZYsDySNHWcHGncrx3t7hLrWlkIW3INOewR2vuut+YXbzxeGKM+QeR7NEK/4X8/AcvsbikqyGAQZ3GT9XjnssA+50fAhlt6pnyIh73X1B0OsOs2adjU8A52bte7CiIpch5Si8BFZ2evtX4NYJx8trL3WcDV+7yN4N0FiHewK2xPJzslRg2c7dqe7phUxy95c4y+oZ9CfcM6etzl66YaHkoZVNEnK6czZsvt3dxksuxetfxvAQxgI++NT7wCmPqAkoO2KwU="
+  #skip_cleanup: true
+  #on:
+  #  tags: true
+  #  repo: jibeinc/juice
