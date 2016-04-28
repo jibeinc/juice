@@ -9,7 +9,7 @@ describe('Spinner on Window', () => {
 
   beforeEach(() => {
     $('body').append('<div style="background-color: cadetblue; height: 400px;"></div>');
-    $('body').append('<button class="ui-button" style="">I AM A BUTTON!</button>');
+    $('body').append('<button class="ui-button" style="position: relative; z-index: 10">I AM A BUTTON!</button>');
     $('body').append('<div style="background-color: cadetblue; height: 1000px;"></div>');
 
     spinner = new Spinner();
@@ -35,9 +35,11 @@ describe('Spinner on Window', () => {
 
     setTimeout(() => {
       const overlayZindex = $('.juicy-spinner-container').css('z-index');
+      const buttonZindex = $('.ui-button').css('z-index');
 
       expect($('body')).toHaveClass('noScroll');
       expect(overlayZindex).toBe('9999');
+      expect(overlayZindex).toBeGreaterThan(buttonZindex);
       done();
     }, 50);
   });
