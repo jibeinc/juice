@@ -33,22 +33,15 @@ script:
 - if [[ $TRAVIS_BRANCH == 'master' &&
   $TRAVIS_PULL_REQUEST == 'false' &&
   $SHOULD_BUILD == 1 &&
-  ! $TRAVIS_TAG ]];
-    # exit with nonzero exit code if anything fails
+  ! $TRAVIS_TAG ]]; then
     set -e;
-    # Pretend to be Travis CI
     git config user.name "Travis CI";
     git config user.email "jjt@jibe.com";
-
     git checkout master;
     git pull;
-
-    # clear and re-create the dist directory
     rm -rf dist || exit 0;
     mkdir dist;
-
-    # run the build to generate a new dist
-    npm run build
+    npm run build;
   fi
 after_script:
 - codeclimate-test-reporter < coverage/report-lcov/lcov.info
