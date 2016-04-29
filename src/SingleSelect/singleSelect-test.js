@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const SingleSelect = require('./index.js');
 
 describe('SingleSelect functionality with simple values', () => {

@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const LocationTypeahead = require('./index.js');
 const {simulateKeyPress} = require('../testHelpers.js');
 
@@ -114,7 +113,7 @@ describe('locationTypeahead functionality', () => {
   });
   it('test up/down arrows and enter', () => {
     expect(locationSearch.resultsListView.$el).toBeHidden();
-    locationSearch.textInput.$el.find('input').focus();
+    locationSearch.textInput.$el.find('input').trigger('focus');
     locationSearch.textInput.set('n');
     expect(locationSearch.resultsListView.$el).toBeVisible();
     // Press down to highlight an option
@@ -122,7 +121,7 @@ describe('locationTypeahead functionality', () => {
     // Press enter to choose the highlighted option
     simulateKeyPress(13, $(document));
     expect(locationSearch.get().displayName).toBe('Boston, MA');
-    locationSearch.textInput.$el.find('input').focus();
+    locationSearch.textInput.$el.find('input').trigger('focus');
     locationSearch.textInput.set('n');
     // Down, down, down, up, down, up
     simulateKeyPress(40, $(document));
@@ -140,10 +139,10 @@ describe('locationTypeahead functionality', () => {
   it('test click selection', () => {
     expect(locationSearch.resultsListView.$el).toBeHidden();
     expect(locationSearch.get()).toBe('');
-    locationSearch.textInput.$el.find('input').focus();
+    locationSearch.textInput.$el.find('input').trigger('focus');
     locationSearch.textInput.set('n');
     expect(locationSearch.resultsListView.$el).toBeVisible();
-    locationSearch.resultsListView.$el.find('li').first().click();
+    locationSearch.resultsListView.$el.find('li').first().trigger('click');
     expect(locationSearch.resultsListView.$el).toBeHidden();
     expect(locationSearch.get().displayName).toBe('Boston, MA');
   });

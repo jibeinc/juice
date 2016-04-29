@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const MultiSelect = require('./index.js');
 
 describe('multiSelect functionality', () => {
@@ -50,7 +49,7 @@ describe('multiSelect functionality', () => {
     expect(selected[0].value).toBe('mrkt01');
     expect(selected[1].value).toBe('sales');
     const elementToClick = $($('.multiSelect-test .ui-multi-select .select-option input')[0]);
-    elementToClick.click();
+    elementToClick.trigger('click');
     selected = categories.get();
     expect(selected.length).toBe(1);
     expect(selected[0].value).toBe('sales');

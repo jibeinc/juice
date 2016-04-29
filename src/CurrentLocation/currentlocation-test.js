@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const CurrentLocation = require('./index.js');
 
 describe('CurrentLocation functionality', () => {
@@ -32,7 +31,7 @@ describe('CurrentLocation functionality', () => {
 
   it('test gettingCurrentLocation from navigation api', () => {
     spyOn(loc, 'publish');
-    loc.$el.click();
+    loc.$el.trigger('click');
     expect(loc.publish).toHaveBeenCalledWith('current-location-requested');
   });
 

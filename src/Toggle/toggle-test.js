@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const Toggle = require('./index.js');
 
 describe('toggle', () => {
@@ -21,7 +20,7 @@ describe('toggle', () => {
 
   it('test initially untoggled and toggled after click', () => {
     expect(toggleTest.get()).toBe(null);
-    toggleTest.$el.click();
+    toggleTest.$el.trigger('click');
     expect(toggleTest.get()).toBe(true);
   });
 });

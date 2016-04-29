@@ -1,7 +1,6 @@
 /* eslint-disable lines-around-comment */
 'use strict';
 
-const $ = require('jquery');
 const Spinner = require('./index.js');
 
 describe('Spinner on Window', () => {

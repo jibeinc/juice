@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 const radioButtonsTmpl = require('./radioButtons.dot');
 const Utils = require('../Utils');

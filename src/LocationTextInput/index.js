@@ -2,9 +2,9 @@
 
 require('./styles.css');
 const inputTmpl = require('./input.tmpl');
-const $ = require('jquery');
 const TextInput = require('../TextInput');
 const CurrentLocation = require('../CurrentLocation');
+const Utils = require('../Utils.js');
 
 /**
  * This TextInput Implementation provides additional UI behaviors to the icon element
@@ -34,7 +34,7 @@ class LocationTextInput extends TextInput {
    * @returns {string} The current value
    */
   get() {
-    if ($.isPlainObject(this.value) && this.value.displayName) {
+    if (Utils.isPlainObject(this.value) && this.value.displayName) {
       return this.value.displayName;
     }
 
@@ -92,12 +92,12 @@ class LocationTextInput extends TextInput {
   showHideIcon() {
     if (this.$icon) {
       if (this.get()) {
-        this.$icon.show();
-        this.$locationIcon.hide();
+        this.$icon.css('display', 'block')
+        this.$locationIcon.css('display', 'none')
       }
       else {
-        this.$icon.hide();
-        this.$locationIcon.show();
+        this.$icon.css('display', 'none')
+        this.$locationIcon.css('display', 'block');
       }
     }
   }

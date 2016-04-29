@@ -1,10 +1,10 @@
 require('./styles.css');
 const currentLocationTemplate = require('./useMyCurrentLocation.tmpl');
-const $ = require('jquery');
 const Typeahead = require('../Typeahead');
 const LocationTextInput = require('../LocationTextInput');
 const FragFactory = require('../BaseFragmentFactory');
 const CurrentLocation = require('../CurrentLocation');
+const Utils = require('../Utils.js');
 
 /**
  * Location Search Typeahead
@@ -45,7 +45,7 @@ class LocationTypeahead extends Typeahead {
     opts.fixedResults = (opts.fixedResults || []).concat([{
       useMyCurrentLocation: true,
       preSelectHook: () => {
-        $('.ui-current-location-listItem').click(); // trigger 'use my location' icon
+        $('.ui-current-location-listItem').trigger('click'); // trigger 'use my location' icon
         return false; // don't run normal selection behavior
       }
     }]);
@@ -61,7 +61,7 @@ class LocationTypeahead extends Typeahead {
    */
   handleTextInputUpdates() {
     this.textInput.subscribe((v) => {
-      if ($.isPlainObject(v) && v.isLocation && !v.listItem) {
+      if (Utils.isPlainObject(v) && v.isLocation && !v.listItem) {
         this.setInternal(v);
       }
     });
@@ -92,7 +92,7 @@ class LocationTypeahead extends Typeahead {
   set(v) {
     this.textInput.set(v);
     this.setInternal(v);
-    this.textInput.$el.find('input').blur();
+    this.textInput.$el.find('input').trigger('blur');
     return this;
   }
 

@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const Button = require('./index.js');
 
 describe('button functionality', () => {
@@ -21,7 +20,7 @@ describe('button functionality', () => {
 
   it('test publish called on button click', () => {
     spyOn(btn, 'publish');
-    btn.$el.find('button').click();
+    btn.$el.find('button').trigger('click');
     expect(btn.publish).toHaveBeenCalled();
   });
 });

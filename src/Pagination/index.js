@@ -1,6 +1,6 @@
 'use strict';
 
-require('imports?jQuery=jquery!../../node_modules/simplePagination/jquery.simplePagination.js');
+require('../../node_modules/simplePagination/jquery.simplePagination.js');
 const BaseComponent = require('../BaseComponent');
 
 /**

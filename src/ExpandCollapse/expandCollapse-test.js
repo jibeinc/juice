@@ -1,7 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 'use strict';
 
-const $ = require('jquery');
 const ExpandCollapse = require('./index.js');
 
 describe('expandCollapse', () => {
@@ -43,10 +42,10 @@ describe('expandCollapse', () => {
 
   it('test expand/collapse', (done) => {
     expect(expandCollapse.$el.height()).toBe(0);
-    $('.toggle').click();
+    $('.toggle').trigger('click');
     setTimeout(() => {
       expect(expandCollapse.$el.height()).toBeGreaterThan(0);
-      $('.toggle').click();
+      $('.toggle').trigger('click');
       setTimeout(() => {
         expect(expandCollapse.$el.height()).toBeLessThan(1);
         done();

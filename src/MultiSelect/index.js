@@ -2,7 +2,6 @@
 
 require('./styles.scss');
 const multiSelectTmpl = require('./multiSelect.dot');
-const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 const Utils = require('../Utils');
 

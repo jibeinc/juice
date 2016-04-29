@@ -7,7 +7,6 @@ module.exports = function (done) {
   var env = require('jsdom').env;
   var html = '<html><body><h1>Hello World!</h1><p class="hello">Heya Big World!</body></html>';
   env(html, [
-    'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/dot/1.0.3/doT.min.js',
     __dirname + '/dist/ui.js'
   ], function (errors, window) {

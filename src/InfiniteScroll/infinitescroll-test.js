@@ -1,7 +1,6 @@
 /* eslint-disable lines-around-comment */
 'use strict';
 
-const $ = require('jquery');
 const ListView = require('../ListView/index.js');
 const InfiniteScroll = require('./index.js');
 
@@ -30,7 +29,7 @@ describe('infiniteScroll window', () => {
 
   it('test scroll calls onScrollToBottom - windowScroll:true', (done) => {
     spyOn(infiniteScroll, 'onScrollToBottom');
-    $(window).scrollTop(1500);
+    window.scrollTop = 1500;
     setTimeout(() => {
       expect(infiniteScroll.onScrollToBottom).toHaveBeenCalled();
       done();
@@ -123,7 +122,7 @@ describe('infiniteScroll div', () => {
 
   it('test scroll calls onScrollToBottom - windowScroll:false', (done) => {
     spyOn(infiniteScroll, 'onScrollToBottom');
-    $('.infinite-scroll-test').scrollTop(500);
+    $('.infinite-scroll-test')[0].scrollTop = 500;
     setTimeout(() => {
       expect(infiniteScroll.onScrollToBottom).toHaveBeenCalled();
       done();

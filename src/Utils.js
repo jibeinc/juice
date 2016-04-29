@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const bowser = require('bowser');
 
 /**
@@ -16,11 +15,7 @@ class Utils {
   static bindClick(element, onClickFunction) {
     // JJT-2261
     // detect windows8+chrome48 for touchstart bug
-    const isBadChrome48 = bowser.chrome && bowser.version >= 48 &&
-      !bowser.android &&
-      !bowser.windowsphone &&
-      !bowser.ios &&
-      !bowser.blackberry;
+    const isBadChrome48 = bowser.chrome && bowser.version >= 48 && !bowser.android && !bowser.windowsphone && !bowser.ios && !bowser.blackberry;
 
     if ('ontouchstart' in document.documentElement && !isBadChrome48) {
       let dragging = false;
@@ -41,6 +36,16 @@ class Utils {
     } else {
       element.on('click', onClickFunction);
     }
+  }
+
+  /**
+   * Utility method to replace jQuery.isPlainObject
+   * @param {*} value The value to check if it is an object
+   * @returns {boolean} Whether the passed value is a plain object or not
+   */
+  static isPlainObject(value) {
+    return value !== null &&
+      Object.prototype.toString.call(value) === '[object Object]';
   }
 }
 

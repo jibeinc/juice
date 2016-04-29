@@ -4,7 +4,6 @@
 //  @param {Boolean} stopPropagation - prevents the click handler from bubbling the event upwards
 //  @param {Object} attrs - a list of CSS attributes to put on each ListItem
 const listViewTmpl = require('./listView.dot');
-const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 const Utils = require('../Utils');
 

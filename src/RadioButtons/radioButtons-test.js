@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const RadioButtons = require('./index.js');
 
 const inputSelector = '.radio-buttons-test .ui-radio-buttons .select-option input';
@@ -67,14 +66,14 @@ describe('radioButtons functionality', () => {
     categories.set('mrkt01');
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
-    $($(inputSelector)[0]).click();
+    $($(inputSelector)[0]).trigger('click');
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
     // Ensure multiple clicks do not deselect the value, since it is a radio button
-    $($(inputSelector)[0]).click();
+    $($(inputSelector)[0]).trigger('click');
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
-    $($(inputSelector)[1]).click();
+    $($(inputSelector)[1]).trigger('click');
     expect(categories.get().value).toBe('sales');
     expect(categories.get().checked).toBe(true);
   });
@@ -96,13 +95,13 @@ describe('radioBoxes functionality', () => {
     expect(categories.get()).toBe(null);
   });
   it('test checking an option', () => {
-    $($(inputSelector)[0]).click();
+    $($(inputSelector)[0]).trigger('click');
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
     // Ensure multiple clicks deselect the value, since these are radioboxes and we are allowed to uncheck
-    $($(inputSelector)[0]).click();
+    $($(inputSelector)[0]).trigger('click');
     expect(categories.get()).toBe(null);
-    $($(inputSelector)[1]).click();
+    $($(inputSelector)[1]).trigger('click');
     expect(categories.get().value).toBe('sales');
     expect(categories.get().checked).toBe(true);
   });
@@ -124,13 +123,13 @@ describe('string options functionality', () => {
   });
 
   it('test string opts', () => {
-    $($(inputSelector)[0]).click();
+    $($(inputSelector)[0]).trigger('click');
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
     // Ensure multiple clicks deselect the value, since these are radioboxes and we are allowed to uncheck
-    $($(inputSelector)[0]).click();
+    $($(inputSelector)[0]).trigger('click');
     expect(categories.get()).toBe(null);
-    $($(inputSelector)[1]).click();
+    $($(inputSelector)[1]).trigger('click');
     expect(categories.get().value).toBe('sales');
     expect(categories.get().checked).toBe(true);
   });

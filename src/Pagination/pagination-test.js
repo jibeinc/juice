@@ -1,6 +1,5 @@
 'use strict';
 
-const $ = require('jquery');
 const Pagination = require('./index.js');
 
 describe('pagination functionality', () => {
@@ -30,14 +29,14 @@ describe('pagination functionality', () => {
 
   it('test onPageClick is called', () => {
     expect(testOnPageClickCalled).toBe(false);
-    $($(liSelector)[2]).find('a').click();
+    $($(liSelector)[2]).find('a').trigger('click');
     expect(testOnPageClickCalled).toBe(true);
   });
 
   it('test next/previous', () => {
-    $($(liSelector)[6]).find('a').click();
+    $($(liSelector)[6]).find('a').trigger('click');
     expect(pagination.get()).toBe(2);
-    $($(liSelector)[0]).find('a').click();
+    $($(liSelector)[0]).find('a').trigger('click');
     expect(pagination.get()).toBe(1);
   });
   it('test clicking page number', () => {
@@ -53,7 +52,7 @@ describe('pagination functionality', () => {
     pagination.render();
 
     expect(pagination.get()).toBe(1);
-    $($(liSelector)[4]).find('a').click();
+    $($(liSelector)[4]).find('a').trigger('click');
     expect(pagination.get()).toBe(4);
   });
 });

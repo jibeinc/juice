@@ -1,8 +1,8 @@
 'use strict';
 
 const selectTmpl = require('./select.tmpl');
-const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
+const Utils = require('../Utils.js');
 
 /**
  * Simple dropdown list with the ability to choose one option
@@ -22,7 +22,7 @@ class SingleSelect extends BaseComponent {
   constructor(el, opts = {}) {
     super(el);
     this.options = (opts.options || []).map((opt) => {
-      if ($.isPlainObject(opt)) {
+      if (Utils.isPlainObject(opt)) {
         return {
           display: opt.display,
           value: opt.value,
@@ -57,7 +57,7 @@ class SingleSelect extends BaseComponent {
    */
   render() {
     this.$el.html(selectTmpl(this));
-    this.$el.find('select').change(this.changeEventHandler.bind(this));
+    this.$el.find('select').on('change', this.changeEventHandler.bind(this));
     return this.$el.html();
   }
 
@@ -78,7 +78,7 @@ class SingleSelect extends BaseComponent {
   /**
    * Handler for the event listener 'change'
    */
-  changeEventHandler (evt) {
+  changeEventHandler(evt) {
     this.set($(evt.target).val());
   }
 }

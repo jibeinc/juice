@@ -2,7 +2,6 @@
 
 require('./styles.scss');
 
-const $ = require('jquery');
 const BaseTypeahead = require('./BaseTypeahead');
 const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
@@ -51,9 +50,9 @@ class Typeahead extends BaseTypeahead {
       this.isActive = v;
 
       if (this.isActive) {
-        this.resultsListView.$el.show();
+        this.resultsListView.$el.css('display', 'block');
       } else {
-        this.resultsListView.$el.hide();
+        this.resultsListView.$el.css('display', 'none');
         delete this.highlightIndex;
       }
     }
@@ -73,7 +72,7 @@ class Typeahead extends BaseTypeahead {
         this.active(false);
       });
 
-    this.resultsListView.$el.mousedown((evt) => {
+    this.resultsListView.$el.on('mousedown', (evt) => {
       evt.preventDefault();
     });
   }
@@ -104,7 +103,7 @@ class Typeahead extends BaseTypeahead {
           break;
 
         case this.keyEvents.ESC:
-          this.textInput.$el.find('input').blur();
+          this.textInput.$el.find('input').trigger('blur');
           break;
 
         default:
@@ -189,7 +188,7 @@ class Typeahead extends BaseTypeahead {
     super.render();
 
     // layer on our new behavior - hiding/showing results when user blurs/focuses
-    this.resultsListView.$el.hide();
+    this.resultsListView.$el.css('display', 'none');
     this.attachFocusEvents();
 
     // we also want to let you pick results from just the keyboard
@@ -252,7 +251,7 @@ class Typeahead extends BaseTypeahead {
     if (this.active()) {
       const highlighted = this.resultsListView.$el.find('.' + HIGHLIGHT_CLASS);
       if (highlighted.length) {
-        highlighted.click();
+        highlighted.trigger('click');
       }
       else {
         const valueToSet = this.textInput.get();
