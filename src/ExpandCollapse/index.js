@@ -2,7 +2,6 @@
 
 require('./styles.css');
 
-const _ = require('lodash');
 const BaseComponent = require('../BaseComponent');
 const Toggle = require('../Toggle/');
 const collapseTmpl = require('./expandCollapseContent.tmpl');
@@ -24,7 +23,7 @@ class ExpandCollapse extends BaseComponent {
       preserveChildElements: true
     });
 
-    if (_.isString(toggleSelector)) {
+    if (typeof toggleSelector === 'string') {
       this.toggleSelector = toggleSelector;
       this.opts = opts;
     }
