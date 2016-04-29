@@ -7,8 +7,7 @@ module.exports = {
     failOnError: true
   },
   externals: {
-    'jquery': 'jQuery',
-    'lodash': '_'
+    'jquery': 'jQuery'
   },
   output: {
     library: 'UI',

@@ -1,7 +1,6 @@
 'use strict';
 
 const $ = require('jquery');
-const _ = require('lodash');
 const BaseComponent = require('../BaseComponent');
 const debounce = require('debounce');
 
@@ -21,7 +20,7 @@ class InfiniteScroll extends BaseComponent {
       preserveChildElements: true
     });
 
-    if (_.isFunction(onScrollToBottom)) {
+    if ($.isFunction(onScrollToBottom)) {
       this.onScrollToBottom = onScrollToBottom;
     } else {
       throw new Error('You must provide an onScrollToBottom function');
