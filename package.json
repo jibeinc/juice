@@ -108,8 +108,6 @@
     "karma-sourcemap-loader": "^0.3.6",
     "karma-spec-reporter": "0.0.26",
     "karma-webpack": "^1.7.0",
-    "less": "^2.5.3",
-    "less-loader": "^2.2.1",
     "node-sass": "^3.4.2",
     "postcss-cssnext": "^2.4.0",
     "postcss-import": "^8.0.2",

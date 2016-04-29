@@ -71,7 +71,6 @@ Underlying the components is an internal Pub-Sub model of communication. Each co
     - images in-lined as data-uris with [img-loader](https://github.com/thetalecrafter/img-loader)
     - support for [doT](https://olado.github.io/doT/index.html) templates
     - support for ES6 [templates string](https://github.com/bradbenvenuti/template-string-loader) partials
-    - support for [LESS](https://github.com/webpack/less-loader)
 
 ## Roadmap
 

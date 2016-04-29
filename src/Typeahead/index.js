@@ -1,6 +1,6 @@
 'use strict';
 
-require('./styles.less');
+require('./styles.scss');
 const _ = require('lodash');
 const $ = require('jquery');
 const BaseTypeahead = require('./BaseTypeahead');

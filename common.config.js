@@ -10,11 +10,8 @@ module.exports = {
         // automatically load css into the DOM
         test: /\.css$/,
         loader: 'style!css!postcss'
-      }, {
-        // automatically load less into the DOM
-        test: /\.less$/,
-        loader: 'style!css!postcss!less'
-      }, {
+      },
+      {
         test: /\.scss$/,
         loader: 'style!css!postcss!sass'
       },
