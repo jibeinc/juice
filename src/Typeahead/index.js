@@ -1,10 +1,9 @@
 'use strict';
 
 require('./styles.scss');
-const _ = require('lodash');
+
 const $ = require('jquery');
 const BaseTypeahead = require('./BaseTypeahead');
-
 const HIGHLIGHT_CLASS = 'ui-typeahead-highlight';
 
 /**
@@ -48,7 +47,7 @@ class Typeahead extends BaseTypeahead {
    * @returns {boolean|*} if active is true or false
    */
   active(v) {
-    if (_.isBoolean(v)) {
+    if (typeof v === 'boolean') {
       this.isActive = v;
 
       if (this.isActive) {
@@ -118,7 +117,7 @@ class Typeahead extends BaseTypeahead {
    * Called when navigating with the arrow keys to decrease the index of which list item is highlighted
    */
   decrementHighlight() {
-    const highlightIndex = !_.isFinite(this.highlightIndex) ? this.resultsListView.$el.find('li').length - 1 : this.highlightIndex - 1;
+    const highlightIndex = !Number.isFinite(this.highlightIndex) ? this.resultsListView.$el.find('li').length - 1 : this.highlightIndex - 1;
     this.normalizeHighlightIndex(highlightIndex);
     this.renderHighlight();
   }
@@ -157,7 +156,7 @@ class Typeahead extends BaseTypeahead {
    * Called when navigating with the arrow keys to increase the index of which list item is highlighted
    */
   incrementHighlight() {
-    const highlightIndex = !_.isFinite(this.highlightIndex) ? 0 : this.highlightIndex + 1;
+    const highlightIndex = !Number.isFinite(this.highlightIndex) ? 0 : this.highlightIndex + 1;
     this.normalizeHighlightIndex(highlightIndex);
     this.renderHighlight();
   }

@@ -1,7 +1,6 @@
 'use strict';
 
 require('imports?jQuery=jquery!../../node_modules/simplePagination/jquery.simplePagination.js');
-const _ = require('lodash');
 const BaseComponent = require('../BaseComponent');
 
 /**
@@ -45,7 +44,7 @@ class Pagination extends BaseComponent {
    */
   pageChange(pageNumber, event) {
     this.set(pageNumber);
-    if (_.isFunction(this.onPageClick)) {
+    if ($.isFunction(this.onPageClick)) {
       event.stopPropagation();
       event.preventDefault();
       this.onPageClick(pageNumber, event);

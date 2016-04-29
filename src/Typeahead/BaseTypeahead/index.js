@@ -2,7 +2,6 @@
 
 const containerHTML = require('./baseTypeahead.html');
 const BaseComponent = require('../../BaseComponent');
-const _ = require('lodash');
 const $ = require('jquery');
 const TextInput = require('../../TextInput');
 const ListView = require('../../ListView');
@@ -34,7 +33,7 @@ class BaseTypeahead extends BaseComponent {
       textInputOpts: opts.textInputOpts || {}
     });
 
-    assert(_.isFunction(this.fetch), 'typeahead requires a fetch method');
+    assert($.isFunction(this.fetch), 'typeahead requires a fetch method');
 
     this.$el.append(containerHTML);
 

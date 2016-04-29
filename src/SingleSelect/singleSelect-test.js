@@ -43,13 +43,13 @@ describe('SingleSelect functionality with objects', () => {
     $('body').append('<div class="singleSelect-test"></div>');
     categories = new SingleSelect('.singleSelect-test', {
       options: [{
-        displayName: 'Marketing',
+        display: 'Marketing',
         value: 'mrkt01'
       }, {
-        displayName: 'Sales',
+        display: 'Sales',
         value: 'sales'
       }, {
-        displayName: 'Engineering',
+        display: 'Engineering',
         value: 'eng-2015'
       }]
     });
@@ -74,7 +74,14 @@ describe('SingleSelect functionality with objects', () => {
       displayName: 'Marketing',
       value: 'mrkt01'
     });
+
     const selected = categories.get();
     expect(selected.value).toBe('mrkt01');
+  });
+
+  it('should correctly display value', () => {
+    categories.set('mrkt01');
+    const displayValue = categories.getDisplayValue();
+    expect(displayValue).toBe('Marketing');
   });
 });
