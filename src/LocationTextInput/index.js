@@ -1,5 +1,3 @@
-'use strict';
-
 require('./styles.css');
 const inputTmpl = require('./input.tmpl');
 const TextInput = require('../TextInput');

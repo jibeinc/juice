@@ -1,5 +1,3 @@
-'use strict';
-
 require('./styles.scss');
 
 const BaseTypeahead = require('./BaseTypeahead');

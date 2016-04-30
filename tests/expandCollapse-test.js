@@ -1,7 +1,6 @@
 /* eslint-disable max-nested-callbacks */
-'use strict';
 
-const ExpandCollapse = require('./index.js');
+const ExpandCollapse = require('../src/ExpandCollapse/index.js');
 
 describe('expandCollapse', () => {
   let expandCollapse;

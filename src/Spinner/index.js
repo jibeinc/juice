@@ -1,5 +1,3 @@
-'use strict';
-
 require('./styles.css');
 const BaseSpinner = require('spin.js');
 const BaseComponent = require('../BaseComponent');

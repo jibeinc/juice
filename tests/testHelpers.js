@@ -1,5 +1,4 @@
 /* globals Event */
-'use strict';
 
 /**
  * A class for providing static test helper methods

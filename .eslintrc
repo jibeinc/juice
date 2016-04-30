@@ -33,6 +33,11 @@
     "DateFormatter": true,
     "dateFormat": true
   },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
   "rules": {
     "comma-dangle": ["error", "never"],
     "no-cond-assign": "error",

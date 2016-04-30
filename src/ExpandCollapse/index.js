@@ -1,5 +1,3 @@
-'use strict';
-
 require('./styles.css');
 
 const BaseComponent = require('../BaseComponent');

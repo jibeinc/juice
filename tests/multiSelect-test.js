@@ -1,6 +1,4 @@
-'use strict';
-
-const MultiSelect = require('./index.js');
+const MultiSelect = require('../src/MultiSelect/index.js');
 
 describe('multiSelect functionality', () => {
   let categories;

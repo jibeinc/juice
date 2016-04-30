@@ -1,5 +1,3 @@
-'use strict';
-
 const containerHTML = require('./baseTypeahead.html');
 const BaseComponent = require('../../BaseComponent');
 const TextInput = require('../../TextInput');

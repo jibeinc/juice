@@ -1,5 +1,3 @@
-'use strict';
-
 require('./styles.css');
 const buttonTmpl = require('./button.tmpl');
 const BaseComponent = require('../BaseComponent');

@@ -1,6 +1,4 @@
-'use strict';
-
-const RadioButtons = require('./index.js');
+const RadioButtons = require('../src/RadioButtons/index.js');
 
 const inputSelector = '.radio-buttons-test .ui-radio-buttons .select-option input';
 const testOptions = [{

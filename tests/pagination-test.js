@@ -1,6 +1,4 @@
-'use strict';
-
-const Pagination = require('./index.js');
+const Pagination = require('../src/Pagination/index.js');
 
 describe('pagination functionality', () => {
   let pagination;

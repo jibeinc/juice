@@ -1,5 +1,3 @@
-'use strict';
-
 require('./styles.scss');
 const multiSelectTmpl = require('./multiSelect.dot');
 const BaseComponent = require('../BaseComponent');

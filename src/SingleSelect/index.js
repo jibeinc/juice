@@ -1,5 +1,3 @@
-'use strict';
-
 const selectTmpl = require('./select.tmpl');
 const BaseComponent = require('../BaseComponent');
 const Utils = require('../Utils.js');

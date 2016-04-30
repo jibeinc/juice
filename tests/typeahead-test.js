@@ -1,7 +1,5 @@
-'use strict';
-
-const Typeahead = require('./index.js');
-const {simulateKeyPress} = require('../testHelpers.js');
+const Typeahead = require('../src/Typeahead/index.js');
+const {simulateKeyPress} = require('./testHelpers.js');
 const db = [{
   displayName: 18045972508
 }, {

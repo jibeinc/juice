@@ -1,6 +1,4 @@
-'use strict';
-
-const Button = require('./index.js');
+const Button = require('../src/Button/index.js');
 
 describe('button functionality', () => {
   let btn;

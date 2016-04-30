@@ -1,7 +1,5 @@
-'use strict';
-
-const LocationTypeahead = require('./index.js');
-const {simulateKeyPress} = require('../testHelpers.js');
+const LocationTypeahead = require('../src/LocationTypeahead/index.js');
+const {simulateKeyPress} = require('./testHelpers.js');
 
 describe('locationTypeahead functionality', () => {
   let locationSearch;

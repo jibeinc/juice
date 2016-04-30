@@ -1,6 +1,4 @@
-'use strict';
-
-const CurrentLocation = require('./index.js');
+const CurrentLocation = require('../src/CurrentLocation/index.js');
 
 describe('CurrentLocation functionality', () => {
   let loc;

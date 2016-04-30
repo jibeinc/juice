@@ -1,6 +1,4 @@
-'use strict';
-
-const Toggle = require('./index.js');
+const Toggle = require('../src/Toggle/index.js');
 
 describe('toggle', () => {
   let toggleTest;

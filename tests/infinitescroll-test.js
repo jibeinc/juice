@@ -1,8 +1,7 @@
 /* eslint-disable lines-around-comment */
-'use strict';
 
-const ListView = require('../ListView/index.js');
-const InfiniteScroll = require('./index.js');
+const ListView = require('../src/ListView/index.js');
+const InfiniteScroll = require('../src/InfiniteScroll/index.js');
 
 describe('infiniteScroll window', () => {
   let infiniteScroll;

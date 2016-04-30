@@ -1,5 +1,3 @@
-'use strict';
-
 const BaseComponent = require('../BaseComponent');
 const debounce = require('debounce');
 

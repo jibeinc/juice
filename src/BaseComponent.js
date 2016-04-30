@@ -1,5 +1,3 @@
-'use strict';
-
 const uuid = require('uuid');
 const PSHub = require('./PubSubHub');
 const assert = require('./assert');

@@ -1,5 +1,3 @@
-'use strict';
-
 const BaseComponent = require('../BaseComponent');
 const radioButtonsTmpl = require('./radioButtons.dot');
 const Utils = require('../Utils');
