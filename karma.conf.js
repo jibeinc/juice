@@ -3,13 +3,13 @@ const path = require('path');
 
 const webpackModule = config.webpackModule;
 // transpile and instrument only testing sources with babel-istanbul
-// webpackModule.preLoaders.unshift(
-//   {
-//     test: /(\.js)$/,
-//     // exclude this dirs from coverage
-//     exclude: /(test|node_modules|bower_components)\//,
-//     loader: 'isparta-instrumenter-loader'
-//   });
+webpackModule.preLoaders.unshift(
+  {
+    test: /(\.js)$/,
+    // exclude this dirs from coverage
+    exclude: /(test|node_modules|bower_components)\//,
+    loader: 'isparta-instrumenter-loader'
+  });
 
 module.exports = function (config) {
   var configuration = {
@@ -27,7 +27,7 @@ module.exports = function (config) {
         flags: ['--no-sandbox']
       }
     },
-    singleRun: false, //just run once by default
+    singleRun: true, //just run once by default
     frameworks: ['jasmine-jquery', 'jasmine'],
     files: [
       'https://cdn.jsdelivr.net/cash/1.2.0/cash.min.js',

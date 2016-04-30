@@ -28,7 +28,7 @@ describe('infiniteScroll window', () => {
 
   it('test scroll calls onScrollToBottom - windowScroll:true', (done) => {
     spyOn(infiniteScroll, 'onScrollToBottom');
-    window.scrollTop = 1500;
+    window.scrollTo(0, 1500);
     setTimeout(() => {
       expect(infiniteScroll.onScrollToBottom).toHaveBeenCalled();
       done();

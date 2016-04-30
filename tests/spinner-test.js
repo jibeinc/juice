@@ -32,7 +32,6 @@ describe('Spinner on Window', () => {
     spinner.start();
 
     setTimeout(() => {
-      debugger;
       const overlayZindex = $('.juicy-spinner-container').css('zIndex');
       const buttonZindex = $('.ui-button').css('zIndex');
 

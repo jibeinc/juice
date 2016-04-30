@@ -1,5 +1,6 @@
 const BaseComponent = require('../BaseComponent');
 const debounce = require('debounce');
+const Utils = require('../Utils.js');
 
 /**
  * Class for implementing infinite scroll triggers and logic
@@ -26,12 +27,12 @@ class InfiniteScroll extends BaseComponent {
     const debounceWait = opts.debounceWait || 500;
     const $scrollTarget = opts.windowScroll ? $(window) : this.$el;
     $scrollTarget.on('scroll', debounce(() => {
-      const scrollTop = $scrollTarget[0].scrollTop;
+      const scrollTop = opts.windowScroll ? document.body.scrollTop : $scrollTarget[0].scrollTop;
       const scrollTrigger = opts.scrollTrigger || 0.95;
       let height;
       if (opts.windowScroll) {
-        height = $(document).height() * scrollTrigger;
-        if (scrollTop + $(window).height() >= height) {
+        height = Utils.getDocumentHeight() * scrollTrigger;
+        if (scrollTop + window.innerHeight >= height) {
           this.onScrollToBottom();
         }
       }
