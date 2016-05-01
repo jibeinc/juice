@@ -1,3 +1,4 @@
+/* eslint-disable max-nested-callbacks */
 'use strict';
 
 const $ = require('jquery');
@@ -6,8 +7,10 @@ const Utils = require('./Utils.js');
 describe('Utils test suite', () => {
   describe('bindClick static method', () => {
     let bowserMock;
-    let clickSpy;
     let elem;
+
+    // create onClick spy
+    const clickSpy = jasmine.createSpy('onClickHandler');
 
     beforeEach(() => {
       // Fake being Window Chrome 48
@@ -22,9 +25,6 @@ describe('Utils test suite', () => {
       // create elem
       $('body').append('<div class="util-test"></div>');
       elem = $('body').find('.util-test');
-
-      // create onClick spy
-      clickSpy = jasmine.createSpy('onClickHandler');
 
       // create the method
       Utils.bindClick(elem, clickSpy);
@@ -48,7 +48,9 @@ describe('Utils test suite', () => {
       elem.trigger('touchend');
 
       // expect onClickHandler to have been fired
-      expect(clickSpy).toHaveBeenCalled();
+      setTimeout(() => {
+        expect(clickSpy).toHaveBeenCalled();
+      }, 100);
     });
 
     it('should NOT fire the onClick, when scrolled on ios/mobile', () => {
@@ -68,7 +70,9 @@ describe('Utils test suite', () => {
       elem.trigger('touchend');
 
       // expect onClickHandler not to have been fired
-      expect(clickSpy).not.toHaveBeenCalled();
+      setTimeout(() => {
+        expect(clickSpy).not.toHaveBeenCalled();
+      }, 100);
     });
 
     it('should fire the onClick handler for Windows+Chrome48', () => {
@@ -82,7 +86,9 @@ describe('Utils test suite', () => {
       elem.trigger('touchend');
 
       // expect onClickHandler to have been fired
-      expect(clickSpy).toHaveBeenCalled();
+      setTimeout(() => {
+        expect(clickSpy).toHaveBeenCalled();
+      }, 100);
     });
   });
 });
