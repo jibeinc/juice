@@ -1,4 +1,5 @@
 const config = require('./common.config');
+const RewirePlugin = require("rewire-webpack");
 
 module.exports = {
   entry: './src/juice.js',
@@ -15,6 +16,9 @@ module.exports = {
     filename: 'ui.js',
     publicPath: '/dist/'
   },
+  plugins: [
+    new RewirePlugin()
+    ],
   postcss: config.postcss,
   resolve: {
     modulesDirectories: ['node_modules', 'bower_components']
