@@ -40,8 +40,8 @@ class MultiSelect extends BaseComponent {
     this.$el.html(multiSelectTmpl(this));
 
     Utils.bindClick(this.$el.find('.ms-label'), (evt) => {
-      evt.stopPropagation();
-      this.set($(evt.target).parent().find('input').val());
+      evt.preventDefault();
+      this.set($(evt.target.parentElement).find('input').val());
     });
 
     return this.$el.html();

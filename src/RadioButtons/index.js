@@ -72,11 +72,10 @@ class RadioButtons extends BaseComponent {
   render() {
     this.$el.html(radioButtonsTmpl(this));
     Utils.bindClick(this.$el.find('label'), (evt) => {
+      evt.preventDefault();
       this.set($(evt.target.parentElement).find('input').val());
     });
-    Utils.bindClick(this.$el.find('input'), (evt) => {
-      this.set($(evt.target).val());
-    });
+
     return this.$el.html();
   }
 
