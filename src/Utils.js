@@ -22,6 +22,8 @@ class Utils {
       !bowser.ios &&
       !bowser.blackberry;
 
+    // This is for mobile Safari and other touch enabled browsers
+    // We have to check for Chrome 48 due to this https://bugs.chromium.org/p/chromium/issues/detail?id=467934
     if ('ontouchstart' in document.documentElement && !isBadChrome48) {
       let dragging = false;
       $('body').on('touchstart', () => {
@@ -39,6 +41,7 @@ class Utils {
         }
       });
     } else {
+      // If we are on desktop, just do the click
       element.on('click', onClickFunction);
     }
   }

@@ -1,8 +1,7 @@
 'use strict';
 
 const $ = require('jquery');
-const rewire = require('rewire-webpack');
-const Utils = rewire('./Utils.js');
+const Utils = require('./Utils.js');
 
 describe('Utils test suite', () => {
   describe('bindClick static method', () => {
@@ -11,6 +10,7 @@ describe('Utils test suite', () => {
     let elem;
 
     beforeEach(() => {
+      // Fake being Window Chrome 48
       bowserMock = {
         chrome: true,
         version: 48,
@@ -19,10 +19,6 @@ describe('Utils test suite', () => {
         ios: false,
         blackberry: false
       };
-
-      // mock the bowser module
-      Utils.__set__('bowser', bowserMock);
-
       // create elem
       $('body').append('<div class="util-test"></div>');
       elem = $('body').find('.util-test');
@@ -38,30 +34,13 @@ describe('Utils test suite', () => {
       $('body').empty();
     });
 
-    it('should fire the onClick handler for a browser that is not Windows+Chrome48', () => {
-      bowserMock = {
-        chrome: false,
-        version: 48,
-        android: false,
-        windowsphone: false,
-        ios: true,
-        blackberry: false
-      };
+    it('should fire the onClick, via touch events if ios/mobile', () => {
+      // mock the bowser module for ios
+      bowserMock.chrome = false;
+      bowserMock.ios = true;
 
-        // mock the bowser module
-      Utils.__set__('bowser', bowserMock);
+      Utils.__Rewire__('bowser', bowserMock);
 
-        // fire touchstart event on elem
-      elem.trigger('touchstart');
-
-        // fire touchend event on elem
-      elem.trigger('touchend');
-
-        // expect onClickHandler not to have been fired
-      expect(clickSpy).not.toHaveBeenCalled();
-    });
-
-    it('should fire the onClick handler for Windows+Chrome48 if the touchmove event is not fired', () => {
       // fire touchstart event on elem
       elem.trigger('touchstart');
 
@@ -72,18 +51,38 @@ describe('Utils test suite', () => {
       expect(clickSpy).toHaveBeenCalled();
     });
 
-    it('should not fire the onClick handler for Windows+Chrome48 if the touchmove event is fired', () => {
+    it('should NOT fire the onClick, when scrolled on ios/mobile', () => {
+      // mock the bowser module for ios
+      bowserMock.chrome = false;
+      bowserMock.ios = true;
+
+      Utils.__Rewire__('bowser', bowserMock);
+
       // fire touchstart event on elem
       elem.trigger('touchstart');
 
-      // fire touchmove event on elem
+      // do a scroll
       elem.trigger('touchmove');
 
       // fire touchend event on elem
       elem.trigger('touchend');
 
-      // expect onClickHandler to have been fired
+      // expect onClickHandler not to have been fired
       expect(clickSpy).not.toHaveBeenCalled();
+    });
+
+    it('should fire the onClick handler for Windows+Chrome48', () => {
+      // mock the bowser module
+      Utils.__Rewire__('bowser', bowserMock);
+
+      // fire touchstart event on elem
+      elem.trigger('touchstart');
+
+      // fire touchend event on elem
+      elem.trigger('touchend');
+
+      // expect onClickHandler to have been fired
+      expect(clickSpy).toHaveBeenCalled();
     });
   });
 });

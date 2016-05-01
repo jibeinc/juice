@@ -44,7 +44,7 @@ module.exports = function (config) {
         'jquery': 'jQuery'
       },
       devtool: 'inline-source-map', //just do inline source maps instead of the default
-      module: webpackModule,
+      module: webpackModule
     },
     webpackServer: {
       noInfo: true //please don't spam the console when running in karma!

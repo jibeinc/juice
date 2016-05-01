@@ -42,6 +42,7 @@ module.exports = {
           // to enable loose mode for classes to support IE9+
           // http://ricostacruz.com/til/babel-ie-class-inheritance.html
           plugins: [
+            'babel-plugin-rewire',
             'transform-es2015-arrow-functions',
             'transform-es2015-block-scoped-functions',
             'transform-es2015-block-scoping',
