@@ -52,13 +52,14 @@ describe('multiSelect functionality', () => {
     expect(selected[0].value).toBe('mrkt01');
   });
 
-  it('should click a single checkbox directly and set the value', () => {
+  it('should click a single checkbox directly and set the value', (done) => {
     const elementToClick = $($('.ms-label')[1]).find('input');
     elementToClick.trigger('click');
     setTimeout(() => {
       let selected = categories.get();
       expect(selected.length).toBe(1);
-      expect(selected.value).toBe('sales');
+      expect(selected[0].value).toBe('sales');
+      done();
     }, 100);
   });
 
@@ -85,7 +86,7 @@ describe('multiSelect functionality', () => {
     expect(selected[0].value).toBe('sales');
   });
 
-  it('should click multiple checkboxes directly and set the value', () => {
+  it('should click multiple checkboxes directly and set the value', (done) => {
     const elementToClick = $($('.ms-label')[2]).find('input');
     const elementToClick2 = $($('.ms-label')[0]).find('input');
 
@@ -102,8 +103,8 @@ describe('multiSelect functionality', () => {
       setTimeout(() => {
         selected = categories.get();
         expect(selected.length).toBe(2);
-        expect(selected[0].value).toBe('eng-2015');
-        expect(selected[1].value).toBe('mrkt01');
+        expect(selected[0].value).toBe('mrkt01');
+        expect(selected[1].value).toBe('eng-2015');
 
         // click the second element again, de-selecting it
         elementToClick2.trigger('click');
@@ -112,6 +113,7 @@ describe('multiSelect functionality', () => {
           selected = categories.get();
           expect(selected.length).toBe(1);
           expect(selected[0].value).toBe('eng-2015');
+          done();
         },50);
       }, 50);     
     }, 50); 
