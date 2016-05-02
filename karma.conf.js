@@ -6,8 +6,8 @@ const webpackModule = config.webpackModule;
 webpackModule.preLoaders.unshift(
   {
     test: /(\.js)$/,
-    // exclude this dirs from coverage
-    exclude: /(test|node_modules|bower_components)\//,
+    // only include src directory
+    include: [path.resolve(__dirname, "src")],
     loader: 'isparta-instrumenter-loader'
   });
 
