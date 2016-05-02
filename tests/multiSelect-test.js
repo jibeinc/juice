@@ -1,3 +1,5 @@
+/* eslint-disable max-nested-callbacks */
+
 const MultiSelect = require('../src/MultiSelect/index.js');
 
 describe('multiSelect functionality', () => {
@@ -38,7 +40,7 @@ describe('multiSelect functionality', () => {
 
   it('should be able to check an option programatically', () => {
     categories.set(['mrkt01', 'sales']);
-    let selected = categories.get();
+    const selected = categories.get();
     expect(selected.length).toBe(2);
     expect(selected[0].value).toBe('mrkt01');
     expect(selected[1].value).toBe('sales');
@@ -47,7 +49,7 @@ describe('multiSelect functionality', () => {
   it('should click a single checkbox span and set the value', () => {
     const elementToClick = $($('.ms-label')[0]).find('span');
     elementToClick.trigger('click');
-    let selected = categories.get();
+    const selected = categories.get();
     expect(selected.length).toBe(1);
     expect(selected[0].value).toBe('mrkt01');
   });
@@ -56,7 +58,7 @@ describe('multiSelect functionality', () => {
     const elementToClick = $($('.ms-label')[1]).find('input');
     elementToClick.trigger('click');
     setTimeout(() => {
-      let selected = categories.get();
+      const selected = categories.get();
       expect(selected.length).toBe(1);
       expect(selected[0].value).toBe('sales');
       done();
@@ -114,8 +116,8 @@ describe('multiSelect functionality', () => {
           expect(selected.length).toBe(1);
           expect(selected[0].value).toBe('eng-2015');
           done();
-        },50);
-      }, 50);     
-    }, 50); 
+        }, 50);
+      }, 50);
+    }, 50);
   });
 });

@@ -1,8 +1,6 @@
 /* eslint-disable max-nested-callbacks */
-'use strict';
 
-const $ = require('jquery');
-const Utils = require('./Utils.js');
+const Utils = require('../src/Utils.js');
 
 describe('Utils test suite', () => {
   describe('bindClick static method', () => {

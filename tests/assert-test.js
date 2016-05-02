@@ -1,6 +1,4 @@
-'use strict';
-
-const assert = require('./assert.js');
+const assert = require('../src/assert.js');
 
 describe('Assert function', () => {
   it('should throw error when condition isn\'t met', () => {
