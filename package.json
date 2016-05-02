@@ -7,16 +7,12 @@
   },
   "main": "index.js",
   "license": "MIT",
-  "napa": {
-    "simplePagination": "flaviusmatis/simplePagination.js"
-  },
   "scripts": {
     "make": "npm run clean && npm install && npm run build",
     "build": "./node_modules/.bin/webpack --progress --colors --display-chunks -p",
     "build-dev": "./node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
     "clean": "rm -rf node_modules bower_components dist npm-debug.log && npm cache clean",
     "examples": "node staticServer",
-    "install": "napa",
     "test": "karma start",
     "lint": "./node_modules/.bin/eslint ./src/* --fix",
     "watch": "./node_modules/.bin/webpack --watch"
@@ -53,7 +49,6 @@
     "dot": "^1.0.3",
     "i18next": "^2.5.1",
     "jsdom": "^3.0.3",
-    "napa": "^2.3.0",
     "postcss-import": "^8.0.2",
     "postcss-url": "^5.1.1",
     "spin.js": "^2.3.2",
