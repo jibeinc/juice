@@ -8,8 +8,8 @@
 Tests need to be spoofing each browser’s implementation or firing the vendor-specific behaviors and account for them.
 1. Look at Code Climate Stuff, fix any issues that may arise
 1. Really Deep-dive into the tests to make sure that they handle all logical cases
-1. Get out of jQuery Land
-  * Remove the dependency and replace with JSDom + browser-specific selectors
+1. ~~Get out of jQuery Land~~
+  * ~~Remove the dependency and replace with JSDom + browser-specific selectors~~
 1. Rewrite the Readme
   * Small sections devoted to the use of each UI component. Docs Driven Format
 1. Minor Version 0.4.0: Remove BaseFragmentFactroy && create ListItem
