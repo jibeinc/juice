@@ -2,6 +2,7 @@ const config = require('./common.config');
 const path = require('path');
 
 const webpackModule = config.webpackModule;
+
 // transpile and instrument only testing sources with babel-istanbul
 webpackModule.preLoaders.unshift(
   {
@@ -10,6 +11,9 @@ webpackModule.preLoaders.unshift(
     include: [path.resolve(__dirname, "src")],
     loader: 'isparta-instrumenter-loader'
   });
+
+// Only add rewire when testing
+webpackModule.loaders[webpackModule.loaders.length - 1].query.plugins.push('babel-plugin-rewire')
 
 module.exports = function (config) {
   var configuration = {
