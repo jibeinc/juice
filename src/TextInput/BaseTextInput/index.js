@@ -1,5 +1,3 @@
-'use strict';
-
 const inputTmpl = require('./input.tmpl');
 const BaseComponent = require('../../BaseComponent');
 

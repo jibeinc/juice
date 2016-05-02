@@ -1,7 +1,4 @@
-'use strict';
-
-const $ = require('jquery');
-const SingleSelect = require('./index.js');
+const SingleSelect = require('../src/SingleSelect/index.js');
 
 describe('SingleSelect functionality with simple values', () => {
   let categories;

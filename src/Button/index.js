@@ -1,7 +1,4 @@
-'use strict';
-
 require('./styles.css');
-const $ = require('jquery');
 const buttonTmpl = require('./button.tmpl');
 const BaseComponent = require('../BaseComponent');
 const Utils = require('../Utils');

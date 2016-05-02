@@ -48,6 +48,7 @@
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "bowser": "^1.0.0",
+    "cash-dom": "^1.2.0",
     "debounce": "^1.0.0",
     "dot": "^1.0.3",
     "i18next": "^2.5.1",
@@ -60,7 +61,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
-    "babel-eslint": "^6.0.2",
+    "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-es2015-arrow-functions": "^6.5.2",
     "babel-plugin-transform-es2015-block-scoped-functions": "^6.6.0",

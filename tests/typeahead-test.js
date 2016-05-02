@@ -1,8 +1,5 @@
-'use strict';
-
-const $ = require('jquery');
-const Typeahead = require('./index.js');
-const {simulateKeyPress} = require('../testHelpers.js');
+const Typeahead = require('../src/Typeahead/index.js');
+const {simulateKeyPress} = require('./testHelpers.js');
 const db = [{
   displayName: 18045972508
 }, {
@@ -62,13 +59,13 @@ describe('typeahead functionality', () => {
   });
   it('test up/down arrows and enter', () => {
     expect(searchNumbers.resultsListView.$el).toBeHidden();
-    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('1');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     // Press ESC to close typeahead
     simulateKeyPress(27, $(document));
     expect(searchNumbers.resultsListView.$el).toBeHidden();
-    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('1');
     // Press down to highlight an option
     simulateKeyPress(40, $(document));
@@ -77,7 +74,7 @@ describe('typeahead functionality', () => {
     expect(searchNumbers.get().displayName).toBe(18045972508);
     // Blur after selection
     expect(searchNumbers.resultsListView.$el).toBeHidden();
-    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('1');
     // Down, down, down, up, down, up
     simulateKeyPress(40, $(document));
@@ -94,7 +91,7 @@ describe('typeahead functionality', () => {
   });
   it('test "g" keydown does nothing', () => {
     expect(searchNumbers.resultsListView.$el).toBeHidden();
-    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('1');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     // Press down to highlight an option
@@ -106,11 +103,11 @@ describe('typeahead functionality', () => {
   it('test click selection', () => {
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get()).toBe('');
-    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('1');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
-    searchNumbers.resultsListView.$el.find('li').first().mousedown();
-    searchNumbers.resultsListView.$el.find('li').first().click();
+    searchNumbers.resultsListView.$el.find('li').first().trigger('mousedown');
+    searchNumbers.resultsListView.$el.find('li').first().trigger('click');
     // Blur after selection
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get().displayName).toBe(18045972508);
@@ -118,7 +115,7 @@ describe('typeahead functionality', () => {
   it('test manual text entry', () => {
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get()).toBe('');
-    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('custom value');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     // Press enter to set a custom value
@@ -127,10 +124,10 @@ describe('typeahead functionality', () => {
     expect(searchNumbers.get()).toBe('custom value');
   });
   it('ensure mousedown on results list does not blur', () => {
-    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('custom value');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
-    searchNumbers.resultsListView.$el.mousedown();
+    searchNumbers.resultsListView.$el.trigger('mousedown');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
   });
   it('no fixed results, allowFreeform', () => {
@@ -148,7 +145,7 @@ describe('typeahead functionality', () => {
 
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get()).toBe('');
-    searchNumbers.textInput.$el.find('input').focus();
+    searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('custom value');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     // Press enter to set a custom value

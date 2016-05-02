@@ -30,7 +30,7 @@ module.exports = function (config) {
     singleRun: true, //just run once by default
     frameworks: ['jasmine-jquery', 'jasmine'],
     files: [
-      'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js',
+      'https://cdn.jsdelivr.net/cash/1.2.0/cash.min.js',
       'node_modules/babel-polyfill/dist/polyfill.js',
       'tests.webpack.js'
     ],
@@ -40,9 +40,6 @@ module.exports = function (config) {
     },
     reporters: ['spec', 'coverage'], //report results in this format
     webpack: { //kind of a copy of your webpack config
-      externals: {
-        'jquery': 'jQuery'
-      },
       devtool: 'inline-source-map', //just do inline source maps instead of the default
       module: webpackModule,
     },

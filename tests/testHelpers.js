@@ -1,6 +1,4 @@
-'use strict';
-
-const $ = require('jquery');
+/* globals Event */
 
 /**
  * A class for providing static test helper methods
@@ -13,9 +11,13 @@ class TestHelpers {
    * @param {jQuery} $element The jQuery wrapped element the keydown event is triggered on
    */
   static simulateKeyPress(keyCode, $element) {
-    const e = $.Event('keydown'); // eslint-disable-line new-cap
+    const e = new Event('keydown');
     e.which = keyCode;
-    $element.trigger(e);
+    e.altKey = false;
+    e.ctrlKey = true;
+    e.shiftKey = false;
+    e.metaKey = false;
+    $element[0].dispatchEvent(e);
   }
 }
 

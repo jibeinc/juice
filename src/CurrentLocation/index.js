@@ -1,5 +1,3 @@
-'use strict';
-
 require('./styles.css');
 const iconURL = require('./location.png');
 const BaseComponent = require('../BaseComponent');

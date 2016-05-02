@@ -1,8 +1,6 @@
 /* eslint-disable lines-around-comment */
-'use strict';
 
-const $ = require('jquery');
-const Spinner = require('./index.js');
+const Spinner = require('../src/Spinner/index.js');
 
 describe('Spinner on Window', () => {
   let spinner;
@@ -34,8 +32,8 @@ describe('Spinner on Window', () => {
     spinner.start();
 
     setTimeout(() => {
-      const overlayZindex = $('.juicy-spinner-container').css('z-index');
-      const buttonZindex = $('.ui-button').css('z-index');
+      const overlayZindex = $('.juicy-spinner-container').css('zIndex');
+      const buttonZindex = $('.ui-button').css('zIndex');
 
       expect($('body')).toHaveClass('noScroll');
       expect(overlayZindex).toBe('9999');

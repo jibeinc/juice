@@ -1,5 +1,3 @@
-'use strict';
-
 require('./styles.css');
 const inputTmpl = require('./input.tmpl');
 const BaseTextInput = require('./BaseTextInput');
@@ -44,7 +42,7 @@ class TextInput extends BaseTextInput {
    * Set the value to empty string when you click the clear icon
    */
   iconClickHandler() {
-    this.$icon.click(() => {
+    this.$icon.on('click', () => {
       this.set('');
     });
   }
@@ -57,12 +55,12 @@ class TextInput extends BaseTextInput {
       this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
 
       if (e.keyCode == this.keyEvents.ENTER) {
-        this.$input.blur();
+        this.$input.trigger('blur');
         this.submitHandler(this.get());
       }
     }, this.wait);
 
-    this.$input.keyup(onKeyup);
+    this.$input.on('keyup', onKeyup);
   }
 
   /**
@@ -107,7 +105,7 @@ class TextInput extends BaseTextInput {
    */
   showHideIcon() {
     if (this.$icon) {
-      this.get() ? this.$icon.show() : this.$icon.hide();
+      this.get() ? this.$icon.css('display', 'block') : this.$icon.css('display', 'none');
     }
   }
 }

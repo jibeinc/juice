@@ -1,7 +1,4 @@
-'use strict';
-
 require('./styles.css');
-const $ = require('jquery');
 const BaseSpinner = require('spin.js');
 const BaseComponent = require('../BaseComponent');
 

@@ -1,11 +1,9 @@
-'use strict';
-
 const containerHTML = require('./baseTypeahead.html');
 const BaseComponent = require('../../BaseComponent');
-const $ = require('jquery');
 const TextInput = require('../../TextInput');
 const ListView = require('../../ListView');
 const assert = require('../../assert.js');
+const Utils = require('../../Utils.js');
 
 /**
  * Handles just the absolute core behavior of a typeahead
@@ -92,7 +90,7 @@ class BaseTypeahead extends BaseComponent {
    * @returns {string} The display value
    */
   getDisplayValue(item) {
-    if ($.isPlainObject(item)) {
+    if (Utils.isPlainObject(item)) {
       item = item[this.displayProperty];
     }
     return item;
@@ -173,7 +171,7 @@ class BaseTypeahead extends BaseComponent {
   set(v) {
     this.textInput.set(this.getDisplayValue(v));
     this.value = v;
-    this.textInput.$el.find('input').blur();
+    this.textInput.$el.find('input').trigger('blur');
     this.publish(this.get());
     return this;
   }

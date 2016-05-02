@@ -1,8 +1,5 @@
-'use strict';
-
 require('./styles.scss');
 const multiSelectTmpl = require('./multiSelect.dot');
-const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 const Utils = require('../Utils');
 
@@ -42,9 +39,9 @@ class MultiSelect extends BaseComponent {
   render() {
     this.$el.html(multiSelectTmpl(this));
 
-    Utils.bindClick(this.$el.find('.ms-label'), (evt) => {
-      evt.stopPropagation();
-      this.set($(evt.target).parent().find('input').val());
+    Utils.bindClick(this.$el.find('.ms-label input'), (evt) => {
+      evt.preventDefault();
+      this.set($(evt.target).val());
     });
 
     return this.$el.html();

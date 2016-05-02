@@ -1,6 +1,3 @@
-'use strict';
-
-const $ = require('jquery');
 const uuid = require('uuid');
 const PSHub = require('./PubSubHub');
 const assert = require('./assert');

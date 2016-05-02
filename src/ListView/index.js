@@ -1,10 +1,7 @@
-'use strict';
-
 // listItemOpts has the following properties:
 //  @param {Boolean} stopPropagation - prevents the click handler from bubbling the event upwards
 //  @param {Object} attrs - a list of CSS attributes to put on each ListItem
 const listViewTmpl = require('./listView.dot');
-const $ = require('jquery');
 const BaseComponent = require('../BaseComponent');
 const Utils = require('../Utils');
 
@@ -43,14 +40,22 @@ class ListView extends BaseComponent {
     this.$el.html(listViewTmpl(this));
 
     this.$el.find('ul.ui-list').attr(this.attrs);
-    this.$el.find('li.ui-list-item').attr(this.listItemOpts.attrs || {});
-    Utils.bindClick(this.$el.find('li.ui-list-item'), (evt) => {
-      this.set(this.results[$(evt.currentTarget).attr('data-index')]);
+    const $listItems = this.$el.find('li.ui-list-item');
+    if ($listItems[0]) {
+      $listItems.attr(this.listItemOpts.attrs || {});
 
-      if (this.listItemOpts.stopPropagation) {
-        evt.stopPropagation();
-      }
-    });
+      Utils.bindClick($listItems, (evt) => {
+        const $currentTarget = $(evt.currentTarget);
+        console.log($currentTarget[0]);
+        if ($currentTarget[0]) {
+          this.set(this.results[$currentTarget.attr('data-index')]);
+        }
+
+        if (this.listItemOpts.stopPropagation) {
+          evt.stopPropagation();
+        }
+      });
+    }
     return this.$el.html();
   }
 

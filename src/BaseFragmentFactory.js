@@ -1,6 +1,3 @@
-'use strict';
-
-const $ = require('jquery');
 const assert = require('./assert');
 
 /**
