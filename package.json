@@ -51,7 +51,6 @@
     "cash-dom": "^1.2.0",
     "debounce": "^1.0.0",
     "dot": "^1.0.3",
-    "i18next": "^2.5.1",
     "jsdom": "^3.0.3",
     "napa": "^2.3.0",
     "postcss-import": "^8.0.2",

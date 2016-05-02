@@ -1,5 +1,4 @@
 const doT = require('dot'); // eslint-disable-line no-unused-vars
-const i18n = require('./i18n');
 
 // Note: this just mimics apply current setup
 const dotConfigOverrides = {
@@ -14,12 +13,6 @@ const dotConfigOverrides = {
   strip: false,
   append: true,
   selfcontained: false
-};
-
-const globalTemplateMap = {
-  translate: (token, context) => {
-    return i18n.getInstance().t(token, context);
-  }
 };
 
 /**
@@ -42,7 +35,7 @@ class DotService {
    * @returns {string} The compiled html to display
    */
   compile(template, data) {
-    return this.doT.template(template, dotConfigOverrides, globalTemplateMap)(data);
+    return this.doT.template(template, dotConfigOverrides)(data);
   }
 
   /**
@@ -61,7 +54,7 @@ class DotService {
       throw new Error('You must specify a jquery-friendly css selector to render template into.');
     }
 
-    const renderIntoDOMWith = this.doT.template(template, dotConfigOverrides, globalTemplateMap);
+    const renderIntoDOMWith = this.doT.template(template, dotConfigOverrides);
     $(cssSelector).html(renderIntoDOMWith(viewModel));
   }
 }

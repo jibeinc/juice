@@ -1,11 +1,9 @@
 require('imports?jQuery=cash-dom!../vendor/jquery.simplePagination.js');
 
 require('babel-polyfill');
-const initFunc = require('./init');
 
 // exposed dependences
 const Dot = require('./Dot');
-const i18n = require('./i18n');
 
 // services
 const BaseFragmentFactory = require('./BaseFragmentFactory');
@@ -32,7 +30,6 @@ const Spinner = require('./Spinner');
 const UIComponents = {
   // exposed dependences
   Dot,
-  i18n,
 
   // services
   BaseFragmentFactory,
@@ -55,10 +52,6 @@ const UIComponents = {
   Toggle,
   Typeahead,
   Spinner
-};
-
-UIComponents.init = function init() {
-  return initFunc.apply(UIComponents, arguments);
 };
 
 module.exports = UIComponents;
