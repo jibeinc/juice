@@ -13,7 +13,7 @@ webpackModule.preLoaders.unshift(
   });
 
 // Only add rewire when testing
-webpackModule.loaders[webpackModule.loaders.length - 1].query.plugins.push('babel-plugin-rewire')
+webpackModule.loaders[webpackModule.loaders.length - 1].query.plugins = ['babel-plugin-rewire'];
 
 module.exports = function (config) {
   var configuration = {
