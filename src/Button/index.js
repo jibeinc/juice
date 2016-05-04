@@ -30,7 +30,9 @@ class Button extends BaseComponent {
     this.$el.html(buttonTmpl(this));
     Utils.bindClick(this.$el.find('button'), (evt) => {
       evt.preventDefault();
-      this.preventPropagation ? evt.stopPropagation() : $.noop;
+      if (this.preventPropagation) {
+        evt.stopPropagation();
+      }
       this.publish('click', this.id);
     });
 

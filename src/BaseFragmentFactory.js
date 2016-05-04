@@ -1,4 +1,5 @@
 const assert = require('./assert');
+const Utils = require('./Utils');
 
 /**
  * - Generate a DOM fragment in memory, run a component controller
@@ -20,7 +21,7 @@ class BaseFragmentFactory {
   constructor(opts = {}) {
     assert(typeof opts.render === 'function');
     this.render = opts.render;
-    this.controller = opts.controller || $.noop;
+    this.controller = opts.controller || Utils.noop;
   }
 
   /**
