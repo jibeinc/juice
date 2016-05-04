@@ -41,17 +41,13 @@ class ListView extends BaseComponent {
 
     const $list = this.$el.find('ul.ui-list');
     // Add attrs to the list
-    for (const attr of Object.keys(this.attrs || {})) {
-      $list.attr(attr, this.attrs[attr]);
-    }
+
+    $list.attr(this.attrs || {});
 
     const $listItems = this.$el.find('li.ui-list-item');
     if ($listItems[0]) {
       // Add attrs to the list items
-
-      for (const attr of Object.keys(this.listItemOpts.attrs || {})) {
-        $listItems.attr(attr, this.listItemOpts.attrs[attr]);
-      }
+      $listItems.attr(this.listItemOpts.attrs || {});
 
       Utils.bindClick($listItems, (evt) => {
         const $currentTarget = $(evt.currentTarget);
