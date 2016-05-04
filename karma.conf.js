@@ -35,7 +35,6 @@ module.exports = function (config) {
     frameworks: ['jasmine-jquery', 'jasmine'],
     files: [
       'https://cdn.jsdelivr.net/cash/1.2.0/cash.min.js',
-      'node_modules/babel-polyfill/dist/polyfill.js',
       'tests.webpack.js'
     ],
     postcss: config.postcss,

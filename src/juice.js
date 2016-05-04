@@ -1,6 +1,5 @@
 require('imports?jQuery=cash-dom!../vendor/jquery.simplePagination.js');
 
-require('babel-polyfill');
 const initFunc = require('./init');
 
 // exposed dependences
