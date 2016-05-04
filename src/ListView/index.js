@@ -25,7 +25,7 @@ class ListView extends BaseComponent {
     super(el, opts);
 
     Object.assign(this, {
-      fetch: opts.fetch || $.noop,
+      fetch: opts.fetch || Utils.noop,
       listItemOpts: opts.listItemOpts || {},
       renderItem: opts.renderItem || this.renderItem,
       results: opts.results || []
@@ -39,10 +39,19 @@ class ListView extends BaseComponent {
   render() {
     this.$el.html(listViewTmpl(this));
 
-    this.$el.find('ul.ui-list').attr(this.attrs);
+    const $list = this.$el.find('ul.ui-list');
+    // Add attrs to the list
+    for (const attr of Object.keys(this.attrs || {})) {
+      $list.attr(attr, this.attrs[attr]);
+    }
+
     const $listItems = this.$el.find('li.ui-list-item');
     if ($listItems[0]) {
-      $listItems.attr(this.listItemOpts.attrs || {});
+      // Add attrs to the list items
+
+      for (const attr of Object.keys(this.listItemOpts.attrs || {})) {
+        $listItems.attr(attr, this.listItemOpts.attrs[attr]);
+      }
 
       Utils.bindClick($listItems, (evt) => {
         const $currentTarget = $(evt.currentTarget);

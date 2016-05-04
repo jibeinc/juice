@@ -63,6 +63,13 @@ class Utils {
     return value !== null &&
       Object.prototype.toString.call(value) === '[object Object]';
   }
+
+  /**
+   * An empty function for noop
+   */
+  static noop() {
+    // Deliberately blank function
+  }
 }
 
 module.exports = Utils;

@@ -34,7 +34,6 @@ module.exports = function (config) {
     singleRun: true, //just run once by default
     frameworks: ['jasmine-jquery', 'jasmine'],
     files: [
-      'https://cdn.jsdelivr.net/cash/1.2.0/cash.min.js',
       'tests.webpack.js'
     ],
     postcss: config.postcss,
