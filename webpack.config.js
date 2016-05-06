@@ -2,7 +2,7 @@ const config = require('./common.config');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/juice.js',
+  entry: ['babel-polyfill', './src/juice.js'],
   eslint: {
     failOnWarning: true,
     failOnError: true
