@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "make": "npm run clean && npm install && npm run build",
-    "build": "./node_modules/.bin/webpack --progress --colors --display-chunks -p",
+    "build": "./node_modules/.bin/webpack --progress --colors --display-chunks",
     "build-dev": "./node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
     "clean": "rm -rf node_modules bower_components dist npm-debug.log && npm cache clean",
     "examples": "node staticServer",
@@ -97,6 +97,7 @@
     "template-string-loader": "0.0.3",
     "url-loader": "0.5.7",
     "webpack": "1.13.0",
+    "webpack-closure-compiler": "^2.0.2",
     "webpack-livereload-plugin": "0.8.1"
   }
 }

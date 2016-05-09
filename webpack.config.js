@@ -1,5 +1,6 @@
 const config = require('./common.config');
 const webpack = require('webpack');
+const ClosureCompilerPlugin = require('webpack-closure-compiler');
 
 module.exports = {
   entry: ['babel-polyfill', './src/juice.js'],
@@ -14,11 +15,13 @@ module.exports = {
     publicPath: '/dist/'
   },
   plugins: [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
+    new ClosureCompilerPlugin({
+      compiler: {
+        language_in: 'ECMASCRIPT6',
+        language_out: 'ECMASCRIPT5',
+        compilation_level: 'ADVANCED'
+      },
+      concurrency: 3,
     }),
     new webpack.ProvidePlugin({
       $: 'cash-dom'
