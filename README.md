@@ -56,31 +56,6 @@ btn.subscribe(function () {
 btn.render();
 ```
 
-## Architectural Philosophy
-
-> "We need to stop thinking like hackers, and instead, be surgeons with the code." - John Hewin Hatcher
-
-This library was designed with the ideas that each component should be a self-contained set of code. Each component should be split into multiple layers, with each layer abstracting certain parts of the logic.
-
- - The root class of all classes is the baseComponent. This class handles the most low-level details, and will define a very basic getter / setter. All child classes must override the render() method. This functions like an Abstract Class in Java
- - Each UI component should inherit from the baseComponent class and supplement and/or override four functions: the constructor, get(), set(), and render() with the UI specific details. If a component is sufficiently more complicated, it should extend its "baseUIComponent" and layer on the additional behaviors in a child class.
- - As Each Component is self-contained, certain complicated UI components (like Typeahead, for example) can be created as a composite of a couple smaller, simpler components (ListView and TextInput).
-
-Each component must be able to run on both the server-side, and the client side. If the component requires some set of data, one can expose a "fetch" function that allows the consumer to define the where-and-how the results happen. In addition, no UI component should throw an error. It should have smart defaults, and it should be able to gracefully handle malformed input.
-Underlying the components is an internal Pub-Sub model of communication. Each component determines when to "publish" state changes. Any other components may "subscribe" to these changes, and fire off actionHandlers in response. This mode of inter-component communication was inspired partly by Facebook's Flux Paradigm.
-
-## Runbook
-
-    - `npm install`, install all dependencies
-    - `npm run build`, run the production build
-    - `npm run build-dev`, run the dev build (prod build w/out minification and w/verbose logging)
-    - `npm run examples`, run the examples:
-
-## Dependencies
-    - uuid
-    - debounce
-      ie `<script src='https://cdnjs.cloudflare.com/ajax/libs/dot/1.0.3/doT.min.js'></script>`
-
 ## Build
 
     - ES6 to ES5 with support for IE9+ via [Babel](https://babeljs.io/)
