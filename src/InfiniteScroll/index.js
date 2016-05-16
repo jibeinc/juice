@@ -12,6 +12,9 @@ class InfiniteScroll extends BaseComponent {
    * @param {string} el - The selector for the element to apply InfiniteScroll to
    * @param {function} onScrollToBottom - The function to call when you have scrolled to the bottom of the container
    * @param {object} opts - The options for the component
+   * @param {number} [opts.debounceWait] - The time in milliseconds to debounce the scroll
+   * @param {number} [opts.scrollTrigger] - A decimal bewteen 0-1 to indicate the offset percentage of the trigger from the bottom
+   * @param {boolean} [opts.windowScroll] True for window scroll, false for scrolling in div
    */
   constructor(el, onScrollToBottom, opts = {}) {
     super(el, {
