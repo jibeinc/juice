@@ -9,7 +9,6 @@ class Utils {
    * @param {function} onClickFunction The function to call on click or touch
    */
   static bindClick(element, onClickFunction) {
-    element.attr('style', 'touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;');
     element.on('click', onClickFunction);
   }
 

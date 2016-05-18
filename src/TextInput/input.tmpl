@@ -1,4 +1,11 @@
 <div class='ui-text-input-wrapper'>
-	<input type='text' id='${scope.id}' class='ui-text-input form-control' placeholder='${scope.placeholder}' value='${scope.get()}'/>
+	<input
+	type='text'
+	id='${scope.id}'
+	class='ui-text-input form-control'
+	placeholder='${scope.placeholder}'
+	style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;"
+	value='${scope.get()}'
+	/>
 	<span class='ui-text-input-icon'>${ scope.icon }</span>
 </div>

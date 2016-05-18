@@ -1,1 +1,6 @@
-<button type='${ scope.submit ? "submit" : "button" }' class='ui-button'>${ scope.label }</button>
+<button
+type='${ scope.submit ? "submit" : "button" }'
+class='ui-button'
+style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+  ${ scope.label }
+</button>

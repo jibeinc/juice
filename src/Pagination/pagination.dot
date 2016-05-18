@@ -4,25 +4,41 @@
   {{var prelink = it.preparePreLink(it.result.prelink);}}
     {{? it.result.previous}}
       <li>
-        <a href="{{=prelink + it.result.previous}}">{{=it.options.translator('PREVIOUS')}}</a>
+        <a href="{{=prelink + it.result.previous}}"
+        style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+          {{=it.options.translator('PREVIOUS')}}
+        </a>
       </li>
     {{?}}
     {{? it.result.range.length}}
       {{~it.result.range :value:index}}
         {{? value === it.result.current}}
           <li class="active">
-            <a href="{{=prelink + value}}">{{=value}}</a>
+            <a
+            href="{{=prelink + value}}"
+            style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+              {{=value}}
+            </a>
           </li>
         {{??}}
           <li>
-            <a href="{{=prelink + value}}">{{=value}}</a>
+            <a
+            href="{{=prelink + value}}"
+            style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+              {{=value}}
+            </a>
           </li>
         {{?}}
       {{~}}
     {{?}}
     {{? it.result.next}}
       <li>
-        <a href="{{=prelink + it.result.next}}" class="paginator-next">{{=it.options.translator('NEXT')}}</a>
+        <a
+        href="{{=prelink + it.result.next}}"
+        class="paginator-next"
+        style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+          {{=it.options.translator('NEXT')}}
+        </a>
       </li>
     {{?}}
   {{?}}

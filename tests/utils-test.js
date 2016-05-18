@@ -4,7 +4,6 @@ const Utils = require('../src/Utils.js');
 
 describe('Utils test suite', () => {
   describe('bindClick static method', () => {
-    let bowserMock;
     let elem;
 
     // create onClick spy
