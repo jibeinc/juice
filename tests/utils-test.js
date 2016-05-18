@@ -11,15 +11,6 @@ describe('Utils test suite', () => {
     const clickSpy = jasmine.createSpy('onClickHandler');
 
     beforeEach(() => {
-      // Fake being Window Chrome 48
-      bowserMock = {
-        chrome: true,
-        version: 48,
-        android: false,
-        windowsphone: false,
-        ios: false,
-        blackberry: false
-      };
       // create elem
       $('body').append('<div class="util-test"></div>');
       elem = $('body').find('.util-test');
@@ -33,12 +24,6 @@ describe('Utils test suite', () => {
     });
 
     it('should fire the onClick, via touch events if ios/mobile', () => {
-      // mock the bowser module for ios
-      bowserMock.chrome = false;
-      bowserMock.ios = true;
-
-      Utils.__Rewire__('bowser', bowserMock);
-
       // fire touchstart event on elem
       elem.trigger('touchstart');
 
@@ -52,12 +37,6 @@ describe('Utils test suite', () => {
     });
 
     it('should NOT fire the onClick, when scrolled on ios/mobile', () => {
-      // mock the bowser module for ios
-      bowserMock.chrome = false;
-      bowserMock.ios = true;
-
-      Utils.__Rewire__('bowser', bowserMock);
-
       // fire touchstart event on elem
       elem.trigger('touchstart');
 
@@ -73,10 +52,7 @@ describe('Utils test suite', () => {
       }, 100);
     });
 
-    it('should fire the onClick handler for Windows+Chrome48', () => {
-      // mock the bowser module
-      Utils.__Rewire__('bowser', bowserMock);
-
+    it('should fire the onClick handler for touch events', () => {
       // fire touchstart event on elem
       elem.trigger('touchstart');
 
