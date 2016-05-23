@@ -1,7 +1,11 @@
 @media only screen and (max-width: 767px) {
   label {
-    position: relative;
     cursor: pointer;
+    position: relative;
+    // Required for iOS Safari bug
+    > * {
+      pointer-events: none;
+    }
     input[type="checkbox"] {
       display: none;
     }
