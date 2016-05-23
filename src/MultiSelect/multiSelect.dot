@@ -1,17 +1,21 @@
 <div class='ui-multi-select'>
   {{~it.options :opt:index}}
   <div class="select-option">
-    <label class='ms-label' style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
-      <input
+    <input
       type='checkbox'
-      name='{{= it.id }}'
+      id='{{= opt.id }}'
+      name='{{= opt.id }}'
       value='{{!opt.value}}'
       {{? opt.checked }}checked=true{{?}}
       style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;"
-      />
-      <span style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
-        {{=it.renderItem(opt)}}
-      </span>
+    />
+    <label
+    class='ms-label'
+    for='{{= opt.id }}'
+    style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+    <span style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+          {{=it.renderItem(opt)}}
+        </span>
     </label>
   </div>
   {{~}}
