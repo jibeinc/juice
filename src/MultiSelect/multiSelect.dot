@@ -9,7 +9,9 @@
       {{? opt.checked }}checked=true{{?}}
       style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;"
       />
-      <span>{{=it.renderItem(opt)}}</span>
+      <span style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+        {{=it.renderItem(opt)}}
+      </span>
     </label>
   </div>
   {{~}}
