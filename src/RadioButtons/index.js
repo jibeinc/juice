@@ -1,3 +1,4 @@
+const uuid = require('uuid');
 const BaseComponent = require('../BaseComponent');
 const radioButtonsTmpl = require('./radioButtons.dot');
 const Utils = require('../Utils');
@@ -49,6 +50,7 @@ class RadioButtons extends BaseComponent {
       else {
         opt.checked = false;
       }
+      opt.id = uuid.v4();
       return opt;
     });
   }
@@ -71,8 +73,8 @@ class RadioButtons extends BaseComponent {
    */
   render() {
     this.$el.html(radioButtonsTmpl(this));
-    Utils.bindClick(this.$el.find('input'), (evt) => {
-      evt.preventDefault();
+    
+    this.$el.find('input').on('change', (evt) => {
       this.set($(evt.target).val());
     });
 
