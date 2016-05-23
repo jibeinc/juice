@@ -46,17 +46,20 @@ describe('multiSelect functionality', () => {
     expect(selected[1].value).toBe('sales');
   });
 
-  it('should click a single checkbox span and set the value', () => {
+  it('should click a single checkbox span and set the value', (done) => {
     const elementToClick = $($('.ms-label')[0]).find('span');
     elementToClick.trigger('click');
-    const selected = categories.get();
-    expect(selected.length).toBe(1);
-    expect(selected[0].value).toBe('mrkt01');
+    setTimeout(() => {
+      const selected = categories.get();
+      expect(selected.length).toBe(1);
+      expect(selected[0].value).toBe('mrkt01');
+      done();
+    }, 100);
   });
 
   it('should click a single checkbox directly and set the value', (done) => {
     const elementToClick = $($('.ms-label')[1]).find('input');
-    elementToClick.trigger('click');
+    elementToClick.trigger('change');
     setTimeout(() => {
       const selected = categories.get();
       expect(selected.length).toBe(1);
@@ -65,34 +68,38 @@ describe('multiSelect functionality', () => {
     }, 100);
   });
 
-  it('should click multiple checkbox labels and set the value', () => {
+  it('should click multiple checkbox labels and set the value', (done) => {
     // click the first element
-    const elementToClick = $($('.ms-label')[0]).find('span');
-    elementToClick.trigger('click');
-    let selected = categories.get();
-    expect(selected.length).toBe(1);
-    expect(selected[0].value).toBe('mrkt01');
-
-    // click the second element
-    const elementToClick2 = $($('.ms-label')[1]).find('span');
-    elementToClick2.trigger('click');
-    selected = categories.get();
-    expect(selected.length).toBe(2);
-    expect(selected[0].value).toBe('mrkt01');
-    expect(selected[1].value).toBe('sales');
-
-    // click the first element again, de-selecting it
-    elementToClick.trigger('click');
-    selected = categories.get();
-    expect(selected.length).toBe(1);
-    expect(selected[0].value).toBe('sales');
+    const elementToClick = $($('.ms-label')[0]).find('input');
+    const elementToClick2 = $($('.ms-label')[1]).find('input');
+    elementToClick.trigger('change');
+    setTimeout(() => {
+      let selected = categories.get();
+      expect(selected.length).toBe(1);
+      expect(selected[0].value).toBe('mrkt01');
+      elementToClick2.trigger('change');
+      setTimeout(() => {
+        selected = categories.get();
+        expect(selected.length).toBe(2);
+        expect(selected[0].value).toBe('mrkt01');
+        expect(selected[1].value).toBe('sales');
+        // click the first element again, de-selecting it
+        elementToClick.trigger('change');
+        setTimeout(() => {
+          selected = categories.get();
+          expect(selected.length).toBe(1);
+          expect(selected[0].value).toBe('sales');
+          done();
+        }, 50);
+      }, 50);
+    }, 50);
   });
 
   it('should click multiple checkboxes directly and set the value', (done) => {
     const elementToClick = $($('.ms-label')[2]).find('input');
     const elementToClick2 = $($('.ms-label')[0]).find('input');
 
-    elementToClick.trigger('click');
+    elementToClick.trigger('change');
 
     setTimeout(() => {
       let selected = categories.get();
@@ -100,7 +107,7 @@ describe('multiSelect functionality', () => {
       expect(selected[0].value).toBe('eng-2015');
 
       // click the second element
-      elementToClick2.trigger('click');
+      elementToClick2.trigger('change');
 
       setTimeout(() => {
         selected = categories.get();
@@ -109,7 +116,7 @@ describe('multiSelect functionality', () => {
         expect(selected[1].value).toBe('eng-2015');
 
         // click the second element again, de-selecting it
-        elementToClick2.trigger('click');
+        elementToClick2.trigger('change');
 
         setTimeout(() => {
           selected = categories.get();
