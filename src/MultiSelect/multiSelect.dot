@@ -14,8 +14,8 @@
     for='{{= opt.id }}'
     style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
     <span style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
-          {{=it.renderItem(opt)}}
-        </span>
+      {{=it.renderItem(opt)}}
+    </span>
     </label>
   </div>
   {{~}}
