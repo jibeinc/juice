@@ -4,15 +4,6 @@
 class Utils {
 
   /**
-   * Binds to either click or touch, based on what is available
-   * @param {jQuery} element The jquery wrapped element to bind to
-   * @param {function} onClickFunction The function to call on click or touch
-   */
-  static bindClick(element, onClickFunction) {
-    element.on('click', onClickFunction);
-  }
-
-  /**
    * Get the height of the `document` element
    * @return {number} The height
    */

@@ -15,7 +15,7 @@ describe('Utils test suite', () => {
       elem = $('body').find('.util-test');
 
       // create the method
-      Utils.bindClick(elem, clickSpy);
+      elem.on('click', clickSpy);
     });
 
     afterEach(() => {

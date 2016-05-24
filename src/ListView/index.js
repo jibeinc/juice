@@ -49,17 +49,17 @@ class ListView extends BaseComponent {
       // Add attrs to the list items
       $listItems.attr(this.listItemOpts.attrs || {});
 
-      Utils.bindClick($listItems, (evt) => {
-        const $currentTarget = $(evt.currentTarget);
-        console.log($currentTarget[0]);
-        if ($currentTarget[0]) {
-          this.set(this.results[$currentTarget.attr('data-index')]);
-        }
-
-        if (this.listItemOpts.stopPropagation) {
-          evt.stopPropagation();
-        }
-      });
+      // $listItems.on('click', (evt) => {
+      //   const $currentTarget = $(evt.currentTarget);
+      //   console.log($currentTarget[0]);
+      //   if ($currentTarget[0]) {
+      //     this.set(this.results[$currentTarget.attr('data-index')]);
+      //   }
+      //
+      //   if (this.listItemOpts.stopPropagation) {
+      //     evt.stopPropagation();
+      //   }
+      // });
     }
     return this.$el.html();
   }
