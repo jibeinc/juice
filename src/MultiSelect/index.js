@@ -1,4 +1,5 @@
 require('./styles.scss');
+const uuid = require('uuid');
 const multiSelectTmpl = require('./multiSelect.dot');
 const BaseComponent = require('../BaseComponent');
 const Utils = require('../Utils');
@@ -39,8 +40,7 @@ class MultiSelect extends BaseComponent {
   render() {
     this.$el.html(multiSelectTmpl(this));
 
-    Utils.bindClick(this.$el.find('.ms-label input'), (evt) => {
-      evt.preventDefault();
+    this.$el.find('input').on('change', (evt) => {
       this.set($(evt.target).val());
     });
 
@@ -70,6 +70,7 @@ class MultiSelect extends BaseComponent {
         };
       }
       opt.checked = selections.indexOf(opt.value) !== -1;
+      opt.id = uuid.v4();
       return opt;
     });
   }

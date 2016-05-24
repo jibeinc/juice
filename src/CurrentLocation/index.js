@@ -53,7 +53,7 @@ class CurrentLocation extends BaseComponent {
    */
   render() {
     this.$el.addClass('ui-current-location');
-    Utils.bindClick(this.$el, (evt) => {
+    this.$el.on('click', (evt) => {
       evt.stopPropagation();
       this.getCurrentLocation();
     });

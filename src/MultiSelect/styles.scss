@@ -1,12 +1,12 @@
-@media (max-width: 767px) {
-  label {
-    position: relative;
-    cursor: pointer;
-    input[type="checkbox"] {
-      display: none;
-    }
+@media only screen and (max-width: 767px) {
+  input[type="checkbox"] {
+    display: none;
   }
-  label input[type="checkbox"] + span {
+  label {
+    cursor: pointer;
+    position: relative;
+  }
+  input[type="checkbox"] + label span {
     display: inline-block;
     line-height: normal;
     cursor: pointer;
@@ -14,12 +14,7 @@
     background-color: #ffffff;
     border: 1px solid #D0D0D0;
   }
-  label input[type="checkbox"] + span:hover {
-    border-color: #000;
-    background-color: #105b63;
-    color: #fff;
-  }
-  label input[type="checkbox"]:checked + span {
+  input[type="checkbox"]:checked + label span {
     border-color: #000;
     background-color: #105b63;
     color: #fff;

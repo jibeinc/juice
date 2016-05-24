@@ -1,9 +1,20 @@
 <div class='ui-radio-buttons'>
   {{~it.options :opt:index}}
   <div class="select-option">
-    <label>
-      <input {{? it.radioBoxes }}type='checkbox'{{??}}type='radio'{{?}} name='{{= it.id }}' value='{{!opt.value}}' {{? opt.checked }}checked=true{{?}}/>
-      <span>{{=it.renderItem(opt)}}</span>
+     <input
+       {{? it.radioBoxes }}type='checkbox'{{??}}type='radio'{{?}}
+       id='{{= opt.id }}'
+       name='{{= opt.id }}'
+       value='{{!opt.value}}'
+       {{? opt.checked }}checked=true{{?}}
+       style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;"
+     />
+    <label
+    for='{{= opt.id }}'
+    style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+      <span style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+        {{=it.renderItem(opt)}}
+      </span>
     </label>
   </div>
   {{~}}

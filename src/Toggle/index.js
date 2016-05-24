@@ -24,7 +24,7 @@ class Toggle extends BaseComponent {
       this.$el.addClass(opts.untoggledClass);
     }
 
-    Utils.bindClick(this.$el, (evt) => {
+    this.$el.on('click', (evt) => {
       evt.stopPropagation();
       evt.preventDefault();
 
