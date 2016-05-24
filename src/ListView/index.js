@@ -17,6 +17,7 @@ class ListView extends BaseComponent {
    * @param {function} [opts.fetch] - A function to pull new data
    * @param {object} [opts.listItemOpts] - An object containing options specifically for each item in listView
    * @param {object} [opts.listItemOpts.attrs] - a list of CSS attributes to put on each ListItem
+   * @param {boolean} [opts.listItemOpts.disableClickHandlers] - if true, disable the click handlers on the list items
    * @param {boolean} [opts.listItemOpts.stopPropogation] - prevents the click handler from bubbling the event upwards
    * @param {function} [opts.renderItem] - Determines how each listElement will be displayed in DOM
    * @param {*[]} [opts.results] - Prefill the component with data
@@ -49,17 +50,19 @@ class ListView extends BaseComponent {
       // Add attrs to the list items
       $listItems.attr(this.listItemOpts.attrs || {});
 
-      // $listItems.on('click', (evt) => {
-      //   const $currentTarget = $(evt.currentTarget);
-      //   console.log($currentTarget[0]);
-      //   if ($currentTarget[0]) {
-      //     this.set(this.results[$currentTarget.attr('data-index')]);
-      //   }
-      //
-      //   if (this.listItemOpts.stopPropagation) {
-      //     evt.stopPropagation();
-      //   }
-      // });
+      if (!this.listItemOpts.disableClickHandlers) {
+        $listItems.on('click', (evt) => {
+          const $currentTarget = $(evt.currentTarget);
+          console.log($currentTarget[0]);
+          if ($currentTarget[0]) {
+            this.set(this.results[$currentTarget.attr('data-index')]);
+          }
+
+          if (this.listItemOpts.stopPropagation) {
+            evt.stopPropagation();
+          }
+        });
+      }
     }
     return this.$el.html();
   }

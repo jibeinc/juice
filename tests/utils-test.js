@@ -1,6 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 
-const Utils = require('../src/Utils.js');
+// const Utils = require('../src/Utils.js');
 
 describe('Utils test suite', () => {
   describe('bindClick static method', () => {
