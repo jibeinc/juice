@@ -22,6 +22,7 @@ const LocationTextInput = require('./LocationTextInput');
 const LocationTypeahead = require('./LocationTypeahead');
 const MultiSelect = require('./MultiSelect');
 const Pagination = require('./Pagination');
+const PillList = require('./PillList');
 const RadioButtons = require('./RadioButtons');
 const SingleSelect = require('./SingleSelect');
 const TextInput = require('./TextInput');
@@ -49,6 +50,7 @@ const UIComponents = {
   LocationTypeahead,
   MultiSelect,
   Pagination,
+  PillList,
   RadioButtons,
   SingleSelect,
   TextInput,
