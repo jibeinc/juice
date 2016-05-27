@@ -1,6 +1,6 @@
 {
   "name": "jibe-juice",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "General JavaScript classes for common UI components",
   "engines": {
     "node": ">=5.0.0"
