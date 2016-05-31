@@ -4,8 +4,10 @@
   {{? item}}
   <li id='{{=it.id}}' class='ui-pill' data-index='{{=index}}'>
     {{=item}}
-    <span class="delete-icon">
-      X
+    <span
+    class="delete-icon"
+    style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+      {{=it.deleteIcon}}
     </span>
   </li>
   {{?}}
