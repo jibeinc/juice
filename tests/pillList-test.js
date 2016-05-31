@@ -26,10 +26,27 @@ describe('pillList functionality', () => {
     expect($pills).toHaveClass('ui-pill');
     expect(pillList.get().length).toBe(3);
   });
-  
+
   it('test deleting pill', () => {
     const $pills = pillList.$el.find('li');
     $pills.find('.delete-icon').first().trigger('click');
     expect(pillList.get().length).toBe(2);
+  });
+
+  it('test adding a pill', () => {
+    pillList.set('new-pill-yo');
+    expect(pillList.get().length).toBe(4);
+    expect(pillList.get()[3]).toBe('new-pill-yo');
+  });
+
+  it('test replacing all pills and deleting', () => {
+    pillList.set(['new-pill-yo', 'what-up']);
+    expect(pillList.get().length).toBe(2);
+    expect(pillList.get()[0]).toBe('new-pill-yo');
+    expect(pillList.get()[1]).toBe('what-up');
+    const $pills = pillList.$el.find('li');
+    $pills.find('.delete-icon').last().trigger('click');
+    expect(pillList.get().length).toBe(1);
+    expect(pillList.get()[0]).toBe('new-pill-yo');
   });
 });

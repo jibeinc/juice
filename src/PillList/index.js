@@ -53,6 +53,29 @@ class PillList extends BaseComponent {
   renderItem(item) {
     return item.toString();
   }
+
+  /**
+   * Set the entire array or pass a single value to add to the pills
+   * @param {*[]|*} value - An array of pills to display or a single pill to add
+   * @returns {PillList} An instance of PillList
+   */
+  set(value) {
+    // If replacing the entire pill list
+    if (Array.isArray(value)) {
+      super.set(value);
+    } else {
+      //If adding just one pill
+      const currentValues = this.get();
+      currentValues.push(value);
+      super.set(currentValues);
+    }
+
+    this.render();
+
+    this.publish(this.get());
+
+    return this;
+  }
 }
 
 module.exports = PillList;
