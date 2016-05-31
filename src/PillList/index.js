@@ -17,7 +17,7 @@ class PillList extends BaseComponent {
   constructor(el, opts = {}) {
     super(el, opts);
     Object.assign(this, {
-      deleteIcon: opts.deleteIcon || 'X',
+      deleteIcon: opts.deleteIcon || 'x',
       value: opts.results || []
     });
   }
