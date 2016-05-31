@@ -12,7 +12,7 @@ class PillList extends BaseComponent {
    * @param {string} el - The selector for the element to put the pills in
    * @param {object} opts - The options for the component
    * @param {string} [opts.deleteIcon] - Markup for the delete icon
-   * @param {*[]} [opts.results] - Prefill the component with data
+   * @param {string[]} [opts.results] - An array of strings to display as pills
    */
   constructor(el, opts = {}) {
     super(el, opts);
