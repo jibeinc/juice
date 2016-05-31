@@ -18,9 +18,9 @@ class ListView extends BaseComponent {
    * @param {object} [opts.listItemOpts] - An object containing options specifically for each item in listView
    * @param {object} [opts.listItemOpts.attrs] - a list of CSS attributes to put on each ListItem
    * @param {boolean} [opts.listItemOpts.disableClickHandlers] - if true, disable the click handlers on the list items
-   * @param {boolean} [opts.listItemOpts.stopPropogation] - prevents the click handler from bubbling the event upwards
    * @param {function} [opts.renderItem] - Determines how each listElement will be displayed in DOM
    * @param {*[]} [opts.results] - Prefill the component with data
+   * @param {boolean} [opts.listItemOpts.stopPropagation] - prevents the click handler from bubbling the event upwards
    */
   constructor(el, opts = {}) {
     super(el, opts);
