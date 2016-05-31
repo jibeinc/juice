@@ -1,0 +1,15 @@
+.ui-pill-list {
+  list-style-type: none;
+  padding: 0;
+  .ui-pill {
+    background-color: dodgerblue;
+    border-radius: 10px;
+    color: whitesmoke;
+    display: inline-block;
+    padding: 10px;
+    .delete-icon {
+      cursor: pointer;
+      padding: 5px 0px 5px 5px;
+    }
+  }
+}

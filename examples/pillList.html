@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>List View Example</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src='../dist/ui.js'></script>
+</head>
+
+<body>
+
+  <div class='pills-container'></div>
+
+  <script>
+    var pillList = new UI.PillList('.pills-container', {
+      results: ['test', 'test-1', 'test-2'] // initial results to show
+    });
+
+    pillList.subscribe(function(selection) {
+      console.log('list item selected', selection);
+    });
+
+    pillList.render();
+  </script>
+
+</body>
+
+</html>

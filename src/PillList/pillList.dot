@@ -1,0 +1,15 @@
+<ul class='ui-pill-list'>
+  {{~it.value :value:index}}
+  {{var item = it.renderItem(value, index);}}
+  {{? item}}
+  <li id='{{=it.id}}' class='ui-pill' data-index='{{=index}}'>
+    {{=item}}
+    <span
+    class="delete-icon"
+    style="touch-action: manipulation; -ms-touch-action: manipulation; cursor: pointer;">
+      {{=it.deleteIcon}}
+    </span>
+  </li>
+  {{?}}
+  {{~}}
+</ul>
