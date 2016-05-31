@@ -16,8 +16,8 @@
       results: ['test', 'test-1', 'test-2'] // initial results to show
     });
 
-    pillList.subscribe(function(selection) {
-      console.log('list item selected', selection);
+    pillList.subscribe(function(value) {
+      console.log('pills updated', value);
     });
 
     pillList.render();
