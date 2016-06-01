@@ -8,7 +8,7 @@
       cursor: pointer;
       position: relative;
     }
-    input[type="checkbox"] + label span {
+    input[type="radio"] + label span, input[type="checkbox"] + label span {
       display: inline-block;
       line-height: normal;
       cursor: pointer;
@@ -16,7 +16,7 @@
       background-color: #ffffff;
       border: 1px solid #D0D0D0;
     }
-    input[type="checkbox"]:checked + label span {
+    input[type="radio"]:checked + label span, input[type="checkbox"]:checked + label span {
       border-color: #000;
       background-color: #105b63;
       color: #fff;
