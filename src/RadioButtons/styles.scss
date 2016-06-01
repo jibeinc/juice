@@ -1,0 +1,25 @@
+@media only screen and (max-width: 767px) {
+  .ui-radio-buttons {
+    input[type="checkbox"],
+    input[type="radio"] {
+      display: none;
+    }
+    label {
+      cursor: pointer;
+      position: relative;
+    }
+    input[type="radio"] + label span, input[type="checkbox"] + label span {
+      display: inline-block;
+      line-height: normal;
+      cursor: pointer;
+      padding: 8px 14px;
+      background-color: #ffffff;
+      border: 1px solid #D0D0D0;
+    }
+    input[type="radio"]:checked + label span, input[type="checkbox"]:checked + label span {
+      border-color: #000;
+      background-color: #105b63;
+      color: #fff;
+    }
+  }
+}
