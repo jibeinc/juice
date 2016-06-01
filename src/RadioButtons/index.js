@@ -1,3 +1,4 @@
+require('./styles.scss');
 const uuid = require('uuid');
 const BaseComponent = require('../BaseComponent');
 const radioButtonsTmpl = require('./radioButtons.dot');
