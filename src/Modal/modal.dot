@@ -1,0 +1,7 @@
+<div class="ui-modal-overlay"></div>
+<div class="ui-modal-content">
+  <div class="close-button">
+    {{=it.closeButton}}
+  </div>
+  {{=it.content}}
+</div>
