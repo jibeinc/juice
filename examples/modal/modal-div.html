@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Div Modal Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src='../../dist/ui.js'></script>
+</head>
+<body>
+
+<div class="button-container"></div>
+
+<div class="modal-container" style="background-color: cadetblue; height: 200px; position: relative; width: 400px;"></div>
+
+<script>
+  var modal = new UI.Modal('.modal-container', 'This is a test modal', {hideOnOverlayClick: false, showOverlay: false});
+
+  modal.render();
+
+  var btn = new UI.Button('.button-container', {
+    label: 'Show modal',
+    submit: false
+  });
+
+  btn.subscribe(function () {
+    modal.show();
+  });
+
+  btn.render();
+
+</script>
+
+</body>
+</html>
