@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Multi Select Example</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src='../dist/ui.js'></script>
+</head>
+<body>
+
+<div class="button-container"></div>
+
+<script>
+  var modal = new UI.Modal('body', {showOverlay: true});
+
+  modal.render();
+
+  var btn = new UI.Button('.button-container', {
+    label: 'Show modal',
+    submit: false
+  });
+
+  btn.subscribe(function () {
+    modal.show();
+    setTimeout(function () {
+      modal.hide();
+    }, 2000);
+  });
+
+  btn.render();
+
+</script>
+
+</body>
+</html>

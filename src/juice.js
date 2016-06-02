@@ -20,6 +20,7 @@ const InfiniteScroll = require('./InfiniteScroll');
 const ListView = require('./ListView');
 const LocationTextInput = require('./LocationTextInput');
 const LocationTypeahead = require('./LocationTypeahead');
+const Modal = require('./Modal');
 const MultiSelect = require('./MultiSelect');
 const Pagination = require('./Pagination');
 const PillList = require('./PillList');
@@ -48,6 +49,7 @@ const UIComponents = {
   ListView,
   LocationTextInput,
   LocationTypeahead,
+  Modal,
   MultiSelect,
   Pagination,
   PillList,
