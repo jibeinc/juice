@@ -10,16 +10,21 @@ class Modal extends BaseComponent {
   /**
    * Create a new Modal component
    * @param {string} el - The selector for the element to put the Modal component in
+   * @param {string} content - The markup of the content to put inside the modal
    * @param {object} opts - The options for the component
    */
   constructor(el, content, opts = {}) {
-    super(el, {preserveChildElements: true});
-    Object.assign(this, {
-      content,
-      fullScreen: opts.fullScreen || false,
-      hideOnOverlayClick: opts.hideOnOverlayClick || false,
-      showOverlay: opts.showOverlay || false
-    });
+    if (typeof content === 'string') {
+      super(el, {preserveChildElements: true});
+      Object.assign(this, {
+        content,
+        hideOnOverlayClick: opts.hideOnOverlayClick || false,
+        showOverlay: opts.showOverlay || false
+      });
+    }
+    else {
+      throw new Error('You must pass in content, you cannot have an empty modal.');
+    }
   }
 
   /**
@@ -32,6 +37,10 @@ class Modal extends BaseComponent {
     this.$el.find('.ui-modal-content').css('display', 'none');
   }
 
+  /**
+   * Render the html for the modal
+   * @returns {string} The html for the modal
+   */
   render() {
     this.$el.prepend(modalTmpl(this));
     if (this.hideOnOverlayClick) {
@@ -39,6 +48,7 @@ class Modal extends BaseComponent {
         this.hide();
       });
     }
+    return this.$el.html();
   }
 
   /**
