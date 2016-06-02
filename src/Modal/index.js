@@ -18,7 +18,7 @@ class Modal extends BaseComponent {
       fullScreen: opts.fullScreen || false,
       hideOnOverlayClick: opts.hideOnOverlayClick || false,
       showOverlay: opts.showOverlay || false
-    })
+    });
   }
 
   /**
@@ -32,6 +32,11 @@ class Modal extends BaseComponent {
 
   render() {
     this.$el.prepend(modalTmpl(this));
+    if (this.hideOnOverlayClick) {
+      this.$el.find('.ui-modal-overlay').on('click', () => {
+        this.hide();
+      });
+    }
   }
 
   /**
