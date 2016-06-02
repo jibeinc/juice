@@ -7,6 +7,13 @@
   position: absolute;
   transform: translate(-50%, -50%);
   z-index: 10000;
+  .close-button {
+    cursor: pointer;
+    padding: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 }
 
 .ui-modal-overlay {
