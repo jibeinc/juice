@@ -12,9 +12,10 @@ class Modal extends BaseComponent {
    * @param {string} el - The selector for the element to put the Modal component in
    * @param {object} opts - The options for the component
    */
-  constructor(el, opts = {}) {
+  constructor(el, content, opts = {}) {
     super(el, {preserveChildElements: true});
     Object.assign(this, {
+      content,
       fullScreen: opts.fullScreen || false,
       hideOnOverlayClick: opts.hideOnOverlayClick || false,
       showOverlay: opts.showOverlay || false
@@ -28,6 +29,7 @@ class Modal extends BaseComponent {
     if (this.showOverlay) {
       this.$el.find('.ui-modal-overlay').css('display', 'none');
     }
+    this.$el.find('.ui-modal-content').css('display', 'none');
   }
 
   render() {
@@ -46,6 +48,7 @@ class Modal extends BaseComponent {
     if (this.showOverlay) {
       this.$el.find('.ui-modal-overlay').css('display', 'block');
     }
+    this.$el.find('.ui-modal-content').css('display', 'block');
   }
 }
 
