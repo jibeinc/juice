@@ -86,6 +86,7 @@
   };
 
   var locationSearch = new UI.LocationTypeahead('.location-search', fetch, {
+    currentLocationText: 'Use my location',
     geolocationAPI: window.navigator.geolocation,
     textInputOpts: {
       placeholder: 'Try "New York"'
