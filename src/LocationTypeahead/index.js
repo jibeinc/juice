@@ -18,13 +18,16 @@ class LocationTypeahead extends Typeahead {
    * @param {string} el - The selector for the element to put the LocationTypeahed in
    * @param {function} fetch - The function to call to fetch/refresh results
    * @param {object} opts - The options for the component
+   * @param {string} [opts.currentLocationText] - A string to display for "use my location"
    * @param {*[]} [opts.fixedResults] - An array of results to always display
+   * @param {object} [opts.textInputOpts] - An object to pass opts to the textInput component
    */
   constructor(el, fetch, opts = {}) {
     // define the "current location" icon DOM fragment
     const iconFactory = new FragFactory({
       render: (data) => {
         data.displayValue = data.name === 'listItem' ? 'inline' : 'none';
+        data.currentLocationText = opts.currentLocationText || 'Use my current location';
         return currentLocationTemplate(data);
       },
 
