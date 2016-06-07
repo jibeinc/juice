@@ -1,8 +1,8 @@
-// const $ = require('jquery');
-// window.$ = $;
-// window.jQuery = $;
-// window.jquery = $;
-// require('imports?jQuery=jquery!./vendor/jquery.simplePagination.js');
+const $ = require('jquery');
+window.$ = $;
+window.jQuery = $;
+window.jquery = $;
+require('imports?jQuery=jquery!./vendor/jquery.simplePagination.js');
 
 // Tests
 const testsContext = require.context('./tests', true, /-test\.js$/);

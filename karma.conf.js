@@ -34,7 +34,6 @@ module.exports = function (config) {
     singleRun: true, //just run once by default
     frameworks: ['jasmine-jquery', 'jasmine'],
     files: [
-      'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js',
       'tests.webpack.js'
     ],
     postcss: config.postcss,

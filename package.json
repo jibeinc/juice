@@ -47,6 +47,7 @@
     "dot": "1.0.3",
     "hammer-timejs": "^1.1.0",
     "i18next": "2.5.1",
+    "jquery": "^2.2.4",
     "jsdom": "3.0.3",
     "postcss-import": "8.1.1",
     "postcss-url": "5.1.2",
