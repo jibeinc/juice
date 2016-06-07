@@ -40,7 +40,7 @@ class MultiSelect extends BaseComponent {
   render() {
     this.$el.html(multiSelectTmpl(this));
 
-    this.$el.find('input').on('change', (evt) => {
+    this.$el.find('input').change((evt) => {
       this.set($(evt.target).val());
     });
 

@@ -7,6 +7,9 @@ module.exports = {
     failOnWarning: true,
     failOnError: true
   },
+  externals: {
+    'jquery': 'jQuery'
+  },
   output: {
     library: 'UI',
     path: __dirname + '/dist',
@@ -21,7 +24,7 @@ module.exports = {
       }
     }),
     new webpack.ProvidePlugin({
-      $: 'cash-dom'
+      $: 'jquery'
     })
   ],
   postcss: config.postcss,
