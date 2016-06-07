@@ -33,7 +33,7 @@ class BaseTypeahead extends BaseComponent {
 
     assert($.isFunction(this.fetch), 'typeahead requires a fetch method');
 
-    this.$el.append(containerHTML);
+    this.$el.html(containerHTML);
 
     // create sub-components
     this.textInput = this.setupTextInput(this.textInputOpts);
