@@ -22,6 +22,7 @@ class LocationTextInput extends TextInput {
     super(el, opts);
 
     Object.assign(this, {
+      currentLocationText: opts.currentLocationText,
       locationIcon: null,
       $location: null
     });
@@ -50,7 +51,7 @@ class LocationTextInput extends TextInput {
       this.value = v;
 
       if (this.$input) {
-        this.$input.val(v.isLocation ? 'Use the Current Location' : v.displayName);
+        this.$input.val(v.isLocation ? this.currentLocationText : v.displayName);
       }
 
       this.publish(this.get());
