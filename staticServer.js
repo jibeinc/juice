@@ -12,12 +12,12 @@ const port = process.argv[2] || 8000;
  * @param {string} baseDir The base directory
  * @returns {string} The html item linking to the example
  */
-function formatDirToHTML (filesArr, baseDir) {
+function formatDirToHTML(filesArr, baseDir) {
   filesArr = filesArr.map((currVal) => {
     return `<li><a href=${path.basename(baseDir)}/${currVal}>${currVal}</a></li>`;
   });
 
-  return `<ul>${filesArr.join('\n')}</ul`;
+  return `<ul>${filesArr.join('\n')}</ul>`;
 }
 
 http.createServer((request, response) => {
@@ -35,38 +35,36 @@ http.createServer((request, response) => {
   // resolve current directory to the path
   const filename = path.join(process.cwd(), uri);
 
-  fs.stat(filename, (err, stats) => {
-
-    if (err) {
-      response.writeHead(404, {"Content-Type": "text/plain"});
-      response.write("404 Not Found\n");
+  fs.stat(filename, (error, stats) => {
+    if (error) {
+      response.writeHead(404, {'Content-Type': 'text/plain'});
+      response.write('404 Not Found\n');
       response.end();
       return;
     }
 
     if (stats.isDirectory()) {
       fs.readdir(filename, (err, files) => {
-        response.writeHead(200, {"Content-Type": "text/html"});
+        response.writeHead(200, {'Content-Type': 'text/html'});
         response.write(formatDirToHTML(files, filename));
         response.end();
       });
       return;
     }
 
-    fs.readFile(filename, "binary", (err, file) => {
-
-      if (err) {        
-        response.writeHead(500, {"Content-Type": "text/plain"});
-        response.write(err + "\n");
+    fs.readFile(filename, 'binary', (err, file) => {
+      if (err) {
+        response.writeHead(500, {'Content-Type': 'text/plain'});
+        response.write(err + '\n');
         response.end();
         return;
       }
 
       response.writeHead(200);
-      response.write(file, "binary");
+      response.write(file, 'binary');
       response.end();
     });
   });
 }).listen(parseInt(port, 10));
 
-console.log("Static file server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
+console.log('Static file server running at\n  => http://localhost:' + port + '/\nCTRL + C to shutdown');
