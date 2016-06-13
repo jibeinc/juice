@@ -1,3 +1,8 @@
+const cssnano = require('cssnano');
+const postcssImport = require('postcss-import');
+const postcssUrl = require('postcss-url');
+const postcssCssNext = require('postcss-cssnext');
+
 module.exports = {
   webpackModule: {
     preLoaders: [{
@@ -44,15 +49,15 @@ module.exports = {
   },
   postcss(webpack) {
     return [
-      require('postcss-import')({
+      postcssImport({
         addDependencyTo: webpack
       }),
-      require('postcss-url')(),
-      require('postcss-cssnext')({
+      postcssUrl(),
+      postcssCssNext({
         browsers: ['last 2 versions', 'ie >= 9'],
         compress: true
       }),
-      require('cssnano')({zindex: false})
+      cssnano({zindex: false})
     ];
   }
 };

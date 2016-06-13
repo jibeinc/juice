@@ -1,4 +1,4 @@
-const config = require('./common.config');
+const commonConfig = require('./common.config');
 const webpack = require('webpack');
 
 module.exports = {
@@ -24,9 +24,9 @@ module.exports = {
       $: 'jquery'
     })
   ],
-  postcss: config.postcss,
+  postcss: commonConfig.postcss,
   resolve: {
     modulesDirectories: ['node_modules', 'bower_components']
   },
-  module: config.webpackModule
+  module: commonConfig.webpackModule
 };

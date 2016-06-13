@@ -1,7 +1,7 @@
-const config = require('./common.config');
+const commonConfig = require('./common.config');
 const path = require('path');
 
-const webpackModule = config.webpackModule;
+const webpackModule = commonConfig.webpackModule;
 
 // transpile and instrument only testing sources with babel-istanbul
 webpackModule.preLoaders.unshift(
@@ -36,7 +36,7 @@ module.exports = function (config) {
     files: [
       'tests.webpack.js'
     ],
-    postcss: config.postcss,
+    postcss: commonConfig.postcss,
     preprocessors: {
       'tests.webpack.js': ['webpack', 'sourcemap'] // preprocess with webpack and our sourcemap loader
     },
