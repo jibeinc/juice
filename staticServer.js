@@ -1,9 +1,7 @@
-'use strict';
-
-const http = require("http");
-const url = require("url");
-const path = require("path");
-const fs = require("fs");
+const http = require('http');
+const url = require('url');
+const path = require('path');
+const fs = require('fs');
 const port = process.argv[2] || 8000;
 
 /**
@@ -21,13 +19,12 @@ function formatDirToHTML(filesArr, baseDir) {
 }
 
 http.createServer((request, response) => {
-
   // get the path from the URL
   const uri = url.parse(request.url).pathname;
 
   // got to examples dir if not there already
   if (uri === '/') {
-    response.writeHead(301, {'Location': '/examples'});
+    response.writeHead(301, {Location: '/examples'});
     response.end();
     return;
   }

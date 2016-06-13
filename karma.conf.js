@@ -8,7 +8,7 @@ webpackModule.preLoaders.unshift(
   {
     test: /(\.js)$/,
     // only include src directory
-    include: [path.resolve(__dirname, "src")],
+    include: [path.resolve(__dirname, 'src')],
     loader: 'isparta-instrumenter-loader'
   });
 

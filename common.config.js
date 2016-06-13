@@ -55,4 +55,4 @@ module.exports = {
       require('cssnano')({zindex: false})
     ];
   }
-}
+};

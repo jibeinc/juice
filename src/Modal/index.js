@@ -35,10 +35,7 @@ class Modal extends BaseComponent {
    * Hide the modal
    */
   hide() {
-    if (this.showOverlay) {
-      this.$el.find('.ui-modal-overlay').css('display', 'none');
-    }
-    this.$el.find('.ui-modal-content').css('display', 'none');
+    this.toggle(false);
   }
 
   /**
@@ -67,10 +64,24 @@ class Modal extends BaseComponent {
    * Show the modal
    */
   show() {
-    if (this.showOverlay) {
-      this.$el.find('.ui-modal-overlay').css('display', 'block');
+    this.toggle(true);
+  }
+
+  /**
+   * Show or hide the modal
+   * @param {boolean} show If true, show, otherwise, hide
+   */
+  toggle(show) {
+    let display = 'none';
+
+    if (show) {
+      display = 'block';
     }
-    this.$el.find('.ui-modal-content').css('display', 'block');
+
+    if (this.showOverlay) {
+      this.$el.find('.ui-modal-overlay').css('display', display);
+    }
+    this.$el.find('.ui-modal-content').css('display', display);
   }
 }
 
