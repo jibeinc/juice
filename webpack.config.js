@@ -21,7 +21,7 @@ module.exports = {
       }
     }),
     new webpack.ProvidePlugin({
-      $: 'cash-dom'
+      $: 'jquery'
     })
   ],
   postcss: config.postcss,

@@ -1,8 +1,8 @@
-const $ = require('cash-dom');
+const $ = require('jquery');
 window.$ = $;
 window.jQuery = $;
 window.jquery = $;
-require('imports?jQuery=cash-dom!./vendor/jquery.simplePagination.js');
+require('imports?jQuery=jquery!./vendor/jquery.simplePagination.js');
 
 // Tests
 const testsContext = require.context('./tests', true, /-test\.js$/);

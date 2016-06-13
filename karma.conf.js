@@ -3,14 +3,14 @@ const path = require('path');
 
 const webpackModule = config.webpackModule;
 
-// transpile and instrument only testing sources with babel-istanbul
-webpackModule.preLoaders.unshift(
-  {
-    test: /(\.js)$/,
-    // only include src directory
-    include: [path.resolve(__dirname, "src")],
-    loader: 'isparta-instrumenter-loader'
-  });
+// // transpile and instrument only testing sources with babel-istanbul
+// webpackModule.preLoaders.unshift(
+//   {
+//     test: /(\.js)$/,
+//     // only include src directory
+//     include: [path.resolve(__dirname, "src")],
+//     loader: 'isparta-instrumenter-loader'
+//   });
 
 // Only add rewire when testing
 webpackModule.loaders[webpackModule.loaders.length - 1].query.plugins = ['babel-plugin-rewire'];

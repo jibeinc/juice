@@ -1,4 +1,4 @@
-require('imports?jQuery=cash-dom!../vendor/jquery.simplePagination.js');
+require('imports?jQuery=jquery!../vendor/jquery.simplePagination.js');
 require('hammer-timejs');
 
 const initFunc = require('./init');
