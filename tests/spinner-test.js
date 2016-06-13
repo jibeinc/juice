@@ -18,18 +18,26 @@ describe('Spinner on Window', () => {
   });
 
   it('should test if spinner + overlay shows up', (done) => {
-    spinner.start();
+    spinner.render();
 
     setTimeout(() => {
       expect($(document).find('.juicy-spinner-container')).toExist();
       expect($('body')).toHaveClass('noScroll');
+      expect(spinner.get()).not.toBeNull();
       done();
     }, 100);
   });
 
+  it('should be able to set new spinners', () => {
+    const originalSpinner = spinner.get();
+    // Change the number of lines
+    spinner.set({lines: 25});
+    expect(spinner.get()).not.toEqual(originalSpinner);
+  });
+
   // TODO: verify that the overlays blocks any action
   it('should verify the overlay prevents user action', (done) => {
-    spinner.start();
+    spinner.render();
 
     setTimeout(() => {
       const overlayZindex = $('.juicy-spinner-container').css('zIndex');
@@ -43,7 +51,7 @@ describe('Spinner on Window', () => {
   });
 
   it('should stop the spinner', (done) => {
-    spinner.start();
+    spinner.render();
 
     setTimeout(() => {
       spinner.stop();

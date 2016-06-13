@@ -1,7 +1,40 @@
+const BaseTextInput = require('../src/TextInput/BaseTextInput/index.js');
 const TextInput = require('../src/TextInput/index.js');
 const {simulateKeyPress} = require('./testHelpers.js');
 
-describe('textInput', () => {
+describe('BaseTextInput', () => {
+  let textInput;
+
+  beforeEach(() => {
+    $('body').append('<div class="text-input-test"></div>');
+    textInput = new BaseTextInput('.text-input-test',
+      {
+        submitHandler() {
+          console.log('the enter key has been pressed!');
+        },
+        placeholder: 'What up?',
+        icon: 'X',
+        wait: 10
+      });
+    textInput.render();
+  });
+
+  afterEach(() => {
+    $('body').empty();
+  });
+
+  it('test input created', () => {
+    expect(textInput.$input).toBeInDOM();
+  });
+
+  it('test get/set', () => {
+    expect(textInput.get()).toBe('');
+    textInput.set('hello world');
+    expect(textInput.get()).toBe('hello world');
+  });
+});
+
+describe('TextInput', () => {
   let textInput;
 
   beforeEach(() => {
