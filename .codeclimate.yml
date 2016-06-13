@@ -11,7 +11,8 @@ engines:
       - python
       - php
   eslint:
-    enabled: false
+    enabled: true
+    channel: "eslint-2"
   fixme:
     enabled: true
 ratings:
