@@ -21,11 +21,11 @@ class Modal extends BaseComponent {
     if (typeof content === 'string') {
       super(el, {preserveChildElements: true});
       Object.assign(this, {
-        content,
         closeButton: opts.closeButton || 'X',
         fullscreenModal: opts.fullscreenModal === false ? false : true,
         hideOnOverlayClick: opts.hideOnOverlayClick || false,
-        showOverlay: opts.showOverlay || false
+        showOverlay: opts.showOverlay || false,
+        value: content
       });
     }
     else {

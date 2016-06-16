@@ -3,5 +3,5 @@
   <div class="close-button">
     {{=it.closeButton}}
   </div>
-  {{=it.content}}
+  {{=it.value}}
 </div>
