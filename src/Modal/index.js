@@ -13,6 +13,7 @@ class Modal extends BaseComponent {
    * @param {string} content - The markup of the content to put inside the modal
    * @param {object} opts - The options for the component
    * @param {string} [opts.closeButton] - The markup to render for the close button
+   * @param {boolean} [opts.fullscreenModal] - A boolean indicating if the modal should be 100vw and 100vh or fill its container
    * @param {boolean} [opts.hideOnOverlayClick] - A boolean indicating if clicking the overlay should close the modal
    * @param {boolean} [opts.showOverlay] - A boolean to show the grey overlay or not
    */
@@ -22,6 +23,7 @@ class Modal extends BaseComponent {
       Object.assign(this, {
         content,
         closeButton: opts.closeButton || 'X',
+        fullscreenModal: opts.fullscreenModal === false ? false : true,
         hideOnOverlayClick: opts.hideOnOverlayClick || false,
         showOverlay: opts.showOverlay || false
       });
@@ -56,6 +58,10 @@ class Modal extends BaseComponent {
     this.$el.find('.ui-modal-content .close-button').on('click', () => {
       this.hide();
     });
+
+    if (this.fullscreenModal) {
+      this.$el.find('.ui-modal-overlay').addClass('ui-modal-fullscreen');
+    }
 
     return this.$el.html();
   }

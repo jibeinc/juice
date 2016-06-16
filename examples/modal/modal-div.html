@@ -13,7 +13,12 @@
 <div class="modal-container" style="background-color: cadetblue; height: 200px; position: relative; width: 400px;"></div>
 
 <script>
-  var modal = new UI.Modal('.modal-container', 'This is a test modal', {hideOnOverlayClick: false, showOverlay: false});
+  var modal = new UI.Modal('.modal-container', 'This is a test modal',
+      {
+        fullscreenModal: false,
+        hideOnOverlayClick: false,
+        showOverlay: true
+      });
 
   modal.render();
 
