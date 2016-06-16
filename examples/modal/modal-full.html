@@ -11,7 +11,12 @@
 <div class="button-container"></div>
 
 <script>
-  var modal = new UI.Modal('body', 'This is a test modal', {hideOnOverlayClick: true, showOverlay: true});
+  var modal = new UI.Modal('body', 'This is a test modal',
+      {
+        fullscreenModal: true,
+        hideOnOverlayClick: true,
+        showOverlay: true
+      });
 
   modal.render();
 
