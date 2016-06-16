@@ -45,6 +45,10 @@ class Modal extends BaseComponent {
    * @returns {string} The html for the modal
    */
   render() {
+    // Remove old modals
+    this.$el.find('.ui-modal-overlay').remove();
+    this.$el.find('.ui-modal-content').remove();
+
     this.$el.prepend(modalTmpl(this));
 
     // Close on overlay click

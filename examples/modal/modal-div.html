@@ -12,6 +12,8 @@
 
 <div class="modal-container" style="background-color: cadetblue; height: 200px; position: relative; width: 400px;"></div>
 
+<div class="change-content"></div>
+
 <script>
   var modal = new UI.Modal('.modal-container', 'This is a test modal',
       {
@@ -32,6 +34,18 @@
   });
 
   btn.render();
+
+  var btn2 = new UI.Button('.change-content', {
+    label: 'Change Modal Content',
+    submit: false
+  });
+
+  btn2.subscribe(function () {
+    modal.set('New content woot!');
+    modal.show();
+  });
+
+  btn2.render();
 
 </script>
 
