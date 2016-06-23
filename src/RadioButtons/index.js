@@ -12,6 +12,9 @@ class RadioButtons extends BaseComponent {
    * Create a new RadioButtons component
    * @param {string} el - The selector for the element to put the radio buttons in
    * @param {object} opts - The options for the component
+   * @param {string} [opts.displayNameKey] - A string indicating the index of the displayName property
+   * @param {boolean} [opts.radioBoxes] - A boolean indicating if our radio buttons should appear like checkboxes
+   * @param {function} [opts.renderItem] - A function to render each item
    */
   constructor(el, opts = {}) {
     super(el);
