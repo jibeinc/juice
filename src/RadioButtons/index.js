@@ -6,6 +6,7 @@ const Utils = require('../Utils');
 
 /**
  * Class for creating a RadioButtons component
+ * @author Robbie Wagner
  */
 class RadioButtons extends BaseComponent {
   /**

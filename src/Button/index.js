@@ -5,6 +5,7 @@ const Utils = require('../Utils');
 
 /**
  * Class for creating an html button
+ * @author John Hatcher
  */
 class Button extends BaseComponent {
   /**

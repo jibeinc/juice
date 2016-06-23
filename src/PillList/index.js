@@ -5,6 +5,7 @@ const Utils = require('../Utils');
 
 /**
  * Class for creating a Pill component
+ * @author Robbie Wagner
  */
 class PillList extends BaseComponent {
   /**

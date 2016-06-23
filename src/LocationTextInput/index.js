@@ -10,21 +10,20 @@ const Utils = require('../Utils.js');
  * - If the icon is clicked while the value is empty, the browser's GeoLocation API
  * will default the value with the user's current location
  *
- * @author: Naveed Nadjmabadi
+ * @author Naveed Nadjmabadi
  */
 class LocationTextInput extends TextInput {
   /**
    * Creates a new LocationTextInput
    * @param {string} el - the selector for the element to attach to
    * @param {object} opts - The options for the component
+   * @param {string} opts.currentLocationText - The text to display for "use my current location"
    */
   constructor(el, opts = {}) {
     super(el, opts);
 
     Object.assign(this, {
-      currentLocationText: opts.currentLocationText,
-      locationIcon: null,
-      $location: null
+      currentLocationText: opts.currentLocationText
     });
   }
 

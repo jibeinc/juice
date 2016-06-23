@@ -3,6 +3,7 @@ const Utils = require('../Utils');
 
 /**
  * Class for creating a Toggle component
+ * @author Robbie Wagner
  */
 class Toggle extends BaseComponent {
   /**
