@@ -4,6 +4,8 @@ engines:
     enabled: true
   duplication:
     enabled: true
+    exclude_fingerprints:
+    - 4967c5c8fcb3ce73440ddcdd539ac5b8
     config:
       languages:
       - ruby
