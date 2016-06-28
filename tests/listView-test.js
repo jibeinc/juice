@@ -22,7 +22,8 @@ describe('listItem functionality', () => {
           class: 'job-result',
           itemprop: 'itemListElement',
           itemtype: 'http://schema.org/JobPosting'
-        }
+        },
+        stopPropagation: true
       }
     });
 

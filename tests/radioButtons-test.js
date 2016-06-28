@@ -18,10 +18,7 @@ const testOptions = [{
 const setupRadioBoxes = (options) => {
   const categories = new RadioButtons('.radio-buttons-test', {
     options,
-    radioBoxes: true,
-    renderItem(item) {
-      return item.displayName + ' (' + item.count + ')';
-    }
+    radioBoxes: true
   });
 
   categories.subscribe(() => {
@@ -39,10 +36,7 @@ describe('radioButtons functionality', () => {
   beforeEach(() => {
     $('body').append('<div class="radio-buttons-test"></div>');
     categories = new RadioButtons('.radio-buttons-test', {
-      options: testOptions,
-      renderItem(item) {
-        return item.displayName + ' (' + item.count + ')';
-      }
+      options: testOptions
     });
 
     categories.subscribe(() => {
@@ -60,8 +54,10 @@ describe('radioButtons functionality', () => {
     expect(Array.isArray(categories.get())).toBe(false);
     expect(categories.get()).toBe(null);
   });
+
   it('test checking an option', () => {
     categories.set('mrkt01');
+    categories.setOptions(testOptions);
     expect(categories.get().value).toBe('mrkt01');
     expect(categories.get().checked).toBe(true);
     $($(inputSelector)[0]).trigger('change');

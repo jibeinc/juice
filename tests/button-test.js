@@ -6,6 +6,7 @@ describe('button functionality', () => {
     $('body').append('<div class="button-test"></div>');
     btn = new Button('.button-test', {
       label: 'Search',
+      preventPropagation: true,
       submit: true
     });
 
