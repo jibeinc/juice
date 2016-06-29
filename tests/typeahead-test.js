@@ -1,7 +1,12 @@
+const BaseTypeahead = require('../src/Typeahead/BaseTypeahead/index.js');
 const Typeahead = require('../src/Typeahead/index.js');
 const {simulateKeyPress} = require('./testHelpers.js');
 const db = [{
-  displayName: 18045972508
+  displayName: 18045972508,
+  preSelectHook() {
+    console.log('preSelectHook executed');
+    return true;
+  }
 }, {
   displayName: 22458484822
 }, {
@@ -22,6 +27,7 @@ const fetch = function (term, cb) {
   cb(matches);
 };
 
+// Typeahead
 describe('typeahead functionality', () => {
   let searchNumbers;
 
@@ -89,10 +95,17 @@ describe('typeahead functionality', () => {
     // Blur after selection
     expect(searchNumbers.resultsListView.$el).toBeHidden();
   });
+  it('test selectByIndex when active is false', () => {
+    expect(searchNumbers.resultsListView.$el).toBeHidden();
+    searchNumbers.selectByIndex();
+    // Nothing should be selected, since the typeahead is not active
+    expect(searchNumbers.get().displayName).toBeUndefined();
+  });
   it('test "g" keydown does nothing', () => {
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('1');
+    expect(searchNumbers.getTextInput()).toBe('1');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     // Press down to highlight an option
     simulateKeyPress(40, $(document));
@@ -105,6 +118,7 @@ describe('typeahead functionality', () => {
     expect(searchNumbers.get()).toBe('');
     searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('1');
+    expect(searchNumbers.getTextInput()).toBe('1');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     searchNumbers.resultsListView.$el.find('li').first().trigger('mousedown');
     searchNumbers.resultsListView.$el.find('li').first().trigger('click');
@@ -117,6 +131,7 @@ describe('typeahead functionality', () => {
     expect(searchNumbers.get()).toBe('');
     searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('custom value');
+    expect(searchNumbers.getTextInput()).toBe('custom value');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     // Press enter to set a custom value
     simulateKeyPress(13, $(document));
@@ -126,6 +141,7 @@ describe('typeahead functionality', () => {
   it('ensure mousedown on results list does not blur', () => {
     searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('custom value');
+    expect(searchNumbers.getTextInput()).toBe('custom value');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     searchNumbers.resultsListView.$el.trigger('mousedown');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
@@ -147,10 +163,45 @@ describe('typeahead functionality', () => {
     expect(searchNumbers.get()).toBe('');
     searchNumbers.textInput.$el.find('input').trigger('focus');
     searchNumbers.textInput.set('custom value');
+    expect(searchNumbers.getTextInput()).toBe('custom value');
     expect(searchNumbers.resultsListView.$el).toBeVisible();
     // Press enter to set a custom value
     simulateKeyPress(13, $(document));
     expect(searchNumbers.resultsListView.$el).toBeHidden();
     expect(searchNumbers.get()).toBe('custom value');
+  });
+});
+
+// BaseTypeahead
+describe('BaseTypeahead functionality', () => {
+  let searchNumbers;
+
+  beforeEach(() => {
+    $('body').append('<div class="typeahead-test"></div>');
+
+    searchNumbers = new BaseTypeahead('.typeahead-test', fetch, {
+      allowFreeForm: true,
+      fixedResults: [{
+        displayName: '-- use my membership id --'
+      }]
+    });
+
+    searchNumbers.subscribe((choice) => {
+      console.log('new numba', choice);
+    });
+
+    searchNumbers.render();
+  });
+
+  afterEach(() => {
+    $('body').empty();
+  });
+
+  it('handleSelection is called when listItem selected', () => {
+    searchNumbers.textInput.set('1');
+    expect(searchNumbers.getTextInput()).toBe('1');
+    expect(searchNumbers.resultsListView.$el).toBeVisible();
+    searchNumbers.resultsListView.$el.find('li.ui-list-item').first().click();
+    expect(searchNumbers.get().displayName).toBe(18045972508);
   });
 });
