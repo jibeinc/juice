@@ -93,33 +93,13 @@ describe('multiSelect functionality', () => {
     }, 50);
   });
 
-  // it('should click multiple checkboxes directly and set the value', (done) => {
-  //   $($('.select-option')[2]).click();
-  //
-  //   setTimeout(() => {
-  //     let selected = categories.get();
-  //     expect(selected.length).toBe(1);
-  //     expect(selected[0].value).toBe('eng-2015');
-  //
-  //     // click the second element
-  //     $($('.select-option')[0]).find('input').click();
-  //
-  //     setTimeout(() => {
-  //       selected = categories.get();
-  //       expect(selected.length).toBe(2);
-  //       expect(selected[0].value).toBe('mrkt01');
-  //       expect(selected[1].value).toBe('eng-2015');
-  //
-  //       // click the second element again, de-selecting it
-  //       $($('.select-option')[0]).find('input').click();
-  //
-  //       setTimeout(() => {
-  //         selected = categories.get();
-  //         expect(selected.length).toBe(1);
-  //         expect(selected[0].value).toBe('eng-2015');
-  //         done();
-  //       }, 50);
-  //     }, 50);
-  //   }, 50);
-  // });
+  it('test set single', () => {
+    categories.set('mrkt01');
+    expect(categories.get()[0].value).toBe('mrkt01');
+  });
+
+  it('test set array', () => {
+    categories.set(['mrkt01', 'sales']);
+    expect(categories.get()[1].value).toBe('sales');
+  });
 });
