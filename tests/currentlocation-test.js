@@ -51,8 +51,9 @@ describe('CurrentLocation error handling', () => {
 
   beforeEach(() => {
     const fakeGeolocationAPI = {
-      getCurrentPosition: () => {
-        throw Error('BLAH MOCK API FAILURE');
+      getCurrentPosition: (success, failure) => {
+        failure('BLAH MOCK API FAILURE');
+        throw new Error('BLAH MOCK API FAILURE');
       }
     };
 
