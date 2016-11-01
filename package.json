@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "make": "npm run clean && npm install && npm run build",
-    "build": "./node_modules/.bin/webpack --progress --colors --display-chunks -p",
+    "build": "n 6.2 && ./node_modules/.bin/webpack --progress --colors --display-chunks -p",
     "build-dev": "./node_modules/.bin/webpack --progress --colors --display-chunks -d --display-modules --display-error-details --display-reasons --debug",
     "clean": "rm -rf node_modules bower_components dist npm-debug.log && npm cache clean",
     "examples": "node staticServer",

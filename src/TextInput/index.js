@@ -34,7 +34,7 @@ class TextInput extends BaseTextInput {
       icon: opts.icon || 'x',
       submitHandler: opts.submitHandler || (() => {
       }),
-      wait: opts.wait || 300
+      wait: 600 || opts.wait || 600
     });
   }
 
@@ -52,7 +52,11 @@ class TextInput extends BaseTextInput {
    */
   keyUpHandler() {
     const onKeyup = debounce((e) => {
+      let diffLocation = this.getCaretPosition();
+
       this.get() !== this.$input.val() ? this.set(this.$input.val()) : '';
+      
+      this.setCaretPosition(diffLocation);
 
       if (e.keyCode == this.keyEvents.ENTER) {
         this.$input.trigger('blur');
@@ -61,6 +65,44 @@ class TextInput extends BaseTextInput {
     }, this.wait);
 
     this.$input.on('keyup', onKeyup);
+  }
+
+  /**
+  * Gets the position the user left off on
+  */
+
+  getCaretPosition() {
+
+      let oldValue = this.get().split('');
+      let newValue = this.$input.val().split('');
+      let i = 0;
+      if (oldValue.length > newValue.length) {
+        return oldValue.length;
+      }
+
+      while(oldValue[i] === newValue[i] && i <= newValue.length) {
+        i++;
+      }
+      return i + newValue.length - oldValue.length; 
+  }
+
+  /**
+  * Sets the caret position to where the user left off
+  */
+
+  setCaretPosition(caretPos) {
+    if (this !== null) {
+      if (this.$input.createTextRange) {
+        var range = this.$input.createTextRange();
+        range.move('character', caretPos);
+        range.select();
+        return true;
+      } else {
+        this.$input.focus();
+        this.$input[0].setSelectionRange(caretPos, caretPos);
+        return true;
+      }
+    }
   }
 
   /**
