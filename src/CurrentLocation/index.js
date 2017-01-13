@@ -2,6 +2,8 @@ require('./styles.css');
 const iconURL = require('./location.png');
 const BaseComponent = require('../BaseComponent');
 const Utils = require('../Utils');
+const Spinner = require('../Spinner');
+const spinner = new Spinner();
 
 /**
  * Class for creating an icon to click and use your current location
@@ -18,6 +20,7 @@ class CurrentLocation extends BaseComponent {
     super(el);
     this.iconURL = opts.iconURL || iconURL;
     this.geolocationAPI = opts.geolocationAPI || window.navigator.geolocation;
+    this.showLoader = opts.showLoaderOnCurrentLocation || false;
   }
 
   /**
@@ -37,10 +40,17 @@ class CurrentLocation extends BaseComponent {
    * @returns {CurrentLocation} The CurrentLocation instance
    */
   getCurrentLocation() {
+    if (this.showLoader) {
+      spinner.start();
+    }
+
     this.publish('current-location-requested');
+
     this.geolocationAPI.getCurrentPosition((position) => {
+      spinner.stop();
       this.set(position.coords.longitude, position.coords.latitude);
     }, (error) => {
+      spinner.stop();
       console.error(error.message);
       this.publish(error);
     });

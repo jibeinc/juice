@@ -23,7 +23,8 @@ class LocationTypeahead extends Typeahead {
    * @param {object} [opts.textInputOpts] - An object to pass opts to the textInput component
    */
   constructor(el, fetch, opts = {}) {
-    const currentLocationText = opts.currentLocationText || 'Use my current location'
+    const currentLocationText = opts.currentLocationText || 'Use my current location';
+    const showLoaderOnCurrentLocation = opts.showLoaderOnCurrentLocation || false;
 
     // define the "current location" icon DOM fragment
     const iconFactory = new FragFactory({
@@ -34,7 +35,9 @@ class LocationTypeahead extends Typeahead {
       },
 
       controller: (data) => {
-        const currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name);
+        const currentLocationIcon = new CurrentLocation('.ui-current-location-' + data.name, {
+          showLoaderOnCurrentLocation
+        });
 
         currentLocationIcon.subscribe((event) => {
           if (event.isLocation) {
