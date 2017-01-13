@@ -52,8 +52,7 @@ class BaseTextInput extends BaseComponent {
    */
   set(v) {
     this.value = v;
-
-    if (this.$input && this.$input.val() !== v ) {
+    if (this.$input && this.$input.val() !== v) {
       this.$input.val(v);
     }
 
