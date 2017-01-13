@@ -23,7 +23,8 @@ class LocationTextInput extends TextInput {
     super(el, opts);
 
     Object.assign(this, {
-      currentLocationText: opts.currentLocationText
+      currentLocationText: opts.currentLocationText,
+      showLoaderOnCurrentLocation: opts.showLoaderOnCurrentLocation
     });
   }
 
@@ -72,7 +73,10 @@ class LocationTextInput extends TextInput {
     this.$icon = this.$el.find('.ui-text-input-icon');
 
     // adding the CurrentLocation sub-component
-    this.locationIcon = new CurrentLocation('.ui-location-icon');
+    this.locationIcon = new CurrentLocation('.ui-location-icon', {
+      showLoaderOnCurrentLocation: this.showLoaderOnCurrentLocation
+    });
+
     this.$locationIcon = this.$el.find('.ui-location-icon');
 
     this.locationIcon.subscribe((event) => {
