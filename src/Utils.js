@@ -34,6 +34,15 @@ class Utils {
   static noop() {
     // Deliberately blank function
   }
+
+  /**
+   * Utility method to have basic sanitization text input
+   * @param {*} value The value to sanitize
+   * @returns {string} sanitized value
+   */
+  static sanitizeText(value) {
+    return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  }
 }
 
 module.exports = Utils;

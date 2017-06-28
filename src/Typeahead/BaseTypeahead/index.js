@@ -169,6 +169,10 @@ class BaseTypeahead extends BaseComponent {
    * @returns {BaseTypeahead} The instance of BaseTypeahead
    */
   set(v) {
+    if (v && !Utils.isPlainObject(v)) {
+      v = Utils.sanitizeText(v);
+    }
+
     this.textInput.set(this.getDisplayValue(v));
     this.value = v;
     this.textInput.$el.find('input').trigger('blur');

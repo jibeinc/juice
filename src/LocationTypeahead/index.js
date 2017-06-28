@@ -104,6 +104,10 @@ class LocationTypeahead extends Typeahead {
    * @returns {LocationTypeahead} The instance
    */
   set(v) {
+    if (v && !Utils.isPlainObject(v)) {
+      v = Utils.sanitizeText(v);
+    }
+
     this.textInput.set(v);
     this.setInternal(v);
     this.textInput.$el.find('input').trigger('blur');
