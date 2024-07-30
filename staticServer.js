@@ -19,6 +19,11 @@ function formatDirToHTML(filesArr, baseDir) {
 }
 
 http.createServer((request, response) => {
+    if (path.normalize(decodeURI(request.url)) !== decodeURI(request.url)) {
+        response.statusCode = 403;
+        response.end();
+        return;
+    }
   // get the path from the URL
   const uri = url.parse(request.url).pathname;
 
